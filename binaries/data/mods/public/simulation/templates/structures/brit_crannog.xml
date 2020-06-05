@@ -5,7 +5,7 @@
     <PlacementType>shore</PlacementType>
   </BuildRestrictions>
   <Footprint replace="">
-    <Circle radius="15.5"/>
+    <Circle radius="17"/>
     <Height>8.0</Height>
   </Footprint>
   <Identity>
@@ -14,11 +14,11 @@
     <Classes datatype="tokens">Naval</Classes>
     <Icon>structures/crannog.png</Icon>
     <Tooltip>Increase population limit and defend waterways.</Tooltip>
-    <SpecificName>Crannóc</SpecificName>
+    <SpecificName>Cranogion</SpecificName>
     <RequiredTechnology>phase_town</RequiredTechnology>
   </Identity>
   <Obstruction>
-    <Static width="29.0" depth="29.0"/>
+    <Static width="29" depth="29"/>
   </Obstruction>
   <Position>
     <Floating>true</Floating>
@@ -35,8 +35,7 @@
       units/{civ}_ship_trireme
     </Entities>
     <Technologies datatype="tokens">
-      -phase_town
-      -phase_town_athen
+      -phase_town_{civ}
     </Technologies>
   </ProductionQueue>
   <RallyPointRenderer>
@@ -44,6 +43,6 @@
   </RallyPointRenderer>
   <VisualActor>
     <Actor>structures/britons/crannog.xml</Actor>
-    <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
+    <FoundationActor>structures/fndn_8x8.xml</FoundationActor>
   </VisualActor>
 </Entity>

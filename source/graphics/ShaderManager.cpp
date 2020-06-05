@@ -1,4 +1,4 @@
-/* Copyright (C) 2015 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -19,14 +19,15 @@
 
 #include "ShaderManager.h"
 
+#include "graphics/PreprocessorWrapper.h"
 #include "graphics/ShaderTechnique.h"
 #include "lib/config2.h"
+#include "lib/hash.h"
 #include "lib/timer.h"
 #include "lib/utf8.h"
 #include "ps/CLogger.h"
 #include "ps/CStrIntern.h"
 #include "ps/Filesystem.h"
-#include "ps/PreprocessorWrapper.h"
 #include "ps/Profile.h"
 #if USE_SHADER_XML_VALIDATION
 # include "ps/XML/RelaxNG.h"
@@ -128,10 +129,10 @@ bool CShaderManager::NewProgram(const char* name, const CShaderDefines& baseDefi
 		TIMER_ACCRUE(tc_ShaderValidation);
 
 		// Serialize the XMB data and pass it to the validator
-		XML_Start();
-		XML_SetPrettyPrint(false);
-		XML_WriteXMB(XeroFile);
-		bool ok = CXeromyces::ValidateEncoded("shader", wstring_from_utf8(name), XML_GetOutput());
+		XMLWriter_File shaderFile;
+		shaderFile.SetPrettyPrint(false);
+		shaderFile.XMB(XeroFile);
+		bool ok = CXeromyces::ValidateEncoded("shader", wstring_from_utf8(name), shaderFile.GetOutput());
 		if (!ok)
 			return false;
 	}
@@ -335,9 +336,9 @@ static GLenum ParseBlendFunc(const CStr& str)
 size_t CShaderManager::EffectCacheKeyHash::operator()(const EffectCacheKey& key) const
 {
 	size_t hash = 0;
-	boost::hash_combine(hash, key.name.GetHash());
-	boost::hash_combine(hash, key.defines1.GetHash());
-	boost::hash_combine(hash, key.defines2.GetHash());
+	hash_combine(hash, key.name.GetHash());
+	hash_combine(hash, key.defines1.GetHash());
+	hash_combine(hash, key.defines2.GetHash());
 	return hash;
 }
 

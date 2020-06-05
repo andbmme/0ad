@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -18,17 +18,16 @@
 #ifndef INCLUDED_COMPONENTMANAGER
 #define INCLUDED_COMPONENTMANAGER
 
-#include "Entity.h"
-#include "Components.h"
+#include "ps/Filesystem.h"
 #include "scriptinterface/ScriptInterface.h"
 #include "scriptinterface/ScriptVal.h"
 #include "simulation2/helpers/Player.h"
-#include "ps/Filesystem.h"
+#include "simulation2/system/Components.h"
+#include "simulation2/system/Entity.h"
 
 #include <boost/random/linear_congruential.hpp>
-#include <boost/unordered_map.hpp>
-
 #include <map>
+#include <set>
 #include <unordered_map>
 
 class IComponent;
@@ -73,52 +72,6 @@ private:
 		std::string name;
 		std::string schema; // RelaxNG fragment
 		DefPersistentRooted<JS::Value> ctor; // only valid if type == CT_Script
-
-		// TODO: Constructor, move assignment operator and move constructor only have to be
-		// explicitly defined for Visual Studio. VS2013 is still behind on C++11 support
-		// What's missing is what they call "Rvalue references v3.0", see
-		// https://msdn.microsoft.com/en-us/library/hh567368.aspx#rvref
-		ComponentType() {}
-		ComponentType (EComponentTypeType type, InterfaceId iid, AllocFunc alloc,
-			DeallocFunc dealloc, std::string name, std::string schema, DefPersistentRooted<JS::Value> ctor) :
-				type(type),
-				iid(iid),
-				alloc(alloc),
-				dealloc(dealloc),
-				name(name),
-				schema(schema),
-				ctor(std::move(ctor))
-		{
-		}
-
-		ComponentType& operator= (ComponentType&& other)
-		{
-			type = std::move(other.type);
-			iid = std::move(other.iid);
-			alloc = std::move(other.alloc);
-			dealloc = std::move(other.dealloc);
-			name = std::move(other.name);
-			schema = std::move(other.schema);
-			ctor = std::move(other.ctor);
-			return *this;
-		}
-
-		ComponentType(ComponentType&& other)
-		{
-			type = std::move(other.type);
-			iid = std::move(other.iid);
-			alloc = std::move(other.alloc);
-			dealloc = std::move(other.dealloc);
-			name = std::move(other.name);
-			schema = std::move(other.schema);
-			ctor = std::move(other.ctor);
-		}
-	};
-
-	struct FindJSONFilesCallbackData
-	{
-		VfsPath path;
-		std::vector<std::string> templates;
 	};
 
 public:
@@ -203,6 +156,11 @@ public:
 	CEntityHandle LookupEntityHandle(entity_id_t ent, bool allowCreate = false);
 
 	/**
+	 * Returns true if the entity with id @p ent exists.
+	 */
+	bool EntityExists(entity_id_t ent) const;
+
+	/**
 	 * Returns a new entity ID that has never been used before.
 	 * This affects the simulation state so it must only be called in network-synchronised ways.
 	 */
@@ -271,9 +229,9 @@ public:
 
 	IComponent* QueryInterface(entity_id_t ent, InterfaceId iid) const;
 
-	typedef std::pair<entity_id_t, IComponent*> InterfacePair;
-	typedef std::vector<InterfacePair> InterfaceList;
-	typedef boost::unordered_map<entity_id_t, IComponent*> InterfaceListUnordered;
+	using InterfacePair = std::pair<entity_id_t, IComponent*>;
+	using InterfaceList = std::vector<InterfacePair>;
+	using InterfaceListUnordered = std::unordered_map<entity_id_t, IComponent*>;
 
 	InterfaceList GetEntitiesWithInterface(InterfaceId iid) const;
 	const InterfaceListUnordered& GetEntitiesWithInterfaceUnordered(InterfaceId iid) const;
@@ -332,13 +290,6 @@ private:
 	static int Script_AddLocalEntity(ScriptInterface::CxPrivate* pCxPrivate, const std::string& templateName);
 	static void Script_DestroyEntity(ScriptInterface::CxPrivate* pCxPrivate, int ent);
 	static void Script_FlushDestroyedEntities(ScriptInterface::CxPrivate* pCxPrivate);
-	static JS::Value Script_ReadJSONFile(ScriptInterface::CxPrivate* pCxPrivate, const std::wstring& fileName);
-	static JS::Value Script_ReadCivJSONFile(ScriptInterface::CxPrivate* pCxPrivate, const std::wstring& fileName);
-	static std::vector<std::string> Script_FindJSONFiles(ScriptInterface::CxPrivate* pCxPrivate, const std::wstring& subPath, bool recursive);
-	static JS::Value ReadJSONFile(ScriptInterface::CxPrivate* pCxPrivate, const std::wstring& filePath, const std::wstring& fileName);
-
-	// callback function to handle recursively finding files in a directory
-	static Status FindJSONFilesCallback(const VfsPath&, const CFileInfo&, const uintptr_t);
 
 	CMessage* ConstructMessage(int mtid, JS::HandleValue data);
 	void SendGlobalMessage(entity_id_t ent, const CMessage& msg);
@@ -361,7 +312,7 @@ private:
 	// TODO: some of these should be vectors
 	std::map<ComponentTypeId, ComponentType> m_ComponentTypesById;
 	std::vector<CComponentManager::ComponentTypeId> m_ScriptedSystemComponents;
-	std::vector<boost::unordered_map<entity_id_t, IComponent*> > m_ComponentsByInterface; // indexed by InterfaceId
+	std::vector<std::unordered_map<entity_id_t, IComponent*> > m_ComponentsByInterface; // indexed by InterfaceId
 	std::map<ComponentTypeId, std::map<entity_id_t, IComponent*> > m_ComponentsByTypeId;
 	std::map<MessageTypeId, std::vector<ComponentTypeId> > m_LocalMessageSubscriptions;
 	std::map<MessageTypeId, std::vector<ComponentTypeId> > m_GlobalMessageSubscriptions;

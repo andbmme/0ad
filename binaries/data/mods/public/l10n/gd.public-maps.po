@@ -1,17 +1,17 @@
 # Translation template for 0 A.D. — Empires Ascendant.
-# Copyright © 2014 Wildfire Games
+# Copyright (C) 2020 Wildfire Games
 # This file is distributed under the same license as the 0 A.D. — Empires Ascendant project.
 # 
 # Translators:
-# GunChleoc, 2014-2017
+# GunChleoc, 2014-2018
 # GunChleoc, 2014
 # GunChleoc, 2014-2015
 msgid ""
 msgstr ""
 "Project-Id-Version: 0 A.D.\n"
-"POT-Creation-Date: 2017-10-30 09:05+0100\n"
-"PO-Revision-Date: 2017-10-30 15:19+0000\n"
-"Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
+"POT-Creation-Date: 2020-01-17 08:09+0000\n"
+"PO-Revision-Date: 2020-05-19 08:54+0000\n"
+"Last-Translator: GunChleoc\n"
 "Language-Team: Gaelic, Scottish (http://www.transifex.com/wildfire-games/0ad/language/gd/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -111,12 +111,27 @@ msgstr "Coille Ardennes"
 #: maps/random/atlas_mountains.jsonsettings.Description
 msgid ""
 "A rugged land with small room for buildings with scarce wood. Represents the"
-" mountain range in the north-west africa."
+" mountain range in the Northwest Africa."
 msgstr "Seo tìr sgurrach aig nach eil ach beagan rum airson togalaichean ’s fiodh gann. Tha e a’ riochdachadh am monadh taobh iar-thuath Afraga."
 
 #: maps/random/atlas_mountains.jsonsettings.Name
 msgid "Atlas Mountains"
 msgstr "Monadh Atlais"
+
+#: maps/random/bahrain.jsonsettings.Description
+msgid ""
+"Bahrain, centre of the Dilmun civilization which fell in 800BC, was in turn "
+"controlled by Sumerians, Assyrians, Babylonians, Persians and other later "
+"peoples. An island strategically placed in the Sinus Persicus (Persian Gulf)"
+" and also centre of pearl trading due to its magnificent pearl fisheries, "
+"Bahrain is never left unoccupied for long. But now, with the previous "
+"occupants gone, the land prepares for war. Will you be the next Ruler of "
+"Bahrain?"
+msgstr "’S e meadhan sìobhaltas Dilmun a bh’ ann am Bachrain a thuit ann an 800 RC agus bha an sìobhaltas seo fo smachd rìoghachdan na Suimèir, Aisiria, Bàbiloin, na Peirse agus rìoghachdan eile an uairsin. ’S e eilean a th’ ann am Bachrain a tha suidhichte gu ro-innleachdach san t-Sinus Persicus (Camas-mòr na Peirse) agus a bha na ionad malairt neamhnaidean ri linn nan ionadan-iasgach neamhnaide mòra a bh’ aige agus bhiodh e fo fhor-ghlacadh gu minig ri linn sin. Co-dhiù no co-dheth, dh’fhalbh na h-uachdaran agus tha an tìr ’ga ullachadh airson a’ chogaidh. An tusa ath-rìgh Bhachrain?"
+
+#: maps/random/bahrain.jsonsettings.Name
+msgid "Bahrain"
+msgstr "Bachrain"
 
 #: maps/random/belgian_uplands.jsonsettings.Description
 msgid ""
@@ -171,14 +186,17 @@ msgid "Canyon"
 msgstr "Sgoltadh"
 
 #: maps/random/continent.jsonsettings.Description
+#: maps/random/unknown.jsonsettings.Landscapes.land[0].Description
 msgid "All players starts on a continent surrounded by water."
 msgstr "Tòisichidh na h-uile cluicheadair air mòr-thìr le uisge timcheall air."
 
 #: maps/random/continent.jsonsettings.Name
+#: maps/random/unknown.jsonsettings.Landscapes.land[0].Name
 msgid "Continent"
 msgstr "Mòr-thìr"
 
 #: maps/random/corinthian_isthmus.jsonsettings.Description
+#: maps/random/unknown.jsonsettings.Landscapes.land[1].Description
 #: maps/skirmishes/Corinthian Isthmus (2).xml:Description:39
 #: maps/skirmishes/Corinthian Isthmus (4).xml:Description:40
 msgid ""
@@ -222,6 +240,22 @@ msgid ""
 "the reemergence of the Geto-Dacian Confederation under King Burebista."
 msgstr "Tòisichidh na cluicheadairean air bruachan na Danuibe ris an linn às dèidh leudachadh gu Pannonia le treubh Boii nan Ceilteach. A chum an smachd air an tìr a dhaingneachadh, chaidh foirlionaidhean Ceilteach a chur gus cuidhteas fhaighinn dhe na cultaran cèine a tha ann fhathast. Chan ann a-mhàin gum bi na cluicheadairean an còmhstri an aghaich càch a chèile ach gu bheil aca ri ruaig a chur air na daoine gun truas sin. Air deireadh na sgeòil, chaidh na Boii a ruaig le cumhachd nan Daci a dh’èirich a-rithist leis a’ chaidreabhas Gheto-Daciach fo rìgh Burebista."
 
+#: maps/random/danubius.jsonsettings.Daytime[0].Description
+msgid "Bright daylight illuminates the scene."
+msgstr ""
+
+#: maps/random/danubius.jsonsettings.Daytime[0].Name
+msgid "Day"
+msgstr ""
+
+#: maps/random/danubius.jsonsettings.Daytime[1].Description
+msgid "Attackers are covered by the darkness of the night."
+msgstr ""
+
+#: maps/random/danubius.jsonsettings.Daytime[1].Name
+msgid "Night"
+msgstr ""
+
 #: maps/random/danubius.jsonsettings.Name
 msgid "Danubius"
 msgstr "Danubius"
@@ -233,6 +267,32 @@ msgstr "Coille dhorcha mhòr sa Gearmailt."
 #: maps/random/deep_forest.jsonsettings.Name
 msgid "Deep Forest"
 msgstr "Coille mhòr"
+
+#: maps/random/dodecanese.jsonsettings.Description
+msgid ""
+"Controlling access to the Aegean Sea from the East, the Dodecanese have been"
+" subject to numerous yet short-lived invasions. Ultimately consolidating "
+"power with Rhodes at their lead, these islands developed into great "
+"maritime, commercial and cultural centers. Will you acheive the same?"
+msgstr ""
+
+#: maps/random/dodecanese.jsonsettings.Name
+msgid "Dodecanese"
+msgstr "Dodecanese"
+
+#: maps/random/elephantine.jsonsettings.Description
+msgid ""
+"Forming the traditional frontier between ancient Kush and Egypt, the "
+"fortified Island of Elephantine was situated on the Nile River at the first "
+"cataract. As the border between Upper Egypt and Lower Nubia, Elephantine "
+"became an important way-station for the trade in ivory and other goods. It "
+"was considered to be the home of the god Khnum, guardian of the source of "
+"the Nile, and boasted an impressive temple complex."
+msgstr ""
+
+#: maps/random/elephantine.jsonsettings.Name
+msgid "Elephantine"
+msgstr "Elephantine"
 
 #: maps/random/empire.jsonsettings.Description
 msgid ""
@@ -258,12 +318,25 @@ msgstr "Caolas na Frainge"
 msgid ""
 "[color=\"red\"]IMPORTANT NOTE: AI PLAYERS DO NOT WORK WITH THIS MAP[/color]\n"
 "\n"
-"A once fertile valley... desolated by the eruption of the long-dormant volcano in the heart of the region. Following years of empty, scorched deadness, signs of life started reappearing and spreading. Now the land is half-way to the full lushness of its former era. Alas, it is not to be: following a long stretch of drought, interminable rains have set in in the higher regions to the north. Water levels are rising at drastic levels, slowly forcing players to seek the high ground of the lesser, extinct volcanoes or the now again dormant great cone."
-msgstr "[color=\"red\"]AN AIRE: CHAN OBRAICH CLUICHEADAIREAN LEIS A’ MHAPA SEO[/color]\n\nSeo gleann a bhiodh torrach uair… às dèid linntean ’na cadal, rinn spreadhadh beinne-teine ann an teis-mheadhan na sgìre fàsach dheth. Bha an gleann loisgte marbh iomadh bliadhna ach thòisich beatha air a thilleadh dha ’s a sgaoileadh ann a-rithist. Ràinig torrachas na tìre letheach mheud dhe na bhiodh e o shean. Gu mì-fhortanach, às dèidh an tairt mhòir, tha an t-uisge ann gun sgur sna sgìrean àrda gu tuath. Tha an tuil ag èirigh gu mòr agus a’ sparradh air na cluicheadairean gun lorg iad tìr nas àirde beag air bheag far a bheil beanntan-teine beaga ’s am mòr-shloc ’nan cadal a-rithist."
+"A once fertile valley, desolated by the eruption of the long-dormant volcano in the heart of the region. Following years of empty, scorched deadness, signs of life started reappearing and spreading. Now the land is half-way to the full lushness of its former era. Alas, it is not to be: following a long stretch of drought, interminable rains have set in in the higher regions to the north. Water levels are rising at drastic levels, slowly forcing players to seek the high ground of the lesser, extinct volcanoes or the now again dormant great cone."
+msgstr "[color=\"red\"]AN AIRE: CHAN OBRAICH CLUICHEADAIREAN LEIS A’ MHAPA SEO[/color]\n\nSeo gleann a bhiodh torrach uair. Às dèid linntean ’na cadal, rinn spreadhadh beinne-teine ann an teis-mheadhan na sgìre fàsach dheth. Bha an gleann loisgte marbh iomadh bliadhna ach thòisich beatha air a thilleadh dha ’s a sgaoileadh ann a-rithist. Ràinig torrachas na tìre letheach mheud dhe na bhiodh e o shean. Gu mì-fhortanach, às dèidh an tairt mhòir, tha an t-uisge ann gun sgur sna sgìrean àrda gu tuath. Tha an tuil ag èirigh gu mòr agus a’ sparradh air na cluicheadairean gun lorg iad tìr nas àirde beag air bheag far a bheil beanntan-teine beaga ’s am mòr-shloc ’nan cadal a-rithist."
 
 #: maps/random/extinct_volcano.jsonsettings.Name
 msgid "Extinct Volcano"
 msgstr "Beinn-theine mharbh"
+
+#: maps/random/fields_of_meroe.jsonsettings.Description
+msgid ""
+"The \"Island of Meroë\", a vast peninsula flanked by the Nile and Atbarah "
+"rivers, formed the heartland of ancient Kush. Where the harsh deserts start "
+"making way for the semi-arid savannahs and small acacia forests dot the "
+"landscape. The area is rich in resources and the ever-present Nile brings "
+"life, but grave threats loom on the opposite riverbank."
+msgstr ""
+
+#: maps/random/fields_of_meroe.jsonsettings.Name
+msgid "Fields of Meroë"
+msgstr ""
 
 #: maps/random/flood.jsonsettings.Description
 msgid ""
@@ -334,6 +407,18 @@ msgstr "Tòisichidh na cluicheadairean le cothrom air beagan iasgach ann an sàl
 msgid "Harbor"
 msgstr "Cala"
 
+#: maps/random/hellas.jsonsettings.Description
+msgid ""
+"Hellas, home to the Greeks and through them birthplace to the foundation of "
+"western civilization. Yet the land lacks unity, countless city-states vie "
+"for dominance. Will you lead your polis to glory and greatness or see it "
+"fall into oblivion, erased from the histories?"
+msgstr ""
+
+#: maps/random/hellas.jsonsettings.Name
+msgid "Hellas"
+msgstr "Hellas"
+
 #: maps/random/hells_pass.jsonsettings.Description
 msgid ""
 "A narrow pass between steep mountains promotes tight, defensive combat. With"
@@ -386,6 +471,22 @@ msgstr "Tòisichidh na cluicheadairean ann an eileanan beaga fhad ’s a tha mò
 msgid "Islands"
 msgstr "Eileanan"
 
+#: maps/random/jebel_barkal.jsonsettings.Description
+msgid ""
+"Starting near the fertile banks of the Nile, the players besiege the heavily"
+" defended city Napata which lies at the foot of the hill Jebel Barkal, the "
+"\"Pure Mountain\". It is the Southern home of Amun, and according to "
+"Kushites and Egyptians alike, the birthplace of man. Known as the Throne of "
+"the Two Lands, the ancient religious capital of Napata lay in its shadow. "
+"This is where Kings were made... and unmade! Abutting a rich floodplain "
+"downstream from the 4th cataract, this area became the breadbasket of "
+"ancient Kush."
+msgstr ""
+
+#: maps/random/jebel_barkal.jsonsettings.Name
+msgid "Jebel Barkal"
+msgstr "Jebel Barkal"
+
 #: maps/random/kerala.jsonsettings.Description
 msgid ""
 "Players start in the southwestern shores of India between a sea and "
@@ -435,13 +536,64 @@ msgstr "Tòisichidh na cluicheadairean air blàr rèidh sa Ghall a tha ’ga sga
 msgid "Lorraine Plain"
 msgstr "Blàr Lorraine"
 
+#: maps/random/lower_nubia.jsonsettings.Description
+msgid ""
+"Known in the Greco-Roman world as the Triakontaschoinos, Lower Nubia was the"
+" area between the first and second cataracts of the Nile and formed the "
+"traditional border region between Kush and Egypt. The scorching desert, "
+"steep valleys and towering cliffs of the area make this an inhospitable "
+"place to live, but the control of this ancient corridor was vital for any "
+"power seeking to control the lucrative trade routes on the Nile and affords "
+"access to the rich goldfields of the Nubian desert."
+msgstr ""
+
+#: maps/random/lower_nubia.jsonsettings.Name
+msgid "Lower Nubia"
+msgstr "Nuibia ìochdarach"
+
 #: maps/random/mainland.jsonsettings.Description
+#: maps/random/unknown.jsonsettings.Landscapes.land[8].Description
 msgid "A typical map without any water."
 msgstr "Mapa àbhaisteach gun uisge."
 
 #: maps/random/mainland.jsonsettings.Name
+#: maps/random/unknown.jsonsettings.Landscapes.land[8].Name
 msgid "Mainland"
 msgstr "An tìr mòr"
+
+#: maps/random/marmara.jsonsettings.Description
+msgid ""
+"The Propontis (Sea of Marmara) connects the Pontus Euxinus (Black Sea) to "
+"the Aegean Sea, and seperates Asia Minor from Thrace. To the south-west lies"
+" the Hellespont (Dardanelles), at the entrance of which the ancient city of "
+"Ilium (Troy) once stood. To the north-east lies the Bosporus Thraciae "
+"(Bosporus strait) where in time the Greek city of Byzantium would be "
+"founded, later to become the capital of the great Byzantine Empire under the"
+" new name of Constantinople. Players start on fertile land with adequate "
+"resources."
+msgstr "Tha am Propontis (Muir Mharmara) a’ ceangal Pontus Euxinus (Am Muir Dubh) ris a’ Mhuir Àigeanach agus a’ sgaradh An Àisia Bheag o Thràicea. Tha an Hellespont (na Dàrdainealan) gu iar-dheas air agus bhiodh baile Ilium (Tròidh) ri taobh a’ chaolais. Tha Bosporus Thraciae (caolas Bhòsfaras) gu ear-thuath air far an deachadh am baile Greugach Byzantium a stèidheachadh an uairsin. Chaidh am baile seo ’na chathair-bhaile air Impireachd mhòr Bhiosantach agus chuireadh Baile Chòiseim air. Tòisichidh na cluicheadairean air tìr thorrach le stòras gu leòr."
+
+#: maps/random/marmara.jsonsettings.Name
+msgid "Marmara"
+msgstr "Marmara"
+
+#: maps/random/mediterranean.jsonsettings.Description
+msgid ""
+"The Mediterranean, home to the Phoenicians, Greeks, Egyptians and later on "
+"Romans. They took the rudimentary knowledge and principles of organisation "
+"from Mesopotamia and forged it into something more, thereby shifting the "
+"centre of learning and knowledge to the Mediterranean Coast, thus laying the"
+" foundations of civilization as we know it today. The Mediterranean Sea is "
+"almost completely enclosed by land: on the north by Gallia Transalpina "
+"(Transalpine Gaul), Italia, Greece (Graecia) and Anatolia, on the east by "
+"Syria, on the south by Libya and Mauritania, and on the west by Iberia. The "
+"name Mediterranean is derived from Latin, but the Romans themselves "
+"preferred the term 'Mare Internum' or even 'Mare Nostrum'."
+msgstr "Ghabh na Phenicich, na Greugaich, na h-Èipheitich agus an uairsin na Ròmanaich còmhnaidh ri taobh na Mara Meadhanaich. Chleachd iad an eòlas toiseachail agus na prionnsabalan eagrachaidh à Mesopotamia agus chuir iad piseach orra gus an deach costa na Mara Meadhanaich ’na phrìomh-ionad ionnsachaidh ’s eòlais. Seo an dòigh san deach an sìobhaltas againne a stèidheachadh. Cha mhòr nach eil am Muir Meadhanach cuairtichte le tìr gu tur: Tha Gallia Transalpina (A’ Ghall thar-Ailpeach), an Eadailt, A’ Ghreug (Graecia) agus Anatolia gu tuath, Siridhea gu ear, Libia agus Moratàinea gu deas agus an Ibèir gu iar air. Bhiodh “Mare Internum” no fiù ’s “Mare Nostrum” aig na Ròmanaich air."
+
+#: maps/random/mediterranean.jsonsettings.Name
+msgid "Mediterranean"
+msgstr "Am Muir Meadhanach"
 
 #: maps/random/migration.jsonsettings.Description
 msgid ""
@@ -472,6 +624,18 @@ msgstr "Deuchainn bhunasach air gineadair nam mapa – cha ghabh a chluich."
 #: maps/random/new_rms_test.jsonsettings.Name
 msgid "New RMS Test"
 msgstr "Deuchainn RMS ùr"
+
+#: maps/random/ngorongoro.jsonsettings.Description
+msgid ""
+"Ngorongoro Crater is the world's largest intact volcanic caldera and is one "
+"of the Seven Natural Wonders of Africa. Due to it's climate, biodiversity "
+"and history, Ngorongoro is believed by some to be Africa's Garden of Eden "
+"and the birthplace of mankind."
+msgstr "Is sloc Ngorongoro fear dhe na caldarathan bolcànach slàna as motha air an t-saoghal agus fear dhe na seachd mìorbhailean nàdarra Afraga. Air sàilleibh a ghnàth-sìde, bith-iomadachd agus eachdraidh, cha cuid dhen bheachd gur e Gàrradh Edein Afraga agus àite-breith a’ chinne-dhaonna a th’ ann an Ngorongoro."
+
+#: maps/random/ngorongoro.jsonsettings.Name
+msgid "Ngorongoro"
+msgstr "Ngorongoro"
 
 #: maps/random/northern_lights.jsonsettings.Description
 msgid ""
@@ -527,9 +691,37 @@ msgid ""
 "recommended for inexperienced players.[/color]"
 msgstr "Tòisichidh na cluicheadairean ann an sgìre pòlarach fàs gun lusan. Tha pailteas iasg is mhucan-mara sa mhuir fhad ’s a tha an tìr reòite cugallach làn each-mara a ghabhas sealg is madaidhean-allaidh cunnartach. On a tha an t-acras air na madaidhean-allaidh ri linn na gnàth-shìde ghairbhe, nochdaidh pailteas eagalach dhiubh. Cha chuir ceannard glic ruaig air a nàimhdean a-mhàin ach cumaidh e na beòthaichean seo air falbh cuideachd mus mill iad an eaconamaidh aige [color=\"red\"]Rabhadh: Mholamaid gun cuir thu ulaidhean à comas air sgàth ’s nach eil fiodh ann a ghabhadh cruinneachadh. Cha mholamaid am mapa seo ach do sheann-cluicheadairean eòlach.[/color]"
 
+#: maps/random/polar_sea.jsonsettings.Daytime[0].Description
+msgid "Scattered sunlight illuminates the scenery in a vivid red tone."
+msgstr ""
+
+#: maps/random/polar_sea.jsonsettings.Daytime[0].Name
+msgid "Dawn"
+msgstr ""
+
+#: maps/random/polar_sea.jsonsettings.Daytime[1].Description
+msgid "The scenery is illuminated by direct or indirect sunlight."
+msgstr ""
+
+#: maps/random/polar_sea.jsonsettings.Daytime[1].Name
+msgid "Daylight"
+msgstr ""
+
 #: maps/random/polar_sea.jsonsettings.Name
 msgid "Polar Sea"
 msgstr "Muir pòlarach"
+
+#: maps/random/pompeii.jsonsettings.Description
+msgid ""
+"Pompeii was an ancient Roman coastal city, in the Campania region of Italy. "
+"Pompeii, along with much of the surrounding area, was mostly destroyed and "
+"buried under 4 to 6 meters of volcanic ash and pumice in the eruption of "
+"Mount Vesuvius in AD 79."
+msgstr "’S e baile Ròmanach àrsaidh air an oirthir a b’ ann am Pompeii ann an sgìre Campania na h-Eadailte. Chaidh Pompeii agus cnap mhòr dhen sgìre a  sgrios is a chòmhdachadh fo 4 gu 6 meatairean dhe luaithre beinne-teine agus sligeart nuair a spreidh Beinn Vesuvius ann an AD 79."
+
+#: maps/random/pompeii.jsonsettings.Name
+msgid "Pompeii"
+msgstr "Pompeii"
 
 #: maps/random/pyrenean_sierra.jsonsettings.Description
 msgid ""
@@ -541,6 +733,30 @@ msgstr "Tha monadh àrd a’ sgaradh nan nàimhdean.\n\n’S e monadh mòr eadar
 #: maps/random/pyrenean_sierra.jsonsettings.Name
 msgid "Pyrenean Sierra"
 msgstr "Na Beanntan Pirineach"
+
+#: maps/random/ratumacos.jsonsettings.Description
+msgid ""
+"Players start on the banks of the River Sequana (Seine) in Northern Gaul "
+"near the settlement of Ratumacos. Destined to become one of the largest and "
+"most prosperous cities of Medieval Europe and one of the Anglo-Norman "
+"dynasty capitals under the new name of Rouen, Ratumacos is still a peaceful "
+"land - but not for long."
+msgstr "Tòisichidh na cluicheadairean air tràigh na h-aibhne Sequana (Seine) ceann a tuath na Gaille faisg air Ratumacos. Is gun dèid e ’na fhear dhe na bailtean as motha agus nas sealbhaiche na Roinn-Eòrpa meadhan-aoisiche agus ’na chathair-bhaile dhan t-sliochd Angla-Nòrmannach fo ainm ùr Rouen an dàn dha ach tha Ratumacos ’na thìr shìtheil fhathast – chan ann fada co-dhiù."
+
+#: maps/random/ratumacos.jsonsettings.Name
+msgid "Ratumacos"
+msgstr "Ratumacos"
+
+#: maps/random/red_sea.jsonsettings.Description
+msgid ""
+"Historically, the Red Sea was a sea of many nations. Ideally situated for "
+"trade with the Far East, it was coveted by all. Although dry, this land is "
+"by no means inhospitable, and is amply provided with all resources."
+msgstr "Bhiodh iomadh sluagh a’ fuireach ri taobh na Mara Ruaidhe o shean. Tha a suidheachadh foirfe gus malart ris an Ear Chèin agus bha gach sluagh ’ga iarraidh. Ged a tha i tioram, chan eil an tìr seo mì-àraidh agus chan eil stòras a dhìth oirre."
+
+#: maps/random/red_sea.jsonsettings.Name
+msgid "Red Sea"
+msgstr "Am Muir Ruadh"
 
 #: maps/random/rhine_marshlands.jsonsettings.Description
 msgid ""
@@ -610,6 +826,19 @@ msgstr "Mapa le torr choilltean is pailteas a stòrasan ann agus tha loch sa mhe
 msgid "Schwarzwald"
 msgstr "A’ choille dhubh"
 
+#: maps/random/scythian_rivulet.jsonsettings.Description
+msgid ""
+"Carpeted in snow, the land slumbers in repose, but this fragile peace is "
+"destined to be shattered - and not by spring. Large packs of wolves lurk in "
+"the wild searching for prey, a lone arctic fox scurries away to hide. "
+"Starting in this seemingly hostile terrain, players must conquer - or be "
+"conquered."
+msgstr ""
+
+#: maps/random/scythian_rivulet.jsonsettings.Name
+msgid "Scythian Rivulet"
+msgstr "Coileachan Sgitiach"
+
 #: maps/random/snowflake_searocks.jsonsettings.Description
 msgid "Many small islands connected to each other by narrow passages."
 msgstr "Iomadh eilean beag ceangailte ri chèile le slighean beaga."
@@ -659,31 +888,94 @@ msgid "The Nile"
 msgstr "An Nìl"
 
 #: maps/random/unknown.jsonsettings.Description
-msgid "The unknown... Warning: May be a naval map."
-msgstr "An t-aineol… Rabhadh: Dh’fhaoidte gur e mapa-mara a bhios ann."
+msgid "The unknown."
+msgstr "An t-aineol."
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[1].Name
+msgid "Isthmus"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[2].Description
+msgid "A small central river."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[2].Name
+msgid "Central River"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[3].Description
+msgid ""
+"Players are aligned on a strip of land with seas bordering on one or both "
+"sides that may hold islands."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[3].Name
+msgid "Edge Seas"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[4].Description
+msgid "Land shaped like a concrescent moon around a central lake."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[4].Name
+msgid "Gulf"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[5].Description
+msgid "Mainland style with some small random lakes."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[5].Name
+msgid "Lakes"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[6].Description
+msgid ""
+"A large hill encompasses the map and leaves players only a small passage to "
+"the two neighboring players."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[6].Name
+msgid "Passes"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[7].Description
+msgid ""
+"The land is enclosed by a hill that leaves a small area per player connected"
+" to the large central place."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[7].Name
+msgid "Lowlands"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.naval[0].Description
+msgid "A huge sea is dividing the map into two halves."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.naval[0].Name
+msgid "Naval: Central Sea"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.naval[1].Description
+msgid "Players are scattered across island chains and disconnected islands."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.naval[1].Name
+msgid "Naval: Archipelago"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.naval[2].Description
+msgid "A central lake with rivers possibly separating neighboring players."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.naval[2].Name
+msgid "Naval: Lake and rivers"
+msgstr ""
 
 #: maps/random/unknown.jsonsettings.Name
 msgid "Unknown"
 msgstr "An t-aineol"
-
-#: maps/random/unknown_land.jsonsettings.Description
-msgid "The unknown..."
-msgstr "An t-aineol…"
-
-#: maps/random/unknown_land.jsonsettings.Name
-msgid "Unknown Land"
-msgstr "Tìr an aineoil"
-
-#: maps/random/unknown_nomad.jsonsettings.Description
-msgid ""
-"The unknown... Players start with only some citizen soldiers and females. "
-"[color=\"red\"]Warning: The starting resources should be set at least at "
-"Medium.[/color]"
-msgstr "An t-aineol… Cha tòisich na chluicheadairean ach le corra saighdear-dùthcha is saoranaich boireann. [color=\"red\"]Rabhadh: Bu chòir dhut na stòrasan tòiseachaidh a shuidheachadh air “Meadhanach” air a char as lugha.[/color]"
-
-#: maps/random/unknown_nomad.jsonsettings.Name
-msgid "Unknown Nomad"
-msgstr "Iniltear coimheach"
 
 #: maps/random/volcanic_lands.jsonsettings.Description
 msgid "A charred dead land where players start around a smoking volcano."
@@ -695,9 +987,9 @@ msgstr "Tìr na beinne-theine"
 
 #: maps/random/wall_demo.jsonsettings.Description
 msgid ""
-"A demonstration of wall placement methods/code in random maps. Very large "
-"map size is recommended."
-msgstr "Seo taisbeanadh air dòighean/còd gus ballachan a chur ann am mapaichean air thuaiream. Mholamaid mapa glè mhòr."
+"A demonstration of wall placement methods/code in random maps. Giant map "
+"size is recommended!"
+msgstr "Seo taisbeanadh air dòighean/còd gus ballachan a chur ann am mapaichean air thuaiream. Mholamaid mapa anabarrach mòr!"
 
 #: maps/random/wall_demo.jsonsettings.Name
 msgid "Wall Demo"
@@ -710,204 +1002,6 @@ msgstr "Loch le cnuic timcheall air."
 #: maps/random/wild_lake.jsonsettings.Name
 msgid "Wild Lake"
 msgstr "Loch fiadhaich"
-
-#: maps/random/rmbiome/biomes/alpine.jsonDescription.Description
-msgid ""
-"A region in the high snowy mountains. Biting winds sweep through the "
-"abundant conifer forests, making even the more resilient deer and mountain "
-"goats shiver."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/alpine.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"A region in the high snowy mountains. Biting winds sweep through the "
-"abundant conifer forests, making even the more resilient deer and mountain "
-"goats shiver."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/alpine.jsonDescription.Title
-msgid "Alpine"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/alpine.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Alpine"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/autumn.jsonDescription.Description
-msgid ""
-"Autumn at its peak. The landscape is a dazzling dash of colors irrevocably "
-"intertwined. The native beech and oak trees of this temperate zone display a"
-" multi-coloured foliage while the evergreen pines look on with indifference "
-"at the approaching winter."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/autumn.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"Autumn at its peak. The landscape is a dazzling dash of colors irrevocably "
-"intertwined. The native beech and oak trees of this temperate zone display a"
-" multi-coloured foliage while the evergreen pines look on with indifference "
-"at the approaching winter."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/autumn.jsonDescription.Title
-msgid "Autumn"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/autumn.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Autumn"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/desert.jsonDescription.Description
-msgid ""
-"A semi-desert area that boasts numerous clumps of date palms and tamarix "
-"trees. Herds of camels roam the wild and the occasional gazelle jumps up in "
-"fright at being disturbed."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/desert.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"A semi-desert area that boasts numerous clumps of date palms and tamarix "
-"trees. Herds of camels roam the wild and the occasional gazelle jumps up in "
-"fright at being disturbed."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/desert.jsonDescription.Title
-msgid "Desert"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/desert.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Desert"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/mediterranean.jsonDescription.Description
-msgid ""
-"Start in a region blessed with the Mediterranean climate, a warm and "
-"inviting land. The cypresses are in a perpetual struggle with the dominant "
-"fan palms while deer graze in their shadows, blissfully unaware."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/mediterranean.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"Start in a region blessed with the Mediterranean climate, a warm and "
-"inviting land. The cypresses are in a perpetual struggle with the dominant "
-"fan palms while deer graze in their shadows, blissfully unaware."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/mediterranean.jsonDescription.Title
-msgid "Mediterranean"
-msgstr "Am Muir Meadhanach"
-
-#: maps/random/rmbiome/biomes/mediterranean.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Mediterranean"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/savanna.jsonDescription.Description
-msgid ""
-"The savanna, a dry climate in which only the hardy Baobab trees thrive. "
-"Solitary gazelles graze the sparse grass, while herds of zebras, wildebeest,"
-" giraffes or elephants roam the wild in search of food."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/savanna.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"The savanna, a dry climate in which only the hardy Baobab trees thrive. "
-"Solitary gazelles graze the sparse grass, while herds of zebras, wildebeest,"
-" giraffes or elephants roam the wild in search of food."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/savanna.jsonDescription.Title
-msgid "Savanna"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/savanna.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Savanna"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/snowy.jsonDescription.Description
-msgid ""
-"Settle in the cold regions of the North, the native habitat of the wooly "
-"muskox. Here you can pine away to your content and also hunt the occasional "
-"walrus or two."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/snowy.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"Settle in the cold regions of the North, the native habitat of the wooly "
-"muskox. Here you can pine away to your content and also hunt the occasional "
-"walrus or two."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/snowy.jsonDescription.Title
-msgid "Snowy"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/snowy.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Snowy"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/temperate.jsonDescription.Description
-msgid ""
-"Lush grasslands carpet the land, in places giving way to magnificent and "
-"diverse broadleaf forests. Poplars, pines, beeches and oaks all vie for "
-"supremacy but this root-war is a neverending struggle. Numerous apple trees "
-"dot the land, deer and sheep gorge themselves on this years fallen fruit."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/temperate.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"Lush grasslands carpet the land, in places giving way to magnificent and "
-"diverse broadleaf forests. Poplars, pines, beeches and oaks all vie for "
-"supremacy but this root-war is a neverending struggle. Numerous apple trees "
-"dot the land, deer and sheep gorge themselves on this years fallen fruit."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/temperate.jsonDescription.Title
-msgid "Temperate"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/temperate.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Temperate"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/tropic.jsonDescription.Description
-msgid ""
-"Explore the mysterious tropics. An extremely green, but also extremely humid"
-" environment awaits. The tall Toona trees look on disapprovingly at this "
-"invasion of their privacy and ferocious tigers are determined to defend "
-"their territory at all costs."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/tropic.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"Explore the mysterious tropics. An extremely green, but also extremely humid"
-" environment awaits. The tall Toona trees look on disapprovingly at this "
-"invasion of their privacy and ferocious tigers are determined to defend "
-"their territory at all costs."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/tropic.jsonDescription.Title
-msgid "Tropic"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/tropic.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Tropic"
-msgstr ""
 
 #: maps/random/extinct_volcano_triggers.js:65
 msgid "It keeps on raining, we will have to evacuate soon!"
@@ -925,16 +1019,25 @@ msgstr "Feumaidh sinn tìr tioram a lorg, thèid an tìr againn fodha a dh’ait
 msgid "The lakes start swallowing the land, we have to find shelter!"
 msgstr "Tha na lochan a’ cur an tìr fo thuiltean, feumaidh sinn fasgadh a lorg!"
 
-#: maps/random/survivalofthefittest_triggers.js:193
+#: maps/random/jebel_barkal_triggers.js:592
+msgid "Napata is attacking!"
+msgstr "Tha Napata a’ toirt ionnsaigh ort!"
+
+#: maps/random/jebel_barkal_triggers.js:602
+#, javascript-format
+msgid "Napata will attack in %(time)s!"
+msgstr "Bheir Napata ionnsaigh ort an ceann %(time)s!"
+
+#: maps/random/survivalofthefittest_triggers.js:163
 #, javascript-format
 msgid "The first wave will start in %(time)s!"
 msgstr "Tòisichidh a’ chiad ionnsaigh an ceann %(time)s!"
 
-#: maps/random/survivalofthefittest_triggers.js:327
+#: maps/random/survivalofthefittest_triggers.js:264
 msgid "An enemy wave is attacking!"
 msgstr "Tha an nàmhaid a’ toirt ionnsaigh ort!"
 
-#: maps/random/survivalofthefittest_triggers.js:351
+#: maps/random/survivalofthefittest_triggers.js:288
 #, javascript-format
 msgid "%(player)s has been defeated (lost civic center)."
 msgstr "Chaidh ruaig a chur air %(player)s (chailleadh an t-ionad sìobhalta)."
@@ -963,40 +1066,40 @@ msgstr "Chan eadh"
 msgid "Say rather not"
 msgstr "Can “Chan eadh”"
 
-#: maps/scenarios/treasure_islands.js:10
+#: maps/scenarios/treasure_islands.js:9
 msgid "Collect the treasures before your enemy does! May the better win!"
-msgstr "Tog na h-ulaidhean mus tog do nàmhaid iad! Gum buannaich am fear nas fhearr!"
+msgstr "Tog na h-ulaidhean mus tog do nàmhaid iad! Gum buannaich am fear nas fheàrr!"
 
-#: maps/scenarios/treasure_islands.js:29
+#: maps/scenarios/treasure_islands.js:28
 msgid "No winner yet, prepare for battle!"
 msgstr "Cha do bhuannaich duine fhathast, ullaich airson sabaid!"
 
-#: maps/scenarios/treasure_islands.js:44
+#: maps/scenarios/treasure_islands.js:43
 msgid "Your enemy's treasury is filled to the brim, you lose!"
 msgstr "Tha taigh-ulaidh do nàmhad loma-làn, chaill thu!"
 
-#: maps/scenarios/treasure_islands.js:49
+#: maps/scenarios/treasure_islands.js:48
 msgid "Your treasury is filled to the brim, you are victorious!"
 msgstr "Fhuair thu torr ulaidhean ’s bhuannaich thu!"
 
-#: maps/scenarios/treasure_islands.js:61
+#: maps/scenarios/treasure_islands.js:60
 msgid "Hurry up! Your enemy is close to victory!"
 msgstr "Greas ort! Tha do nàmhaid gu bhith buannachd fhaighinn!"
 
-#: maps/scenarios/treasure_islands.js:72
+#: maps/scenarios/treasure_islands.js:71
 #, javascript-format
 msgid "Treasures remaining to collect for victory:  %(remainingTreasures)s!"
 msgstr "Na h-ulaidhean a dh’fheumas togail fhathast airson buannachd fhaighinn:  %(remainingTreasures)s!"
 
-#: maps/scenarios/treasure_islands.js:80
+#: maps/scenarios/treasure_islands.js:79
 msgid "You have collected a treasure!"
 msgstr "Thog thu ulaidh!"
 
-#: maps/scenarios/treasure_islands.js:92
+#: maps/scenarios/treasure_islands.js:91
 msgid "Defeat your enemy to win!"
 msgstr "Cuir ruaig air an nàmhaid airson buannachd fhaighinn!"
 
-#: maps/scenarios/treasure_islands.js:101
+#: maps/scenarios/treasure_islands.js:100
 #, javascript-format
 msgid "%(lastPlayer)s has won (treasure collected)."
 msgid_plural "%(players)s and %(lastPlayer)s have won (treasure collected)."
@@ -1005,7 +1108,7 @@ msgstr[1] "Bhuannaich %(players)s ’s %(lastPlayer)s (thog iad ulaidh)."
 msgstr[2] "Bhuannaich %(players)s ’s %(lastPlayer)s (thog iad ulaidh)."
 msgstr[3] "Bhuannaich %(players)s ’s %(lastPlayer)s (thog iad ulaidh)."
 
-#: maps/scenarios/treasure_islands.js:105
+#: maps/scenarios/treasure_islands.js:104
 #, javascript-format
 msgid "%(lastPlayer)s has been defeated (treasure collected)."
 msgid_plural ""
@@ -1035,7 +1138,7 @@ msgstr "Earrach ann an Arcàidea sa Ghreug. Tha tuiltean an earraich air creagan
 #: maps/scenarios/Necropolis.xml:PlayerData[0].Name:39 maps/scenarios/Saharan
 #: Oases.xml:PlayerData[0].Name:27 maps/scenarios/Sandbox -
 #: Britons.xml:PlayerData[0].Name:39 maps/scenarios/Sandbox -
-#: Gauls.xml:PlayerData[0].Name:39 maps/scenarios/Sandbox -
+#: Gauls.xml:PlayerData[1].Name:40 maps/scenarios/Sandbox -
 #: Iberians.xml:PlayerData[0].Name:39 maps/scenarios/Sandbox -
 #: Romans.xml:PlayerData[0].Name:39 maps/scenarios/Siwa
 #: Oasis.xml:PlayerData[0].Name:27 maps/scenarios/The Massacre of
@@ -1045,48 +1148,6 @@ msgstr "Earrach ann an Arcàidea sa Ghreug. Tha tuiltean an earraich air creagan
 #: maps/scenarios/WallTest.xml:PlayerData[0].Name:27
 #: maps/scenarios/Walls.xml:PlayerData[0].Name:27
 #: maps/scenarios/reservoir.xml:PlayerData[0].Name:27
-#: maps/skirmishes/Acropolis Bay (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Alpine_Valleys_(2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Bactria (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Barcania (3).xml:PlayerData[0].Name:27
-#: maps/skirmishes/Belgian Bog (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Caspian Sea (2v2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Corinthian Isthmus (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Corinthian Isthmus (4).xml:PlayerData[0].Name:40
-#: maps/skirmishes/Corsica and Sardinia (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Cycladic Archipelago (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Death Canyon (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Deccan Plateau (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Gallic Fields (3).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Gambia River (3).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Golden Oasis (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Greek Acropolis (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Greek Acropolis (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Greek Acropolis Night (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Libyan Oases (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Libyan Oasis (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Lorraine Plain (2).xml:PlayerData[0].Name:40
-#: maps/skirmishes/Median Oasis (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Median Oasis (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Mediterranean Cove (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Neareastern Badlands (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Neareastern Badlands (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Nile River (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Persian Highlands (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Punjab (2).xml:PlayerData[0].Name:40
-#: maps/skirmishes/Saharan Oases (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Sahel (4).xml:PlayerData[0].Name:39 maps/skirmishes/Savanna
-#: River.xml:PlayerData[0].Name:39 maps/skirmishes/Sicilia
-#: (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Sicilia_Nomad.xml:PlayerData[0].Name:35
-#: maps/skirmishes/Siwa Oasis (2).xml:PlayerData[0].Name:40
-#: maps/skirmishes/Sporades Islands (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Syria (2).xml:PlayerData[0].Name:39 maps/skirmishes/Team
-#: Oasis - 2v2.xml:PlayerData[0].Name:39 maps/skirmishes/Thessalian Plains
-#: (4).xml:PlayerData[0].Name:39 maps/skirmishes/Tuscan Acropolis
-#: (4).xml:PlayerData[0].Name:40 maps/skirmishes/Watering Holes
-#: (4).xml:PlayerData[0].Name:39 maps/skirmishes/Zagros Mountains
-#: (2).xml:PlayerData[0].Name:39
 msgid "Player 1"
 msgstr "Cluicheadair 1"
 
@@ -1102,7 +1163,7 @@ msgstr "Cluicheadair 1"
 #: maps/scenarios/Necropolis.xml:PlayerData[1].Name:39 maps/scenarios/Saharan
 #: Oases.xml:PlayerData[1].Name:27 maps/scenarios/Sandbox -
 #: Britons.xml:PlayerData[1].Name:39 maps/scenarios/Sandbox -
-#: Gauls.xml:PlayerData[1].Name:39 maps/scenarios/Sandbox -
+#: Gauls.xml:PlayerData[2].Name:40 maps/scenarios/Sandbox -
 #: Iberians.xml:PlayerData[1].Name:39 maps/scenarios/Sandbox -
 #: Romans.xml:PlayerData[1].Name:39 maps/scenarios/Siwa
 #: Oasis.xml:PlayerData[1].Name:27 maps/scenarios/The Massacre of
@@ -1110,49 +1171,7 @@ msgstr "Cluicheadair 1"
 #: Islands.xml:PlayerData[1].Name:39 maps/scenarios/Tropical
 #: Island.xml:PlayerData[1].Name:39
 #: maps/scenarios/WallTest.xml:PlayerData[1].Name:27
-#: maps/scenarios/Walls.xml:PlayerData[1].Name:27 maps/skirmishes/Acropolis
-#: Bay (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Alpine_Valleys_(2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Bactria (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Barcania (3).xml:PlayerData[1].Name:27
-#: maps/skirmishes/Belgian Bog (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Caspian Sea (2v2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Corinthian Isthmus (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Corinthian Isthmus (4).xml:PlayerData[1].Name:40
-#: maps/skirmishes/Corsica and Sardinia (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Cycladic Archipelago (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Death Canyon (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Deccan Plateau (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Gallic Fields (3).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Gambia River (3).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Golden Oasis (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Greek Acropolis (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Greek Acropolis (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Greek Acropolis Night (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Libyan Oases (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Libyan Oasis (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Lorraine Plain (2).xml:PlayerData[1].Name:40
-#: maps/skirmishes/Median Oasis (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Median Oasis (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Mediterranean Cove (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Neareastern Badlands (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Neareastern Badlands (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Nile River (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Persian Highlands (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Punjab (2).xml:PlayerData[1].Name:40
-#: maps/skirmishes/Saharan Oases (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Sahel (4).xml:PlayerData[1].Name:39 maps/skirmishes/Savanna
-#: River.xml:PlayerData[1].Name:39 maps/skirmishes/Sicilia
-#: (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Sicilia_Nomad.xml:PlayerData[1].Name:35
-#: maps/skirmishes/Siwa Oasis (2).xml:PlayerData[1].Name:40
-#: maps/skirmishes/Sporades Islands (2).xml:PlayerData[2].Name:39
-#: maps/skirmishes/Syria (2).xml:PlayerData[1].Name:39 maps/skirmishes/Team
-#: Oasis - 2v2.xml:PlayerData[1].Name:39 maps/skirmishes/Thessalian Plains
-#: (4).xml:PlayerData[1].Name:39 maps/skirmishes/Tuscan Acropolis
-#: (4).xml:PlayerData[1].Name:40 maps/skirmishes/Watering Holes
-#: (4).xml:PlayerData[1].Name:39 maps/skirmishes/Zagros Mountains
-#: (2).xml:PlayerData[1].Name:39
+#: maps/scenarios/Walls.xml:PlayerData[1].Name:27
 msgid "Player 2"
 msgstr "Cluicheadair 2"
 
@@ -1380,26 +1399,8 @@ msgstr "Feachd a’ briseadh a-steach"
 #: maps/scenarios/Necropolis.xml:PlayerData[2].Name:39 maps/scenarios/Saharan
 #: Oases.xml:PlayerData[2].Name:27 maps/scenarios/Sandbox -
 #: Britons.xml:PlayerData[2].Name:39 maps/scenarios/Sandbox -
-#: Gauls.xml:PlayerData[2].Name:39 maps/scenarios/Siwa
-#: Oasis.xml:PlayerData[2].Name:27 maps/skirmishes/Barcania
-#: (3).xml:PlayerData[2].Name:27 maps/skirmishes/Caspian Sea
-#: (2v2).xml:PlayerData[2].Name:39 maps/skirmishes/Corinthian Isthmus
-#: (4).xml:PlayerData[2].Name:40 maps/skirmishes/Corsica and Sardinia
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Gallic Fields
-#: (3).xml:PlayerData[2].Name:39 maps/skirmishes/Gambia River
-#: (3).xml:PlayerData[2].Name:39 maps/skirmishes/Greek Acropolis
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Libyan Oases
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Median Oasis
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Neareastern Badlands
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Nile River
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Persian Highlands
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Saharan Oases
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Sahel
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Team Oasis -
-#: 2v2.xml:PlayerData[2].Name:39 maps/skirmishes/Thessalian Plains
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Tuscan Acropolis
-#: (4).xml:PlayerData[2].Name:40 maps/skirmishes/Watering Holes
-#: (4).xml:PlayerData[2].Name:39
+#: Gauls.xml:PlayerData[3].Name:40 maps/scenarios/Siwa
+#: Oasis.xml:PlayerData[2].Name:27
 msgid "Player 3"
 msgstr "Cluicheadair 3"
 
@@ -1436,22 +1437,7 @@ msgstr "Mapa fàsaich beag. Tòisichidh gach cluicheadair faisg air aon dhe na h
 #: maps/scenarios/Gold_Rush.xml:PlayerData[3].Name:27
 #: maps/scenarios/Necropolis.xml:PlayerData[3].Name:39 maps/scenarios/Saharan
 #: Oases.xml:PlayerData[3].Name:27 maps/scenarios/Siwa
-#: Oasis.xml:PlayerData[3].Name:27 maps/skirmishes/Caspian Sea
-#: (2v2).xml:PlayerData[3].Name:39 maps/skirmishes/Corinthian Isthmus
-#: (4).xml:PlayerData[3].Name:40 maps/skirmishes/Corsica and Sardinia
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Greek Acropolis
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Libyan Oases
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Median Oasis
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Neareastern Badlands
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Nile River
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Persian Highlands
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Saharan Oases
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Sahel
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Team Oasis -
-#: 2v2.xml:PlayerData[3].Name:39 maps/skirmishes/Thessalian Plains
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Tuscan Acropolis
-#: (4).xml:PlayerData[3].Name:40 maps/skirmishes/Watering Holes
-#: (4).xml:PlayerData[3].Name:39
+#: Oasis.xml:PlayerData[3].Name:27
 msgid "Player 4"
 msgstr "Cluicheadair 4"
 
@@ -1573,12 +1559,22 @@ msgid ""
 "non-competitive multiplayer matches."
 msgstr "Mapa beag le mòran stòrasan is beagan uisge gus cluiche a’ gheama fheuchainn ann am maidichean ioma-chluicheadair neo-chòmhstritheil."
 
+#: maps/scenarios/Napata Reconstruction.xml:Name:40
+msgid "Napata Reconstruction"
+msgstr "Ath-thogail Napata"
+
+#: maps/scenarios/Napata Reconstruction.xml:Description:40
+msgid ""
+"This map displays a reconstruction of the ancient city Napata. "
+"[color=\"red\"]Note:[/color] The map is not intended to be playable."
+msgstr "Seallaidh am mapa seo an coltas a bhiodh air Napata. [color=\"red\"]Note:[/color] Chan eil am mapa seo iomchaidh airson cluich."
+
 #: maps/scenarios/Necropolis.xml:Description:39
 msgid ""
-"4 players duke it out over the vast Nile Delta. Each city starts out nestled atop a large acropolis, but resources are scarce, forcing each player to expand their resource operations into the surrounding lands.\n"
+"Four players duke it out over the vast Nile Delta. Each city starts out nestled atop a large plateau, but resources are scarce, forcing each player to expand their resource operations into the surrounding lands.\n"
 "\n"
 "Scouts say the nearby branches of the Nile River are shallow and fordable in multiple locations, so should only serve as a minor barrier between enemy factions."
-msgstr "Tha 4 cluicheadairean a’ dèanamh thar gobhlan mòr an Nìl. Tòisichidh gabh baile ’na acra-bhaile ach tha an stòras gann ’s feumaidh gach cluicheadair cruinneachadh stòrais a leudachadh dhan tìr timcheall air ri linn sin.\n\nTha rabhadairean ag innse dhuinn gu bheil meuran an Nìl a tha faisg oirnn eu-domhain is gu bheil àthannan ann, mar sin cha bhi iad ’nam bacadh mòr eadar na nàimhdean."
+msgstr ""
 
 #: maps/scenarios/Necropolis.xml:Name:39
 msgid "Necropolis"
@@ -1648,7 +1644,7 @@ msgstr "Taisbeanadh air stòrasan"
 
 #: maps/scenarios/Resource_demo.xml:Description:27
 msgid "Demo map for resource gathering."
-msgstr "Taisbeanadh air cruinneachadh stòrasan"
+msgstr "Taisbeanadh air cruinneachadh stòrasan."
 
 #: maps/scenarios/Saharan Oases.xml:Description:27
 msgid ""
@@ -1712,18 +1708,18 @@ msgid "Sandbox - The Athenians"
 msgstr "Bogsa-gainmhich – Muinntir na h‑Àithne"
 
 #: maps/scenarios/Sandbox - Britons.xml:Description:39 maps/scenarios/Sandbox
-#: - Gauls.xml:Description:39
+#: - Gauls.xml:Description:40
 msgid "Play around with the Gallic faction in an idyllic sandbox setting."
 msgstr "Cluich le Muinntir na Gaille ann an suidheachadh bogsa-gainmhich sàr-sheallach."
 
 #: maps/scenarios/Sandbox - Britons.xml:PlayerData[3].Name:39
-#: maps/scenarios/Sandbox - Gauls.xml:PlayerData[3].Name:39
+#: maps/scenarios/Sandbox - Gauls.xml:PlayerData[4].Name:40
 msgid "Roman Interlopers"
 msgstr "Sgimilearan Ròmanach"
 
 #: maps/scenarios/Sandbox - Britons.xml:Name:39
 msgid "Sandbox - The Britons"
-msgstr "Bogsa-gainmhich – Na Breatannaich."
+msgstr "Bogsa-gainmhich – Na Breatannaich"
 
 #: maps/scenarios/Sandbox - Carthaginians.xml:Description:39
 msgid "Explore the Carthaginian Buildings and Units."
@@ -1743,7 +1739,7 @@ msgstr "Na sgreamhaich"
 msgid "Sandbox - The Carthaginians"
 msgstr "Bogsa-gainmhich – Na Cartagaich"
 
-#: maps/scenarios/Sandbox - Gauls.xml:Name:39
+#: maps/scenarios/Sandbox - Gauls.xml:Name:40
 msgid "Sandbox - The Gauls"
 msgstr "Bogsa-gainmhich – Muinntir na Gaille"
 
@@ -1754,6 +1750,22 @@ msgstr "Mapa taisbeanaidh airson nan Ibèirich."
 #: maps/scenarios/Sandbox - Iberians.xml:Name:39
 msgid "Sandbox - The Iberians"
 msgstr "Bogsa-gainmhich – Na h‑Ibèirich"
+
+#: maps/scenarios/Sandbox - Kushites.xml:Description:40
+msgid "Play the Kushites faction in a non-threatening sandbox scenario."
+msgstr "Cluich mar Kuluš ann an àrainneachd bogsa-gainmhich neo-bhagarrach."
+
+#: maps/scenarios/Sandbox - Kushites.xml:PlayerData[1].Name:40
+msgid "Kushites"
+msgstr "Kuluš"
+
+#: maps/scenarios/Sandbox - Kushites.xml:PlayerData[2].Name:40
+msgid "Egyptians"
+msgstr "Èipheitich"
+
+#: maps/scenarios/Sandbox - Kushites.xml:Name:40
+msgid "Sandbox - The Kushites"
+msgstr "Bogsa-gainmhich - Kuluš"
 
 #: maps/scenarios/Sandbox - Macedonians.xml:Description:39
 msgid ""
@@ -1768,20 +1780,20 @@ msgstr "Na Masadonaich"
 msgid "Sandbox - The Macedonians"
 msgstr "Bogsa-gainmhich - Na Masadonaich"
 
-#: maps/scenarios/Sandbox - Mauryans.xml:Description:39
+#: maps/scenarios/Sandbox - Mauryas.xml:Description:39
 msgid "Mauryan Indian faction showcase map."
-msgstr "Mapa taisbeanaidh airson nan Innsinich Mhauraidheach"
+msgstr "Mapa taisbeanaidh airson nan Innsinich Mhauraidheach."
 
-#: maps/scenarios/Sandbox - Mauryans.xml:PlayerData[0].Name:39
+#: maps/scenarios/Sandbox - Mauryas.xml:PlayerData[0].Name:39
 msgid "Mauryan Indians"
 msgstr "Innseanaich Mauraidheach"
 
-#: maps/scenarios/Sandbox - Mauryans.xml:PlayerData[1].Name:39
+#: maps/scenarios/Sandbox - Mauryas.xml:PlayerData[1].Name:39
 msgid "Enemy"
 msgstr "An nàmhaid"
 
-#: maps/scenarios/Sandbox - Mauryans.xml:Name:39
-msgid "Sandbox - The Mauryans"
+#: maps/scenarios/Sandbox - Mauryas.xml:Name:39
+msgid "Sandbox - The Mauryas"
 msgstr "Bogsa-gainmhich – Na Mauraidhich"
 
 #: maps/scenarios/Sandbox - Persians.xml:Description:39
@@ -2004,7 +2016,7 @@ msgstr "Eileanan nan ulaidh"
 msgid ""
 "Demo map listening to various triggers and printing warning messages about "
 "them"
-msgstr "Mapa taisbeanaidh a dh’èisteas ri caochladh de thrigearan ’s a nochdas teachdaireachdan rabhaidh mun dèidhinn."
+msgstr "Mapa taisbeanaidh a dh’èisteas ri caochladh de thrigearan ’s a nochdas teachdaireachdan rabhaidh mun dèidhinn"
 
 #: maps/scenarios/Triggers_demo.xml:Name:39
 msgid "Triggers Demo"
@@ -2049,8 +2061,8 @@ msgid "We Are Legion"
 msgstr "Lèigiunan"
 
 #: maps/scenarios/We are Legion.xml:Description:27
-msgid "A quick battle demo map using Roman legionnaires."
-msgstr "Mapa taisbeanaidh luath air a’ chòmhraig le lèigiunan Ròmanach."
+msgid "A quick battle demo map using Roman legionaries."
+msgstr ""
 
 #: maps/scenarios/_default.xml:Name:28
 msgid "Unnamed map"
@@ -2070,7 +2082,7 @@ msgstr "Mapa taisbeanaidh a sheallas decals nan rathaidean measarra."
 
 #: maps/scenarios/road demo.xml:Name:27
 msgid "Road Decals Demo"
-msgstr "Taisbeanadh air decals nan rathaidean."
+msgstr "Taisbeanadh air decals nan rathaidean"
 
 #: maps/scenarios/shipattacks.xml:Description:27
 msgid "Move ships around. Attack other ships."
@@ -2084,12 +2096,34 @@ msgstr "Taisbeanadh longan"
 msgid "Base Temperate Map"
 msgstr "Mapa measarra bunasach"
 
+#: maps/scenarios/test-foundation.xml:Description:40
+msgid ""
+"This map is designed to help artists and modders find the adequate "
+"foundation for a specific building. This map is not meant to be playable."
+msgstr ""
+
+#: maps/scenarios/test-foundation.xml:Name:40
+msgid "Foundation Testing Map"
+msgstr ""
+
+#: maps/scenarios/unit_motion_integration_test.xml:Description:40
+msgid ""
+"This map is designed to test some basic unit movement cases. It will involve"
+" unitAI, unitMotion and the relevant pathfinders and thus acts as an "
+"integrated test map. Look for things such as stuck units, wrong animations, "
+"and weird pathing."
+msgstr ""
+
+#: maps/scenarios/unit_motion_integration_test.xml:Name:40
+msgid "Unit Motion Integration Test"
+msgstr ""
+
 #: maps/skirmishes/Acropolis Bay (2).xml:Description:39
 msgid ""
-"Each player starts the match atop a large flat plateau, otherwise known as an acropolis.\n"
+"Each player starts the match atop a large flat plateau.\n"
 "\n"
-"To the East lies a large bay with fishing opportunities. To the West is a rugged hinterland with an unclaimed acropolis commanding the valley below."
-msgstr "Tòisichidh gach cluicheadair air mullach àrd-chlàir mhòir rèidh ris an canar acra-bhaile.\n\nTha camas gu ear le cothroman air iasgach. Tha talamh garbh gu siar le acra-bhaile gun sealbhadair aig a bheil smachd air an gleann gu h-ìosal."
+"To the East lies a large bay with fishing opportunities. To the West is a rugged hinterland with an unclaimed plateau commanding the valley below."
+msgstr ""
 
 #: maps/skirmishes/Acropolis Bay (2).xml:Name:39
 msgid "Acropolis Bay (2)"
@@ -2116,6 +2150,17 @@ msgstr "Sgurran àrda ’s glinn nan Alpannan.\n\nTòisichidh gach cluicheadair 
 msgid "Alpine Valleys (2)"
 msgstr "Glinn Alpach (2)"
 
+#: maps/skirmishes/Atlas_Valleys_(8).xml:Description:40
+msgid ""
+"Skirmish high in the Atlas mountains, where snowcapped mountains loom over "
+"desert oases. A wild landscape awaits; every player will experience "
+"different advantages and challenges based on their location."
+msgstr ""
+
+#: maps/skirmishes/Atlas_Valleys_(8).xml:Name:40
+msgid "Atlas Valleys (8)"
+msgstr ""
+
 #: maps/skirmishes/Bactria (2).xml:Description:39
 msgid ""
 "The arid and mineral-rich lands of Bactria (modern-day Afghanistan) at the foot of the Hindu Kush mountains.\n"
@@ -2133,11 +2178,11 @@ msgstr "Barcania (3)"
 
 #: maps/skirmishes/Barcania (3).xml:Description:27
 msgid ""
-"A wild and wooded isle, full of forests, gold, and mystery...  mountains, "
-"seas, and thick forests make for a very dynamic and fast-paced 3-player map "
-"with lots of potential for skirmishing and guerilla warfare as well as tough"
-" defensive fighting or aggressive maneuvers."
-msgstr "Seo eilean fiadhaich làn choilltean, òr is rùn… air sàilleabh nam beanntan is na mara ’s nan dlùth-choilltean, ’s e mapa glè fhiùghantach ’s luath airson 3 cluicheadairean a th’ ann le iomadh cothrom air còmhstri is strèipe is guerilla cho math ri dìon-shabaid mhòr no innleachdan ionnsaigheach."
+"A wild and wooded isle, full of forests, gold, and mystery. Mountains, seas,"
+" and thick forests make for a very dynamic and fast-paced 3-player map with "
+"lots of potential for skirmishing and guerilla warfare as well as tough "
+"defensive fighting or aggressive maneuvers."
+msgstr "Seo eilean fiadhaich làn choilltean, òr is rùn. Air sàilleabh nam beanntan is na mara ’s nan dlùth-choilltean, ’s e mapa glè fhiùghantach ’s luath airson 3 cluicheadairean a th’ ann le iomadh cothrom air còmhstri is strèipe is guerilla cho math ri dìon-shabaid mhòr no innleachdan ionnsaigheach."
 
 #: maps/skirmishes/Belgian Bog (2).xml:Description:39
 msgid ""
@@ -2149,6 +2194,24 @@ msgstr "Thèid dithis chluicheadair an aghaidh a chèile that boglach mòr àite
 #: maps/skirmishes/Belgian Bog (2).xml:Name:39
 msgid "Belgian Bog (2)"
 msgstr "Boglach Beilgeach (2)"
+
+#: maps/skirmishes/Butana Steppe (2).xml:Description:40
+msgid ""
+"South of the Sahara, East of the Nile, lies a semi-arid region today known "
+"as the Butana Steppe."
+msgstr ""
+
+#: maps/skirmishes/Butana Steppe (2).xml:PlayerData[0].Name:40
+msgid "West Player"
+msgstr "Cluicheadair an iar"
+
+#: maps/skirmishes/Butana Steppe (2).xml:PlayerData[1].Name:40
+msgid "East Player"
+msgstr "Cluicheadair an ear"
+
+#: maps/skirmishes/Butana Steppe (2).xml:Name:40
+msgid "Butana Steppe (2)"
+msgstr "Steip Bhutana (2)"
 
 #: maps/skirmishes/Caspian Sea (2v2).xml:Description:39
 msgid ""
@@ -2193,7 +2256,7 @@ msgid ""
 "A \"small island\"-style map set in the Aegean Sea.\n"
 "\n"
 "Map size: Very Large"
-msgstr "Mapa le eileanan beaga sa Mhuir Àigeanach.\n\nMeud a’ mhapa: glè mhòr."
+msgstr "Mapa le eileanan beaga sa Mhuir Àigeanach.\n\nMeud a’ mhapa: glè mhòr"
 
 #: maps/skirmishes/Cycladic Archipelago (3).xml:PlayerData[0].Name:39
 msgid "Samos"
@@ -2246,6 +2309,59 @@ msgstr "Thèid monadh ceòthach ’na bhlàr on a tha caidreabhach aig gach sgio
 msgid "Dueling Cliffs (3v3)"
 msgstr "Creagan na còmhraige (3 an aghaidh 3)"
 
+#: maps/skirmishes/Egypt (3v3).xml:Name:40
+msgid "Egypt (3v3)"
+msgstr "An Èipheit (3v3)"
+
+#: maps/skirmishes/Egypt (3v3).xml:PlayerData[0].Name:40
+msgid "Alexandria"
+msgstr "Alexandria"
+
+#: maps/skirmishes/Egypt (3v3).xml:PlayerData[1].Name:40
+msgid "Theben"
+msgstr "Tìba"
+
+#: maps/skirmishes/Egypt (3v3).xml:PlayerData[2].Name:40
+msgid "Siwa"
+msgstr "Siwa"
+
+#: maps/skirmishes/Egypt (3v3).xml:PlayerData[3].Name:40
+msgid "Sinai"
+msgstr "Sinài"
+
+#: maps/skirmishes/Egypt (3v3).xml:PlayerData[4].Name:40
+msgid "Memphis"
+msgstr "Memphis"
+
+#: maps/skirmishes/Egypt (3v3).xml:PlayerData[5].Name:40
+msgid "Cyrene"
+msgstr "Cirène"
+
+#: maps/skirmishes/Egypt (3v3).xml:Description:40
+msgid ""
+"Fight for the remains of ancient Egypt!\n"
+"\n"
+"Players start with full grown cities and small armies, each having distinct advantages and drawbacks. Take care, there are 7 mighty forts and marauding bandids!\n"
+"\n"
+"It is the last century before 0 A.D. Egypt is internally divided between hellenistic (Alexandria, represented by Seleucids) and traditional influences (Memphis, represented by Ptolemies). Thebes in the southern clime of river Nile has already been taken over by the Kush. In the north western Al-Dschabal al-Achdar, where the mediterranean city of Cyrene is located the Romans are preparing their invasion. From the eastern desert at-Tih and mount Sinai enemies (represented by Persians) are pushing forward and the oasis Siwa. Charga (represented by Carthage) in the south western desert are trying to get a share of the pie as well.\n"
+"Locations:\n"
+"- Alexandria: library, harbor\n"
+"- Memphis: Necropolis, pyramids, Apis shrine\n"
+"- Thebes: temple district, Valley of the Kings \n"
+"- Cyrene: mediterranean Macchie, olive groves\n"
+"- Fayyum: crocodile shrine, nile dam\n"
+"- Eastern desert: mount Sinai, deep Wadi, Red Sea reefs\n"
+"- Western desert: Oasis Charga and Siwa, Qattara Depression\n"
+msgstr ""
+
+#: maps/skirmishes/Farmland (2).xml:Description:40
+msgid "Farmland in Eastern Europe."
+msgstr ""
+
+#: maps/skirmishes/Farmland (2).xml:Name:40
+msgid "Farmland (2)"
+msgstr ""
+
 #: maps/skirmishes/Forest Battle (4).xml:Description:40
 msgid ""
 "A forest battle map where all players fight for supremacy and control over "
@@ -2283,8 +2399,8 @@ msgstr "Abhainn Ghaimbia (3)"
 #: maps/skirmishes/Golden Island (2).xml:Description:40
 msgid ""
 "A ring of land borders a resource-rich island in the Mediterranean. Players "
-"can access the center via a narrow strip of land or via boat."
-msgstr "Cearcall tìre ann an eilean beartach Meadhan-thìreach. Gheibh na cluicheadairean cothrom air a’ mheadhan thar banna tìre chumhaing no air a’ bhàta."
+"can access the center via a narrow strip of shallow water or via boat."
+msgstr ""
 
 #: maps/skirmishes/Golden Island (2).xml:Name:40
 msgid "Golden Island (2)"
@@ -2304,10 +2420,10 @@ msgstr "Innis-fhàsaich òir (2)"
 #: maps/skirmishes/Greek Acropolis (2).xml:Description:39
 #: maps/skirmishes/Greek Acropolis Night (2).xml:Description:39
 msgid ""
-"Two factions find themselves perched safely atop large rocky plateaus, or acropolises.\n"
+"Two factions find themselves perched safely atop large rocky plateaus.\n"
 "\n"
 "Scout the lands to find free treasures and to secure new resources."
-msgstr "Fhuair dà bhuidheann àite shàbhailte air àrd-chlàran creagach mòra ris an canar acra-bhailtean cuideachd.\n\nrannsaich an tìr ach an lorg thu ulaidh saor ’s gum faigh thu stòras ùr."
+msgstr ""
 
 #: maps/skirmishes/Greek Acropolis (2).xml:Name:39
 msgid "Greek Acropolis (2)"
@@ -2315,10 +2431,10 @@ msgstr "Acra-bhaile Greugach (2)"
 
 #: maps/skirmishes/Greek Acropolis (4).xml:Description:39
 msgid ""
-"Three factions find themselves perched safely atop large rocky plateaus, or acropolises, whereas the fourth one is separated from their foes by a river branch.\n"
+"Three factions find themselves perched safely atop large rocky plateaus, whereas the fourth one is separated from their foes by a river branch.\n"
 "\n"
 "Scout the lands to find free treasures and to secure new resources.."
-msgstr "Fhuair trì buidhnean còmhnaidh shàbhailte air àrd-chlàran mòra creagach no acra-bhailtean fhad ’s a tha an ceathramh fear sgaraichte o na nàimhdean aige le meur-aibhne.\n\nRùraich an tìr ach an lorg thu ulaidhean agus gus greim fhaighinn air stòrasan ùra."
+msgstr ""
 
 #: maps/skirmishes/Greek Acropolis (4).xml:Name:39
 msgid "Greek Acropolis (4)"
@@ -2430,6 +2546,30 @@ msgstr "Glacte air an taobh tuath fhuar, tha 2 cluicheadair a’ strì airson ti
 msgid "Northern Island (2)"
 msgstr "Eilean tuathach (2)"
 
+#: maps/skirmishes/Obedska_Bog_(4).xml:Description:40
+#: maps/skirmishes/Obedska_Bog_Night_(4).xml:Description:40
+msgid ""
+"A lazy river meanders through these Serbian wetlands. Stone is scarce, but many lumps of bog iron sit waiting to be found.\n"
+"\n"
+"*This map makes heavy use of grass actors which may adversely affect performance."
+msgstr ""
+
+#: maps/skirmishes/Obedska_Bog_(4).xml:Name:40
+msgid "Obedska Bog (4)"
+msgstr ""
+
+#: maps/skirmishes/Obedska_Bog_Night_(4).xml:Name:40
+msgid "Obedska Bog Night (4)"
+msgstr ""
+
+#: maps/skirmishes/Oceanside (2).xml:Description:40
+msgid "A Lush temperate biome along an ocean. "
+msgstr ""
+
+#: maps/skirmishes/Oceanside (2).xml:Name:40
+msgid "Oceanside (2)"
+msgstr ""
+
 #: maps/skirmishes/Persian Highlands (4).xml:Description:39
 msgid ""
 "A dry central basin rich in minerals surrounded by rocky hills and "
@@ -2473,6 +2613,19 @@ msgstr "Deas air a’ Mhonadh Atlais taobh tuath Afraga.\n\nMapa caran fosgailte
 msgid "Sahel (4)"
 msgstr "Sàithil (4)"
 
+#: maps/skirmishes/Sahyadri_Buttes_(5).xml:Description:40
+msgid ""
+"The diverse rainforests nestled in the Sahyadri mountain range of the west coast of India. It goes without saying, wood is abundant.\n"
+"\n"
+"Iberian players do not get full circuit walls, but 5 strategically placed wall towers.\n"
+"\n"
+"WARNING: This map uses a lot of floral actors on account of being a rainforest. Expect a drop in framerate, this is taxing on most mid range computers."
+msgstr ""
+
+#: maps/skirmishes/Sahyadri_Buttes_(5).xml:Name:40
+msgid "Sahyadri Buttes (5)"
+msgstr ""
+
 #: maps/skirmishes/Savanna River.xml:Description:39
 msgid "A large savanna is bisected by a narrow jungle stream."
 msgstr "Tha sruth dlùth-choillteach a’ dol tro sabhanna mhòr."
@@ -2498,17 +2651,6 @@ msgstr "Tha an t-eilean meadhan-thìreach Sisilidh fosgailte dhan cheannsachadh.
 #: maps/skirmishes/Sicilia_Nomad.xml:Name:35
 msgid "Sicilia Nomad (2)"
 msgstr "Iniltear Shisilidh (2)"
-
-#: maps/skirmishes/Siwa Oasis (2).xml:Description:40
-msgid ""
-"A dual oasis map with nearly all of the wood and animal resources concentrated in the middle of the map. Farmlands ring the oases sucking up what little moisture can be had.\n"
-"\n"
-"Stone and Metal can only be found in the rocky hinterlands. Treasures, if enabled, can be found scattered in the nearby deserts."
-msgstr "Mapa le dà innis-fhàsaich agus a’ mhòrchuid dhe na craobhan is beathaichean dlùth sa mheadhan aige. Tha achaidhean timcheall air na h-innseachan-fàsaich a shluigeas na tha ann de dh’uisge.\n\nCha lorg thu clachan is meatailt ach air an dùthaich chreagach. Lorgaidh tu ulaidhean – ma tha iad an comas – sgapte air na fàsaichean am fagas."
-
-#: maps/skirmishes/Siwa Oasis (2).xml:Name:40
-msgid "Siwa Oasis (2)"
-msgstr "Innis-fhàsaich Siobha (2)"
 
 #: maps/skirmishes/Skirmish Demo.xml:Description:39
 msgid "A demo Skirmish map."
@@ -2544,12 +2686,20 @@ msgstr "Innis-fhàsaich le beanntan ’s fàsach timcheall oirre. Cuiridh achaid
 msgid "Team Oasis (2v2)"
 msgstr "Innish-fhasaich ann an sgioba (2 an aghaidh 2)"
 
+#: maps/skirmishes/Temperate Roadway (2).xml:Description:40
+msgid "Temperate zone map with plentiful resources. Map Size: Small"
+msgstr ""
+
+#: maps/skirmishes/Temperate Roadway (2).xml:Name:40
+msgid "Temperate Roadway (2)"
+msgstr ""
+
 #: maps/skirmishes/Thessalian Plains (4).xml:Description:39
 msgid ""
 "The rolling Thessalian plain is traversed with narrow streams, easily "
 "forded. Wide-open spaces allow for massive expansion, while each player "
-"starts the match safe atop a large acropolis."
-msgstr "Tha aibhnean caola a’ sruthadh tron mhachair Teasalach le àthannan furasta annta. Tha rum fosgailte ann airson leudachadh mòr fhad ’s a thòisicheas gach cluicheadair air acra-bhaile shàbhailte."
+"starts the match safe atop a large plateau."
+msgstr ""
 
 #: maps/skirmishes/Thessalian Plains (4).xml:Name:39
 msgid "Thessalian Plains (4)"
@@ -2557,10 +2707,10 @@ msgstr "Machair Teasalach (4)"
 
 #: maps/skirmishes/Tuscan Acropolis (4).xml:Description:40
 msgid ""
-"Four factions find themselves perched safely atop large rocky plateaus, or acropolises.\n"
+"Four factions find themselves perched safely atop large rocky plateaus.\n"
 "\n"
 "Scout the lands to find free treasures and to secure new resources."
-msgstr "Fhuair ceithir buidhnean àite shàbhailte air àrd-chlàran creagach mòra ris an canar acra-bhailtean cuideachd.\n\nrannsaich an tìr ach an lorg thu ulaidh saor ’s gum faigh thu stòras ùr."
+msgstr ""
 
 #: maps/skirmishes/Tuscan Acropolis (4).xml:Name:40
 msgid "Tuscan Acropolis (4)"
@@ -2575,6 +2725,26 @@ msgstr "Mapa tropaigeach mòr le dà mhuir taobh siar ’s ear. Math airson dà 
 #: maps/skirmishes/Two Seas (6).xml:Name:40
 msgid "Two Seas (6)"
 msgstr "Dà mhuir (6)"
+
+#: maps/skirmishes/Vesuvius_(6).xml:Description:40
+msgid ""
+"Skirmish as ash lightly falls around this recently erupted volcano. the "
+"scorched landscape offers little food, though the blasted forests are still "
+"laden with useful wood. "
+msgstr ""
+
+#: maps/skirmishes/Vesuvius_(6).xml:Name:40
+msgid "Vesuvius (6)"
+msgstr ""
+
+#: maps/skirmishes/Via Augusta (4).xml:Description:40
+msgid ""
+"All Roads Lead To Rome. Via Julia Augusta a Roman road built in 13 BCE."
+msgstr "Tha a h-uile rathad a’ dol dhan Ròimh. Chaidh an rathad Ròmanach Via Julia Augusta a thogail ann an 13 RC."
+
+#: maps/skirmishes/Via Augusta (4).xml:Name:40
+msgid "Via Augusta"
+msgstr "Via Augusta"
 
 #: maps/skirmishes/Watering Holes (4).xml:Description:39
 msgid ""
@@ -2599,3 +2769,196 @@ msgstr "Tha beanntan a’ sgaradh dùthaich nam Pearsach thar Persas, Susaidhean
 #: maps/skirmishes/Zagros Mountains (2).xml:Name:39
 msgid "Zagros Mountains (2)"
 msgstr "Monadh Sagros (2)"
+
+#: maps/random/rmbiome/fields_of_meroe/dry.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"The vitalizing waters of the Nile sustain life along its banks, while the "
+"long dry season scorches the land."
+msgstr ""
+
+#: maps/random/rmbiome/fields_of_meroe/dry.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Dry Season"
+msgstr "Ràith na tioramachd"
+
+#: maps/random/rmbiome/fields_of_meroe/rainy.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Revelling in the much awaited rain, the baked land transforms into a lush "
+"haven for both man and beast."
+msgstr ""
+
+#: maps/random/rmbiome/fields_of_meroe/rainy.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Rainy Season"
+msgstr "Ràith an uisge"
+
+#: maps/random/rmbiome/generic/alpine.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"A region in the high snowy mountains. Biting winds sweep through the "
+"abundant conifer forests, making even the more resilient deer and mountain "
+"goats shiver."
+msgstr ""
+
+#: maps/random/rmbiome/generic/alpine.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Alpine"
+msgstr "Alpach"
+
+#: maps/random/rmbiome/generic/autumn.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Autumn at its peak. The landscape is a dazzling dash of colors irrevocably "
+"intertwined. The native beech and oak trees of this temperate zone display a"
+" multi-colored foliage while the evergreen pines look on with indifference "
+"at the approaching winter."
+msgstr ""
+
+#: maps/random/rmbiome/generic/autumn.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Autumn"
+msgstr "Foghar"
+
+#: maps/random/rmbiome/generic/desert.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"A semi-desert area that boasts numerous clumps of date palms and tamarix "
+"trees. Herds of camels roam the wild and the occasional gazelle jumps up in "
+"fright at being disturbed."
+msgstr ""
+
+#: maps/random/rmbiome/generic/desert.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Desert"
+msgstr "Fàsach"
+
+#: maps/random/rmbiome/generic/mediterranean.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Start in a region blessed with the Mediterranean climate, a warm and "
+"inviting land. The cypresses are in a perpetual struggle with the dominant "
+"fan palms while deer graze in their shadows, blissfully unaware."
+msgstr ""
+
+#: maps/random/rmbiome/generic/mediterranean.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Mediterranean"
+msgstr "Am Muir Meadhanach"
+
+#: maps/random/rmbiome/generic/savanna.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"The savanna, a dry climate in which only the hardy Baobab trees thrive. "
+"Solitary gazelles graze the sparse grass, while herds of zebras, wildebeest,"
+" giraffes or elephants roam the wild in search of food."
+msgstr ""
+
+#: maps/random/rmbiome/generic/savanna.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Savanna"
+msgstr "Sabhanna"
+
+#: maps/random/rmbiome/generic/snowy.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Settle in the cold regions of the North, the native habitat of the wooly "
+"muskox. Here you can pine away to your content and also hunt the occasional "
+"walrus or two."
+msgstr ""
+
+#: maps/random/rmbiome/generic/snowy.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Snowy"
+msgstr "Sneachdach"
+
+#: maps/random/rmbiome/generic/temperate.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Lush grasslands carpet the land, in places giving way to magnificent and "
+"diverse broadleaf forests. Poplars, pines, beeches and oaks all vie for "
+"supremacy but this root-war is a neverending struggle. Numerous apple trees "
+"dot the land, deer and sheep gorge themselves on this years fallen fruit."
+msgstr ""
+
+#: maps/random/rmbiome/generic/temperate.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Temperate"
+msgstr "Measarra"
+
+#: maps/random/rmbiome/generic/tropic.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Explore the mysterious tropics. An extremely green, but also extremely humid"
+" environment awaits. The tall Toona trees look on disapprovingly at this "
+"invasion of their privacy and ferocious tigers are determined to defend "
+"their territory at all costs."
+msgstr ""
+
+#: maps/random/rmbiome/generic/tropic.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Tropic"
+msgstr "Tropaig"
+
+#: maps/random/rmbiome/gulf_of_bothnia/frozen_lake.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Solidifying it's grip, the harsh cold has succeeded in freezing up the gulf."
+" The thick ice formed is capable of withstanding any weight."
+msgstr ""
+
+#: maps/random/rmbiome/gulf_of_bothnia/frozen_lake.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Frozen Lake"
+msgstr "Loch reòite"
+
+#: maps/random/rmbiome/gulf_of_bothnia/late_spring.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"A late spring breeze ripples through the conifer forests of the Gulf of "
+"Bothnia. Herds of deer dot the landscape and playful rabbits frolick in the "
+"undergrowth."
+msgstr ""
+
+#: maps/random/rmbiome/gulf_of_bothnia/late_spring.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Late Spring"
+msgstr "Earrach blàth"
+
+#: maps/random/rmbiome/gulf_of_bothnia/winter.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Winter has set in, carpeting the land with its first snow. The still "
+"unfrozen gulf offers great fishing opportunities."
+msgstr ""
+
+#: maps/random/rmbiome/gulf_of_bothnia/winter.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Winter"
+msgstr "Geamhradh"
+
+#: maps/random/rmbiome/persian_highlands/spring.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Spring in the highlands, yet the heat has already begun making itself felt. "
+"The short-lived green grasses are on the retreat, paving the way for "
+"scorching summer."
+msgstr ""
+
+#: maps/random/rmbiome/persian_highlands/spring.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Spring"
+msgstr "Earrach"
+
+#: maps/random/rmbiome/persian_highlands/summer.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"An arid, hostile land. The blistering heat has baked the ground to a sickly "
+"brown and the remaining trees struggle for survival."
+msgstr ""
+
+#: maps/random/rmbiome/persian_highlands/summer.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Summer"
+msgstr "Samhradh"

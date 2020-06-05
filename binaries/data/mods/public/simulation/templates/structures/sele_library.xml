@@ -6,13 +6,13 @@
   </Footprint>
   <Identity>
     <Civ>sele</Civ>
-    <SpecificName>Bibliothikon</SpecificName>
+    <SpecificName>Bibliothēkē</SpecificName>
   </Identity>
   <Obstruction>
     <Static width="24.0" depth="24.0"/>
   </Obstruction>
   <VisualActor>
     <Actor>structures/seleucids/library.xml</Actor>
-    <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
+    <FoundationActor>structures/fndn_7x7.xml</FoundationActor>
   </VisualActor>
 </Entity>

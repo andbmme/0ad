@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2018 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -22,8 +22,8 @@
 
 namespace JSI_Main
 {
-	void ExitProgram(ScriptInterface::CxPrivate* pCxPrivate);
-	void RestartInAtlas(ScriptInterface::CxPrivate* pCxPrivate);
+	void QuitEngine(ScriptInterface::CxPrivate* pCxPrivate);
+	void StartAtlas(ScriptInterface::CxPrivate* pCxPrivate);
 	bool AtlasIsAvailable(ScriptInterface::CxPrivate* pCxPrivate);
 	bool IsAtlasRunning(ScriptInterface::CxPrivate* pCxPrivate);
 	void OpenURL(ScriptInterface::CxPrivate* pCxPrivate, const std::string& url);
@@ -33,8 +33,9 @@ namespace JSI_Main
 	bool HotkeyIsPressed_(ScriptInterface::CxPrivate* pCxPrivate, const std::string& hotkeyName);
 	int GetFps(ScriptInterface::CxPrivate* pCxPrivate);
 	int GetTextWidth(ScriptInterface::CxPrivate* pCxPrivate, const std::string& fontName, const std::wstring& text);
+	std::string CalculateMD5(ScriptInterface::CxPrivate* pCxPrivate, const std::string& input);
 
 	void RegisterScriptFunctions(const ScriptInterface& scriptInterface);
 }
 
-#endif
+#endif // INCLUDED_JSI_MAIN

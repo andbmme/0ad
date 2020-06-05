@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -35,8 +35,13 @@
 #include "graphics/Terrain.h"
 #include "maths/MathUtil.h"
 #include "ps/CLogger.h"
+#include "renderer/TerrainOverlay.h"
 #include "simulation2/components/ICmpObstructionManager.h"
-#include "simulation2/helpers/LongPathfinder.h"
+
+
+class HierarchicalPathfinder;
+class LongPathfinder;
+class VertexPathfinder;
 
 class SceneCollector;
 class AtlasOverlay;
@@ -47,82 +52,42 @@ class AtlasOverlay;
 #define PATHFIND_DEBUG 1
 #endif
 
-
-struct AsyncLongPathRequest
-{
-	u32 ticket;
-	entity_pos_t x0;
-	entity_pos_t z0;
-	PathGoal goal;
-	pass_class_t passClass;
-	entity_id_t notify;
-};
-
-struct AsyncShortPathRequest
-{
-	u32 ticket;
-	entity_pos_t x0;
-	entity_pos_t z0;
-	entity_pos_t clearance;
-	entity_pos_t range;
-	PathGoal goal;
-	pass_class_t passClass;
-	bool avoidMovingUnits;
-	entity_id_t group;
-	entity_id_t notify;
-};
-
-// A vertex around the corners of an obstruction
-// (paths will be sequences of these vertexes)
-struct Vertex
-{
-	enum
-	{
-		UNEXPLORED,
-		OPEN,
-		CLOSED,
-	};
-
-	CFixedVector2D p;
-	fixed g, h;
-	u16 pred;
-	u8 status;
-	u8 quadInward : 4; // the quadrant which is inside the shape (or NONE)
-	u8 quadOutward : 4; // the quadrants of the next point on the path which this vertex must be in, given 'pred'
-};
-
-// Obstruction edges (paths will not cross any of these).
-// Defines the two points of the edge.
-struct Edge
-{
-	CFixedVector2D p0, p1;
-};
-
-// Axis-aligned obstruction squares (paths will not cross any of these).
-// Defines the opposing corners of an axis-aligned square
-// (from which four individual edges can be trivially computed), requiring p0 <= p1
-struct Square
-{
-	CFixedVector2D p0, p1;
-};
-
-// Axis-aligned obstruction edges.
-// p0 defines one end; c1 is either the X or Y coordinate of the other end,
-// depending on the context in which this is used.
-struct EdgeAA
-{
-	CFixedVector2D p0;
-	fixed c1;
-};
-
 /**
  * Implementation of ICmpPathfinder
  */
-class CCmpPathfinder : public ICmpPathfinder
+class CCmpPathfinder final : public ICmpPathfinder
 {
+protected:
+
+	class PathfinderWorker
+	{
+		friend CCmpPathfinder;
+	public:
+		PathfinderWorker();
+
+		// Process path requests, checking if we should stop before each new one.
+		void Work(const CCmpPathfinder& pathfinder);
+
+	private:
+		// Insert requests in m_[Long/Short]Requests depending on from.
+		// This could be removed when we may use if-constexpr in CCmpPathfinder::PushRequestsToWorkers
+		template<typename T>
+		void PushRequests(std::vector<T>& from, ssize_t amount);
+
+		// Stores our results, the main thread will fetch this.
+		std::vector<PathResult> m_Results;
+
+		std::vector<LongPathRequest> m_LongRequests;
+		std::vector<ShortPathRequest> m_ShortRequests;
+	};
+
+	// Allow the workers to access our private variables
+	friend class PathfinderWorker;
+
 public:
 	static void ClassInit(CComponentManager& componentManager)
 	{
+		componentManager.SubscribeToMessageType(MT_Deserialized);
 		componentManager.SubscribeToMessageType(MT_Update);
 		componentManager.SubscribeToMessageType(MT_RenderSubmit); // for debug overlays
 		componentManager.SubscribeToMessageType(MT_TerrainChanged);
@@ -130,6 +95,8 @@ public:
 		componentManager.SubscribeToMessageType(MT_ObstructionMapShapeChanged);
 		componentManager.SubscribeToMessageType(MT_TurnStart);
 	}
+
+	~CCmpPathfinder();
 
 	DEFAULT_COMPONENT_ALLOCATOR(Pathfinder)
 
@@ -140,10 +107,10 @@ public:
 
 	// Dynamic state:
 
-	std::vector<AsyncLongPathRequest> m_AsyncLongPathRequests;
-	std::vector<AsyncShortPathRequest> m_AsyncShortPathRequests;
-	u32 m_NextAsyncTicket; // unique IDs for asynchronous path requests
-	u16 m_SameTurnMovesCount; // current number of same turn moves we have processed this turn
+	std::vector<LongPathRequest> m_LongPathRequests;
+	std::vector<ShortPathRequest> m_ShortPathRequests;
+	u32 m_NextAsyncTicket; // Unique IDs for asynchronous path requests.
+	u16 m_MaxSameTurnMoves; // Compute only this many paths when useMax is true in StartProcessingMoves.
 
 	// Lazily-constructed dynamic state (not serialized):
 
@@ -158,30 +125,13 @@ public:
 	GridUpdateInformation m_AIPathfinderDirtinessInformation;
 	bool m_TerrainDirty;
 
-	// Interface to the long-range pathfinder.
-	LongPathfinder m_LongPathfinder;
+	std::unique_ptr<VertexPathfinder> m_VertexPathfinder;
+	std::unique_ptr<HierarchicalPathfinder> m_PathfinderHier;
+	std::unique_ptr<LongPathfinder> m_LongPathfinder;
 
-	// For responsiveness we will process some moves in the same turn they were generated in
+	// Workers process pathing requests.
+	std::vector<PathfinderWorker> m_Workers;
 
-	u16 m_MaxSameTurnMoves; // max number of moves that can be created and processed in the same turn
-
-	// memory optimizations: those vectors are created once, reused for all calculations;
-	std::vector<Edge> edgesUnaligned;
-	std::vector<EdgeAA> edgesLeft;
-	std::vector<EdgeAA> edgesRight;
-	std::vector<EdgeAA> edgesBottom;
-	std::vector<EdgeAA> edgesTop;
-
-	// List of obstruction vertexes (plus start/end points); we'll try to find paths through
-	// the graph defined by these vertexes
-	std::vector<Vertex> vertexes;
-	// List of collision edges - paths must never cross these.
-	// (Edges are one-sided so intersections are fine in one direction, but not the other direction.)
-	std::vector<Edge> edges;
-	std::vector<Square> edgeSquares; // axis-aligned squares; equivalent to 4 edges
-
-	bool m_DebugOverlay;
-	std::vector<SOverlayLine> m_DebugOverlayShortPathLines;
 	AtlasOverlay* m_AtlasOverlay;
 
 	static std::string GetSchema()
@@ -245,37 +195,21 @@ public:
 
 	virtual Grid<u16> ComputeShoreGrid(bool expandOnWater = false);
 
-	virtual void ComputePath(entity_pos_t x0, entity_pos_t z0, const PathGoal& goal, pass_class_t passClass, WaypointPath& ret)
-	{
-		m_LongPathfinder.ComputePath(x0, z0, goal, passClass, ret);
-	}
+	virtual void ComputePathImmediate(entity_pos_t x0, entity_pos_t z0, const PathGoal& goal, pass_class_t passClass, WaypointPath& ret) const;
 
 	virtual u32 ComputePathAsync(entity_pos_t x0, entity_pos_t z0, const PathGoal& goal, pass_class_t passClass, entity_id_t notify);
 
-	virtual void ComputeShortPath(const IObstructionTestFilter& filter, entity_pos_t x0, entity_pos_t z0, entity_pos_t clearance, entity_pos_t range, const PathGoal& goal, pass_class_t passClass, WaypointPath& ret);
+	virtual WaypointPath ComputeShortPathImmediate(const ShortPathRequest& request) const;
 
 	virtual u32 ComputeShortPathAsync(entity_pos_t x0, entity_pos_t z0, entity_pos_t clearance, entity_pos_t range, const PathGoal& goal, pass_class_t passClass, bool avoidMovingUnits, entity_id_t controller, entity_id_t notify);
 
-	virtual void SetDebugPath(entity_pos_t x0, entity_pos_t z0, const PathGoal& goal, pass_class_t passClass)
-	{
-		m_LongPathfinder.SetDebugPath(x0, z0, goal, passClass);
-	}
+	virtual void SetDebugPath(entity_pos_t x0, entity_pos_t z0, const PathGoal& goal, pass_class_t passClass);
 
-	virtual void SetDebugOverlay(bool enabled)
-	{
-		m_DebugOverlay = enabled;
-		m_LongPathfinder.SetDebugOverlay(enabled);
-	}
+	virtual void SetDebugOverlay(bool enabled);
 
-	virtual void SetHierDebugOverlay(bool enabled)
-	{
-		m_LongPathfinder.SetHierDebugOverlay(enabled, &GetSimContext());
-	}
+	virtual void SetHierDebugOverlay(bool enabled);
 
-	virtual void GetDebugData(u32& steps, double& time, Grid<u8>& grid) const
-	{
-		m_LongPathfinder.GetDebugData(steps, time, grid);
-	}
+	virtual void GetDebugData(u32& steps, double& time, Grid<u8>& grid) const;
 
 	virtual void SetAtlasOverlay(bool enable, pass_class_t passClass = 0);
 
@@ -287,13 +221,15 @@ public:
 
 	virtual ICmpObstruction::EFoundationCheck CheckBuildingPlacement(const IObstructionTestFilter& filter, entity_pos_t x, entity_pos_t z, entity_pos_t a, entity_pos_t w, entity_pos_t h, entity_id_t id, pass_class_t passClass, bool onlyCenterPoint) const;
 
-	virtual void FinishAsyncRequests();
+	virtual void FetchAsyncResultsAndSendMessages();
 
-	void ProcessLongRequests(const std::vector<AsyncLongPathRequest>& longRequests);
+	virtual void StartProcessingMoves(bool useMax);
 
-	void ProcessShortRequests(const std::vector<AsyncShortPathRequest>& shortRequests);
+	template <typename T>
+	std::vector<T> GetMovesToProcess(std::vector<T>& requests, bool useMax = false, size_t maxMoves = 0);
 
-	virtual void ProcessSameTurnMoves();
+	template <typename T>
+	void PushRequestsToWorkers(std::vector<T>& from);
 
 	/**
 	 * Regenerates the grid based on the current obstruction list, if necessary
@@ -304,13 +240,13 @@ public:
 	 * Updates the terrain-only grid without updating the dirtiness informations.
 	 * Useful for fast passability updates in Atlas.
 	 */
-	void MinimalTerrainUpdate();
+	void MinimalTerrainUpdate(int itile0, int jtile0, int itile1, int jtile1);
 
 	/**
 	 * Regenerates the terrain-only grid.
 	 * Atlas doesn't need to have passability cells expanded.
 	 */
-	void TerrainUpdateHelper(bool expandPassability = true);
+	void TerrainUpdateHelper(bool expandPassability = true, int itile0 = -1, int jtile0 = -1, int itile1 = -1, int jtile1 = -1);
 
 	void RenderSubmit(SceneCollector& collector);
 };

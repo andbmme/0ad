@@ -6,15 +6,20 @@
   </Armour>
   <Attack>
     <Ranged>
-      <Hack>0</Hack>
-      <Pierce>16.0</Pierce>
-      <Crush>0</Crush>
+      <Damage>
+        <Hack>0</Hack>
+        <Pierce>16.0</Pierce>
+        <Crush>0</Crush>
+      </Damage>
       <MaxRange>24.0</MaxRange>
       <MinRange>0.0</MinRange>
-      <ProjectileSpeed>62.5</ProjectileSpeed>
       <PrepareTime>750</PrepareTime>
       <RepeatTime>1250</RepeatTime>
-      <Spread>3.0</Spread>
+      <Projectile>
+        <Speed>62.5</Speed>
+        <Gravity>39.81</Gravity>
+        <Spread>4.0</Spread>
+      </Projectile>
     </Ranged>
   </Attack>
   <Cost>
@@ -23,16 +28,19 @@
     </Resources>
   </Cost>
   <Identity>
-    <VisibleClasses datatype="tokens">Javelin</VisibleClasses>
+    <VisibleClasses datatype="tokens">Javelinist</VisibleClasses>
     <GenericName>Skirmisher</GenericName>
   </Identity>
   <Loot>
     <wood>5</wood>
   </Loot>
   <UnitMotion>
-    <WalkSpeed op="mul">1.5</WalkSpeed>
-    <Run>
-      <Speed op="mul">1.5</Speed>
-    </Run>
+    <WalkSpeed op="mul">1.4</WalkSpeed>
   </UnitMotion>
+  <Sound>
+    <SoundGroups>
+      <attack_ranged>attack/weapon/javelin_attack.xml</attack_ranged>
+      <attack_impact_ranged>attack/impact/javelin_impact.xml</attack_impact_ranged>
+    </SoundGroups>
+  </Sound>
 </Entity>

@@ -1,16 +1,17 @@
 # Translation template for 0 A.D. — Empires Ascendant.
-# Copyright © 2014 Wildfire Games
+# Copyright (C) 2020 Wildfire Games
 # This file is distributed under the same license as the 0 A.D. — Empires Ascendant project.
 # 
 # Translators:
-# abuyop <abuyop@gmail.com>, 2014-2017
+# abuyop <abuyop@gmail.com>, 2014-2019
 # Mohd Shahril Bin Zainol Abidin <mohd_shahril_96@yahoo.com>, 2014
+# Timothy “Glash” Wong <timty97@gmail.com>, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: 0 A.D.\n"
-"POT-Creation-Date: 2017-06-05 09:01+0200\n"
-"PO-Revision-Date: 2017-08-31 11:39+0000\n"
-"Last-Translator: abuyop <abuyop@gmail.com>\n"
+"POT-Creation-Date: 2020-01-17 08:08+0000\n"
+"PO-Revision-Date: 2020-01-17 15:06+0000\n"
+"Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
 "Language-Team: Malay (http://www.transifex.com/wildfire-games/0ad/language/ms/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -60,8 +61,8 @@ msgid ""
 msgstr "Bangsa Yunani paling berjaya Menyunanikan pelbagai bangsa asing. Ketika Era Yunani, Bahasa Yunani merupakan bahasa serantau pada Zaman Purba, ditutur secara meluas dari Sepanyol hinggalah ke India."
 
 #: simulation/data/civs/athen.jsonTeamBonuses[0].Description
-msgid "Ships construct 25% faster."
-msgstr "Kapal dibina 25% lebih pantas."
+msgid "Allied Warships −25% construction time."
+msgstr ""
 
 #: simulation/data/civs/athen.jsonTeamBonuses[0].Name
 msgid "Delian League"
@@ -162,7 +163,7 @@ msgid ""
 "Themistocles and extended 6 km from the city to the port of Piraeus. This "
 "secured the city's sea supply routes and prevented an enemy from starving "
 "out the city during a siege."
-msgstr "Tembok panjang Athens yang dibina dibawah Themistocles dan sepanjang 6 km dari bandar sehingga ke port Piraeus. Tembok ini melindungi laluan bekalan lautan bandar dan menghalang kebuluran yang disebabkan oleh kepungan pihak musuh."
+msgstr "Tembok panjang Athens yang dibina bawah Themistocles dan sepanjang 6 km dari bandar sehingga ke port Piraeus. Tembok ini melindungi laluan bekalan lautan bandar dan menghalang kebuluran yang disebabkan oleh kepungan pihak musuh."
 
 #: simulation/data/civs/athen.jsonFactions[0].Technologies[2].Description
 msgid ""
@@ -192,7 +193,7 @@ msgid ""
 "Aegean, thereby laying the foundations of future Athenian power. However, he"
 " was eventually ostracised by the Athenians and forced to flee to the "
 "protection of the Persians."
-msgstr ""
+msgstr "Jeneral yang telah memujuk puak Athen menyumbang pendapatan yang diperoleh dari lombong perak ketika perang laut yang melibatkan 200 buah Trireme. Merupakan penampilan utama ketika Perang Parsi, dia telah memerintah askar laut Athen kearah kemenangan ketika pertempuran penting Salamis pada 479 S.M. Kemudian, dia telah menganjurkan dasar anti-Parsi di Aegean, yang menjurus pembentukan kuasa Athen di masa hadapan. Walaubagaimanapun, dia telah dipulaukan oleh orangnya sendiri dan memaksanya belot untuk mendapat perlindungan puak Parsi."
 
 #: simulation/data/civs/athen.jsonFactions[0].Heroes[1].History
 msgid "Pericles was the foremost Athenian politician of the 5th Century B.C."
@@ -272,7 +273,7 @@ msgid ""
 "Athens was famed as a center for the arts, learning and philosophy. The "
 "Athenians were also powerful warriors, particularly at sea. At its peak, "
 "Athens dominated a large part of the Hellenic world for several decades."
-msgstr ""
+msgstr "Pada awal ketamadunan Barat dan tempat kelahiran demokrasi, Athen terkenal sebagai pusat seni, pembelajaran dan falsafah. Puak Athen juga merupakan satria yang kuat, terutamanya di laut. Pada puncak ketamadunan mereka, Athen telah menguasai sebahagian besar dunai Yunani selama beberapa abad."
 
 #: simulation/data/civs/brit.jsonName
 #: simulation/data/civs/brit.jsonFactions[0].Name
@@ -310,8 +311,8 @@ msgid "Celtic religion and druidry inspired their warlike mindset. "
 msgstr "Agama dan druid Celt memberi ilham kepada sikap suka berperang mereka."
 
 #: simulation/data/civs/brit.jsonTeamBonuses[0].Description
-msgid "-20% resources cost for allies healers."
-msgstr "-20% kos sumber untuk bomoh sekutu."
+msgid "Allied Healers −20% resource costs."
+msgstr ""
 
 #: simulation/data/civs/brit.jsonTeamBonuses[0].Name
 msgid "Druids"
@@ -416,7 +417,7 @@ msgid ""
 "once captured. Roman policy was typically to have such men killed in public "
 "displays to celebrate. Karatakos was brought before the Emperor and Senate "
 "at his request to explain himself. What he said is not known for certainty, "
-"but Tacitus applies to him a famous speech..."
+"but Tacitus applies to him a famous speech…"
 msgstr ""
 
 #: simulation/data/civs/brit.jsonFactions[0].Heroes[1].History
@@ -427,7 +428,7 @@ msgid ""
 "as Camulodunum), modern day Colchester. The Roman defeat in the battle of "
 "Teutoburg Forest (Germania) allowed Kunobelinos to conquer a neighboring "
 "tribe, the Trinovantes, who were Roman allies and couldn't receive Roman "
-"aide. Kunobelinos seems to have been indifferent to the Romans. He traded "
+"aid. Kunobelinos seems to have been indifferent to the Romans. He traded "
 "with them freely, but had few qualms subjugating known Roman allies, and "
 "even sent his youngest son Adminius as a fosterling to be educated in Roman "
 "Gaul. This accounted for Adminius's friendships among the Romans. Adminius "
@@ -515,7 +516,7 @@ msgid ""
 "longswordsmen and powerful melee soldiers, they staged fearsome revolts "
 "against Rome to protect their customs and interests. Also, they built "
 "thousands of unique structures such as hill forts, crannogs and brochs."
-msgstr ""
+msgstr "Briton merupakan puak Celt daripada Kepulauan British. Dengan menggunakan kereta kuda perang, pemain pedang panjang dan askar termpur yang kuat, mereka dapat memberontak terhadap puak Rom untuk melindungi budaya dan kehidupan mereka. Selain itu, mereka telah membina beribu-ribu struktur unik seperti kubu bukit, crannog dan broch."
 
 #: simulation/data/civs/cart.jsonName
 msgid "Carthaginians"
@@ -555,8 +556,8 @@ msgid ""
 msgstr "Tidak seperti Semenanjung Iberia, Afrika Utara dikenali sebagai negara kuda, berupaya menghasilkan sehinggga 100,000 kuda setiap tahun. Ia juga merupakan tempat asal Gajah Hutan Afrika Utara."
 
 #: simulation/data/civs/cart.jsonTeamBonuses[0].Description
-msgid "10% bonus of trade profit for allies' international routes."
-msgstr "10% keuntungan dagangan bagi laluan antarabangsa sekutu."
+msgid "Allied Markets +10% international trade bonus."
+msgstr ""
 
 #: simulation/data/civs/cart.jsonTeamBonuses[0].Name
 msgid "Trademasters"
@@ -690,7 +691,7 @@ msgid ""
 "significant contributions to the winning of many other battles during the "
 "2nd Punic War. He is known for having said, after the battle of Cannae, "
 "'Hannibal, you know how to win the victory; just not what to do with it.'"
-msgstr ""
+msgstr "Maharbal meruapakan 'komander berkuda muda brash' Barca Hannibal ketika Perang Punic ke-2. Dialah punca pengunduran sayap askare legion di Cannae yang menyebabkan kekalahan dan mengorbankan sejumlah 30,000 daripada 50,000 askar Rom, juga penyumbang utama kemenangan banyak lagi pertempuran ketika Perang Punic ke-2. Dia pernah berkata, selepas pertempuran Cannae, 'Hannibal, awak hanya tahu hendak menang, tetapi tidak tahu bagaimana nak menang.'"
 
 #: simulation/data/civs/cart.jsonStructures[0].Name
 msgid "Naval Shipyard"
@@ -762,8 +763,8 @@ msgid "Gauls"
 msgstr "Gaul"
 
 #: simulation/data/civs/gaul.jsonTeamBonuses[0].Description
-msgid "-10% research time for technologies of allies."
-msgstr "-10% tempoh kajian untuk tekonologi pihak sekutu."
+msgid "Allied Structures −20% technology research time."
+msgstr ""
 
 #: simulation/data/civs/gaul.jsonTeamBonuses[0].Name
 msgid "Druidic Wisdom"
@@ -773,7 +774,7 @@ msgstr "Kearifan Druid"
 msgid ""
 "The Druids of the Gauls maintained an organized religion that advanced the "
 "technology of their people even during wartime."
-msgstr ""
+msgstr "Druid daripada puak Gaul mengekalkan agama yang teratur yang memajukan teknologi orang mereka ketika era perang."
 
 #: simulation/data/civs/gaul.jsonAINames[0]
 #: simulation/data/civs/gaul.jsonFactions[0].Heroes[0].Name
@@ -903,7 +904,7 @@ msgid ""
 "was. Because we only know of him from Roman sources we don't know much about"
 " Vercingetorix as a child or young man, except that perhaps he was probably "
 "very high spirited and probably gained some renown in deeds."
-msgstr ""
+msgstr "Vercingetorix (Bahasa Gaul: Ver-Rix Cingetos) merupakan ketua puak Arverni di Gaul (kini Perancis). Pada tahun 52 S.M. beliau talah mengetuai pemberontakan terhadap penakluk Romans di bawah pemerintahan Julius Caesar, tindakannya ketika pemberontakan masih dikenang sehingga hari ini. Vercingetorix berkemungkinan lahir berdekatan ibu kota puaknya (Gergovia). Dari sedikit maklumat yang diketahui, Vercingetorix berkemungkinan lahir pada 72 S.M., ayahnya bernama Celtius manakala nama ibunya tidak diketahui. Oleh kerana maklumat berkenaannya diperoleh dari sumber Rom, tiada maklumat berkenaan kehidupannya ketika kanak-kanak atau remaja, melainkan beliau seorang yang bersemangat waja dan terkenal."
 
 #: simulation/data/civs/gaul.jsonFactions[0].Description
 msgid "The Celts of mainland Europe."
@@ -924,7 +925,7 @@ msgid ""
 "metalworking, agriculture, trade and even road engineering. With heavy "
 "infantry and cavalry, Gallic warriors valiantly resisted Caesar's campaign "
 "of conquest and Rome's authoritarian rule."
-msgstr ""
+msgstr "Gaul merupakan puak Celt dari wilayah Eropah. Dipengaruhi oleh kelas pendeta Druid, mereka telah menerapkan budaya termahu kerja-kerja logam, pertanian, perdagangan dan juga kejuruteraan jalan. Dengan kemajuan askar infantri dan berkuda berat, satria  Gaul dapat bertahan dengan baik terhadap kempen-kempen penaklukan Caesar dan juga pemerintahan kuku besi Rom."
 
 #: simulation/data/civs/iber.jsonName
 msgid "Iberians"
@@ -932,7 +933,7 @@ msgstr "Iberia"
 
 #: simulation/data/civs/iber.jsonCivBonuses[0].Description
 msgid "Iberians start with a powerful prefabricated circuit of stone walls."
-msgstr ""
+msgstr "Puak Iberia bermula dengan lingkaran dinding batu pasang siap yang kuat dan kukuh."
 
 #: simulation/data/civs/iber.jsonCivBonuses[0].Name
 msgid "Harritsu Leku"
@@ -943,7 +944,7 @@ msgid ""
 "With exception to alluvial plains and river valleys, stone is abundant in "
 "the Iberian Peninsula and was greatly used in construction of structures of "
 "all types."
-msgstr ""
+msgstr "Selain dari lembah alluvial dan lembah sungai, sumber batu banyak terdapat di semenanjung Iberia dan telah digunakan sebaiknya dalam pembinaan apa jua struktur bangunan."
 
 #: simulation/data/civs/iber.jsonCivBonuses[1].Description
 msgid ""
@@ -962,10 +963,8 @@ msgid ""
 msgstr "Tidak seperti orang Numidia di Utara Afrika, Semenanjung Iberia juga dikenali sebagai 'negara kuda' kerana berkeupayaan menghasilkan sehingga 100,000 tunggangan setiap tahun."
 
 #: simulation/data/civs/iber.jsonTeamBonuses[0].Description
-msgid ""
-"Citizen-soldier infantry skirmishers and cavalry skirmishers -20% cost for "
-"allies."
-msgstr "Askar-Rakyat Infantri Peninjau dan peninjau berkuda -20% kos untuk sekutu."
+msgid "Allied Citizen Javelinists −10% resource costs."
+msgstr ""
 
 #: simulation/data/civs/iber.jsonTeamBonuses[0].Name
 msgid "Saripeko"
@@ -973,10 +972,10 @@ msgstr "Saripeko"
 
 #: simulation/data/civs/iber.jsonTeamBonuses[0].History
 msgid ""
-"The Iberians were long known to provide mercenary soldiers to other nations "
-"to serve as auxiliaries to their armies in foreign wars. Carthage is the "
-"most well known example, and we have evidence of them serving in such a "
-"capacity in Aquitania."
+"The Iberians were long known to provide mercenaries to other nations to "
+"serve as auxiliaries to their armies in foreign wars. Carthage is the most "
+"well known example, and we have evidence of them serving in such a capacity "
+"in Aquitania."
 msgstr ""
 
 #: simulation/data/civs/iber.jsonAINames[0]
@@ -1015,7 +1014,7 @@ msgstr "Tautalus"
 msgid ""
 "Causes targets struck to become inflamed and lose hitpoints at a constant "
 "rate until and if either healed or repaired, as appropriate."
-msgstr ""
+msgstr "Menyebabkan sasaran terbakar dan hilang mata pukulan pada kadar malar sehinggalah sama ada disembuhkan atau dibaiki."
 
 #: simulation/data/civs/iber.jsonFactions[0].Technologies[0].Name
 msgid "Suzko Txabalina"
@@ -1104,14 +1103,14 @@ msgid ""
 "Defensive Aura - Gives all Iberian units and buildings within vision range "
 "of the monument a 10-15% attack boost. Build Limit: Only 5 may be built per "
 "map."
-msgstr ""
+msgstr "Aura Pertahanan - Semua unit Iberia dan bangunan dalan jangkauan pandangan monumen mendapat sebanyak 10-15% lebihan serangan. Had Binaan: Hanya 5 item boleh dibina per peta."
 
 #: simulation/data/civs/iber.jsonStructures[0].History
 msgid ""
 "'Revered Monument' The Iberians were a religious people who built small "
 "monuments to their various gods. These monuments could also serve as family "
 "tombs."
-msgstr ""
+msgstr "'Monumen Dihormati' Puak Iberia merupakan bangsa yang kuat beragama telah membina monumen kecil kepada pelbagai jenis dewa mereka. Monumen ini juga berfungsi sebagai kuburan keluarga mereka."
 
 #: simulation/data/civs/iber.jsonHistory
 msgid ""
@@ -1121,6 +1120,209 @@ msgid ""
 "proved tenacious when Rome sought to take their land and freedom from them, "
 "and employed pioneering guerrilla tactics and flaming javelins as they "
 "fought back."
+msgstr "Puak Iberia merupakan bangsa dengan asal dan bahasa misteri, dengan tradisi kemahiran menunggang kuda dan kerja logam yang hebat. Berbudaya aman, mereka biasanya berperang sebagai askar upahan. Walaubagaimanapun, mereka sukar dikalahkan ketika puak Rom cuba menakluk tanah dan kebebasan mereka, dan hebat dalam taktik gerila dan lembing berapi ketika berperang."
+
+#: simulation/data/civs/kush.jsonName
+msgid "Kushites"
+msgstr "Kush"
+
+#: simulation/data/civs/kush.jsonCivBonuses[0].Name
+msgid "The Pyramids of Meroe"
+msgstr "Piramid Meroe"
+
+#: simulation/data/civs/kush.jsonCivBonuses[0].Description
+msgid ""
+"Building a Kushite pyramid increases Civic Center territory influence by "
+"+10% for each one built."
+msgstr "Dengan membina piramid Kush dapat tingkatkan pengaruh wilayah Pusat Sivik sebanyak +10% setiap satu piramid yang dibina."
+
+#: simulation/data/civs/kush.jsonCivBonuses[1].Name
+msgid "Mineral Deposits"
+msgstr "Timbunan Mineral"
+
+#: simulation/data/civs/kush.jsonCivBonuses[1].Description
+msgid ""
+"Kushite players receive a free extra Metal Mine somewhere in their home "
+"territory."
+msgstr "Pemain Kush mendapat sebuah Lombong Logam tambahan secara percuma dalam lingkungan wilayah mereka."
+
+#: simulation/data/civs/kush.jsonCivBonuses[2].Name
+#: simulation/data/civs/maur.jsonFactions[0].Technologies[0].Name
+msgid "Elephant Roundup"
+msgstr "Pengumpulan Gajah"
+
+#: simulation/data/civs/kush.jsonCivBonuses[2].Description
+msgid ""
+"Can capture Gaia elephants and garrison them into a corral to reduce "
+"training costs for War Elephants."
+msgstr "Dapat menangkap gajah Gaia dan garison ia ke dalam kandang gajah yang dapat mengurangkan kos latihan Gajah Perang."
+
+#: simulation/data/civs/kush.jsonTeamBonuses[0].Name
+msgid "Elephant Suppliers"
+msgstr "Pembekal Gajah"
+
+#: simulation/data/civs/kush.jsonTeamBonuses[0].Description
+msgid "Allied Elephants −20% resource costs and training time."
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[0]
+msgid "Kashta"
+msgstr "Kashta"
+
+#: simulation/data/civs/kush.jsonAINames[1]
+msgid "Alara"
+msgstr "Alara"
+
+#: simulation/data/civs/kush.jsonAINames[2]
+msgid "Pebatjma"
+msgstr "Pebatjma"
+
+#: simulation/data/civs/kush.jsonAINames[3]
+msgid "Shabaka"
+msgstr "Shabaka"
+
+#: simulation/data/civs/kush.jsonAINames[4]
+msgid "Shebitku"
+msgstr "Shebitku"
+
+#: simulation/data/civs/kush.jsonAINames[5]
+msgid "Qalhata"
+msgstr "Qalhata"
+
+#: simulation/data/civs/kush.jsonAINames[6]
+msgid "Takahatenamun"
+msgstr "Takahatenamun"
+
+#: simulation/data/civs/kush.jsonAINames[7]
+msgid "Tantamani"
+msgstr "Tantamani"
+
+#: simulation/data/civs/kush.jsonAINames[8]
+msgid "Atlanersa"
+msgstr "Atlanersa"
+
+#: simulation/data/civs/kush.jsonAINames[9]
+msgid "Nasalsa"
+msgstr "Nasalsa"
+
+#: simulation/data/civs/kush.jsonAINames[10]
+msgid "Malewiebamani"
+msgstr "Malewiebamani"
+
+#: simulation/data/civs/kush.jsonAINames[11]
+msgid "Harsiotef"
+msgstr "Harsiotef"
+
+#: simulation/data/civs/kush.jsonAINames[12]
+msgid "Shanakdakhete"
+msgstr "Shanakdakhete"
+
+#: simulation/data/civs/kush.jsonAINames[13]
+msgid "Amanishakheto"
+msgstr "Amanishakheto"
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[0].Name
+msgid "Monumental Architecture"
+msgstr "Senibina Monumental"
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[0].Description
+msgid ""
+"+50% HP and -50% build time for Civic Centers, Temples, Pyramids and "
+"Wonders."
+msgstr ""
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[1].Description
+msgid "Allow to train elite rank healers"
+msgstr "Dapat melatih bomoh berpangkat elit"
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[1].Name
+msgid "High Priest of Amun"
+msgstr "Ketua Pendeta Amun"
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[1].History
+msgid ""
+"Have your priests instructed by the High Priest himself - may Amun bless "
+"him."
+msgstr "Biarkan pendeta anda diurus oleh Ketua Pendeta sendiri - semoga Amun merahmatinya."
+
+#: simulation/data/civs/kush.jsonFactions[0].Heroes[0].Name
+msgid "Nastasen"
+msgstr "Nastasen"
+
+#: simulation/data/civs/kush.jsonFactions[0].Heroes[1].Name
+msgid "Arakamani"
+msgstr "Arakamani"
+
+#: simulation/data/civs/kush.jsonFactions[0].Heroes[2].Name
+msgid "Amanirenas"
+msgstr "Amanirenas"
+
+#: simulation/data/civs/kush.jsonFactions[0].Name
+msgid "Kushite Africans"
+msgstr "Kush Afrika"
+
+#: simulation/data/civs/kush.jsonFactions[0].Description
+msgid ""
+"The great African kingdom that straddled the Nile River in Nubia, in the "
+"South of Egypt."
+msgstr "Kerajaan Arfika agung yang terletak di Sungai Nil Nubia, iaitu berada di bahagian selatan Mesir."
+
+#: simulation/data/civs/kush.jsonStructures[0].Name
+msgid "Temple of Amun"
+msgstr "Kuil Amun"
+
+#: simulation/data/civs/kush.jsonStructures[0].Special
+msgid ""
+"The Kushites can upgrade individual Temples to Temples of Amun, which can "
+"train Napatan Temple Guard champions and heal units faster."
+msgstr "Puak Kush dapat menatar Kuil peribadi menjadi Kuil Amun, yang mana boleh melatih Pahlawan Setia Kuil Napatan serta berupaya menyembuh unit dengan lebih pantas."
+
+#: simulation/data/civs/kush.jsonStructures[0].History
+#: simulation/data/civs/kush.jsonStructures[1].History
+msgid "History."
+msgstr "Sejarah."
+
+#: simulation/data/civs/kush.jsonStructures[1].Name
+msgid "Temple of Apedemak"
+msgstr "Kuil Apedemak"
+
+#: simulation/data/civs/kush.jsonStructures[1].Special
+msgid ""
+"The Kushites can upgrade individual Temples to Temples of Apedemak, which "
+"can train Meroe Temple Guard champions and heal units faster."
+msgstr "Puak Kush dapat menatar Kuil peribadi menjadi Kuil Apedemak, yang mana boleh melatih Pahlawan Setia Kuil Mereo serta berupaya menyembuh unit dengan lebih pantas."
+
+#: simulation/data/civs/kush.jsonStructures[2].Name
+msgid "Kushite Pyramids"
+msgstr "Piramid Kush"
+
+#: simulation/data/civs/kush.jsonStructures[2].Special
+msgid ""
+"Building a Small Kushite Pyramid unlocks the Town Phase. Building a Large "
+"Kushite Pyramid unlocks the City Phase. And each pyramid built adds +10% "
+"territory effect to Civic Centers."
+msgstr "Dengan membina Piramid Kush Kecil dapat membuka Fasa Pekan. Jika membina Piramid Kush Besar dapat membuka Fasa Bandar, Dan setiap piramid menyumbang +10% kesan wilayah pada Pusat Sivik."
+
+#: simulation/data/civs/kush.jsonStructures[2].History
+msgid "The Kushites built over 200 pyramids in Nubia."
+msgstr "Puak Kush telah membina sejumlah 200 buah piramid di Nubia."
+
+#: simulation/data/civs/kush.jsonHistory
+msgid ""
+"The Kingdom of Kush was an ancient African kingdom situated on the "
+"confluences of the Blue Nile, White Nile and River Atbara in what is now the"
+" Republic of Sudan. The Kushite era of rule in the region was established "
+"after the Bronze Age collapse of the New Kingdom of Egypt, and it was "
+"centered at Napata in its early phase. They invaded Egypt in the 8th century"
+" BC, and the Kushite emperors ruled as Pharaohs of the Twenty-fifth dynasty "
+"of Egypt for a century, until they were expelled by the Assyrians. Kushite "
+"culture was influenced heavily by the Egyptians, with Kushite pyramid "
+"building and monumental temple architecture still extent. The Kushites even "
+"worshipped many Egyptian gods, including Amun. During Classical antiquity, "
+"the Kushite imperial capital was at Meroe. In early Greek geography, the "
+"Meroitic kingdom was known as Aethiopia. The Kushite kingdom persisted until"
+" the 4th century AD, when it weakened and disintegrated due to internal "
+"rebellion, eventually succumbing to the rising power of Axum."
 msgstr ""
 
 #: simulation/data/civs/mace.jsonName
@@ -1146,7 +1348,7 @@ msgid ""
 "Persia for past wrongs. Although assassinated before he could carry out the "
 "invasion, his son Alexander the Great took up the mantle and completed his "
 "fathers plans."
-msgstr ""
+msgstr "Selepas penyatuan Yunani, Phillip II berjaya menggabungkan semua negara-bandar untuk membentuk Liga Hellenik, dengan Macedon sebagai pemerintah. Dengan persekutuan pan-Hellenik dia telah melancarkan satu ekspedisi untuk menghukum puak Parsi atas salah laku mereka sebelum ini. Walaupun telah terbunuh setelah ekspedisi ini dilancarkan, anaknya Iskandar Agung telah meneruskan impian ini dan menjayakan ekspedisi ini."
 
 #: simulation/data/civs/mace.jsonCivBonuses[1].Description
 msgid "Infantry pike units can use the slow and powerful Syntagma formation."
@@ -1170,8 +1372,8 @@ msgid ""
 msgstr "Bangsa Yunani paling berjaya Menyunanikan pelbagai bangsa asing. Ketika Era Yunani, Bahasa Yunani merupakan bahasa serantau pada Zaman Purba, ditutur secara meluas dari Sepanyol hinggalah ke India."
 
 #: simulation/data/civs/mace.jsonTeamBonuses[0].Description
-msgid "+20% sell prices at market."
-msgstr "+20% harga jualan di pasar."
+msgid "Allies +20% barter sell prices."
+msgstr ""
 
 #: simulation/data/civs/mace.jsonTeamBonuses[0].Name
 msgid "Standardized Currency"
@@ -1245,7 +1447,7 @@ msgid ""
 "military units. This also applies to the Barracks of allied players (they "
 "receive 5 free units of their own culture for each new Barracks "
 "constructed)."
-msgstr ""
+msgstr "Setiap Berek berikutnya yang dibina akan mendapat 5 unit tentera Macedonia secara percuma (rawak). Ia juga berlaku pada Berek pemain sekutu (mereka juga akan menerima 5 unit percuma daripada bangsa mereka bagi setiap Berek yang dibangunkan)."
 
 #: simulation/data/civs/mace.jsonFactions[0].Technologies[0].Name
 #: simulation/data/civs/sele.jsonCivBonuses[1].Name
@@ -1258,7 +1460,7 @@ msgid ""
 " of the Macedonian army. His reforms created a powerful cavalry arm to his "
 "army that would prove useful to both himself and his son Alexander's "
 "conquests."
-msgstr ""
+msgstr "Ketika Phillip II mengambil alih takhta Macedonia, dia telah menyusun semula ketenteraan Macedonia. Dia telah membentuk aksar berkuda yang hebat dan diserap masuk ke dalam tenteranya, telah terbukti berguna untuk dirinya dan juga anaknya Iskandar semasa tempoh penaklukan."
 
 #: simulation/data/civs/mace.jsonFactions[0].Technologies[1].Description
 msgid ""
@@ -1321,7 +1523,7 @@ msgid ""
 "India, he defeated king Porus at Hydaspes (326 B.C.), but his weary troops "
 "made him halt. Died in Babylon at the age of 33 while planning a campaign "
 "against Arabia."
-msgstr ""
+msgstr "Adiwira yang paling berkuasa dalam kalangan mereka - anak Philip II, raja Macedonia (336-323 S.M.). Selepas berjaya menawan saki-baki Thrace dan menamatkan pergolakan Yunani, Iskandar membuka laluan baharu ke arah penguasaan dunia. Setelah mengalahkan puak Parsi di Granicus (334 S.M.), Issus (333 S.M.) dan Gaugamela331 S.M.), beliau telah menjadi penguasa bagi Empayar Parsi. Setelah itu percubaan menawan India, beliau berjaya mengalahkan raja Porus di Hydaspes (326 S.M.), tetapi tenteranya yang telah kepenatan menyebabkan niat untuk melanjutkan penguasaaan dunia telah terbantut. Beliau meninggal dunia di Babylon pada usia 33 ketika cuba merancang untuk serangan ke atas puak Arab."
 
 #: simulation/data/civs/mace.jsonFactions[0].Heroes[2].History
 msgid ""
@@ -1369,18 +1571,6 @@ msgid ""
 "Hellenistic culture."
 msgstr "Iskandar Agung telah menubuhkan perpustakaan di seluruh empayar baru beliau. Ia menjadi pusat pembelajaran untuk budaya sintesis yang baharu iaitu budaya Yunani."
 
-#: simulation/data/civs/mace.jsonStructures[2].Name
-msgid "Siege Workshop"
-msgstr "Bengkel Peralatan Pengepung"
-
-#: simulation/data/civs/mace.jsonStructures[2].Special
-msgid "Constructs and upgrades all Macedonian siege engines."
-msgstr "Bina dan tatar semua enjin pengepung Macedonia."
-
-#: simulation/data/civs/mace.jsonStructures[2].History
-msgid "The Macedonians were innovators in area of siegecraft."
-msgstr "Orang Macedonia merupakan pereka baharu dalam bidang seni pengepungan."
-
 #: simulation/data/civs/mace.jsonHistory
 msgid ""
 "Macedonia was an ancient Greek kingdom, centered in the northeastern part of"
@@ -1391,14 +1581,14 @@ msgid ""
 msgstr "Macedonia merupakan kerajaan Yunani purba, berada ditengah-tengah bahagian timur-laut semenanjung Yunani. Dibawah pimpinan Iskandar Agung, kuasa ketenteraan puak Macedonia dan sekutu beliau dapat menguasai hampir keseluruhan dunia mereka, termasuklah Mesir, Parsi dan sebahagian subbenua India, membolehkan penyaduran budaya Yunani dan timur tahun-tahun yang berikutnya."
 
 #: simulation/data/civs/maur.jsonName
-msgid "Mauryans"
-msgstr "Maurya"
+msgid "Mauryas"
+msgstr "Bangsa Maurya"
 
 #: simulation/data/civs/maur.jsonCivBonuses[0].Description
 msgid ""
-"Mauryans have a +10% population cap bonus (i.e., 330 pop cap instead of the "
+"Mauryas have a +10% population cap bonus (e.g., 330 pop cap instead of the "
 "usual 300)."
-msgstr "Bangsa Maurya mempunyai +10% bonus cap populasi (iaitu sebanyak 330 pop cap berbanding biasanya 300)."
+msgstr "Bangsa Maurya mempunyai +10% bonus cap populasi (iaitu sebanyak 330 cap populasi berbanding kebiasaannya 300)."
 
 #: simulation/data/civs/maur.jsonCivBonuses[0].Name
 msgid "Emperor of Emperors."
@@ -1408,14 +1598,14 @@ msgstr "Maharaja bagi Maharaja."
 msgid ""
 "The Mauryan Empire encompassed dozens of formerly independent kingdoms over "
 "an area of 5 million square kilometers, with a population of close to 60 "
-"million people. The Mauryan regents held the title Emperor of Emperors and "
+"million people. The Mauryan rulers held the title Emperor of Emperors and "
 "commanded a standing army of 600,000 infantry, 9000 elephants, 8000 "
 "chariots, and 30,000 cavalry, making it arguably the largest army of its "
 "time."
 msgstr "Empayar Maurya terdiri daripada berdozen-dozen kerajaan kecil yang meliputi kawasan sejumlah 5 juta kilometer persegi, dengan populasi hampir 60 juta orang. Pemangku raja Maurya memegang jawatan Maharaja bagi Maharaja dan mengetuai sejumlah 600,000 orang askar infantri, 9000 ekor gajah perang, 8000 kereta kuda perang dan 30,000 askar berkuda, menjadikannya ketumbukan tentera terbesar pada zaman tersebut."
 
 #: simulation/data/civs/maur.jsonCivBonuses[1].Description
-msgid "The Mauryans enjoy access to 4 champions."
+msgid "The Mauryas enjoy access to 4 champions."
 msgstr "Puak Maurya memiliki 4 orang pahawan."
 
 #: simulation/data/civs/maur.jsonCivBonuses[1].Name
@@ -1428,11 +1618,13 @@ msgid ""
 "orders) in Hinduism. Traditionally Kshatriya constitute the military and "
 "ruling elite of the Vedic-Hindu social system outlined by the Vedas and the "
 "Laws of Manu."
-msgstr ""
+msgstr "Kshatriya atau Kashtriya, bermaksud satria, salah satu daripada empat varna (kedudukan sosial) dalam Hinduisma. Kshatriya secara tradisinya membentuk tentera dan elit pemerintah dalam sistem sosial Hindu-Veda yang termaktub dalam Veda-Veda dan Undang-Undang Manu."
 
 #: simulation/data/civs/maur.jsonTeamBonuses[0].Description
-msgid "Allied temples and temple technologies -50% cost and research time."
-msgstr "Kuil pihak bersekutu dan teknologi kuil -50% kos dan masa kajian."
+msgid ""
+"Allied Temples −50% resource costs and building time; Temple technologies "
+"−50% resource costs and research time."
+msgstr ""
 
 #: simulation/data/civs/maur.jsonTeamBonuses[0].Name
 msgid "Ashoka's Religious Support"
@@ -1449,43 +1641,35 @@ msgid "Chandragupta Maurya"
 msgstr "Chandragupta Maurya"
 
 #: simulation/data/civs/maur.jsonAINames[1]
+msgid "Bindusara Maurya"
+msgstr "Bindusara Maurya"
+
+#: simulation/data/civs/maur.jsonAINames[2]
 #: simulation/data/civs/maur.jsonFactions[0].Heroes[1].Name
 msgid "Ashoka the Great"
 msgstr "Ashoka Agung"
 
-#: simulation/data/civs/maur.jsonAINames[2]
-msgid "Ashokavardhan Maurya"
-msgstr "Ashokavardhan Maurya"
-
 #: simulation/data/civs/maur.jsonAINames[3]
-msgid "Acharya Bhadrabahu"
-msgstr "Acharya Bhadrabahu"
+msgid "Dasharatha Maurya"
+msgstr ""
 
 #: simulation/data/civs/maur.jsonAINames[4]
-msgid "Bindusara Maurya"
-msgstr "Bindusara Maurya"
-
-#: simulation/data/civs/maur.jsonAINames[5]
-msgid "Dasaratha Maurya"
-msgstr "Dasaratha Maurya"
-
-#: simulation/data/civs/maur.jsonAINames[6]
 msgid "Samprati Maurya"
 msgstr "Samprati Maurya"
 
-#: simulation/data/civs/maur.jsonAINames[7]
-msgid "Salisuka Maurya"
-msgstr "Salisuka Maurya"
+#: simulation/data/civs/maur.jsonAINames[5]
+msgid "Shalishuka Maurya"
+msgstr ""
 
-#: simulation/data/civs/maur.jsonAINames[8]
+#: simulation/data/civs/maur.jsonAINames[6]
 msgid "Devavarman Maurya"
 msgstr "Devavarman Maurya"
 
-#: simulation/data/civs/maur.jsonAINames[9]
-msgid "Satadhanvan Maurya"
-msgstr "Satadhanvan Maurya"
+#: simulation/data/civs/maur.jsonAINames[7]
+msgid "Shatadhanvan Maurya"
+msgstr ""
 
-#: simulation/data/civs/maur.jsonAINames[10]
+#: simulation/data/civs/maur.jsonAINames[8]
 msgid "Brihadratha Maurya"
 msgstr "Brihadratha Maurya"
 
@@ -1494,10 +1678,6 @@ msgid ""
 "Capture up to 5 Gaia elephants and garrison them in the Elephant Stables to "
 "gain up to a 25% bonus in cost and train time of elephant units."
 msgstr "Tangkap sehingga 5 ekor gajah Gaia dan garison mereka di dalam Kandang Gajah untuk mendapat sehingga 25% bonus dalam kos dan masa latihan unit gajah."
-
-#: simulation/data/civs/maur.jsonFactions[0].Technologies[0].Name
-msgid "Elephant Roundup"
-msgstr "Pengumpulan Gajah"
 
 #: simulation/data/civs/maur.jsonFactions[0].Technologies[1].Description
 msgid "Greater range and faster train time for Mauryan infantry archers."
@@ -1564,7 +1744,7 @@ msgid ""
 "Acharya Chanakya, contributed to such varied fields such as economics, "
 "religion, diplomacy, warfare, and good governance. Under the rule of Ashoka "
 "the Great, the empire saw 40 years of peace, harmony, and prosperity."
-msgstr ""
+msgstr "Diasaskan pada tahun 322 S.M. oleh Chandragupta Maurya, Empayar Maurya merupakan yang pertama menguasai benua kecil india, pada waktu itu merupakan empayar terbesar dengan jumlah rakyat yang paling ramai. Kuasa ketenteraannya terdiri daripaa pemanah jarak-jauh, askar wanita yang perkasa, tentera berkereta kuda, serta beribu-ribu unit tentera gajah berperisai. Ahli falsafahnya yang terkenal iaitu Acharya Chanakya, telah banyak memberi sumbangan dalam pelbagai bidang seperti ekonomi, keagamaan, diplomasi, perperangan, dan tadbir urus baik. Dibawah pemerintahan Ashoka yang Agung, empayar telah menikmati 40 tahun keamanan, keharmonian dan kemakmuran."
 
 #: simulation/data/civs/pers.jsonName
 msgid "Persians"
@@ -1586,7 +1766,7 @@ msgid ""
 "accompanied by great success (most notably during the battle of Sardis in "
 "546 B.C.) The satrapy of Bactria was a rich source of 'two-hump' camels, "
 "while Northern Arabia supplied 'one-hump' camels."
-msgstr ""
+msgstr "Walaupun puak Parsi menggunakan perkhidmatan unta dalam beberapa situasi, ianya berakhir dengan kejayaan (terutamanya dalam pertempuran Sardis pada 546 S.M.) Satrapi Bactria kaya dengan unta 'dua bonggol', manakala Arab Utara membekalkan unta 'bonggol tunggal'."
 
 #: simulation/data/civs/pers.jsonCivBonuses[1].Description
 msgid ""
@@ -1606,11 +1786,11 @@ msgid ""
 "great tenacity. However while this was true the infantry were poor hand-to-"
 "hand, close combat fighters. Also, with the exception of the elite "
 "regiments, the Persian infantry was not a standing professional force."
-msgstr ""
+msgstr "Puak Parsi pernah mengerahkan sejumlah besar askar infantri ketika perang kerana saiz empayar Achaemenid dan proses pengerahan yang sebegitu. Umumnya askar infantri Parsi terlatih dan berperang dengan semangat waja. Walaubagaimanapun askar Parsi lemah dari segi pertarungan tanpa senjata, perlawanan jarak dekat. Dan juga selain dari regimen elit, askar infantri Parsi bukanlah kuasa ketenteraan yang terhebat."
 
 #: simulation/data/civs/pers.jsonTeamBonuses[0].Description
-msgid "Higher income (+15%) from land trade routes for ally's traders."
-msgstr "Pendapatan lebih tinggi (+15%) dari laluan perdagangan darat untuk semua pedagang sekutu."
+msgid "Allied Land Traders +15% trade gain."
+msgstr ""
 
 #: simulation/data/civs/pers.jsonTeamBonuses[0].Name
 msgid "Royal Road"
@@ -1622,7 +1802,7 @@ msgid ""
 " common until the Persian period. Darius the Great standardized coined money"
 " and his golden coins (known as 'darics') became commonplace not only "
 "throughout his empire, but as far to the west as Central Europe."
-msgstr ""
+msgstr "Matawang telah dicipta oleh puak Lydia pada abad ke-7 S.M., tetapi ia tidak menjadi norma masyarakat sehinggalah era Parsi. Darisu Agung telah piawaikan matawang syiling dengan syiling emasnya (dikenali sebagai 'daric') telah menjadi kegunaan umum bukan sahaja dalam empayarnya, malahan melangkaui ke barat seperti di Eropah Tengah."
 
 #: simulation/data/civs/pers.jsonAINames[0]
 msgid "Kurush II the Great"
@@ -1675,7 +1855,7 @@ msgid "Xsayarsa II"
 msgstr "Xsayarsa II"
 
 #: simulation/data/civs/pers.jsonFactions[0].Technologies[0].Description
-msgid "Phoenician triremes gain the unique ability to train cavalry units."
+msgid "Phoenician triremes gain the unique ability to train cavalry."
 msgstr ""
 
 #: simulation/data/civs/pers.jsonFactions[0].Technologies[0].Name
@@ -1691,13 +1871,13 @@ msgid ""
 "example, a canal was built in Egypt and a Persian navy was sent exploring "
 "the Indus river. According to Herodotus, some 300 ships in the Persian navy "
 "were retrofitted to carry horses and their riders."
-msgstr ""
+msgstr "Pemerintah Achaemenid terawal berjaya membangunkan Parsi sebagai empayar Asia pertama yang menguasai laut. Raja Agung mereka berbaik-baik dengan ramai kaum laut supaya dapat menggunakan perkhidmatan mereka, selain dari mendapat pelbagai inisiatif berkenaan teknologi laut. Ketika pemerintahan Darius Agung, sebagai contoh, satu terusan telah dibina di Mesir dan askar laut Parsi diarah menjelajahi sungai Indus. Mengikut Herodotus, sehingga 300 kapal askar Parsi telah diubahsuai untuk membawa kuda dan penunggangnya."
 
 #: simulation/data/civs/pers.jsonFactions[0].Technologies[1].Description
 msgid ""
 "Increases hitpoints of all structures, but build time increased "
 "appropriately."
-msgstr ""
+msgstr "Mata pukulan bagi semua struktur meningkat, tetapi tempoh pembinaan juga meningkat."
 
 #: simulation/data/civs/pers.jsonFactions[0].Technologies[1].Name
 msgid "Persian Architecture"
@@ -1709,7 +1889,7 @@ msgid ""
 "Sardis to Susa; Darius the Great and Xerxes also built the magnificent "
 "Persepolis; Cyrus the Great greatly improved Ecbatana and virtually "
 "'rebuilt' the old Elamite capital of Susa."
-msgstr ""
+msgstr "Puak Parsi telah membina Lebuh Raya Diraja sepanjang 2700 batu yang hebat bermula dari Sardis ke Susa; Darius Agung dan Xerses juga telah membina Persepolis yang hebat; Cyrus Agung telah menambahbaik Ecbatana dan 'membina semula' ibu kota Elamite lama di Susa."
 
 #: simulation/data/civs/pers.jsonFactions[0].Technologies[2].Description
 msgid "Reduces train time for Anusiya champion infantry by half."
@@ -1743,7 +1923,7 @@ msgid ""
 "Empire. He was also renown as a benevolent conqueror. (OP - Kurush). "
 "Technically the second ruler of the Persians by that name, and so appears as"
 " Kurush II on his documents and coins. Kurush I was his grandfather."
-msgstr ""
+msgstr "Cyrus (memerintah dari 559-530 S.M.) Anak lelaki kepada puteri Media dengan pemerintah Anshan; dikenali sebagai 'Bapa Empayar', Cyrus Agung berjaya menakluki Media, Lydia, Babylon dan Bactria, seterusnya menubuhkan Empayar Parsi. Dia juga dikenali sebagai penakluk yang baik hati. (OP - Kurush). Secara teknikal pemerintah kedua Parsi menggunakan nama tersebut), jadi disebut sebagai Kurush II pada dokumentasi dan syiling empayar. Kurush I dalah datuknya."
 
 #: simulation/data/civs/pers.jsonFactions[0].Heroes[0].Name
 msgid "Kurush II"
@@ -1755,7 +1935,7 @@ msgid ""
 "Parthia and Hyrcania; a great administrator as well as a decent general, "
 "Darius introduced the division of the empire into satrapies and conquered NW"
 " India, Thrace and Macedonia. He was called the 'Merchant of the Empire'."
-msgstr ""
+msgstr "Darius (memerintah dari 522-486 S.M.) Anak kepada Vishtaspa (Hystaspes), satrap Parthia dan Hyrcania; merupakan pentadbir yang hebat dan juga jeneral yang terkemuka, Darius memperkenalkan divisyen empayar dalam bentuk satrapi dan berjaya menawan barat laut India, Thrace dan Macedonia. Dia juga dikenali sebagai 'Pedagang Empayar'."
 
 #: simulation/data/civs/pers.jsonFactions[0].Heroes[2].History
 msgid ""
@@ -1764,7 +1944,7 @@ msgid ""
 "extended Imperial rule into Chorasmia. Apart from his failed invasion of "
 "Greece, he was famous for his extensive building programme, especially at "
 "Persepolis."
-msgstr ""
+msgstr "Xerxes (memerintah dari tahun 485-465 S.M.) Anak lelaki Darius Agung dan Atoosa, iaitu anak perempuan Cyrus Agung, Xerxes merupakan seorang mempunyai ciri-ciri pentadbir, beliau telah berjaya meluaskan wilayah penguasaan empayar ke wilayah Chorasmia. Selain daripada kegagalan penaklukan ke atas tanah Yunani, beliau juga terkenal dalam program pembangunan terutamanya di Persepolis."
 
 #: simulation/data/civs/pers.jsonStructures[0].Name
 #: simulation/data/civs/sele.jsonStructures[1].Name
@@ -1796,7 +1976,7 @@ msgid ""
 "Persepolis. Functioning as the empire's central audience hall, the palace is"
 " famous for the reliefs of the tribute-bearers and of the army, including "
 "the Immortals."
-msgstr ""
+msgstr "Apadana merupakan istana hypistyle besar yang ada di Parsi. Contoh terbaik dan terbesar ialah Apadana agung di Persepolis. Berfungsi sebagai dewan khalayak utama empayar, istana ini terkenal kerana di sinilah tempat penyerahan bantuan ufti dan tentera, termasuklah yang abadi."
 
 #: simulation/data/civs/pers.jsonHistory
 msgid ""
@@ -1807,7 +1987,7 @@ msgid ""
 "rule over various peoples with different customs, laws, religions and "
 "languages, and building a cosmopolitan army made up of contingents from each"
 " of these nations."
-msgstr ""
+msgstr "Empayar Parsi, ketika diperintah oleh dinasti Acaemenid, merupakan empayar terhebat pada era purba, bermula dari Lembah Indus di sebelah timur sehinggalah ke Yunani di sebelah barat. Puak Parsi juga adalah pencipta empayar di era purba, berjaya menubuhkan pemerintahan berpusat terdapat pelbagai etnik yang berlainan budaya, undang-undang, agama dan bahasa, begitu juga dengan tentera kompolitan yang terdiri daripada kontingen setiap negeri-negeri di bawahnya."
 
 #: simulation/data/civs/ptol.jsonName
 msgid "Ptolemies"
@@ -1815,15 +1995,16 @@ msgstr "Ptolemy"
 
 #: simulation/data/civs/ptol.jsonCivBonuses[0].Description
 msgid ""
-"The Ptolemies receive the Mercenary Camp, a barracks that is constructed in "
-"neutral territory and trains mercenary soldiers."
-msgstr "Puak Ptolemy mendapat Kem Askar Upahan, iaitu berek yang dibina dalam wilayah neutral dan latih askar upahan."
+"The Ptolemies receive the Mercenary Camp, a Barracks that is constructed in "
+"neutral territory and trains mercenaries."
+msgstr ""
 
 #: simulation/data/civs/ptol.jsonCivBonuses[0].Name
 msgid "Mercenary Army"
 msgstr "Tentera Upahan"
 
 #: simulation/data/civs/ptol.jsonCivBonuses[0].History
+#: simulation/data/civs/ptol.jsonStructures[1].History
 msgid ""
 "The Greco-Macedonian Ptolemy Dynasty relied on large numbers of Greek and "
 "foreign mercenaries for the bulk of its military force, mainly because the "
@@ -1833,11 +2014,11 @@ msgid ""
 "sometimes cheaply, sometimes not cheaply. This was of no matter, since Egypt"
 " under the Ptolemies was so prosperous as to be the richest of Alexander's "
 "successor states."
-msgstr ""
+msgstr "Dinasti Ptolemy Yunani-Macedonia bergantung penuh kepada sejumlah besar tentera upahan Yunani dan asing untuk melengkapi kekuatan ketenteraannya, ini disebabkan kesetiaan unit Mesir pribumi kerap kali dicurigai. Ini kerana, ketika salah satu pemberontakan primbumi, Mesir Atas telah ditakluki oleh Ptolemy selama berabad lamanya. Askar upahan lebih berpengalaman dan kesetiaan mereka boleh dibeli, kadangkala lebih murah harganya, ada masanya lebih mahal. Ia tidak menjadi masalah, kerana semenjak Mesir diperintah oleh dinasti Ptolemy, berada dalam kemewahan dan merupakan negara yang terkaya."
 
 #: simulation/data/civs/ptol.jsonCivBonuses[1].Description
 msgid "The Ptolemaic Egyptians receive 3 additional farming technologies."
-msgstr ""
+msgstr "Puak Mesir Ptolemy menerima 3 teknologi pertanian tambahan."
 
 #: simulation/data/civs/ptol.jsonCivBonuses[1].Name
 #: simulation/data/civs/ptol.jsonFactions[0].Technologies[2].Name
@@ -1854,8 +2035,8 @@ msgid "Can capture gaia elephants and camels to reduce their training cost."
 msgstr "Dapat tangkap gajah dan unta gaia untuk mengurangkan kos latihan mereka."
 
 #: simulation/data/civs/ptol.jsonTeamBonuses[0].Description
-msgid "All allies automatically gain a slow trickle of food income."
-msgstr "Semua sekutu secara automatik memperoleh sedikit aliran masuk sumber makanan."
+msgid "Allies +1.0 food trickle rate."
+msgstr ""
 
 #: simulation/data/civs/ptol.jsonTeamBonuses[0].Name
 msgid "Breadbasket of the Mediterranean"
@@ -1957,20 +2138,20 @@ msgid ""
 "The Macedonian-Greek rulers of the Ptolemaic dynasty observed many ancient "
 "Egyptian traditions in order to satiate the local populace and ingratiate "
 "themselves to the powerful priestly class in the country."
-msgstr ""
+msgstr "Pemerintah Macedonia-Yunani iaitu dinasti Ptolemaik meninjau banyak tradisi purba mesir untuk memenuhi keperluan orang tempatan dan disepadukan dengan kelas pendeta yang berkuasa di dalam negara."
 
 #: simulation/data/civs/ptol.jsonFactions[0].Technologies[2].Description
 msgid ""
 "The Ptolemaic Egyptians receive 3 additional farming technologies above and "
 "beyond the maximum number of farming technologies usually available to a "
 "faction."
-msgstr ""
+msgstr "Puak Mesir Ptolemy menerima 3 teknologi pertanian tambahan melangkaui bilangan maksimum teknologi pertanian yang biasanya ada pada puak lain."
 
 #: simulation/data/civs/ptol.jsonFactions[0].Technologies[2].History
 msgid ""
 "The Nile Delta had rich soil for farming, due to centuries of seasonal "
 "floods from the Nile depositing rich silt across the landscape."
-msgstr ""
+msgstr "Delta Nil yang subur sesuai untuk pertanian, disebabkan oleh musim banjir dari Nil yang telah disuburi dengan lumpur yang dibawa olehnya."
 
 #: simulation/data/civs/ptol.jsonFactions[0].Heroes[0].Name
 msgid "Ptolemaios A' Soter"
@@ -1986,11 +2167,11 @@ msgstr "Kleopatra H' Philopater"
 
 #: simulation/data/civs/ptol.jsonFactions[0].Name
 msgid "Ptolemaic Egyptians"
-msgstr ""
+msgstr "Mesir Plotemik"
 
 #: simulation/data/civs/ptol.jsonFactions[0].Description
 msgid "The great Greek-Macedonian dynastic rule over Ancient Egypt."
-msgstr ""
+msgstr "Dinasti Yunani-Macedonia yang hebat memerintah Mesir Purba."
 
 #: simulation/data/civs/ptol.jsonStructures[0].Special
 #: simulation/data/civs/sele.jsonStructures[0].Special
@@ -2007,19 +2188,7 @@ msgstr "Stratópedo Misthophóron"
 #: simulation/data/civs/ptol.jsonStructures[1].Special
 msgid ""
 "Must be constructed in neutral territory. Has no territory radius effect. "
-"Trains all 'mercenary' units."
-msgstr "Mesti dibina dalam wilayah neutral. Tidak mempunyai kesan radius wilayah. Latih semua unit 'askar upahan'."
-
-#: simulation/data/civs/ptol.jsonStructures[1].History
-msgid ""
-"The Greco-Macedonian Ptolemy Dynasty relied on large numbers of Greek and "
-"foreign mercenaries for the bulk of its military force, mainly because the "
-"loyalty of native Egyptian units was often suspect. Indeed, during one "
-"native uprising, Upper Egypt was lost to the Ptolemies for decades. "
-"Mercenaries were often battle-hardened and their loyalty can be bought, "
-"sometimes cheaply, sometimes not cheaply. This was of no matter, since Egypt"
-" under the Ptolemies was so prosperous as to be the richest of Alexander's "
-"successor states."
+"Trains mercenaries."
 msgstr ""
 
 #: simulation/data/civs/ptol.jsonStructures[2].Name
@@ -2030,7 +2199,7 @@ msgstr "Rumah Api"
 msgid ""
 "When built along the shoreline, removes shroud of darkness over all the "
 "water, revealing all the coast lines on the map. Limit: 1."
-msgstr ""
+msgstr "Bila dibina sepanjang pesisir pantai, dapat hilangkan kabus kegelapan merentasi semua kawasan berair, dapat paparkan garis pantai di atas peta. Had: 1."
 
 #: simulation/data/civs/ptol.jsonStructures[2].History
 msgid ""
@@ -2038,7 +2207,7 @@ msgid ""
 "Alexandria near the harbor mouth of that Nile Delta city. This structure "
 "could be seen for many kilometers out to sea and was one of the Seven "
 "Wonders of the World."
-msgstr ""
+msgstr "Dinasti Ptolemaik di Mesir telah membina sebuah Rumah Api yang hebat di Iskandariah berhampiran pelabuhan muara Delta Nil. Struktur ini dapat dilihat sejauh beberapa kilometer dari arah laut dan merupakan salah satu daripada Tujuh Keajaiban Dunia."
 
 #: simulation/data/civs/ptol.jsonHistory
 msgid ""
@@ -2046,7 +2215,7 @@ msgid ""
 "Ptolemaic Empire in Egypt during the Hellenistic period. Their rule lasted "
 "for 275 years, from 305 BC to 30 BC. They were the last dynasty of ancient "
 "Egypt."
-msgstr ""
+msgstr "Dinasti Ptolemaik adalah daripada keluarga diraja Yunani Macedonia yang telah mentadbir Empayar Ptolemaik di Mesir ketika era Hellenistik. Tempoh pemerintahan mereka dalam tempoh 275 tahun, dari 305 SM sehinggalah 30 Selepas Masihi. Mereka juga merupakan dinasti terakhir daripada Mesir Purba."
 
 #: simulation/data/civs/rome.jsonName
 msgid "Romans"
@@ -2054,7 +2223,7 @@ msgstr "Rom"
 
 #: simulation/data/civs/rome.jsonCivBonuses[0].Description
 msgid "Roman Legionaries can form a Testudo."
-msgstr "Legion Rom boleh membentuk Testudo."
+msgstr "Askar Legion Rom boleh membentuk Testudo."
 
 #: simulation/data/civs/rome.jsonCivBonuses[0].Name
 msgid "Testudo Formation"
@@ -2084,11 +2253,11 @@ msgid ""
 "peoples. It is said that harming a Roman citizen was akin to harming Rome "
 "herself, and would cause the entire might of Rome to fall upon the "
 "perpetrator."
-msgstr "Kewarganegaraan Rom sangat dihargai pada zaman purba. Hak keistimewaan yang dimiliki oleh mereka tidak dirasai oleh puak lain yang telah ditakluki. Telah diceritakan bahawa mencederakan warga Rom seumpama mencederakan Rom itu sendiri dan boleh menyebabkan keseluruhan Rom membalas balik penyerang tersebut."
+msgstr "Kewarganegaraan Rom sangat dihargai pada zaman purba. Hak keistimewaan yang dimiliki oleh mereka tidak dirasai oleh puak lain yang telah ditakluki. Telah diceritakan bahawa mencederakan rakyat Rom seumpama mencederakan Rom itu sendiri dan boleh menyebabkan keseluruhan Rom membalas balik penyerang tersebut."
 
 #: simulation/data/civs/rome.jsonTeamBonuses[0].Description
-msgid "-20% training time for allied infantry."
-msgstr "-20% masa latihan untuk askar infantri sekutu."
+msgid "Allied Citizen Infantry −10% training time."
+msgstr ""
 
 #: simulation/data/civs/rome.jsonTeamBonuses[0].Name
 msgid "Conscription"
@@ -2103,7 +2272,7 @@ msgid ""
 "for a political career. Members of the Senate were called Conscript Fathers "
 "because of this, reflected in how the ordo equester was said to have been "
 "\"conscripted\" into the Senate."
-msgstr ""
+msgstr "Kebanyakan askar Rom telah dikerah masuk untuk berkhidmat. Manakala para sukarelawan digalakkan, negara Rom masih mengekalkan pengerahan tentera secara tahunan. Akan tetapi ketika kecemasan terma perkhidmatan telah diperluaskan. Kepentingan perkhidmatan ketenteraan dalam Repuplik Rom adalah paling penting dan ia merupakan salah satu cara untuk menjadi ahli politik. Ahli Senat dikenali sebagai Bapa Pengerahan kerana dasar ini."
 
 #: simulation/data/civs/rome.jsonAINames[0]
 msgid "Lucius Junius Brutus"
@@ -2175,14 +2344,14 @@ msgid ""
 "throughout its long history. The Romans lured enemies or neutral factions to"
 " their side by offering them certain privileges. In due period of time, "
 "friends as well as foes were subjugated."
-msgstr ""
+msgstr "'Pecah dan perintah' merupakan prinsip utama dalam politik luar Rom sepanjang sejarah kewujudannya. Puak Rom memikat pihak musuh atau yang neutral berada di pihaknya dengan menawarkan beberapa keistimewaan. Dalam tempoh yang tertentu, rakan mahupun lawan telah dikuasai atau ditakluki oleh mereka."
 
 #: simulation/data/civs/rome.jsonFactions[0].Heroes[0].History
 msgid ""
 "Dictator for six months during the Second Punic War. Instead of attacking "
 "the most powerful Hannibal, he started a very effective war of attrition "
 "against him."
-msgstr ""
+msgstr "Menjadi diktator sepanjang enam bulan ketika Perang Punic Kedua. Selain dari menyerang Hannibal yang terkuat, beliau memulakan perang pelumpuhan yang berkesan terhadapnya."
 
 #: simulation/data/civs/rome.jsonFactions[0].Heroes[0].Name
 msgid "Quintus Fabius Maximus"
@@ -2211,7 +2380,7 @@ msgid ""
 "His campaigns in Spain and Africa helped to bring Carthage to its knees "
 "during the Second Punic War. He defeated Hannibal at the Battle of Zama in "
 "202 B.C."
-msgstr ""
+msgstr "Dia merupakan jeneral Rom pertama yang berjaya terhadap puak Carthage. Kempen beliau di Sepanyol dan Afrika membantu dalam menjatuhkan Carthage ketika Perang Punic Kedua. Beliau telah mengalahkan Hannibal dalam Pertempuran Zama pada 202 B.C."
 
 #: simulation/data/civs/rome.jsonFactions[0].Heroes[2].Name
 msgid "Scipio Africanus"
@@ -2249,7 +2418,7 @@ msgstr "Boleh dibina di wilayah neutral dan musuh untuk mencekik bandar musuh."
 
 #: simulation/data/civs/rome.jsonStructures[1].History
 msgid "Turf walls built by legionaries during sieges."
-msgstr ""
+msgstr "Tembok berumput dibina oleh askar legion ketika pengepungan."
 
 #: simulation/data/civs/rome.jsonHistory
 msgid ""
@@ -2272,11 +2441,11 @@ msgid ""
 "This unlocks the Seleucid expansion building, the Klēroukhia or Military "
 "Colony, similar to Civic Centers for other factions. It is weaker and "
 "carries a smaller territory influence, but is cheaper and built faster."
-msgstr ""
+msgstr "Tindakan ini membuka bangunan peluasan Seleucid, iaitu Klēroukhia atai Koloni Tentera, serupa dengan Pusat Sivik bagi puak lain. Ia lebih lemah dan memberikan pengaruh wilayah yang kecil, tetapi lebih murah dan lebih pantas dibina."
 
 #: simulation/data/civs/sele.jsonCivBonuses[0].Name
 msgid "Cleruchy"
-msgstr ""
+msgstr "Cleruchy"
 
 #: simulation/data/civs/sele.jsonCivBonuses[1].Description
 msgid ""
@@ -2297,8 +2466,8 @@ msgid ""
 msgstr ""
 
 #: simulation/data/civs/sele.jsonTeamBonuses[0].Description
-msgid "Allied Civic Centers are 20% cheaper."
-msgstr "Pusat Sivik Berikat 20% lebih murah."
+msgid "Allied Civil Centers −20% resource costs."
+msgstr ""
 
 #: simulation/data/civs/sele.jsonTeamBonuses[0].Name
 msgid "Syrian Tetrapolis"
@@ -2431,7 +2600,7 @@ msgstr "Philip II Philoromaeus"
 msgid ""
 "Traditional Army unlocks Silver Shields and Scythed Chariots, Reform Army "
 "unlocks Romanized Heavy Swordsmen and Cataphracts."
-msgstr ""
+msgstr "Askar Tradisional membuka Perisai Perak dan Kuda Perang Bersabit, Aksar Reformasi membuka Askar Rom Berpedang Berat dan Cataphract."
 
 #: simulation/data/civs/sele.jsonFactions[0].Technologies[1].Name
 msgid "Traditional Army vs. Reform Army"
@@ -2483,9 +2652,9 @@ msgstr "Seleukos A' Nikator"
 #: simulation/data/civs/sele.jsonFactions[0].Heroes[1].History
 msgid ""
 "Antiochus inherited a troubled kingdom upon the beginning of his reign. From"
-" the verge of collapse he managed to weld back together the empire Seleukus "
+" the verge of collapse he managed to weld back together the empire Seleucus "
 "I fought so hard to found. The rebellious eastern satraps of Bactria and "
-"Parthia were brought to heel , temporarily securing his eastern borders. He "
+"Parthia were brought to heel, temporarily securing his eastern borders. He "
 "then turned his attention to mother Greece, attempting to fulfill the dreams"
 " of his fathers by invading Greece under the pretext of liberation. The "
 "Achaean League and the Kingdom of Pergamon banded together with the Romans "
@@ -2506,7 +2675,7 @@ msgid ""
 "conquest of Egypt (twice), which was halted by the threat of Roman "
 "intervention, and the beginning of the Jewish revolt of the Maccabees. He "
 "died of sudden illness while fighting off a Parthian invasion from the East."
-msgstr ""
+msgstr "Antiochus IV Epiphanes adalah anak lelaki kepada Antiochus III Agung dan juga abang kepada Seleucus IV Philopator. Nama sebenarnya Mithridates, dia mennggunakan nama Antiochus setelah berjaya menduduki takhta atau selepas kematian abang kandungnya Antiochus. Peristiwa penting ketika pemerintahannya termasuklah hampir berjaya menakluki Mesir (dua kali), yang mana telah diganggu oleh ancaman puak Roman, dan juga permulaan pemberontakan puak Yahudi di Maccabees. Dia meninggal dunia disebabkan sakit mengejut ketika bertempur dengan penakluk Partia dari  bahagian Timur."
 
 #: simulation/data/civs/sele.jsonFactions[0].Heroes[2].Name
 msgid "Antiokhos D' Epiphanes"
@@ -2519,8 +2688,8 @@ msgid ""
 msgstr "Dinasti Macedonia-Yunani memerintah bahagian Timur empayar terdahulu Iskandar."
 
 #: simulation/data/civs/sele.jsonStructures[1].Special
-msgid "Trains all cavalry units except Citizen-Militia Cavalry."
-msgstr "Latih semua unit berkuda kecuali Militia-Rakyat Berkuda."
+msgid "Trains all cavalry except citizen-soldier cavalry."
+msgstr ""
 
 #: simulation/data/civs/sele.jsonStructures[2].Name
 msgid "Military Colony"
@@ -2545,7 +2714,7 @@ msgid ""
 "manpower for the imperial Seleucid army. A side effect of this system was "
 "that it drained the Greek homeland of military-aged men, a contributing "
 "factor to Greece's eventual conquest by Rome."
-msgstr ""
+msgstr "Raja Seleucid telah menjemput puak Yunani, Macedonia, Galatia (Gaul), Creta, dan Thrace untuk menetap di dalam wilayah empayarnya yang luas. Mereka telah mendiami dalam bentuk koloni tentera yang dikenali sebagai klēroukhia (cleruch). Di bawah pengurusannya, para peneroka dianugerahkan sebidang tanah, iaitu kleros, dan sebagai balasan mereka perlu berkhidmat sebagai tentera di Raja bila diperlukan. Kesannya, satu kelas pertengahan-atas peneroka-askar yang berbakti kepada raja Syria kerana telah menikmati kehidupan dan kekayaan seterusnya menjadi sumber tentera untuk askar imperial Selelucid. Kesan daripada sistem ini, tanah air Yunani telah kekurangan sumber tentera yang menjadi punca kekalahan Yunani ditangan puak Rom."
 
 #: simulation/data/civs/sele.jsonHistory
 msgid ""
@@ -2568,7 +2737,7 @@ msgid ""
 "and run away before a single shield clashed. 'Othismos' refers to the point "
 "in a phalanx battle where both sides try to shove each other out of "
 "formation, attempting to breaking up the enemy lines and routing them."
-msgstr ""
+msgstr "Puak Sparta terkenal dengan kemahiran dalam perperangan ala phalanx. Mereka digeruni kerana disiplin yang mana tentera pihak musuh berpecah-belah dan lari sebelum perisai mereka berlaga di antara satu sama lain. 'Othimos' merupakan satu takat pertempuran phalanx yang mana kedua-dua belah pihak cuba menunjuk-nunjuk formasi masing-masing, untuk cuba memecahkan barisan pihak musuh dan seterusnya mengepung mereka."
 
 #: simulation/data/civs/spart.jsonCivBonuses[1].Description
 msgid ""
@@ -2584,13 +2753,11 @@ msgid ""
 "Under the Constitution written by the mythical law-giver Lycurgus, the "
 "institution of The Agoge was established, where Spartans were trained from "
 "the age of 6 to be superior warriors in defense of the Spartan state."
-msgstr ""
+msgstr "Di bawah Perlembangaan yang ditulis oleh penulis-undang-undang mistik Lycurgus, institusi Agoge telah ditubuhkan, yang mana  puak Sparta mesti dilatih seawal usia 6 tahun untuk menjadi pahlawan terbilang dalam mempertahankan negara Sparta."
 
 #: simulation/data/civs/spart.jsonTeamBonuses[0].Description
-msgid ""
-"Increases the health for citizen-soldier infantry spearmen by 10% for allies"
-" of Spartan players."
-msgstr "Tingkatkan hayat askar-rakyat infantri bertombak sebanyak 10%  untuk sekutu pemain Sparta."
+msgid "Allied Citizen Infantry Spearmen +10% health."
+msgstr ""
 
 #: simulation/data/civs/spart.jsonTeamBonuses[0].Name
 msgid "Peloponnesian League"
@@ -2602,7 +2769,7 @@ msgid ""
 "loose confederation, with Sparta as its leader, was later dubbed the "
 "Peloponnesian League by historians, but in ancient times was called 'The "
 "Lacedaemonians and their allies.'"
-msgstr ""
+msgstr "Sebahagian besar Peloponnese dikuasai oleh puak Sparta. Persekutuan yang lemah yang diketuai oleh puak Sparta, kemudiannya dikenali sebagai Liga Peloponnesia oleh ahli sejarah, sebaliknya pada waktu dahulu ia dipanggil sebagai 'Lacedaemonian dan sekutu-sekutunya'."
 
 #: simulation/data/civs/spart.jsonAINames[0]
 msgid "Leonidas"
@@ -2669,7 +2836,7 @@ msgid ""
 "lost battle against Pyrrhus of Epirus they overnight built an earthen "
 "rampart to protect the city while their men slept in preparation for the "
 "next day's siege."
-msgstr ""
+msgstr "Wanita Sparta merupakan golongan wanita yang paling bebas di dunia purba. Mereka boleh memiliki tanah dan hamba sahaya mahupun bersenam tanpa pakaian setaraf dengan lelaki Sparta. Pernah diwar-warkan hanya wanita Sparta dapat melahirkan lelaki yang sejati. Mereka pernah bantu menyelamatkan bandar mereka dari kecelakaan, contohnya setelah kekalahan pertempuran dengan Pyrrhus dari Epirus, wanita Sparta telah membina baluarti semalaman untuk melindungi bandar ketika lelaki Sparta tidur untuk persediaan pertempuran keesokan harinya."
 
 #: simulation/data/civs/spart.jsonFactions[0].Technologies[1].Description
 msgid "Units in phalanx formation move faster."
@@ -2708,7 +2875,7 @@ msgid ""
 "unobstructed path. Finding the enemy at his rear, Leonidas sent home most of"
 " his troops, choosing to stay behind with 300 hand-picked hoplites and win "
 "time for the others to withdraw."
-msgstr ""
+msgstr "Raja Sparta, yang telah berjuang dan tewas dalam pertempuran Thermopylae pada 480 S.M. Dia berjaya menyekat perjalanan pasukan Parsi berskala besar melalui satu laluan sempit hanya dengan bantuan 7000 orang tentera, sehinggalah Xerxes berjaya menemui laluan rahsia lain. Setelah dia mengetahui pihak musuh berada di belakang tenteranya, Leonidas telah menghantar balik sebahagian besar tenteranya, dan hanya 300 pasukan hoplites pilihan beliau dan berjuang untuk memastikan sebahagian besar tenteranya yang lain berjaya mengundurkan diri."
 
 #: simulation/data/civs/spart.jsonFactions[0].Heroes[0].Name
 msgid "Leonidas I"
@@ -2719,7 +2886,7 @@ msgid ""
 "Because Brasidas has sponsored their citizenship in return for service, "
 "Helot Skirmishers fight longer and harder for Sparta while within range of "
 "him."
-msgstr ""
+msgstr "Kerana Brasidas telah dianugerahkan kerakyatan selepas mereka berkhidmat, Peninjau Helot berjuang lebih lama dan lebih tabah untuk Sparta jika dalam jangkauan penglihatan beliau."
 
 #: simulation/data/civs/spart.jsonFactions[0].Heroes[2].History
 msgid ""
@@ -2732,7 +2899,7 @@ msgid ""
 " the Battle of Megalopolis, the Macedonians prevailed in a long and bloody "
 "battle. Much like Leonidas 150 years earlier, instead of surrendering, Agis "
 "made a heroic final stand in order to buy time for his troops to retreat."
-msgstr ""
+msgstr "Agis III merupakan raja Sparta yang ke-20 daripada keturunan Eurypontid. Agis telah bersepakat dengan negara Yunani Selatan untuk menentang kesatuan Macedonia ketika Iskandar Agung berada jauh di Asia dengan penaklukan beliau. Selepas menawan Crete sebagai negeri uftian, Agis seterusnya bergerak untuk mengepung bandar Megalopolis di Peloponnese, yang merupakan sekutu Macedon. Antipater, pemangku raja Macedonia, telah mengetuai tentera untuk menghentikan pemberontakan ini. Dalam Pertempuran Megalopolis, Macedonia telah menang. Seperti Leonidas 150 tahun sebelum itu, tidak menyerah kalah, Agis telah berjuang kali terakhir untuk memastikan tenteranya berjaya mengundur dari pertempuran ini."
 
 #: simulation/data/civs/spart.jsonFactions[0].Heroes[2].Name
 msgid "Agis III"
@@ -2750,7 +2917,7 @@ msgstr "Latih adiwira dan Spartiate dan kaji teknologi berkenaan mereka."
 msgid ""
 "The Syssition was the Mess Hall for full-blooded Spartiates. Every Spartan "
 "peer, even kings, belonged to one."
-msgstr ""
+msgstr "Syssition merupakan Dewan Makan untuk puak Sparta. Setiap orang Spartan, mahupun raja, berada di sini."
 
 #: simulation/data/civs/spart.jsonHistory
 msgid ""
@@ -2760,4 +2927,4 @@ msgid ""
 " at age seven. Thanks to its military might, Sparta led a coalition of Greek"
 " forces during the Greco-Persian Wars, and won over Athens in the "
 "Peloponnesian Wars, though at great cost."
-msgstr ""
+msgstr "Sparta merupakan negara-bandar terkemuka pada era Yunani purba, dan kuasa ketenteraan mendominasi wilayah ini bermula 650 S.M. Kebudayaan Sparta telah dipengaruhi dengan latihan dan kecemerlangan ketenteraan, latihan ketat untuk lelaki seawal usia tujuh tahun. Dengan kekuatan ketenteraan, Sparta telah mengetuai gabungan kekuatan Yunani yang lain semasa perang Yunani-Parsi, dan menguasai Athen dalam Perperangan Peloponnesia, walaupun mengalami kerugian yang banyak."

@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -25,7 +25,6 @@
 
 #include "graphics/GameView.h"
 #include "graphics/ObjectManager.h"
-#include "gui/GUIManager.h"
 #include "lib/external_libraries/libsdl.h"
 #include "lib/ogl.h"
 #include "maths/MathUtil.h"
@@ -87,7 +86,7 @@ MESSAGEHANDLER(InitGraphics)
 
 	ogl_Init();
 
-	InitGraphics(g_AtlasGameLoop->args, g_InitFlags);
+	InitGraphics(g_AtlasGameLoop->args, g_InitFlags, {});
 
 #if OS_WIN
 	// HACK (to stop things looking very ugly when scrolling) - should
@@ -162,7 +161,7 @@ MESSAGEHANDLER(SetActorViewer)
 		// alright.)
 		// Should replace this with proper actor hot-loading system, or something.
 
-		AtlasView::GetView_Actor()->GetActorViewer().SetActor(L"", L"", -1);
+		AtlasView::GetView_Actor()->GetActorViewer().SetActor(L"", "", -1);
 		AtlasView::GetView_Actor()->GetActorViewer().UnloadObjects();
 //		vfs_reload_changed_files();
 	}

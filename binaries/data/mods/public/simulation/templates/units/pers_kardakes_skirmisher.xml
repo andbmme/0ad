@@ -8,12 +8,13 @@
   </Cost>
   <Identity>
     <Civ>pers</Civ>
+    <VisibleClasses datatype="tokens">Mercenary</VisibleClasses>
+    <Lang>persian</Lang>
     <GenericName>Cardaces Skirmisher</GenericName>
     <SpecificName>Peltastes Kardakes</SpecificName>
     <Icon>units/pers_kardakes_skirmisher.png</Icon>
-    <VisibleClasses datatype="tokens">Mercenary</VisibleClasses>
   </Identity>
   <VisualActor>
-    <Actor>units/persians/kardakes_skirmisher.xml</Actor>
+    <Actor>units/persians/infantry_javelinist_c.xml</Actor>
   </VisualActor>
 </Entity>

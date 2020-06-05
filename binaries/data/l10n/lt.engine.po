@@ -1,5 +1,5 @@
 # Translation template for Pyrogenesis.
-# Copyright © 2014 Wildfire Games
+# Copyright (C) 2020 Wildfire Games
 # This file is distributed under the same license as the Pyrogenesis project.
 # 
 # Translators:
@@ -7,161 +7,228 @@
 # banginis <asesuarbanesu@gmail.com>, 2014-2015
 # banginis <asesuarbanesu@gmail.com>, 2014
 # Kristupas Kristupas <karthus.kart@gmail.com>, 2017
+# Mantas <mantaksam@gmail.com>, 2018
 # Paulius Damaška <pauldam000@gmail.com>, 2016
 # Serafim Mockus <serafimas96@gmail.com>, 2015
+# Vytautas, 2018
 msgid ""
 msgstr ""
 "Project-Id-Version: 0 A.D.\n"
-"POT-Creation-Date: 2017-10-30 09:03+0100\n"
-"PO-Revision-Date: 2017-10-30 13:50+0000\n"
-"Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
+"POT-Creation-Date: 2020-05-22 07:08+0000\n"
+"PO-Revision-Date: 2020-05-22 10:20+0000\n"
+"Last-Translator: Transifex Bot <>\n"
 "Language-Team: Lithuanian (http://www.transifex.com/wildfire-games/0ad/language/lt/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: lt\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=4; plural=(n % 10 == 1 && (n % 100 > 19 || n % 100 < 11) ? 0 : (n % 10 >= 2 && n % 10 <=9) && (n % 100 > 19 || n % 100 < 11) ? 1 : n % 1 != 0 ? 2: 3);\n"
 
 #: i18n/L10n.cpp:251
 msgid "Long strings"
 msgstr "Ilgi sakiniai"
 
-#: lobby/XmppClient.cpp:739
+#: lobby/XmppClient.cpp:887
 msgid "unknown subtype (see logs)"
 msgstr "nežinomas subtipas (žiūrėti žurnaluose)"
 
-#: lobby/XmppClient.cpp:1003 lobby/XmppClient.cpp:1047
-#: lobby/XmppClient.cpp:1086
+#: lobby/XmppClient.cpp:1215
+msgid "The certificate is not trusted."
+msgstr ""
+
+#: lobby/XmppClient.cpp:1216
+msgid "The certificate hasn't got a known issuer."
+msgstr ""
+
+#: lobby/XmppClient.cpp:1217
+msgid "The certificate has been revoked."
+msgstr ""
+
+#: lobby/XmppClient.cpp:1218
+msgid "The certificate has expired."
+msgstr ""
+
+#: lobby/XmppClient.cpp:1219
+msgid "The certificate is not yet active."
+msgstr ""
+
+#: lobby/XmppClient.cpp:1220
+msgid "The certificate has not been issued for the peer connected to."
+msgstr ""
+
+#: lobby/XmppClient.cpp:1221
+msgid "The certificate signer is not a certificate authority."
+msgstr ""
+
+#: lobby/XmppClient.cpp:1243 lobby/XmppClient.cpp:1287
+#: lobby/XmppClient.cpp:1326
 msgid "Error"
 msgstr "Klaida"
 
-#: lobby/XmppClient.cpp:1006 lobby/XmppClient.cpp:1050
+#: lobby/XmppClient.cpp:1246 lobby/XmppClient.cpp:1290
 msgid "No error"
 msgstr "Jokios klaidos"
 
-#: lobby/XmppClient.cpp:1008
+#: lobby/XmppClient.cpp:1248
 msgid "Player already logged in"
 msgstr "Žaidėjas jau prisijungęs"
 
-#: lobby/XmppClient.cpp:1010
+#: lobby/XmppClient.cpp:1250
 msgid "Forbidden"
 msgstr "Uždrausta"
 
-#: lobby/XmppClient.cpp:1012
+#: lobby/XmppClient.cpp:1252
 msgid "Internal server error"
 msgstr "Vidinė serverio klaida"
 
-#: lobby/XmppClient.cpp:1016
+#: lobby/XmppClient.cpp:1256
 msgid "Not allowed"
 msgstr "Neleidžiama"
 
-#: lobby/XmppClient.cpp:1017
+#: lobby/XmppClient.cpp:1257
 msgid "Not authorized"
 msgstr "Neautorizuota"
 
-#: lobby/XmppClient.cpp:1020
+#: lobby/XmppClient.cpp:1260
 msgid "Recipient temporarily unavailable"
 msgstr "Gavėjas laikinai nepasiekiamas"
 
-#: lobby/XmppClient.cpp:1022
+#: lobby/XmppClient.cpp:1262
 msgid "Registration required"
 msgstr "Reikalinga registracija"
 
-#: lobby/XmppClient.cpp:1026
+#: lobby/XmppClient.cpp:1266
 msgid "Service unavailable"
 msgstr "Servisas nepasiekiamas"
 
-#: lobby/XmppClient.cpp:1031 lobby/XmppClient.cpp:1070
+#: lobby/XmppClient.cpp:1271 lobby/XmppClient.cpp:1310
 msgid "Unknown error"
 msgstr "Nežinoma klaida"
 
-#: lobby/XmppClient.cpp:1051
+#: lobby/XmppClient.cpp:1291
 msgid "Stream error"
 msgstr "Transliacijos klaida"
 
-#: lobby/XmppClient.cpp:1052
+#: lobby/XmppClient.cpp:1292
 msgid "The incoming stream version is unsupported"
 msgstr "Įeinanti transliacijos versija yra nepalaikoma"
 
-#: lobby/XmppClient.cpp:1053
+#: lobby/XmppClient.cpp:1293
 msgid "The stream has been closed by the server"
 msgstr "Transliacija buvo uždaryta serverio"
 
-#: lobby/XmppClient.cpp:1057
+#: lobby/XmppClient.cpp:1297
 msgid "An I/O error occurred"
-msgstr ""
+msgstr "Išmesta I/O klaida"
 
-#: lobby/XmppClient.cpp:1059
+#: lobby/XmppClient.cpp:1299
 msgid "The connection was refused by the server"
 msgstr "Prisijungimas buvo atmestas serverio"
 
-#: lobby/XmppClient.cpp:1060
+#: lobby/XmppClient.cpp:1300
 msgid "Resolving the server's hostname failed"
 msgstr "Nepavyko rasti tokio serverio vardo"
 
-#: lobby/XmppClient.cpp:1061
+#: lobby/XmppClient.cpp:1301
 msgid "This system is out of memory"
 msgstr "Sistemoje trūksta atminties"
 
-#: lobby/XmppClient.cpp:1063
+#: lobby/XmppClient.cpp:1303
 msgid ""
 "The server's certificate could not be verified or the TLS handshake did not "
 "complete successfully"
 msgstr "Serverio sertifikato nebuvo galima patvirtinti arba \"TLS handshake\" nepavyko įvykdyti sėkmingai"
 
-#: lobby/XmppClient.cpp:1064
+#: lobby/XmppClient.cpp:1304
 msgid "The server did not offer required TLS encryption"
 msgstr "Serveris nepasiūlė reikiamo TLS šifravimo"
 
-#: lobby/XmppClient.cpp:1066
+#: lobby/XmppClient.cpp:1306
 msgid "Authentication failed. Incorrect password or account does not exist"
 msgstr "Autentifikavimo klaida. Neteisingas slaptažodis arba paskyra neegzistuoja"
 
-#: lobby/XmppClient.cpp:1067
+#: lobby/XmppClient.cpp:1307
 msgid "The user or system requested a disconnect"
 msgstr "Sistema arba vartotojas paprašė atsijungimo"
 
-#: lobby/XmppClient.cpp:1068
+#: lobby/XmppClient.cpp:1308
 msgid "There is no active connection"
 msgstr "Nėra aktyvios jungties"
 
-#: lobby/XmppClient.cpp:1089
-msgid "Success"
-msgstr "Pavyko"
+#: lobby/XmppClient.cpp:1329
+msgid "Your account has been successfully registered"
+msgstr "Jūsų paskyra yra sėkmingai užregistruota"
 
-#: lobby/XmppClient.cpp:1090
+#: lobby/XmppClient.cpp:1330
 msgid "Not all necessary information provided"
 msgstr "Trūksta būtinos informacijos"
 
-#: lobby/XmppClient.cpp:1091
+#: lobby/XmppClient.cpp:1331
 msgid "Username already exists"
 msgstr "Vartotojo vardas jau egzistuoja"
 
-#: ps/SavedGame.cpp:133
+#: ps/ModIo.cpp:261
+#, c-format
+msgid "Failure while starting querying for game id. Error: %s; %s."
+msgstr "Nesėkmė pradedant žaidimo identifikatoriaus užklausą. Klaida: %s; %s."
+
+#: ps/ModIo.cpp:291
+#, c-format
+msgid "Failure while starting querying for mods. Error: %s; %s."
+msgstr "Nesėkmė pradedant modifikacijų užklausą. Klaida: %s; %s."
+
+#: ps/ModIo.cpp:317
+#, c-format
+msgid "Could not create mod directory: %s."
+msgstr "Nepavyko sukuri modifikacijų katalogo: %s."
+
+#: ps/ModIo.cpp:342
+#, c-format
+msgid "Could not open temporary file for mod download: %s."
+msgstr "Nepavyko atverti laikinojo failo modifikacijos atsiuntimui: %s."
+
+#: ps/ModIo.cpp:352
+#, c-format
+msgid "Failed to start the download. Error: %s; %s."
+msgstr "Nepavyko pradėti siuntimo. Klaida: %s; %s."
+
+#: ps/ModIo.cpp:397
+#, c-format
+msgid "Asynchronous download failure: %s, %s."
+msgstr "Asinchroninio atsiuntimas nepavyko: %s, %s."
+
+#: ps/ModIo.cpp:426
+#, c-format
+msgid "Download failure. Server response: %s; %s."
+msgstr "Nepavyko atsiųsti. Serverio atsakymas: %s; %s."
+
+#: ps/ModIo.cpp:529
+msgid "Mismatched filesize."
+msgstr "Failo dydžio neatitikimas."
+
+#: ps/ModIo.cpp:547
+#, c-format
+msgid "Invalid file. Expected md5 %s, got %s."
+msgstr "Netinkamas failas. Tikėjausi md5 %s, bet gavau %s."
+
+#: ps/ModIo.cpp:562
+msgid "Failed to compute final hash."
+msgstr "Nepavyko apskaičiuoti galutinės maišos (final hash)."
+
+#: ps/ModIo.cpp:568
+msgid "Failed to verify signature."
+msgstr "Nepavyko patikrinti skaitmeninio parašo."
+
+#: ps/SavedGame.cpp:139
 #, c-format
 msgid "Saved game to '%s'"
 msgstr "Žaidimas išsaugotas į '%s'"
 
-#: ps/Util.cpp:279 ps/Util.cpp:282 ps/Util.cpp:417 ps/Util.cpp:420
+#: ps/Util.cpp:280 ps/Util.cpp:283 ps/Util.cpp:424 ps/Util.cpp:427
 #, c-format
 msgid "Screenshot written to '%s'"
 msgstr "Momentinė ekrano nuotrauka išsaugota į '%s'"
 
-#. Translation: First item is a date and time, item between parenthesis is the
-#. Subversion revision number of the current build.
-#: ps/scripting/JSInterface_Debug.cpp:88
-#, c-format
-msgid "%s (custom build)"
-msgstr "%s (padarytas pagal užsakymą)"
-
-#. Translation: First item is a date and time, item between parenthesis is the
-#. Subversion revision number of the current build.
-#. dennis-ignore: *
-#: ps/scripting/JSInterface_Debug.cpp:94
-#, c-format
-msgid "%s (%ls)"
-msgstr "%s (%ls)"
-
-#: ps/scripting/JSInterface_Debug.cpp:115
+#: ps/scripting/JSInterface_Debug.cpp:83
 msgid "custom build"
 msgstr "padarytas asmeniškai"

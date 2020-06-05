@@ -1,13 +1,14 @@
 # Translation template for 0 A.D. — Empires Ascendant.
-# Copyright © 2014 Wildfire Games
+# Copyright (C) 2019 Wildfire Games
 # This file is distributed under the same license as the 0 A.D. — Empires Ascendant project.
 # 
 # Translators:
-# Saibamen <saibamenppl@gmail.com>, 2015
+# Adam Stachowicz <saibamenppl@gmail.com>, 2015
 # Adrian Budasz <adrianbudasz@gmail.com>, 2015-2016
 # Annunnaky <doublemiu@gmail.com>, 2015
 # Arthur Glovchynski <kontakt.artix@gmail.com>, 2015
-# Bartosz B <bartosz@bobin.eu>, 2017
+# Bartosz Bobin <bartosz@bobin.eu>, 2017-2018
+# Bartosz Bobin <bartosz@bobin.eu>, 2018
 # Daniel Whatever <Deynyel@protonmail.com>, 2017
 # Jacek <jacek15klb@gmail.com>, 2015
 # Krzysztof Grabania, 2015
@@ -20,16 +21,18 @@
 # Michał Karol, 2016-2017
 # Michał Koźlarek <m.kozlarek@vp.pl>, 2015
 # miragae <miragae@gmail.com>, 2014-2015
+# Paweł Stopa <pawcio980@gmail.com>, 2018
 # Piotr Lehmann <lejmus@o2.pl>, 2017
+# Przemysław Murach <moonshine133@vp.pl>, 2019
 # Robert Lubojanski <pclubo@gmx.net>, 2016
 # Robert Wolniak <robert.wolniak@gmail.com>, 2014
 # Pitong, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: 0 A.D.\n"
-"POT-Creation-Date: 2017-09-11 09:05+0200\n"
-"PO-Revision-Date: 2017-11-11 12:09+0000\n"
-"Last-Translator: Piotr Lehmann <lejmus@o2.pl>\n"
+"POT-Creation-Date: 2019-05-24 09:43+0200\n"
+"PO-Revision-Date: 2019-05-24 18:45+0000\n"
+"Last-Translator: Przemysław Murach <moonshine133@vp.pl>\n"
 "Language-Team: Polish (http://www.transifex.com/wildfire-games/0ad/language/pl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -254,8 +257,8 @@ msgstr "%(_player_)s, prześlij mi daninę %(_amount_)s %(_resource_)s zanim zaa
 #, javascript-format
 msgid ""
 "Unless you send me %(_amount_)s %(_resource_)s, an alliance won’t be formed,"
-" %(_player_)s,"
-msgstr "Zanim przyślesz mi %(_amount_)s %(_resource_)s, sojusz nie zostanie utworzony, %(_player_)s."
+" %(_player_)s."
+msgstr "Wyślij mi %(_amount_)s %(_resource_)s, to wtedy utworzymy sojusz, %(_player_)s."
 
 #: simulation/ai/petra/chatHelper.js:88
 #, javascript-format
@@ -443,12 +446,12 @@ msgid ""
 "%(validTerritories)s"
 msgstr "%(name)s nie może zostać wybudowan(y/a) na %(territoryType)s terytorium. Poprawne terytoria: %(validTerritories)s"
 
-#: simulation/components/BuildRestrictions.js:253
+#: simulation/components/BuildRestrictions.js:228
 #, javascript-format
 msgid "%(name)s must be built on a valid shoreline"
 msgstr "%(name)s musi być wybudowan(y/a) na linii brzegowej"
 
-#: simulation/components/BuildRestrictions.js:281
+#: simulation/components/BuildRestrictions.js:256
 #, javascript-format
 msgid ""
 "%(name)s too close to a %(category)s, must be at least %(distance)s meter "
@@ -461,7 +464,7 @@ msgstr[1] "%(name)s za blisko %(category)s, musi być przynajmniej w odległośc
 msgstr[2] "%(name)s za blisko %(category)s, musi być przynajmniej w odległości %(distance)s metrów"
 msgstr[3] "%(name)s za blisko %(category)s, musi być przynajmniej w odległości %(distance)s metrów"
 
-#: simulation/components/BuildRestrictions.js:302
+#: simulation/components/BuildRestrictions.js:277
 #, javascript-format
 msgid ""
 "%(name)s too far from a %(category)s, must be within %(distance)s meter"
@@ -474,28 +477,28 @@ msgstr[3] "%(name)s za daleko od %(category)s, musi być w promieniu %(distance)
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:342
+#: simulation/components/BuildRestrictions.js:317
 msgctxt "Territory type list"
 msgid "own"
 msgstr "własne"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:344
+#: simulation/components/BuildRestrictions.js:319
 msgctxt "Territory type list"
 msgid "ally"
 msgstr "sprzymierzone"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:346
+#: simulation/components/BuildRestrictions.js:321
 msgctxt "Territory type list"
 msgid "neutral"
 msgstr "neutralne"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:348
+#: simulation/components/BuildRestrictions.js:323
 msgctxt "Territory type list"
 msgid "enemy"
 msgstr "wrogie"
@@ -509,7 +512,7 @@ msgstr "Możesz atakować w %(time)s"
 msgid "You can attack now!"
 msgstr "Możesz atakować teraz!"
 
-#: simulation/components/EndGameManager.js:173
+#: simulation/components/EndGameManager.js:171
 #, javascript-format
 msgid "%(lastPlayer)s has won (last player alive)."
 msgid_plural "%(players)s and %(lastPlayer)s have won (last players alive)."
@@ -518,45 +521,45 @@ msgstr[1] "%(players)s i %(lastPlayer)s wygrali (ostatni żywi gracze)"
 msgstr[2] "%(players)s i %(lastPlayer)s wygrali (ostatni żywi gracze)"
 msgstr[3] "%(players)s i %(lastPlayer)s wygrali (ostatni żywi gracze)"
 
-#: simulation/components/EndGameManager.js:181
+#: simulation/components/EndGameManager.js:179
 msgid "Last remaining player wins."
 msgstr "Ostatni pozostały gracz wygrywa."
 
-#: simulation/components/EntityLimits.js:166
+#: simulation/components/EntityLimits.js:165
 #, javascript-format
 msgid "%(category)s build limit of %(limit)s reached"
 msgstr "%(category)s - limit %(limit)s budowli osiągnięty"
 
-#: simulation/components/EntityLimits.js:168
+#: simulation/components/EntityLimits.js:167
 #, javascript-format
 msgid "%(category)s training limit of %(limit)s reached"
 msgstr "%(category)s - limit %(limit)s wytrenowanych osiągnięty"
 
-#: simulation/components/EntityLimits.js:172
+#: simulation/components/EntityLimits.js:171
 #, javascript-format
 msgid "%(category)s limit of %(limit)s reached"
 msgstr "%(category)s - limit %(limit)s osiągnięty"
 
-#: simulation/components/Player.js:304
+#: simulation/components/Player.js:352
 #, javascript-format
 msgid "Insufficient resources - %(resourceAmount1)s %(resourceType1)s"
 msgstr "Niewystarczająca ilość zasobów - %(resourceAmount1)s %(resourceType1)s"
 
-#: simulation/components/Player.js:306
+#: simulation/components/Player.js:354
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
 "%(resourceAmount2)s %(resourceType2)s"
 msgstr "Niewystarczająca ilość zasobów - %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s"
 
-#: simulation/components/Player.js:308
+#: simulation/components/Player.js:356
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
 "%(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s"
 msgstr "Niewystarczająca ilość zasobów - %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s"
 
-#: simulation/components/Player.js:310
+#: simulation/components/Player.js:358
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
@@ -564,11 +567,11 @@ msgid ""
 "%(resourceType3)s, %(resourceAmount4)s %(resourceType4)s"
 msgstr "Niewystarczająca ilość zasobów - %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s, %(resourceAmount4)s %(resourceType4)s"
 
-#: simulation/components/ProductionQueue.js:401
+#: simulation/components/ProductionQueue.js:394
 msgid "The production queue is full."
 msgstr "Kolejka produkcji jest pełna."
 
-#: simulation/components/ProductionQueue.js:783
+#: simulation/components/ProductionQueue.js:769
 msgid "Can't find free space to spawn trained units"
 msgstr "Nie można znaleźć wolnego miejsca na  zbiórkę wyszkolonych jednostek "
 
@@ -581,51 +584,51 @@ msgstr "%(player)s został pokonany (oszustwo)"
 msgid "You need to select a building that trains units."
 msgstr "Potrzebujesz wybrać budynki, które szkolą jednostki."
 
-#: simulation/helpers/Commands.js:133
+#: simulation/helpers/Commands.js:124
 msgid "(Cheat - control all units)"
 msgstr "(Pozwolono - kontrolować wszystkie jednostki)"
 
-#: simulation/helpers/Commands.js:148
+#: simulation/helpers/Commands.js:139
 msgid "(Cheat - reveal map)"
 msgstr "(Oszustwo - odsłonięcie mapy)"
 
-#: simulation/helpers/Commands.js:453
+#: simulation/helpers/Commands.js:466
 #, javascript-format
 msgid "%(player)s has resigned."
 msgstr "%(player)s zrezygnował."
 
-#: simulation/helpers/Commands.js:595
+#: simulation/helpers/Commands.js:608
 msgid "(Cheat - promoted units)"
 msgstr "(Pozwolono - awansować jednostki)"
 
-#: simulation/helpers/Commands.js:709
+#: simulation/helpers/Commands.js:722
 msgid ""
 "Cannot upgrade as distance requirements are not verified or terrain is "
 "obstructed."
 msgstr "Nie można ulepszyć gdy nie zweryfikowano wymagań odległości lub teren jest zablokowany."
 
-#: simulation/helpers/Commands.js:719
+#: simulation/helpers/Commands.js:732
 msgid "Cannot upgrade a garrisoned entity."
 msgstr "Nie można ulepszyć jednostki wewnątrz."
 
-#: simulation/helpers/Commands.js:765
+#: simulation/helpers/Commands.js:775
 #, javascript-format
 msgid "Attack against %(_player_)s requested."
 msgstr "Zażądano ataku przeciwko %(_player_)s"
 
-#: simulation/helpers/Commands.js:801
+#: simulation/helpers/Commands.js:814
 msgid "There are no bribable units"
 msgstr "Brak przekupnych jednostek"
 
-#: simulation/helpers/Commands.js:847
+#: simulation/helpers/Commands.js:860
 msgid "Unable to ungarrison unit(s)"
 msgstr "Nie można wyładotać jednostki-(ek)"
 
-#: simulation/helpers/Commands.js:861
+#: simulation/helpers/Commands.js:874
 msgid "Some unit(s) can't go back to work"
 msgstr "Niektóre jednostki nie potrafią wracać do pracy "
 
-#: simulation/helpers/Commands.js:1115
+#: simulation/helpers/Commands.js:1112
 msgid "The building's technology requirements are not met."
 msgstr "Wymagania technologiczne budynku nie zostały spełnione."
 
@@ -720,24 +723,26 @@ msgid "Capture the Relic"
 msgstr "Zdobądź Relikt"
 
 #: simulation/data/settings/victory_conditions/conquest.jsonData.Description
-msgid "Defeat all opponents to win."
-msgstr "Pokonaj wszystkich przeciwników by wygrać."
+msgid ""
+"Defeat opponents by killing all their units and destroying all their "
+"structures."
+msgstr "Pokonaj przeciwników zabijając ich jednostki i burząc budowle."
 
 #: simulation/data/settings/victory_conditions/conquest.jsonData.Title
 msgid "Conquest"
 msgstr "Podbój"
 
 #: simulation/data/settings/victory_conditions/conquest_structures.jsonData.Description
-msgid "Destroy all enemy structures to win."
-msgstr "Zniszcz wszystkie budowle wrog by wygrać"
+msgid "Defeat opponents by destroying all their structures."
+msgstr "Pokonaj przeciwników burząc ich budowle."
 
 #: simulation/data/settings/victory_conditions/conquest_structures.jsonData.Title
 msgid "Conquest Structures"
 msgstr "Podbij budowle"
 
 #: simulation/data/settings/victory_conditions/conquest_units.jsonData.Description
-msgid "Kill all enemy units to win."
-msgstr "Aby wygrac zabij wszystkie wrogie jednostki."
+msgid "Defeat opponents by killing all their units."
+msgstr "Pokonaj przeciwników zabijając ich wszystkie jednostki."
 
 #: simulation/data/settings/victory_conditions/conquest_units.jsonData.Title
 msgid "Conquest Units"
@@ -753,9 +758,11 @@ msgstr "Królobójstwo"
 
 #: simulation/data/settings/victory_conditions/wonder.jsonData.Description
 msgid ""
-"Be the first to build or capture a wonder and keep it for a certain time to "
-"win the game."
-msgstr "Bądź pierwszym kto zbuduje lub przejmie Cud i władaj nim do kończ ustalonego czasu, aby wygrać grę."
+"Be the first to build or capture a Wonder and keep it for a certain time to "
+"win the game. The timer will be reset when the Wonder is destroyed or "
+"captured. If the allied victory mode is enabled, the timer will also be "
+"reset when the alliances of the owner change."
+msgstr "Bądź pierwszą osobą, która wybuduje lub zajmie cud i utrzymaj go w swoim władaniu przez określony czas, aby wygrać grę. Odliczanie resetuje się, gdy cud zostanie zniszczony lub przejęty. Jeśli zezwolono na zwycięstwo w sojuszu, odliczanie również jest resetowane, gdy właściciel cudu zmieni sojusz."
 
 #: simulation/data/settings/victory_conditions/wonder.jsonData.Title
 msgid "Wonder"
@@ -791,6 +798,48 @@ msgctxt "startingResources"
 msgid "Deathmatch"
 msgstr "Deathmatch"
 
+#: simulation/data/settings/trigger_difficulties.jsonData[0].Tooltip
+msgid "Choose this difficulty if you are discovering 0 A.D."
+msgstr "Wybierz ten poziom trudności jeśli dopiero odkrywasz 0 A.D."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[0].Title
+msgid "Very Easy"
+msgstr "Bardzo łatwy"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[1].Tooltip
+msgid "Choose this difficulty if you do not like being knocked down."
+msgstr "Wybierz ten poziom trudności jeśli nie lubisz dostawać cięgów."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[1].Title
+msgid "Easy"
+msgstr "Łatwy"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[2].Tooltip
+msgid ""
+"Choose this difficulty if you have already a good experience with 0 A.D."
+msgstr "Wybierz ten poziom trudności jeśli masz duże doświadczenie z 0 A.D."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[2].Title
+#: simulation/data/settings/map_sizes.jsonData[2].Name
+msgid "Medium"
+msgstr "Średni"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[3].Tooltip
+msgid "Choose this difficulty if you want to be really challenged."
+msgstr "Wybierz ten poziom trudności jeśli chcesz wyzwania."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[3].Title
+msgid "Hard"
+msgstr "Trudny"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[4].Tooltip
+msgid "Choose this difficulty if you do not mind being swept out."
+msgstr "Wybierz ten poziom trudności jeśli nie przeszkadza Ci, że będziesz zjechany."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[4].Title
+msgid "Very Hard"
+msgstr "Bardzo trudny"
+
 #: simulation/data/settings/map_sizes.jsonData[0].Name
 msgid "Tiny"
 msgstr "Malutka"
@@ -808,10 +857,6 @@ msgid ""
 "Small maps are suitable for 1v1 matches, as players can reach the enemy "
 "quickly while still having some room to expand."
 msgstr "Małe mapy są odpowiednie dla pojedynków 1 na 1, ponieważ gracze mogą szybko dotrzeć do wroga, wciąż mając trochę miejsca na rozwinięcie."
-
-#: simulation/data/settings/map_sizes.jsonData[2].Name
-msgid "Medium"
-msgstr "Średni"
 
 #: simulation/data/settings/map_sizes.jsonData[2].Tooltip
 msgid ""
@@ -862,5 +907,5 @@ msgstr "Petra Bot"
 msgid ""
 "Petra is the default 0 A.D. AI bot. Please report issues to Wildfire Games (see the link in the main menu).\n"
 "\n"
-"The AI has a bonus/penalty on resource stockpiling (either gathering rate or trade gain) varying from -50% for Sandbox to +60% for Very Hard (Medium 0%). In addition, the Sandbox level does not expand nor attack."
-msgstr "Petra to domyślny bot 0 A.D. Proszę zgłaszać problemy do Wildfire Games (link w głównym menu). \n\nBot ma premie / kary na gromadzenie zasobów (zarówno zbieranie stawki lub zysku kupieckiego) wahającą się od -50% do +60% dla trybu Bardzo Trudny (Średnim 0%). Dodatkowo poziom Sandbox nie rozszerza ataku."
+"The AI's resource gathering rate and trade gain depend on the difficulty level (Sandbox −58%, Very Easy −44%, Easy −25%, Medium ±0%, Hard +25%, Very Hard +56%). The easiest levels also have a slower research, training, and building rate. In addition, the Sandbox level does not expand nor attack."
+msgstr "Petra to domyślny bot. Błędy zgłaszaj Wildfire Games (link dostępny jest w menu głównym).\n\nTempo zbierania bota i zyski z handlu zależą od poziomu trudności (w piaskownicy −58%, bardzo łatwy −44%, łatwy −25%, normalny ±0%, trudny +25%, bardzo trudny +56%). Najniższe poziomy wolniej wynajdują technologie, wolniej szkolą jednostki i wolniej wznoszą budynki. Dodatkowo w piaskownicy bot nie rozbudowuje się ani nie atakuje."

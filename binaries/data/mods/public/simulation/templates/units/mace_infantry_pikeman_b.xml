@@ -2,8 +2,8 @@
 <Entity parent="template_unit_infantry_melee_pikeman">
   <Builder>
     <Entities datatype="tokens">
-      structures/mace_workshop
-      structures/mace_theatron
+      structures/mace_tower_artillery
+      structures/mace_theater
       structures/mace_library
     </Entities>
   </Builder>
@@ -19,6 +19,6 @@
     <Entity>units/mace_infantry_pikeman_a</Entity>
   </Promotion>
   <VisualActor>
-    <Actor>units/macedonians/infantry_spearman_b.xml</Actor>
+    <Actor>units/macedonians/infantry_pikeman_b.xml</Actor>
   </VisualActor>
 </Entity>

@@ -5,10 +5,11 @@
   </Auras>
   <Identity>
     <Civ>gaul</Civ>
-    <SpecificName>Brennus</SpecificName>
-    <Icon>units/celt_hero_brennus.png</Icon>
+    <GenericName>Brennus</GenericName>
+    <SpecificName>Brennos</SpecificName>
+    <Icon>units/gaul_hero_brennus.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/celts/brennus.xml</Actor>
+    <Actor>units/gauls/hero_infantry_swordsman_brennus.xml</Actor>
   </VisualActor>
 </Entity>

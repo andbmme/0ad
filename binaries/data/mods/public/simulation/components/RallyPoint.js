@@ -17,6 +17,16 @@ RallyPoint.prototype.AddPosition = function(x, z)
 	});
 };
 
+RallyPoint.prototype.HasPositions = function()
+{
+	return this.pos.length > 0;
+};
+
+RallyPoint.prototype.GetFirstPosition = function()
+{
+	return this.pos.length ? Vector2D.from3D(this.pos[0]) : new Vector2D(-1, -1);
+};
+
 RallyPoint.prototype.GetPositions = function()
 {
 	// Update positions for moving target entities
@@ -106,7 +116,7 @@ RallyPoint.prototype.OnGlobalEntityRenamed = function(msg)
 RallyPoint.prototype.OnOwnershipChanged = function(msg)
 {
 	// No need to reset when constructing or destructing the entity
-	if (msg.from == -1 || msg.to == -1)
+	if (msg.from == INVALID_PLAYER || msg.to == INVALID_PLAYER)
 		return;
 
 	this.Reset();

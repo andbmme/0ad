@@ -10,12 +10,12 @@
   <Identity>
     <Civ>brit</Civ>
     <VisibleClasses datatype="tokens">Chariot</VisibleClasses>
-    <GenericName>Boudicca (Chariot)</GenericName>
-    <SpecificName>Boadicea</SpecificName>
-    <Gender>female</Gender>
-    <Icon>units/celt_hero_boudicca.png</Icon>
+    <GenericName>Boudicca</GenericName>
+    <SpecificName>Boudica</SpecificName>
+    <Phenotype>female</Phenotype>
+    <Icon>units/brit_hero_boudicca.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/celts/boudicca_chariot.xml</Actor>
+    <Actor>units/britons/hero_chariot_javelinist_boudicca_m.xml</Actor>
   </VisualActor>
 </Entity>

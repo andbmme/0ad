@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -67,7 +67,7 @@ public:
 			CFG_GET_VAL("ooslog", m_EnableOOSLog);
 			CFG_GET_VAL("serializationtest", m_EnableSerializationTest);
 			CFG_GET_VAL("rejointest", m_RejoinTestTurn);
-			if (m_RejoinTestTurn <= 0) // Handle bogus values of the arg
+			if (m_RejoinTestTurn < 0) // Handle bogus values of the arg
 				m_RejoinTestTurn = -1;
 		}
 
@@ -160,6 +160,9 @@ public:
 	void ReportSerializationFailure(
 		SerializationTestState* primaryStateBefore, SerializationTestState* primaryStateAfter,
 		SerializationTestState* secondaryStateBefore, SerializationTestState* secondaryStateAfter);
+
+	void InitRNGSeedSimulation();
+	void InitRNGSeedAI();
 
 	static std::vector<SimulationCommand> CloneCommandsFromOtherContext(const ScriptInterface& oldScript, const ScriptInterface& newScript,
 		const std::vector<SimulationCommand>& commands)
@@ -334,6 +337,28 @@ void CSimulation2Impl::ReportSerializationFailure(
 	debug_warn(L"Serialization test failure");
 }
 
+void CSimulation2Impl::InitRNGSeedSimulation()
+{
+	u32 seed = 0;
+	if (!m_ComponentManager.GetScriptInterface().HasProperty(m_MapSettings, "Seed") ||
+	    !m_ComponentManager.GetScriptInterface().GetProperty(m_MapSettings, "Seed", seed))
+		LOGWARNING("CSimulation2Impl::InitRNGSeedSimulation: No seed value specified - using %d", seed);
+
+	m_ComponentManager.SetRNGSeed(seed);
+}
+
+void CSimulation2Impl::InitRNGSeedAI()
+{
+	u32 seed = 0;
+	if (!m_ComponentManager.GetScriptInterface().HasProperty(m_MapSettings, "AISeed") ||
+	    !m_ComponentManager.GetScriptInterface().GetProperty(m_MapSettings, "AISeed", seed))
+		LOGWARNING("CSimulation2Impl::InitRNGSeedAI: No seed value specified - using %d", seed);
+
+	CmpPtr<ICmpAIManager> cmpAIManager(m_SimContext, SYSTEM_ENTITY);
+	if (cmpAIManager)
+		cmpAIManager->SetRNGSeed(seed);
+}
+
 void CSimulation2Impl::Update(int turnLength, const std::vector<SimulationCommand>& commands)
 {
 	PROFILE3("sim update");
@@ -359,7 +384,7 @@ void CSimulation2Impl::Update(int turnLength, const std::vector<SimulationComman
 	const bool serializationTestHash = true; // set true to save and compare hash of state
 
 	SerializationTestState primaryStateBefore;
-	ScriptInterface& scriptInterface = m_ComponentManager.GetScriptInterface();
+	const ScriptInterface& scriptInterface = m_ComponentManager.GetScriptInterface();
 
 	const bool startRejoinTest = (int64_t) m_RejoinTestTurn == m_TurnNumber;
 	if (startRejoinTest)
@@ -515,8 +540,8 @@ void CSimulation2Impl::UpdateComponents(CSimContext& simContext, fixed turnLengt
 	CmpPtr<ICmpPathfinder> cmpPathfinder(simContext, SYSTEM_ENTITY);
 	if (cmpPathfinder)
 	{
+		cmpPathfinder->FetchAsyncResultsAndSendMessages();
 		cmpPathfinder->UpdateGrid();
-		cmpPathfinder->FinishAsyncRequests();
 	}
 
 	// Push AI commands onto the queue before we use them
@@ -530,14 +555,17 @@ void CSimulation2Impl::UpdateComponents(CSimContext& simContext, fixed turnLengt
 
 	// Process newly generated move commands so the UI feels snappy
 	if (cmpPathfinder)
-		cmpPathfinder->ProcessSameTurnMoves();
-
+	{
+		cmpPathfinder->StartProcessingMoves(true);
+		cmpPathfinder->FetchAsyncResultsAndSendMessages();
+	}
 	// Send all the update phases
 	{
 		PROFILE2("Sim - Update");
 		CMessageUpdate msgUpdate(turnLengthFixed);
 		componentManager.BroadcastMessage(msgUpdate);
 	}
+
 	{
 		CMessageUpdate_MotionFormation msgUpdate(turnLengthFixed);
 		componentManager.BroadcastMessage(msgUpdate);
@@ -545,7 +573,10 @@ void CSimulation2Impl::UpdateComponents(CSimContext& simContext, fixed turnLengt
 
 	// Process move commands for formations (group proxy)
 	if (cmpPathfinder)
-		cmpPathfinder->ProcessSameTurnMoves();
+	{
+		cmpPathfinder->StartProcessingMoves(true);
+		cmpPathfinder->FetchAsyncResultsAndSendMessages();
+	}
 
 	{
 		PROFILE2("Sim - Motion Unit");
@@ -558,12 +589,12 @@ void CSimulation2Impl::UpdateComponents(CSimContext& simContext, fixed turnLengt
 		componentManager.BroadcastMessage(msgUpdate);
 	}
 
-	// Process moves resulting from group proxy movement (unit needs to catch up or realign) and any others
-	if (cmpPathfinder)
-		cmpPathfinder->ProcessSameTurnMoves();
-
 	// Clean up any entities destroyed during the simulation update
 	componentManager.FlushDestroyedComponents();
+
+	// Process all remaining moves
+	if (cmpPathfinder)
+		cmpPathfinder->StartProcessingMoves(false);
 }
 
 void CSimulation2Impl::Interpolate(float simFrameLength, float frameOffset, float realFrameLength)
@@ -712,12 +743,17 @@ void CSimulation2::PreInitGame()
 	GetScriptInterface().CallFunctionVoid(global, "PreInitGame");
 }
 
-void CSimulation2::InitGame(JS::HandleValue data)
+void CSimulation2::InitGame()
 {
 	JSContext* cx = GetScriptInterface().GetContext();
 	JSAutoRequest rq(cx);
 	JS::RootedValue global(cx, GetScriptInterface().GetGlobalObject());
-	GetScriptInterface().CallFunctionVoid(global, "InitGame", data);
+
+	JS::RootedValue settings(cx);
+	JS::RootedValue tmpInitAttributes(cx, GetInitAttributes());
+	GetScriptInterface().GetProperty(tmpInitAttributes, "settings", &settings);
+
+	GetScriptInterface().CallFunctionVoid(global, "InitGame", settings);
 }
 
 void CSimulation2::Update(int turnLength)
@@ -793,12 +829,8 @@ void CSimulation2::SetMapSettings(JS::HandleValue settings)
 {
 	m->m_MapSettings = settings;
 
-	u32 seed = 0;
-	if (!m->m_ComponentManager.GetScriptInterface().HasProperty(m->m_MapSettings, "Seed") ||
-	    !m->m_ComponentManager.GetScriptInterface().GetProperty(m->m_MapSettings, "Seed", seed))
-		LOGWARNING("CSimulation2::SetInitAttributes: No seed value specified - using %d", seed);
-
-	m->m_ComponentManager.SetRNGSeed(seed);
+	m->InitRNGSeedSimulation();
+	m->InitRNGSeedAI();
 }
 
 std::string CSimulation2::GetMapSettingsString()
@@ -828,6 +860,9 @@ void CSimulation2::LoadMapSettings()
 
 	// Initialize here instead of in Update()
 	GetScriptInterface().CallFunctionVoid(global, "LoadMapSettings", m->m_MapSettings);
+
+	GetScriptInterface().FreezeObject(m->m_InitAttributes, true);
+	GetScriptInterface().SetGlobal("InitAttributes", m->m_InitAttributes, true, true, true);
 
 	if (!m->m_StartupScript.empty())
 		GetScriptInterface().LoadScript(L"map startup script", m->m_StartupScript);
@@ -949,14 +984,15 @@ std::string CSimulation2::GetMapSizes()
 
 std::string CSimulation2::GetAIData()
 {
-	ScriptInterface& scriptInterface = GetScriptInterface();
+	const ScriptInterface& scriptInterface = GetScriptInterface();
 	JSContext* cx = scriptInterface.GetContext();
 	JSAutoRequest rq(cx);
 	JS::RootedValue aiData(cx, ICmpAIManager::GetAIs(scriptInterface));
 
 	// Build single JSON string with array of AI data
 	JS::RootedValue ais(cx);
-	if (!scriptInterface.Eval("({})", &ais) || !scriptInterface.SetProperty(ais, "AIData", aiData))
+
+	if (!ScriptInterface::CreateObject(cx, &ais, "AIData", aiData))
 		return std::string();
 
 	return scriptInterface.StringifyJSON(&ais);

@@ -83,7 +83,8 @@ void CParamNode::ApplyLayer(const XMBFile& xmb, const XMBElement& element, const
 	enum op {
 		INVALID,
 		ADD,
-		MUL
+		MUL,
+		MUL_ROUND
 	} op = INVALID;
 	bool replacing = false;
 	bool filtering = false;
@@ -117,6 +118,8 @@ void CParamNode::ApplyLayer(const XMBFile& xmb, const XMBElement& element, const
 					op = ADD;
 				else if (std::wstring(attr.Value.begin(), attr.Value.end()) == L"mul")
 					op = MUL;
+				else if (std::wstring(attr.Value.begin(), attr.Value.end()) == L"mul_round")
+					op = MUL_ROUND;
 				else
 					LOGWARNING("Invalid op '%ls'", attr.Value);
 			}
@@ -178,7 +181,10 @@ void CParamNode::ApplyLayer(const XMBFile& xmb, const XMBElement& element, const
 			node.m_Value = (oldval + mod).ToString().FromUTF8();
 			break;
 		case MUL:
-			node.m_Value = (oldval.Multiply(mod)).ToString().FromUTF8();
+			node.m_Value = oldval.Multiply(mod).ToString().FromUTF8();
+			break;
+		case MUL_ROUND:
+			node.m_Value = fixed::FromInt(oldval.Multiply(mod).ToInt_RoundToNearest()).ToString().FromUTF8();
 			break;
 		}
 		hasSetValue = true;
@@ -380,7 +386,7 @@ void CParamNode::ConstructJSVal(JSContext* cx, JS::MutableHandleValue ret) const
 
 		// Just a string
 		utf16string text(m_Value.begin(), m_Value.end());
-		JS::RootedString str(cx, JS_InternUCStringN(cx, reinterpret_cast<const char16_t*>(text.data()), text.length()));
+		JS::RootedString str(cx, JS_AtomizeAndPinUCStringN(cx, reinterpret_cast<const char16_t*>(text.data()), text.length()));
 		if (str)
 		{
 			ret.setString(str);
@@ -415,7 +421,7 @@ void CParamNode::ConstructJSVal(JSContext* cx, JS::MutableHandleValue ret) const
 	if (!m_Value.empty())
 	{
 		utf16string text(m_Value.begin(), m_Value.end());
-		JS::RootedString str(cx, JS_InternUCStringN(cx, reinterpret_cast<const char16_t*>(text.data()), text.length()));
+		JS::RootedString str(cx, JS_AtomizeAndPinUCStringN(cx, reinterpret_cast<const char16_t*>(text.data()), text.length()));
 		if (!str)
 		{
 			ret.setUndefined();

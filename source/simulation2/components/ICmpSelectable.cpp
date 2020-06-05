@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -21,12 +21,11 @@
 
 #include "simulation2/system/InterfaceScripted.h"
 
-#include "ps/Shapes.h"
+#include "graphics/Color.h"
 
 BEGIN_INTERFACE_WRAPPER(Selectable)
 DEFINE_INTERFACE_METHOD_2("SetSelectionHighlight", void, ICmpSelectable, SetSelectionHighlight, CColor, bool)
-DEFINE_INTERFACE_METHOD_4("AddRangeOverlay", void, ICmpSelectable, AddRangeOverlay, float, std::string, std::string, float)
-DEFINE_INTERFACE_METHOD_0("ResetRangeOverlays", void, ICmpSelectable, ResetRangeOverlays)
+DEFINE_INTERFACE_METHOD_0("UpdateColor", void, ICmpSelectable, UpdateColor)
 END_INTERFACE_WRAPPER(Selectable)
 
 bool ICmpSelectable::ms_EnableDebugOverlays = false;

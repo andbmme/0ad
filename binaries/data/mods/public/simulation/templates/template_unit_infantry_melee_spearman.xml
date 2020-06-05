@@ -6,8 +6,11 @@
   </Armour>
   <Attack>
     <Melee>
-      <Hack>3.0</Hack>
-      <Pierce>2.5</Pierce>
+      <Damage>
+        <Hack>3.0</Hack>
+        <Pierce>2.5</Pierce>
+      </Damage>
+      <MaxRange>4.5</MaxRange>
       <Bonuses>
         <BonusCavMelee>
           <Classes>Cavalry</Classes>
@@ -22,7 +25,7 @@
     </Resources>
   </Cost>
   <Identity>
-    <VisibleClasses datatype="tokens">Spear</VisibleClasses>
+    <VisibleClasses datatype="tokens">Spearman</VisibleClasses>
     <GenericName>Spearman</GenericName>
     <Tooltip>Counters: 3x vs. Cavalry.</Tooltip>
   </Identity>
@@ -31,8 +34,10 @@
   </Loot>
   <UnitMotion>
     <WalkSpeed op="mul">0.95</WalkSpeed>
-    <Run>
-      <Speed op="mul">0.95</Speed>
-    </Run>
   </UnitMotion>
+  <Sound>
+    <SoundGroups>
+      <attack_melee>attack/weapon/spear_attack.xml</attack_melee>
+    </SoundGroups>
+  </Sound>
 </Entity>

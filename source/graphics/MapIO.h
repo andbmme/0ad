@@ -1,4 +1,4 @@
-/* Copyright (C) 2009 Wildfire Games.
+/* Copyright (C) 2018 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -17,6 +17,14 @@
 
 #ifndef INCLUDED_MAPIO
 #define INCLUDED_MAPIO
+
+#include "lib/file/vfs/vfs_path.h"
+#include "lib/os_path.h"
+#include "lib/status.h"
+
+// Opens the given texture file and stores it in a one-dimensional u16 vector.
+Status LoadHeightmapImageVfs(const VfsPath& filepath, std::vector<u16>& heightmap);
+Status LoadHeightmapImageOs(const OsPath& filepath, std::vector<u16>& heightmap);
 
 class CMapIO
 {

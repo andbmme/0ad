@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_unit_hero_infantry_spearman">
+<Entity parent="template_unit_hero_infantry_spearman_hoplite">
   <Auras datatype="tokens">
     units/heroes/athen_hero_pericles_1
     units/heroes/athen_hero_pericles_2
@@ -12,6 +12,6 @@
     <Icon>units/athen_hero_pericles.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/athenians/pericles.xml</Actor>
+    <Actor>units/athenians/hero_infantry_spearman_pericles.xml</Actor>
   </VisualActor>
 </Entity>

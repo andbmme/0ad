@@ -5,10 +5,11 @@
   </Auras>
   <Identity>
     <Civ>gaul</Civ>
-    <SpecificName>Vercingetorix</SpecificName>
-    <Icon>units/celt_hero_vercingetorix.png</Icon>
+    <GenericName>Vercingetorix</GenericName>
+    <SpecificName>Uercingetorix</SpecificName>
+    <Icon>units/gaul_hero_vercingetorix.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/celts/vercingetorix_horse.xml</Actor>
+    <Actor>units/gauls/hero_cavalry_swordsman_vercingetorix_m.xml</Actor>
   </VisualActor>
 </Entity>

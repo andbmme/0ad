@@ -1,4 +1,5 @@
-RMS.LoadLibrary("rmgen");
+Engine.LoadLibrary("rmgen");
+Engine.LoadLibrary("rmgen-common");
 
 const tGrass = ["temp_grass_aut", "temp_grass_aut", "temp_grass_d_aut"];
 const tForestFloor = "temp_grass_aut";
@@ -22,10 +23,10 @@ const oBerryBush = "gaia/flora_bush_berry";
 const oStoneLarge = "gaia/geology_stonemine_temperate_quarry";
 const oStoneSmall = "gaia/geology_stone_temperate";
 const oMetalLarge = "gaia/geology_metal_temperate_slabs";
-const oFoodTreasure = "gaia/special_treasure_food_bin";
-const oWoodTreasure = "gaia/special_treasure_wood";
-const oStoneTreasure = "gaia/special_treasure_stone";
-const oMetalTreasure = "gaia/special_treasure_metal";
+const oFoodTreasure = "gaia/treasure/food_bin";
+const oWoodTreasure = "gaia/treasure/wood";
+const oStoneTreasure = "gaia/treasure/stone";
+const oMetalTreasure = "gaia/treasure/metal";
 
 const aGrass = "actor|props/flora/grass_soft_dry_small_tall.xml";
 const aGrassShort = "actor|props/flora/grass_soft_dry_large.xml";
@@ -40,132 +41,108 @@ const pForestD = [tForestFloor + TERRAIN_SEPARATOR + oBeech, tForestFloor];
 const pForestO = [tForestFloor + TERRAIN_SEPARATOR + oOak, tForestFloor];
 const pForestP = [tForestFloor + TERRAIN_SEPARATOR + oPine, tForestFloor];
 
-InitMap();
+var heightSeaGround = -4;
+var heightLand = 3;
+
+var g_Map = new RandomMap(heightLand, tGrass);
 
 const numPlayers = getNumPlayers();
-const mapSize = getMapSize();
 
-var clPlayer = createTileClass();
-var clHill = createTileClass();
-var clForest = createTileClass();
-var clWater = createTileClass();
-var clDirt = createTileClass();
-var clRock = createTileClass();
-var clMetal = createTileClass();
-var clFood = createTileClass();
-var clBaseResource = createTileClass();
+var clPlayer = g_Map.createTileClass();
+var clHill = g_Map.createTileClass();
+var clForest = g_Map.createTileClass();
+var clWater = g_Map.createTileClass();
+var clDirt = g_Map.createTileClass();
+var clRock = g_Map.createTileClass();
+var clMetal = g_Map.createTileClass();
+var clFood = g_Map.createTileClass();
+var clBaseResource = g_Map.createTileClass();
 
-var [playerIDs, playerX, playerZ] = radialPlayerPlacement();
+var treasures = [
+	{ "template": oFoodTreasure, "distance": 5 },
+	{ "template": oWoodTreasure, "distance": 5 },
+	{ "template": oMetalTreasure, "distance": 3 },
+	{ "template": oStoneTreasure, "distance": 2 }
+];
 
-for (var i=0; i < numPlayers; i++)
+var [playerIDs, playerPosition] = playerPlacementCircle(fractionToTiles(0.35));
+
+g_Map.log("Creating playerbases");
+var playerAngle = BUILDING_ORIENTATION;
+for (let i = 0; i < numPlayers; ++i)
 {
-	log("Creating base for player " + playerIDs[i] + "...");
-	playerX[i] *= mapSize;
-	playerZ[i] *= mapSize;
+	if (isNomad())
+		break;
 
+	// CC and units
 	for (let dist of [6, 8])
 	{
-		let ents = getStartingEntities(i);
+		let ents = getStartingEntities(playerIDs[i]);
 
 		if (dist == 8)
 			ents = ents.filter(ent => ent.Template.indexOf("female") != -1 || ent.Template.indexOf("infantry") != -1);
 
-		placeStartingEntities(playerX[i], playerZ[i], i + 1, ents, dist);
+		placeStartingEntities(playerPosition[i], playerIDs[i], ents, dist);
 	}
 
-	// Create treasure
-	var bbAngle = BUILDING_ORIENTATION;
-	var bbDist = 10;
-	var bbX = round(playerX[i] + bbDist * cos(bbAngle));
-	var bbZ = round(playerZ[i] + bbDist * sin(bbAngle));
-	var group = new SimpleGroup(
-		[new SimpleObject(oFoodTreasure, 5,5, 0,2)],
-		true, clBaseResource, bbX, bbZ
-	);
-	createObjectGroup(group, 0);
+	// Treasure
+	for (let j = 0; j < treasures.length; ++j)
+		createObjectGroup(
+			new SimpleGroup(
+				[new SimpleObject(treasures[j].template, treasures[j].distance, treasures[j].distance, 0, 2)],
+				false,
+				clBaseResource,
+				Vector2D.add(playerPosition[i], new Vector2D(10, 0).rotate(-j * Math.PI / 2 - playerAngle))),
+			0);
 
-	bbAngle += PI/2;
-	var bbX = round(playerX[i] + bbDist * cos(bbAngle));
-	var bbZ = round(playerZ[i] + bbDist * sin(bbAngle));
-	group = new SimpleGroup(
-		[new SimpleObject(oWoodTreasure, 5,5, 0,2)],
-		true, clBaseResource, bbX, bbZ
-	);
-	createObjectGroup(group, 0);
+	// Ground texture
+	var civ = getCivCode(playerIDs[i]);
+	var tilesSize = civ == "cart" ? 23 : 21;
+	createArea(
+		new ConvexPolygonPlacer(
+			new Array(4).fill(0).map((zero, j) => new Vector2D(tilesSize, 0).rotate(j * Math.PI / 2 - playerAngle - Math.PI/4).add(playerPosition[i])),
+			Infinity),
+		[
+			new TerrainPainter(tRoad),
+			new TileClassPainter(clPlayer)
+		]);
 
-	bbAngle += PI/2;
-	var bbX = round(playerX[i] + bbDist * cos(bbAngle));
-	var bbZ = round(playerZ[i] + bbDist * sin(bbAngle));
-	group = new SimpleGroup(
-		[new SimpleObject(oMetalTreasure, 3,3, 0,2)],
-		true, clBaseResource, bbX, bbZ
-	);
-	createObjectGroup(group, 0);
-
-	bbAngle += PI/2;
-	var bbX = round(playerX[i] + bbDist * cos(bbAngle));
-	var bbZ = round(playerZ[i] + bbDist * sin(bbAngle));
-	group = new SimpleGroup(
-		[new SimpleObject(oStoneTreasure, 2,2, 0,2)],
-		true, clBaseResource, bbX, bbZ
-	);
-	createObjectGroup(group, 0);
-
-	// Base texture
-	var civ = getCivCode(i);
-	var tilesSize = civ == "cart" ? 27 : 22;
-
-	const minBoundX = (playerX[i] > tilesSize ? playerX[i] - tilesSize : 0);
-	const minBoundY = (playerZ[i] > tilesSize ? playerZ[i] - tilesSize : 0);
-	const maxBoundX = (playerX[i] < mapSize - tilesSize ? playerX[i] + tilesSize : mapSize);
-	const maxBoundY = (playerZ[i] < mapSize - tilesSize ? playerZ[i] + tilesSize : mapSize);
-
-	for (var tx = minBoundX; tx < maxBoundX; ++tx)
-		for (var ty = minBoundY; ty < maxBoundY; ++ty)
-		{
-			var unboundSumOfXY = tx + ty - minBoundX - minBoundY;
-			if ((unboundSumOfXY > tilesSize) && (unboundSumOfXY < 3 * tilesSize) && (tx - ty + minBoundY - minBoundX < tilesSize) && (ty - tx - minBoundY + minBoundX < tilesSize))
-			{
-				placeTerrain(floor(tx), floor(ty), tRoad);
-				addToClass(floor(tx), floor(ty), clPlayer);
-			}
-		}
-
-	// Place custom fortress
-	if (civ == "brit" || civ == "gaul" || civ == "iber")
+	// Fortress
+	// To take into account houses that offer a lower population bonus
+	if (Engine.GetTemplate("structures/" + civ + "_house").Cost.PopulationBonus <= 5)
 	{
-		var wall = ["gate", "tower", "wallLong",
-			"cornerIn", "wallLong", "barracks", "tower", "wallLong", "tower", "house", "wallLong",
-			"cornerIn", "wallLong", "house", "tower", "gate", "tower", "house", "wallLong",
-			"cornerIn", "wallLong", "house", "tower", "wallLong", "tower", "house", "wallLong",
-			"cornerIn", "wallLong", "house", "tower"];
+		var wall = ["gate", "tower", "long",
+			"cornerIn", "long", "barracks", "tower", "long", "tower", "house", "long",
+			"cornerIn", "long", "house", "tower", "gate", "tower", "house", "long",
+			"cornerIn", "long", "house", "tower", "long", "tower", "house", "long",
+			"cornerIn", "long", "house", "tower"];
 	}
 	else
 	{
-		var wall = ["gate", "tower", "wallLong",
-			"cornerIn", "wallLong", "barracks", "tower", "wallLong", "tower", "wallLong",
-			"cornerIn", "wallLong", "house", "tower", "gate", "tower", "wallLong",
-			"cornerIn", "wallLong", "house", "tower", "wallLong", "tower", "wallLong",
-			"cornerIn", "wallLong", "house", "tower"];
+		var wall = ["gate", "tower", "long",
+			"cornerIn", "long", "barracks", "tower", "long", "tower", "long",
+			"cornerIn", "long", "house", "tower", "gate", "tower", "long",
+			"cornerIn", "long", "house", "tower", "long", "tower", "long",
+			"cornerIn", "long", "house", "tower"];
 	}
-	placeCustomFortress(playerX[i], playerZ[i], new Fortress("Spahbod", wall), civ, i+1);
+	placeCustomFortress(playerPosition[i], new Fortress("Spahbod", wall), civ, playerIDs[i], playerAngle);
 }
 
-log("Creating lakes...");
-var numLakes = round(scaleByMapSize(1,4) * numPlayers);
+g_Map.log("Creating lakes");
+var numLakes = Math.round(scaleByMapSize(1,4) * numPlayers);
 var waterAreas = createAreas(
-	new ClumpPlacer(scaleByMapSize(100,250), 0.8, 0.1, 10),
+	new ClumpPlacer(scaleByMapSize(100,250), 0.8, 0.1, Infinity),
 	[
-		new LayeredPainter([tShore, tWater, tWater], [1, 1]),
-		new SmoothElevationPainter(ELEVATION_SET, -4, 3),
-		paintClass(clWater)
+		new LayeredPainter([tShore, tWater], [1]),
+		new SmoothElevationPainter(ELEVATION_SET, heightSeaGround, 3),
+		new TileClassPainter(clWater)
 	],
 	avoidClasses(clPlayer, 7, clWater, 20),
 	numLakes);
 
-RMS.SetProgress(15);
+Engine.SetProgress(15);
 
-log("Creating reeds...");
+g_Map.log("Creating reeds");
 createObjectGroupsByAreasDeprecated(
 	new SimpleGroup([new SimpleObject(aReeds, 5,10, 0,4), new SimpleObject(aLillies, 0,1, 0,4)], true),
 	0,
@@ -173,9 +150,9 @@ createObjectGroupsByAreasDeprecated(
 	numLakes, 100,
 	waterAreas);
 
-RMS.SetProgress(25);
+Engine.SetProgress(25);
 
-log("Creating fish...");
+g_Map.log("Creating fish");
 createObjectGroupsByAreasDeprecated(
 	new SimpleGroup(
 		[new SimpleObject(oFish, 1,1, 0,1)],
@@ -186,16 +163,15 @@ createObjectGroupsByAreasDeprecated(
 	numLakes / 4,
 	50,
 	waterAreas);
-RMS.SetProgress(30);
+Engine.SetProgress(30);
 
 createBumps(avoidClasses(clWater, 2, clPlayer, 5));
-RMS.SetProgress(35);
+Engine.SetProgress(35);
 
-log("Creating hills...");
 createHills([tCliff, tCliff, tHill], avoidClasses(clPlayer, 5, clWater, 5, clHill, 15), clHill, scaleByMapSize(1, 4) * numPlayers);
-RMS.SetProgress(40);
+Engine.SetProgress(40);
 
-log("Creating forests...");
+g_Map.log("Creating forests");
 var [forestTrees, stragglerTrees] = getTreeCounts(500, 2500, 0.7);
 var types = [
 	[[tForestFloor, tGrass, pForestD], [tForestFloor, pForestD]],
@@ -203,19 +179,19 @@ var types = [
 	[[tForestFloor, tGrass, pForestP], [tForestFloor, pForestP]]
 ];
 var size = forestTrees / (scaleByMapSize(3,6) * numPlayers);
-var num = floor(size / types.length);
+var num = Math.floor(size / types.length);
 for (let type of types)
 	createAreas(
 		new ChainPlacer(1, Math.floor(scaleByMapSize(3, 5)), forestTrees / num, 0.5),
 		[
 			new LayeredPainter(type, [2]),
-			paintClass(clForest)
+			new TileClassPainter(clForest)
 		],
 		avoidClasses(clPlayer, 5, clWater, 3, clForest, 15, clHill, 1),
 		num);
-RMS.SetProgress(50);
+Engine.SetProgress(50);
 
-log("Creating dirt patches...");
+g_Map.log("Creating dirt patches");
 createLayeredPatches(
  [scaleByMapSize(3, 6), scaleByMapSize(5, 10), scaleByMapSize(8, 21)],
  [[tGrass,tGrassA],[tGrassA,tGrassB], [tGrassB,tGrassC]],
@@ -223,28 +199,28 @@ createLayeredPatches(
  avoidClasses(clWater, 1, clForest, 0, clHill, 0, clDirt, 5, clPlayer, 1),
  scaleByMapSize(15, 45),
  clDirt);
-RMS.SetProgress(55);
+Engine.SetProgress(55);
 
-log("Creating grass patches...");
+g_Map.log("Creating grass patches");
 createPatches(
  [scaleByMapSize(2, 4), scaleByMapSize(3, 7), scaleByMapSize(5, 15)],
  tGrassPatch,
  avoidClasses(clWater, 1, clForest, 0, clHill, 0, clDirt, 5, clPlayer, 1),
  scaleByMapSize(15, 45),
  clDirt);
-RMS.SetProgress(60);
+Engine.SetProgress(60);
 
-log("Creating stone mines...");
+g_Map.log("Creating stone mines");
 createMines(
  [
-  [new SimpleObject(oStoneSmall, 0,2, 0,4), new SimpleObject(oStoneLarge, 1,1, 0,4)],
+  [new SimpleObject(oStoneSmall, 0, 2, 0, 4, 0, 2 * Math.PI, 1), new SimpleObject(oStoneLarge, 1, 1, 0, 4, 0, 2 * Math.PI, 4)],
   [new SimpleObject(oStoneSmall, 2,5, 1,3)]
  ],
  avoidClasses(clWater, 0, clForest, 1, clPlayer, 5, clRock, 10, clHill, 1),
  clRock);
-RMS.SetProgress(65);
+Engine.SetProgress(65);
 
-log("Creating metal mines...");
+g_Map.log("Creating metal mines");
 createMines(
  [
   [new SimpleObject(oMetalLarge, 1,1, 0,4)]
@@ -252,60 +228,59 @@ createMines(
  avoidClasses(clWater, 0, clForest, 1, clPlayer, 5, clMetal, 10, clRock, 5, clHill, 1),
  clMetal
 );
-RMS.SetProgress(70);
+Engine.SetProgress(70);
 
-createDecoration
-(
- [[new SimpleObject(aRockMedium, 1,3, 0,1)],
-  [new SimpleObject(aRockLarge, 1,2, 0,1), new SimpleObject(aRockMedium, 1,3, 0,2)],
-  [new SimpleObject(aGrassShort, 1,2, 0,1, -PI/8,PI/8)],
-  [new SimpleObject(aGrass, 2,4, 0,1.8, -PI/8,PI/8), new SimpleObject(aGrassShort, 3,6, 1.2,2.5, -PI/8,PI/8)],
-  [new SimpleObject(aBushMedium, 1,2, 0,2), new SimpleObject(aBushSmall, 2,4, 0,2)]
- ],
- [
-  scaleByMapSize(16, 262),
-  scaleByMapSize(8, 131),
-  scaleByMapSize(13, 200),
-  scaleByMapSize(13, 200),
-  scaleByMapSize(13, 200)
- ],
- avoidClasses(clWater, 0, clForest, 0, clPlayer, 1, clHill, 0)
-);
-RMS.SetProgress(80);
+createDecoration(
+	[
+		[new SimpleObject(aRockMedium, 1, 3, 0, 1)],
+		[new SimpleObject(aRockLarge, 1, 2, 0, 1), new SimpleObject(aRockMedium, 1, 3, 0, 2)],
+		[new SimpleObject(aGrassShort, 1, 2, 0, 1)],
+		[new SimpleObject(aGrass, 2, 4, 0, 1.8), new SimpleObject(aGrassShort, 3, 6, 1.2, 2.5)],
+		[new SimpleObject(aBushMedium, 1, 2, 0, 2), new SimpleObject(aBushSmall, 2, 4, 0, 2)]
+	],
+	[
+		scaleByMapSize(16, 262),
+		scaleByMapSize(8, 131),
+		scaleByMapSize(13, 200),
+		scaleByMapSize(13, 200),
+		scaleByMapSize(13, 200)
+	],
+	avoidClasses(clWater, 0, clForest, 0, clPlayer, 1, clHill, 0));
+Engine.SetProgress(80);
 
-createFood
-(
- [
-  [new SimpleObject(oSheep, 2,3, 0,2)],
-  [new SimpleObject(oDeer, 5,7, 0,4)]
- ],
- [
-  3 * numPlayers,
-  3 * numPlayers
- ],
- avoidClasses(clWater, 0, clForest, 0, clPlayer, 6, clHill, 1, clFood, 20)
-);
-RMS.SetProgress(85);
+createFood(
+	[
+		[new SimpleObject(oSheep, 2, 3, 0, 2)],
+		[new SimpleObject(oDeer, 5, 7, 0, 4)]
+	],
+	[
+		3 * numPlayers,
+		3 * numPlayers
+	],
+	avoidClasses(clWater, 0, clForest, 0, clPlayer, 6, clHill, 1, clFood, 20),
+	clFood);
+Engine.SetProgress(85);
 
-createFood
-(
- [
-  [new SimpleObject(oBerryBush, 5,7, 0,4)]
- ],
- [
-  randIntInclusive(1, 4) * numPlayers + 2
- ],
- avoidClasses(clWater, 2, clForest, 0, clPlayer, 6, clHill, 1, clFood, 10)
-);
+createFood(
+	[
+		[new SimpleObject(oBerryBush, 5, 7, 0, 4)]
+	],
+	[
+		randIntInclusive(1, 4) * numPlayers + 2
+	],
+	avoidClasses(clWater, 2, clForest, 0, clPlayer, 6, clHill, 1, clFood, 10),
+	clFood);
 
-RMS.SetProgress(90);
+Engine.SetProgress(90);
 
 createStragglerTrees(
 	[oOak, oBeech, oPine],
 	avoidClasses(clWater, 1, clForest, 1, clHill, 1, clPlayer, 1, clMetal, 6, clRock, 6),
 	clForest,
 	stragglerTrees);
-RMS.SetProgress(95);
+Engine.SetProgress(95);
+
+placePlayersNomad(clPlayer, avoidClasses(clWater, 2, clHill, 2, clForest, 1, clMetal, 4, clRock, 4, clHill, 4, clFood, 2));
 
 setSkySet("sunny");
 setWaterColor(0.157, 0.149, 0.443);
@@ -322,4 +297,4 @@ setPPContrast(0.56);
 setPPBloom(0.38);
 setPPEffect("hdr");
 
-ExportMap();
+g_Map.ExportMap();

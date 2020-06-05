@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -37,8 +37,6 @@ bool g_NoGLVBO = false;
 
 bool g_PauseOnFocusLoss = false;
 
-bool g_RenderActors = true;
-
 bool g_Shadows = false;
 bool g_ShadowPCF = false;
 
@@ -50,14 +48,13 @@ bool g_WaterReflection = false;
 bool g_WaterShadows = false;
 
 bool g_Particles = false;
+bool g_Fog = true;
 bool g_Silhouettes = false;
 bool g_ShowSky = false;
 
 bool g_PreferGLSL = false;
 bool g_PostProc = false;
 bool g_SmoothLOS = false;
-
-float g_Gamma = 1.0f;
 
 CStr g_RenderPath = "default";
 
@@ -92,7 +89,6 @@ static void LoadGlobals()
 	CFG_GET_VAL("noautomipmap", g_NoGLAutoMipmap);
 	CFG_GET_VAL("novbo", g_NoGLVBO);
 	CFG_GET_VAL("pauseonfocusloss", g_PauseOnFocusLoss);
-	CFG_GET_VAL("renderactors", g_RenderActors);
 	CFG_GET_VAL("shadows", g_Shadows);
 	CFG_GET_VAL("shadowpcf", g_ShadowPCF);
 
@@ -105,6 +101,7 @@ static void LoadGlobals()
 
 	CFG_GET_VAL("renderpath", g_RenderPath);
 	CFG_GET_VAL("particles", g_Particles);
+	CFG_GET_VAL("fog", g_Fog);
 	CFG_GET_VAL("silhouettes", g_Silhouettes);
 	CFG_GET_VAL("showsky", g_ShowSky);
 	CFG_GET_VAL("preferglsl", g_PreferGLSL);
@@ -130,13 +127,6 @@ static void ProcessCommandLineArgs(const CmdLineArgs& args)
 			CStr value = name_value.AfterFirst(":");
 			g_ConfigDB.SetValueString(CFG_COMMAND, name, value);
 		}
-	}
-
-	if (args.Has("g"))
-	{
-		g_Gamma = args.Get("g").ToFloat();
-		if (g_Gamma == 0.0f)
-			g_Gamma = 1.0f;
 	}
 
 //	if (args.Has("listfiles"))

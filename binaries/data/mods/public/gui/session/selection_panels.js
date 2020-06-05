@@ -28,31 +28,21 @@
 
 // Cache some formation info
 // Available formations per player
-let g_AvailableFormations = new Map();
-let g_FormationsInfo = new Map();
+var g_AvailableFormations = new Map();
+var g_FormationsInfo = new Map();
 
-let g_SelectionPanels = {};
+var g_SelectionPanels = {};
+
+var g_SelectionPanelBarterButtonManager;
 
 g_SelectionPanels.Alert = {
 	"getMaxNumberOfItems": function()
 	{
-		return 3;
+		return 2;
 	},
-	"conflictsWith": ["Barter"],
 	"getItems": function(unitEntStates)
 	{
-		let ret = [];
-
-		if (unitEntStates.some(state => state.alertRaiser && !state.alertRaiser.hasRaisedAlert))
-			ret.push("raise");
-
-		if (unitEntStates.some(state => state.alertRaiser && state.alertRaiser.hasRaisedAlert && state.alertRaiser.canIncreaseLevel))
-			ret.push("increase");
-
-		if (unitEntStates.some(state => state.alertRaiser && state.alertRaiser.hasRaisedAlert))
-			ret.push("end");
-
-		return ret;
+		return unitEntStates.some(state => !!state.alertRaiser) ? ["raise", "end"] : [];
 	},
 	"setupButton": function(data)
 	{
@@ -61,9 +51,6 @@ g_SelectionPanels.Alert = {
 			{
 			case "raise":
 				raiseAlert();
-				return;
-			case "increase":
-				increaseAlertLevel();
 				return;
 			case "end":
 				endOfAlert();
@@ -77,10 +64,6 @@ g_SelectionPanels.Alert = {
 			data.icon.sprite = "stretched:session/icons/bell_level1.png";
 			data.button.tooltip = translate("Raise an alert!");
 			break;
-		case "increase":
-			data.icon.sprite = "stretched:session/icons/bell_level2.png";
-			data.button.tooltip = translate("Increase the alert level to protect more units");
-			break;
 		case "end":
 			data.button.tooltip = translate("End of alert.");
 			data.icon.sprite = "stretched:session/icons/bell_level0.png";
@@ -88,7 +71,7 @@ g_SelectionPanels.Alert = {
 		}
 		data.button.enabled = controlsPlayer(data.player);
 
-		setPanelObjectPosition(data.button, this.getMaxNumberOfItems() - data.i - 1, data.rowLength);
+		setPanelObjectPosition(data.button, this.getMaxNumberOfItems() - data.i, data.rowLength);
 		return true;
 	}
 };
@@ -99,25 +82,21 @@ g_SelectionPanels.Barter = {
 		return 4;
 	},
 	"rowLength": 4,
-	"conflictsWith": ["Alert", "Garrison"],
+	"conflictsWith": ["Garrison"],
 	"getItems": function(unitEntStates)
 	{
 		// If more than `rowLength` resources, don't display icons.
-		if (unitEntStates.every(state => !state.isBarterMarket) || g_ResourceData.GetCodes().length > this.rowLength)
+		if (unitEntStates.every(state => !state.isBarterMarket) || g_ResourceData.GetBarterableCodes().length > this.rowLength)
 			return [];
-		return g_ResourceData.GetCodes();
+		return g_ResourceData.GetBarterableCodes();
 	},
 	"setupButton": function(data)
 	{
-		barterOpenCommon(data.item, data.i, "unitBarter");
-		barterUpdateCommon(data.item, data.i, "unitBarter", data.player);
-
-		let button = {};
-		for (let action of g_BarterActions)
-			button[action] = Engine.GetGUIObjectByName("unitBarter" + action + "Button[" + data.i + "]");
-
-		setPanelObjectPosition(button.Sell, data.i, data.rowLength);
-		setPanelObjectPosition(button.Buy, data.i + data.rowLength, data.rowLength);
+		if (g_SelectionPanelBarterButtonManager)
+		{
+			g_SelectionPanelBarterButtonManager.setViewedPlayer(data.player);
+			g_SelectionPanelBarterButtonManager.update();
+		}
 		return true;
 	}
 };
@@ -163,13 +142,11 @@ g_SelectionPanels.Command = {
 		data.icon.sprite = "stretched:session/icons/" + data.item.icon;
 
 		let size = data.button.size;
-		// count on square buttons, so size.bottom is the width too
-		let spacer = size.bottom + 1;
 		// relative to the center ( = 50%)
 		size.rleft = 50;
 		size.rright = 50;
-		// offset from the center calculation
-		size.left = (data.i - data.numberOfItems / 2) * spacer;
+		// offset from the center calculation, count on square buttons, so size.bottom is the width too
+		size.left = (data.i - data.numberOfItems / 2) * (size.bottom + 1);
 		size.right = size.left + size.bottom;
 		data.button.size = size;
 		return true;
@@ -217,13 +194,11 @@ g_SelectionPanels.AllyCommand = {
 		data.icon.sprite = "stretched:" + grayscale + "session/icons/" + data.item.icon;
 
 		let size = data.button.size;
-		// count on square buttons, so size.bottom is the width too
-		let spacer = size.bottom + 1;
 		// relative to the center ( = 50%)
 		size.rleft = 50;
 		size.rright = 50;
-		// offset from the center calculation
-		size.left = (data.i - data.numberOfItems / 2) * spacer;
+		// offset from the center calculation, count on square buttons, so size.bottom is the width too
+		size.left = (data.i - data.numberOfItems / 2) * (size.bottom + 1);
 		size.right = size.left + size.bottom;
 		data.button.size = size;
 
@@ -242,7 +217,7 @@ g_SelectionPanels.Construction = {
 	},
 	"setupButton": function(data)
 	{
-		let template = GetTemplateData(data.item);
+		let template = GetTemplateData(data.item, data.player);
 		if (!template)
 			return false;
 
@@ -259,16 +234,21 @@ g_SelectionPanels.Construction = {
 			});
 
 		data.button.onPress = function() { startBuildingPlacement(data.item, data.playerState); };
+		data.button.onPressRight = function() { showTemplateDetails(data.item); };
 
 		let tooltips = [
 			getEntityNamesFormatted,
 			getVisibleEntityClassesFormatted,
 			getAurasTooltip,
-			getEntityTooltip,
-			getEntityCostTooltip,
-			getGarrisonTooltip,
-			getPopulationBonusTooltip
+			getEntityTooltip
 		].map(func => func(template));
+		tooltips.push(
+			getEntityCostTooltip(template, data.player),
+			getGarrisonTooltip(template),
+			getPopulationBonusTooltip(template),
+			showTemplateViewerOnRightClickTooltip(template)
+		);
+
 
 		let limits = getEntityLimitAndCount(data.playerState, data.item);
 		tooltips.push(
@@ -295,8 +275,7 @@ g_SelectionPanels.Construction = {
 		if (template.icon)
 			data.icon.sprite = modifier + "stretched:session/portraits/" + template.icon;
 
-		let index = data.i + getNumberOfRightPanelButtons();
-		setPanelObjectPosition(data.button, index, data.rowLength);
+		setPanelObjectPosition(data.button, data.i + getNumberOfRightPanelButtons(), data.rowLength);
 		return true;
 	}
 };
@@ -313,36 +292,34 @@ g_SelectionPanels.Formation = {
 		if (unitEntStates.some(state => !hasClass(state, "Unit")))
 			return [];
 
+		if (unitEntStates.every(state => !state.identity || !state.identity.hasSomeFormation))
+			return [];
+
 		if (!g_AvailableFormations.has(unitEntStates[0].player))
 			g_AvailableFormations.set(unitEntStates[0].player, Engine.GuiInterfaceCall("GetAvailableFormations", unitEntStates[0].player));
 
-		let availableFormations = g_AvailableFormations.get(unitEntStates[0].player);
-
-		// Hide the panel if all formations are disabled
-		if (availableFormations.some(formation => canMoveSelectionIntoFormation(formation)))
-			return availableFormations;
-
-		return [];
+		return g_AvailableFormations.get(unitEntStates[0].player).filter(formation => unitEntStates.some(state => !!state.identity &&  state.identity.formations.indexOf(formation) != -1));
 	},
 	"setupButton": function(data)
 	{
 		if (!g_FormationsInfo.has(data.item))
 			g_FormationsInfo.set(data.item, Engine.GuiInterfaceCall("GetFormationInfoFromTemplate", { "templateName": data.item }));
 
-		let formationInfo = g_FormationsInfo.get(data.item);
-		let formationOk = canMoveSelectionIntoFormation(data.item);
+		let formationOk = data.item == "special/formations/null" || canMoveSelectionIntoFormation(data.item);
+		let unitIds = data.unitEntStates.map(state => state.id);
 		let formationSelected = Engine.GuiInterfaceCall("IsFormationSelected", {
-			"ents": data.unitEntStates.map(state => state.id),
+			"ents": unitIds,
 			"formationTemplate": data.item
 		});
 
 		data.button.onPress = function() {
-			performFormation(data.unitEntStates.map(state => state.id), data.item);
+			performFormation(unitIds, data.item);
 		};
 
+		let formationInfo = g_FormationsInfo.get(data.item);
 		let tooltip = translate(formationInfo.name);
 		if (!formationOk && formationInfo.tooltip)
-			tooltip += "\n" + "[color=\"red\"]" + translate(formationInfo.tooltip) + "[/color]";
+			tooltip += "\n" + coloredText(translate(formationInfo.tooltip), "red");
 		data.button.tooltip = tooltip;
 
 		data.button.enabled = formationOk && controlsPlayer(data.player);
@@ -389,30 +366,25 @@ g_SelectionPanels.Garrison = {
 
 		data.countDisplay.caption = data.item.ents.length || "";
 
-		let garrisonedUnitOwner = entState.player;
-
 		let canUngarrison =
 			g_ViewedPlayer == data.player ||
-			g_ViewedPlayer == garrisonedUnitOwner;
+			g_ViewedPlayer == entState.player;
 
 		data.button.enabled = canUngarrison && controlsPlayer(g_ViewedPlayer);
 
-		let tooltip = canUngarrison || g_IsObserver ?
+		data.button.tooltip = (canUngarrison || g_IsObserver ?
 			sprintf(translate("Unload %(name)s"), { "name": getEntityNames(template) }) + "\n" +
 			translate("Single-click to unload 1. Shift-click to unload all of this type.") :
-			getEntityNames(template);
+			getEntityNames(template)) + "\n" +
+			sprintf(translate("Player: %(playername)s"), {
+				"playername": g_Players[entState.player].name
+			});
 
-		tooltip += "\n" + sprintf(translate("Player: %(playername)s"), {
-			"playername": g_Players[garrisonedUnitOwner].name
-		});
-
-		data.button.tooltip = tooltip;
-
-		data.guiSelection.sprite = getPlayerHighlightColor(garrisonedUnitOwner);
+		data.guiSelection.sprite = "color:" + g_DiplomacyColors.getPlayerColor(entState.player, 160);
 		data.button.sprite_disabled = data.button.sprite;
 
 		// Selection panel buttons only appear disabled if they
-		// also appear disabled to the owner of the building.
+		// also appear disabled to the owner of the structure.
 		data.icon.sprite =
 			(canUngarrison || g_IsObserver ? "" : "grayscale:") +
 			"stretched:session/portraits/" + template.icon;
@@ -459,8 +431,7 @@ g_SelectionPanels.Gate = {
 		data.guiSelection.hidden = data.item.hidden;
 		data.icon.sprite = "stretched:" + data.item.icon;
 
-		let index = data.i + getNumberOfRightPanelButtons();
-		setPanelObjectPosition(data.button, index, data.rowLength);
+		setPanelObjectPosition(data.button, data.i + getNumberOfRightPanelButtons(), data.rowLength);
 		return true;
 	}
 };
@@ -541,8 +512,7 @@ g_SelectionPanels.Pack = {
 
 		data.button.enabled = controlsPlayer(data.player);
 
-		let index = data.i + getNumberOfRightPanelButtons();
-		setPanelObjectPosition(data.button, index, data.rowLength);
+		setPanelObjectPosition(data.button, data.i + getNumberOfRightPanelButtons(), data.rowLength);
 		return true;
 	}
 };
@@ -596,7 +566,7 @@ g_SelectionPanels.Queue = {
 		if (queuedItem.unitTemplate)
 			template = GetTemplateData(queuedItem.unitTemplate);
 		else if (queuedItem.technologyTemplate)
-			template = GetTechnologyData(queuedItem.technologyTemplate, data.player);
+			template = GetTechnologyData(queuedItem.technologyTemplate, GetSimState().players[data.player].civ);
 		else
 		{
 			warning("Unknown production queue template " + uneval(queuedItem));
@@ -608,8 +578,8 @@ g_SelectionPanels.Queue = {
 		let tooltip = getEntityNames(template);
 		if (queuedItem.neededSlots)
 		{
-			tooltip += "\n[color=\"red\"]" + translate("Insufficient population capacity:") + "\n[/color]";
-			tooltip += sprintf(translate("%(population)s %(neededSlots)s"), {
+			tooltip += "\n" + coloredText(translate("Insufficient population capacity:"), "red");
+			tooltip += "\n" + sprintf(translate("%(population)s %(neededSlots)s"), {
 				"population": resourceIcon("population"),
 				"neededSlots": queuedItem.neededSlots
 			});
@@ -697,7 +667,6 @@ g_SelectionPanels.Research = {
 			g_SelectionPanels.Research.hideItem(data.i, data.rowLength);
 			return false;
 		}
-		let techs = data.item.tech.pair ? [data.item.tech.bottom, data.item.tech.top] : [data.item.tech];
 
 		// Start position (start at the bottom)
 		let position = data.i + data.rowLength;
@@ -713,11 +682,9 @@ g_SelectionPanels.Research = {
 
 		// Handle one or two techs (tech pair)
 		let player = data.player;
-		for (let i in techs)
+		let playerState = GetSimState().players[player];
+		for (let tech of data.item.tech.pair ? [data.item.tech.bottom, data.item.tech.top] : [data.item.tech])
 		{
-			let tech = techs[i];
-			let playerState = GetSimState().players[player];
-
 			// Don't change the object returned by GetTechnologyData
 			let template = clone(GetTechnologyData(tech, playerState.civ));
 			if (!template)
@@ -742,7 +709,8 @@ g_SelectionPanels.Research = {
 			let tooltips = [
 				getEntityNamesFormatted,
 				getEntityTooltip,
-				getEntityCostTooltip
+				getEntityCostTooltip,
+				showTemplateViewerOnRightClickTooltip
 			].map(func => func(template));
 
 			if (!requirementsPassed)
@@ -789,15 +757,20 @@ g_SelectionPanels.Research = {
 			tooltips.push(getNeededResourcesTooltip(neededResources));
 			button.tooltip = tooltips.filter(tip => tip).join("\n");
 
-			button.onPress = function() {
-				addResearchToQueue(data.item.researchFacilityId, tech);
-			};
+			button.onPress = (t => function() {
+				addResearchToQueue(data.item.researchFacilityId, t);
+			})(tech);
+
+			button.onPressRight = (t => function () {
+				showTemplateDetails(
+					t,
+					GetTemplateData(data.unitEntStates.find(state => state.id == data.item.researchFacilityId).template).nativeCiv);
+			})(tech);
 
 			if (data.item.tech.pair)
 			{
 				// On mouse enter, show a cross over the other icon
-				let otherPosition = (position + data.rowLength) % (2 * data.rowLength);
-				let unchosenIcon = Engine.GetGUIObjectByName("unitResearchUnchosenIcon[" + otherPosition + "]");
+				let unchosenIcon = Engine.GetGUIObjectByName("unitResearchUnchosenIcon[" + (position + data.rowLength) % (2 * data.rowLength) + "]");
 				button.onMouseEnter = function() {
 					unchosenIcon.hidden = false;
 				};
@@ -898,7 +871,7 @@ g_SelectionPanels.Selection = {
 			});
 		data.button.tooltip = tooltip;
 
-		data.guiSelection.sprite = getPlayerHighlightColor(unitOwner);
+		data.guiSelection.sprite = "color:" + g_DiplomacyColors.getPlayerColor(unitOwner, 160);
 		data.guiSelection.hidden = !g_IsObserver;
 
 		data.countDisplay.caption = data.item.ents.length || "";
@@ -924,17 +897,18 @@ g_SelectionPanels.Stance = {
 		if (unitEntStates.some(state => !state.unitAI || !hasClass(state, "Unit") || hasClass(state, "Animal")))
 			return [];
 
-		return unitEntStates[0].unitAI.possibleStances;
+		return unitEntStates[0].unitAI.selectableStances;
 	},
 	"setupButton": function(data)
 	{
-		data.button.onPress = function() { performStance(data.unitEntStates.map(state => state.id), data.item); };
+		let unitIds = data.unitEntStates.map(state => state.id);
+		data.button.onPress = function() { performStance(unitIds, data.item); };
 
 		data.button.tooltip = getStanceDisplayName(data.item) + "\n" +
 			"[font=\"sans-13\"]" + getStanceTooltip(data.item) + "[/font]";
 
 		data.guiSelection.hidden = !Engine.GuiInterfaceCall("IsStanceSelected", {
-			"ents": data.unitEntStates.map(state => state.id),
+			"ents": unitIds,
 			"stance": data.item
 		});
 		data.icon.sprite = "stretched:session/icons/stances/" + data.item + ".png";
@@ -956,7 +930,7 @@ g_SelectionPanels.Training = {
 	},
 	"setupButton": function(data)
 	{
-		let template = GetTemplateData(data.item);
+		let template = GetTemplateData(data.item, data.player);
 		if (!template)
 			return false;
 
@@ -965,8 +939,9 @@ g_SelectionPanels.Training = {
 			"player": data.player
 		});
 
+		let unitIds = data.unitEntStates.map(status => status.id);
 		let [buildingsCountToTrainFullBatch, fullBatchSize, remainderBatch] =
-			getTrainingStatus(data.unitEntStates.map(status => status.id), data.item, data.playerState);
+			getTrainingStatus(unitIds, data.item, data.playerState);
 
 		let trainNum = buildingsCountToTrainFullBatch * fullBatchSize + remainderBatch;
 
@@ -978,7 +953,11 @@ g_SelectionPanels.Training = {
 			});
 
 		data.button.onPress = function() {
-			addTrainingToQueue(data.unitEntStates.map(state => state.id), data.item, data.playerState);
+			if (!neededResources)
+				addTrainingToQueue(unitIds, data.item, data.playerState);
+		};
+		data.button.onPressRight = function() {
+			showTemplateDetails(data.item);
 		};
 
 		data.countDisplay.caption = trainNum > 1 ? trainNum : "";
@@ -990,9 +969,8 @@ g_SelectionPanels.Training = {
 			getVisibleEntityClassesFormatted(template),
 			getAurasTooltip(template),
 			getEntityTooltip(template),
-			getEntityCostTooltip(template, data.unitEntStates[0].id, buildingsCountToTrainFullBatch, fullBatchSize, remainderBatch)
+			getEntityCostTooltip(template, data.player, unitIds[0], buildingsCountToTrainFullBatch, fullBatchSize, remainderBatch)
 		];
-
 		let limits = getEntityLimitAndCount(data.playerState, data.item);
 		tooltips.push(formatLimitString(limits.entLimit, limits.entCount, limits.entLimitChangers));
 
@@ -1008,10 +986,9 @@ g_SelectionPanels.Training = {
 				getSpeedTooltip
 			].map(func => func(template)));
 
+		tooltips.push(showTemplateViewerOnRightClickTooltip());
 		tooltips.push(
-			"[color=\"" + g_HotkeyColor + "\"]" +
-			formatBatchTrainingString(buildingsCountToTrainFullBatch, fullBatchSize, remainderBatch) +
-			"[/color]",
+			formatBatchTrainingString(buildingsCountToTrainFullBatch, fullBatchSize, remainderBatch),
 			getRequiredTechnologyTooltip(technologyEnabled, template.requiredTechnology, GetSimState().players[data.player].civ),
 			getNeededResourcesTooltip(neededResources));
 
@@ -1023,13 +1000,12 @@ g_SelectionPanels.Training = {
 			data.button.enabled = false;
 			modifier = "color:0 0 0 127:grayscale:";
 		}
-		else if (neededResources)
-		{
-			data.button.enabled = false;
-			modifier = resourcesToAlphaMask(neededResources) + ":";
-		}
 		else
+		{
 			data.button.enabled = controlsPlayer(data.player);
+			if (neededResources)
+				modifier = resourcesToAlphaMask(neededResources) + ":";
+		}
 
 		if (template.icon)
 			data.icon.sprite = modifier + "stretched:session/portraits/" + template.icon;
@@ -1082,12 +1058,12 @@ g_SelectionPanels.Upgrade = {
 		{
 			let tooltips = [];
 			if (data.item.tooltip)
-				tooltips.push(sprintf(translate("Upgrade into a %(name)s. %(tooltip)s"), {
+				tooltips.push(sprintf(translate("Upgrade to %(name)s. %(tooltip)s"), {
 					"name": template.name.generic,
 					"tooltip": translate(data.item.tooltip)
 				}));
 			else
-				tooltips.push(sprintf(translate("Upgrade into a %(name)s."), {
+				tooltips.push(sprintf(translate("Upgrade to %(name)s."), {
 					"name": template.name.generic
 				}));
 
@@ -1095,7 +1071,8 @@ g_SelectionPanels.Upgrade = {
 				getEntityCostComponentsTooltipString(data.item, undefined, data.unitEntStates.length),
 				formatLimitString(limits.entLimit, limits.entCount, limits.entLimitChangers),
 				getRequiredTechnologyTooltip(technologyEnabled, data.item.requiredTechnology, GetSimState().players[data.player].civ),
-				getNeededResourcesTooltip(neededResources));
+				getNeededResourcesTooltip(neededResources),
+				showTemplateViewerOnRightClickTooltip());
 
 			tooltip = tooltips.filter(tip => tip).join("\n");
 
@@ -1113,6 +1090,10 @@ g_SelectionPanels.Upgrade = {
 		}
 		data.button.enabled = controlsPlayer(data.player);
 		data.button.tooltip = tooltip;
+
+		data.button.onPressRight = function() {
+			showTemplateDetails(data.item.entity);
+		};
 
 		let modifier = "";
 		if (!isUpgrading)
@@ -1142,11 +1123,39 @@ g_SelectionPanels.Upgrade = {
 		}
 		progressOverlay.hidden = !isUpgrading;
 
-		let index = data.i + getNumberOfRightPanelButtons();
-		setPanelObjectPosition(data.button, index, data.rowLength);
+		setPanelObjectPosition(data.button, data.i + getNumberOfRightPanelButtons(), data.rowLength);
 		return true;
 	}
 };
+
+function initSelectionPanels()
+{
+
+	let unitBarterPanel = Engine.GetGUIObjectByName("unitBarterPanel");
+	if (BarterButtonManager.IsAvailable(unitBarterPanel))
+		g_SelectionPanelBarterButtonManager = new BarterButtonManager(unitBarterPanel);
+}
+
+/**
+ * Pauses game and opens the template details viewer for a selected entity or technology.
+ *
+ * Technologies don't have a set civ, so we pass along the native civ of
+ * the template of the entity that's researching it.
+ *
+ * @param {string} [civCode] - The template name of the entity that researches the selected technology.
+ */
+function showTemplateDetails(templateName, civCode)
+{
+	g_PauseControl.implicitPause();
+
+	Engine.PushGuiPage(
+		"page_viewer.xml",
+		{
+			"templateName": templateName,
+			"civ": civCode
+		},
+		resumeGame);
+}
 
 /**
  * If two panels need the same space, so they collide,

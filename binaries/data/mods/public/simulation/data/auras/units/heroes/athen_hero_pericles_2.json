@@ -5,6 +5,6 @@
 		{ "value": "Cost/Resources/stone", "multiply": 0.75 },
 		{ "value": "GarrisonHolder/BuffHeal", "add": 2 }
 	],
-	"auraName": "Temple to Athena",
-	"auraDescription": "-25% stone cost and +2 garrisoned heal rate for temples."
+	"auraName": "Temple of Athena Nike",
+	"auraDescription": "Temples −25% stone cost, +2 garrisoned heal rate."
 }

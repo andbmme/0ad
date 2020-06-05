@@ -70,8 +70,8 @@
 	[
 		{
 			"Name": "Saripeko",
-			"History": "The Iberians were long known to provide mercenary soldiers to other nations to serve as auxiliaries to their armies in foreign wars. Carthage is the most well known example, and we have evidence of them serving in such a capacity in Aquitania.",
-			"Description": "Citizen-soldier infantry skirmishers and cavalry skirmishers -20% cost for allies."
+			"History": "The Iberians were long known to provide mercenaries to other nations to serve as auxiliaries to their armies in foreign wars. Carthage is the most well known example, and we have evidence of them serving in such a capacity in Aquitania.",
+			"Description": "Allied Citizen Javelinists −10% resource costs."
 		}
 	],
 	"Structures":
@@ -85,6 +85,11 @@
 			"Phase": "",
 			"Special": "Defensive Aura - Gives all Iberian units and buildings within vision range of the monument a 10-15% attack boost. Build Limit: Only 5 may be built per map."
 		}
+	],
+	"WallSets":
+	[
+		"structures/wallset_palisade",
+		"structures/iber_wallset_stone"
 	],
 	"StartEntities":
 	[
@@ -116,9 +121,9 @@
 		"special/formations/column_open",
 		"special/formations/line_open",
 		"special/formations/flank",
+		"special/formations/battle_line",
 		"special/formations/skirmish",
-		"special/formations/wedge",
-		"special/formations/battle_line"
+		"special/formations/wedge"
 	],
 	"AINames":
 	[

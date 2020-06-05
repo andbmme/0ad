@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -15,12 +15,11 @@
  * along with 0 A.D.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef INCLUDED_JSINTERFACE_GAMEVIEW
 #define INCLUDED_JSINTERFACE_GAMEVIEW
 
-#include "scriptinterface/ScriptInterface.h"
 #include "maths/FixedVector3D.h"
+#include "scriptinterface/ScriptInterface.h"
 #include "simulation2/helpers/Position.h"
 #include "simulation2/system/Entity.h"
 
@@ -37,8 +36,7 @@ namespace JSI_GameView
 	DECLARE_BOOLEAN_SCRIPT_SETTING(LockCullCamera);
 	DECLARE_BOOLEAN_SCRIPT_SETTING(ConstrainCamera);
 
-	float CameraGetX(ScriptInterface::CxPrivate* pCxPrivate);
-	float CameraGetZ(ScriptInterface::CxPrivate* pCxPrivate);
+	JS::Value GetCameraPivot(ScriptInterface::CxPrivate* pCxPrivate);
 	void CameraMoveTo(ScriptInterface::CxPrivate* pCxPrivate, entity_pos_t x, entity_pos_t z);
 	void SetCameraTarget(ScriptInterface::CxPrivate* pCxPrivate, float x, float y, float z);
 	void SetCameraData(ScriptInterface::CxPrivate* pCxPrivate, entity_pos_t x, entity_pos_t y, entity_pos_t z, entity_pos_t rotx, entity_pos_t roty, entity_pos_t zoom);
@@ -50,4 +48,4 @@ namespace JSI_GameView
 
 #undef DECLARE_BOOLEAN_SCRIPT_SETTING
 
-#endif
+#endif // INCLUDED_JSINTERFACE_GAMEVIEW

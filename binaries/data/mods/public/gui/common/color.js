@@ -1,7 +1,7 @@
 /**
  * Used to highlight hotkeys in tooltip descriptions.
  */
-var g_HotkeyColor = "255 251 131";
+var g_HotkeyTags = {"color": "255 251 131" };
 
 /**
  * Concatenate integer color values to a string (for use in GUI objects)
@@ -17,10 +17,25 @@ function rgbToGuiColor(color, alpha)
 	if (color && ("r" in color) && ("g" in color) && ("b" in color))
 		ret = color.r + " " + color.g + " " + color.b;
 
-	if (alpha)
+	if (alpha !== undefined)
 		ret += " " + alpha;
 
 	return ret;
+}
+
+function guiToRgbColor(string)
+{
+	let color = string.split(" ");
+	if (color.length != 3 && color.length != 4 ||
+	    color.some(num => !Number.isInteger(+num) || num < 0 || num > 255))
+		return undefined;
+
+	return {
+		"r": +color[0],
+		"g": +color[1],
+		"b": +color[2],
+		"a": color.length == 4 ? +color[3] : undefined
+	};
 }
 
 /**
@@ -62,7 +77,7 @@ function clampColorValue(value)
 /**
  * Convert color value from RGB to HSL space.
  *
- * @see {@link http://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion}
+ * @see {@link https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion}
  * @param {number} r - red
  * @param {number} g - green
  * @param {number} b - blue
@@ -77,7 +92,11 @@ function rgbToHsl(r, g, b)
 	let h, s, l = (max + min) / 2;
 
 	if (max == min)
-		h = s = 0; // achromatic
+	{
+		// achromatic
+		h = 0;
+		s = 0;
+	}
 	else
 	{
 		let d = max - min;
@@ -93,7 +112,11 @@ function rgbToHsl(r, g, b)
 		case b:
 			h = (r - g) / d + 4;
 			break;
+		default:
+			error("rgbToHsl could not determine maximum!");
+			break;
 		}
+
 		h /= 6;
 	}
 
@@ -103,7 +126,7 @@ function rgbToHsl(r, g, b)
 /**
  * Convert color value from HSL to RGB space.
  *
- * @see {@link http://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion}
+ * @see {@link https://stackoverflow.com/questions/2353211/hsl-to-rgb-color-conversion}
  * @param {number} h - hueness
  * @param {number} s - saturation
  * @param {number} l - lightness
@@ -129,8 +152,14 @@ function hslToRgb(h, s, l)
 	[h, s, l] = [h, s, l].map(clampColorValue);
 	let r, g, b;
 	if (s == 0)
-		r = g = b = l; // achromatic
-	else {
+	{
+		// achromatic
+		b = l;
+		r = l;
+		g = l;
+	}
+	else
+	{
 		let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
 		let p = 2 * l - q;
 		r = hue2rgb(p, q, h + 1/3);
@@ -146,13 +175,12 @@ function colorizeHotkey(text, hotkey)
 	let key = Engine.ConfigDB_GetValue("user", "hotkey." + hotkey);
 
 	if (!key || key.toLowerCase() == "unused")
-		return "";
+		key = sprintf(translate("Unassigned hotkey: %(hotkeyName)s"), {
+			"hotkeyName": hotkey
+		});
 
 	return sprintf(text, {
-		"hotkey":
-			"[color=\"" + g_HotkeyColor + "\"]" +
-			"\\[" + key + "]" +
-			"[/color]"
+		"hotkey": setStringTags("\\[" + key + "]", g_HotkeyTags)
 	});
 }
 
@@ -162,11 +190,9 @@ function colorizeHotkey(text, hotkey)
  */
 function colorizeAutocompleteHotkey(string)
 {
-	return sprintf(string || translate("Press %(hotkey)s to autocomplete playernames."), {
+	return sprintf(string || translate("Press %(hotkey)s to autocomplete player names."), {
 		"hotkey":
-			"[color=\"" + g_HotkeyColor + "\"]" +
-			"\\[" + translateWithContext("hotkey", "Tab") + "]" +
-			"[/color]"
+			setStringTags("\\[" + translateWithContext("hotkey", "Tab") + "]", g_HotkeyTags)
 	});
 }
 
@@ -175,5 +201,5 @@ function colorizeAutocompleteHotkey(string)
  */
 function compatibilityColor(text, isCompatible)
 {
-	return isCompatible ? text : '[color="96 96 96"]' + text + '[/color]';
+	return isCompatible ? text : coloredText(text, "96 96 96");
 }

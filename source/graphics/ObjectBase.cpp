@@ -1,4 +1,4 @@
-/* Copyright (C) 2016 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -29,7 +29,7 @@
 #include "lib/timer.h"
 #include "maths/MathUtil.h"
 
-#include <boost/random/uniform_int.hpp>
+#include <boost/random/uniform_int_distribution.hpp>
 
 CObjectBase::CObjectBase(CObjectManager& objectManager)
 : m_ObjectManager(objectManager)
@@ -173,11 +173,11 @@ void CObjectBase::LoadVariant(const CXeromyces& XeroFile, const XMBElement& vari
 					else if (ae.Name == at_speed)
 						anim.m_Speed = ae.Value.ToInt() > 0 ? ae.Value.ToInt() / 100.f : 1.f;
 					else if (ae.Name == at_event)
-						anim.m_ActionPos = clamp(ae.Value.ToFloat(), 0.f, 1.f);
+						anim.m_ActionPos = Clamp(ae.Value.ToFloat(), 0.f, 1.f);
 					else if (ae.Name == at_load)
-						anim.m_ActionPos2 = clamp(ae.Value.ToFloat(), 0.f, 1.f);
+						anim.m_ActionPos2 = Clamp(ae.Value.ToFloat(), 0.f, 1.f);
 					else if (ae.Name == at_sound)
-						anim.m_SoundPos = clamp(ae.Value.ToFloat(), 0.f, 1.f);
+						anim.m_SoundPos = Clamp(ae.Value.ToFloat(), 0.f, 1.f);
 				}
 				currentVariant.m_Anims.push_back(anim);
 			}
@@ -368,20 +368,17 @@ std::vector<u8> CObjectBase::CalculateVariationKey(const std::vector<std::set<CS
 		}
 
 		choices.push_back(match);
-
 		// Remember which props were chosen, so we can call CalculateVariationKey on them
 		// at the end.
-		Variant& var ((*grp)[match]);
-		for (std::vector<Prop>::iterator it = var.m_Props.begin(); it != var.m_Props.end(); ++it)
-		{
-			// Erase all existing props which are overridden by this variant:
-			for (std::vector<Prop>::iterator it = var.m_Props.begin(); it != var.m_Props.end(); ++it)
-				chosenProps.erase(it->m_PropPointName);
-			// and then insert the new ones:
-			for (std::vector<Prop>::iterator it = var.m_Props.begin(); it != var.m_Props.end(); ++it)
-				if (! it->m_ModelName.empty())
-					chosenProps.insert(make_pair(it->m_PropPointName, it->m_ModelName));
-		}
+		// Erase all existing props which are overridden by this variant:
+		Variant& var((*grp)[match]);
+
+		for (const Prop& prop : var.m_Props)
+			chosenProps.erase(prop.m_PropPointName);
+		// and then insert the new ones:
+		for (const Prop& prop : var.m_Props)
+			if (!prop.m_ModelName.empty())
+				chosenProps.insert(make_pair(prop.m_PropPointName, prop.m_ModelName));
 	}
 
 	// Load each prop, and add their CalculateVariationKey to our key:
@@ -557,7 +554,7 @@ std::set<CStr> CObjectBase::CalculateRandomRemainingSelections(rng_t& rng, const
 				if (allZero) totalFreq = (int)grp->size();
 
 				// Choose a random number in the interval [0..totalFreq)
-				int randNum = boost::uniform_int<>(0, totalFreq-1)(rng);
+				int randNum = boost::random::uniform_int_distribution<int>(0, totalFreq-1)(rng);
 
 				// and use that to choose one of the variants
 				for (size_t i = 0; i < grp->size(); ++i)
@@ -586,16 +583,13 @@ std::set<CStr> CObjectBase::CalculateRandomRemainingSelections(rng_t& rng, const
 		// Remember which props were chosen, so we can call CalculateRandomVariation on them
 		// at the end.
 		Variant& var ((*grp)[match]);
-		for (std::vector<Prop>::iterator it = var.m_Props.begin(); it != var.m_Props.end(); ++it)
-		{
-			// Erase all existing props which are overridden by this variant:
-			for (std::vector<Prop>::iterator it = var.m_Props.begin(); it != var.m_Props.end(); ++it)
-				chosenProps.erase(it->m_PropPointName);
-			// and then insert the new ones:
-			for (std::vector<Prop>::iterator it = var.m_Props.begin(); it != var.m_Props.end(); ++it)
-				if (! it->m_ModelName.empty())
-					chosenProps.insert(make_pair(it->m_PropPointName, it->m_ModelName));
-		}
+		// Erase all existing props which are overridden by this variant:
+		for (const Prop& prop : var.m_Props)
+			chosenProps.erase(prop.m_PropPointName);
+		// and then insert the new ones:
+		for (const Prop& prop : var.m_Props)
+			if (!prop.m_ModelName.empty())
+				chosenProps.insert(make_pair(prop.m_PropPointName, prop.m_ModelName));
 	}
 
 	// Load each prop, and add their required selections to ours:

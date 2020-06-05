@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -21,6 +21,7 @@
 #include "ICmpObstructionManager.h"
 
 #include "ICmpTerrain.h"
+#include "ICmpPosition.h"
 
 #include "simulation2/MessageTypes.h"
 #include "simulation2/helpers/Geometry.h"
@@ -464,6 +465,18 @@ public:
 		}
 	}
 
+	virtual fixed DistanceToPoint(entity_id_t ent, entity_pos_t px, entity_pos_t pz) const;
+	virtual fixed MaxDistanceToPoint(entity_id_t ent, entity_pos_t px, entity_pos_t pz) const;
+	virtual fixed DistanceToTarget(entity_id_t ent, entity_id_t target) const;
+	virtual fixed MaxDistanceToTarget(entity_id_t ent, entity_id_t target) const;
+	virtual fixed DistanceBetweenShapes(const ObstructionSquare& source, const ObstructionSquare& target) const;
+	virtual fixed MaxDistanceBetweenShapes(const ObstructionSquare& source, const ObstructionSquare& target) const;
+
+	virtual bool IsInPointRange(entity_id_t ent, entity_pos_t px, entity_pos_t pz, entity_pos_t minRange, entity_pos_t maxRange, bool opposite) const;
+	virtual bool IsInTargetRange(entity_id_t ent, entity_id_t target, entity_pos_t minRange, entity_pos_t maxRange, bool opposite) const;
+	virtual bool IsPointInPointRange(entity_pos_t x, entity_pos_t z, entity_pos_t px, entity_pos_t pz, entity_pos_t minRange, entity_pos_t maxRange) const;
+	virtual bool AreShapesInRange(const ObstructionSquare& source, const ObstructionSquare& target, entity_pos_t minRange, entity_pos_t maxRange, bool opposite) const;
+
 	virtual bool TestLine(const IObstructionTestFilter& filter, entity_pos_t x0, entity_pos_t z0, entity_pos_t x1, entity_pos_t z1, entity_pos_t r, bool relaxClearanceForUnits = false) const;
 	virtual bool TestStaticShape(const IObstructionTestFilter& filter, entity_pos_t x, entity_pos_t z, entity_pos_t a, entity_pos_t w, entity_pos_t h, std::vector<entity_id_t>* out) const;
 	virtual bool TestUnitShape(const IObstructionTestFilter& filter, entity_pos_t x, entity_pos_t z, entity_pos_t r, std::vector<entity_id_t>* out) const;
@@ -473,6 +486,7 @@ public:
 	virtual void GetUnitObstructionsInRange(const IObstructionTestFilter& filter, entity_pos_t x0, entity_pos_t z0, entity_pos_t x1, entity_pos_t z1, std::vector<ObstructionSquare>& squares) const;
 	virtual void GetStaticObstructionsInRange(const IObstructionTestFilter& filter, entity_pos_t x0, entity_pos_t z0, entity_pos_t x1, entity_pos_t z1, std::vector<ObstructionSquare>& squares) const;
 	virtual void GetUnitsOnObstruction(const ObstructionSquare& square, std::vector<entity_id_t>& out, const IObstructionTestFilter& filter, bool strict = false) const;
+	virtual void GetStaticObstructionsOnObstruction(const ObstructionSquare& square, std::vector<entity_id_t>& out, const IObstructionTestFilter& filter) const;
 
 	virtual void SetPassabilityCircular(bool enabled)
 	{
@@ -652,6 +666,192 @@ private:
 };
 
 REGISTER_COMPONENT_TYPE(ObstructionManager)
+
+/**
+ * DistanceTo function family, all end up in calculating a vector length, DistanceBetweenShapes or
+ * MaxDistanceBetweenShapes. The MaxFoo family calculates the opposite edge opposite edge distance.
+ * When the distance is undefined we return -1.
+ */
+fixed CCmpObstructionManager::DistanceToPoint(entity_id_t ent, entity_pos_t px, entity_pos_t pz) const
+{
+	ObstructionSquare obstruction;
+	CmpPtr<ICmpObstruction> cmpObstruction(GetSimContext(), ent);
+	if (cmpObstruction && cmpObstruction->GetObstructionSquare(obstruction))
+	{
+		ObstructionSquare point;
+		point.x = px;
+		point.z = pz;
+		return DistanceBetweenShapes(obstruction, point);
+	}
+
+	CmpPtr<ICmpPosition> cmpPosition(GetSimContext(), ent);
+	if (!cmpPosition || !cmpPosition->IsInWorld())
+		return fixed::FromInt(-1);
+
+	return (CFixedVector2D(cmpPosition->GetPosition2D().X, cmpPosition->GetPosition2D().Y) - CFixedVector2D(px, pz)).Length();
+}
+
+fixed CCmpObstructionManager::MaxDistanceToPoint(entity_id_t ent, entity_pos_t px, entity_pos_t pz) const
+{
+	ObstructionSquare obstruction;
+	CmpPtr<ICmpObstruction> cmpObstruction(GetSimContext(), ent);
+	if (!cmpObstruction || !cmpObstruction->GetObstructionSquare(obstruction))
+	{
+		ObstructionSquare point;
+		point.x = px;
+		point.z = pz;
+		return MaxDistanceBetweenShapes(obstruction, point);
+	}
+
+	CmpPtr<ICmpPosition> cmpPosition(GetSimContext(), ent);
+	if (!cmpPosition || !cmpPosition->IsInWorld())
+		return fixed::FromInt(-1);
+
+	return (CFixedVector2D(cmpPosition->GetPosition2D().X, cmpPosition->GetPosition2D().Y) - CFixedVector2D(px, pz)).Length();
+}
+
+fixed CCmpObstructionManager::DistanceToTarget(entity_id_t ent, entity_id_t target) const
+{
+	ObstructionSquare obstruction;
+	CmpPtr<ICmpObstruction> cmpObstruction(GetSimContext(), ent);
+	if (!cmpObstruction || !cmpObstruction->GetObstructionSquare(obstruction))
+	{
+		CmpPtr<ICmpPosition> cmpPosition(GetSimContext(), ent);
+		if (!cmpPosition || !cmpPosition->IsInWorld())
+			return fixed::FromInt(-1);
+		return DistanceToPoint(target, cmpPosition->GetPosition2D().X, cmpPosition->GetPosition2D().Y);
+	}
+
+	ObstructionSquare target_obstruction;
+	CmpPtr<ICmpObstruction> cmpObstructionTarget(GetSimContext(), target);
+	if (!cmpObstructionTarget || !cmpObstructionTarget->GetObstructionSquare(target_obstruction))
+	{
+		CmpPtr<ICmpPosition> cmpPositionTarget(GetSimContext(), target);
+		if (!cmpPositionTarget || !cmpPositionTarget->IsInWorld())
+			return fixed::FromInt(-1);
+		return DistanceToPoint(ent, cmpPositionTarget->GetPosition2D().X, cmpPositionTarget->GetPosition2D().Y);
+	}
+
+	return DistanceBetweenShapes(obstruction, target_obstruction);
+}
+
+fixed CCmpObstructionManager::MaxDistanceToTarget(entity_id_t ent, entity_id_t target) const
+{
+	ObstructionSquare obstruction;
+	CmpPtr<ICmpObstruction> cmpObstruction(GetSimContext(), ent);
+	if (!cmpObstruction || !cmpObstruction->GetObstructionSquare(obstruction))
+	{
+		CmpPtr<ICmpPosition> cmpPosition(GetSimContext(), ent);
+		if (!cmpPosition || !cmpPosition->IsInWorld())
+			return fixed::FromInt(-1);
+		return MaxDistanceToPoint(target, cmpPosition->GetPosition2D().X, cmpPosition->GetPosition2D().Y);
+	}
+
+	ObstructionSquare target_obstruction;
+	CmpPtr<ICmpObstruction> cmpObstructionTarget(GetSimContext(), target);
+	if (!cmpObstructionTarget || !cmpObstructionTarget->GetObstructionSquare(target_obstruction))
+	{
+		CmpPtr<ICmpPosition> cmpPositionTarget(GetSimContext(), target);
+		if (!cmpPositionTarget || !cmpPositionTarget->IsInWorld())
+			return fixed::FromInt(-1);
+		return MaxDistanceToPoint(ent, cmpPositionTarget->GetPosition2D().X, cmpPositionTarget->GetPosition2D().Y);
+	}
+
+	return MaxDistanceBetweenShapes(obstruction, target_obstruction);
+}
+
+fixed CCmpObstructionManager::DistanceBetweenShapes(const ObstructionSquare& source, const ObstructionSquare& target) const
+{
+	// Sphere-sphere collision.
+	if (source.hh == fixed::Zero() && target.hh == fixed::Zero())
+		return (CFixedVector2D(target.x, target.z) - CFixedVector2D(source.x, source.z)).Length() - source.hw - target.hw;
+
+	// Square to square.
+	if (source.hh != fixed::Zero() && target.hh != fixed::Zero())
+		return Geometry::DistanceSquareToSquare(
+			CFixedVector2D(target.x, target.z) - CFixedVector2D(source.x, source.z),
+			source.u, source.v, CFixedVector2D(source.hw, source.hh),
+			target.u, target.v, CFixedVector2D(target.hw, target.hh));
+
+	// To cover both remaining cases, shape a is the square one, shape b is the circular one.
+	const ObstructionSquare& a = source.hh == fixed::Zero() ? target : source;
+	const ObstructionSquare& b = source.hh == fixed::Zero() ? source : target;
+	return Geometry::DistanceToSquare(
+		CFixedVector2D(b.x, b.z) - CFixedVector2D(a.x, a.z),
+		a.u, a.v, CFixedVector2D(a.hw, a.hh), true) - b.hw;
+}
+
+fixed CCmpObstructionManager::MaxDistanceBetweenShapes(const ObstructionSquare& source, const ObstructionSquare& target) const
+{
+	// Sphere-sphere collision.
+	if (source.hh == fixed::Zero() && target.hh == fixed::Zero())
+		return (CFixedVector2D(target.x, target.z) - CFixedVector2D(source.x, source.z)).Length() + source.hw + target.hw;
+
+	// Square to square.
+	if (source.hh != fixed::Zero() && target.hh != fixed::Zero())
+		return Geometry::MaxDistanceSquareToSquare(
+			CFixedVector2D(target.x, target.z) - CFixedVector2D(source.x, source.z),
+			source.u, source.v, CFixedVector2D(source.hw, source.hh),
+			target.u, target.v, CFixedVector2D(target.hw, target.hh));
+
+	// To cover both remaining cases, shape a is the square one, shape b is the circular one.
+	const ObstructionSquare& a = source.hh == fixed::Zero() ? target : source;
+	const ObstructionSquare& b = source.hh == fixed::Zero() ? source : target;
+	return Geometry::MaxDistanceToSquare(
+		CFixedVector2D(b.x, b.z) - CFixedVector2D(a.x, a.z),
+		a.u, a.v, CFixedVector2D(a.hw, a.hh), true) + b.hw;
+}
+
+/**
+ * IsInRange function family depending on the DistanceTo family.
+ *
+ * In range if the edge to edge distance is inferior to maxRange
+ * and if the opposite edge to opposite edge distance is greater than minRange when the opposite bool is true
+ * or when the opposite bool is false the edge to edge distance is more than minRange.
+ *
+ * Using the opposite egde for minRange means that a unit is in range of a building if it is farther than
+ * clearance-buildingsize, which is generally going to be negative (and thus this returns true).
+ * NB: from a game POV, this means units can easily fire on buildings, which is good,
+ * but it also means that buildings can easily fire on units. Buildings are usually meant
+ * to fire from the edge, not the opposite edge, so this looks odd. For this reason one can choose
+ * to set the opposite bool false and use the edge to egde distance.
+ *
+ * We don't use squares because the are likely to overflow.
+ * We use a 0.0001 margin to avoid rounding errors.
+ */
+bool CCmpObstructionManager::IsInPointRange(entity_id_t ent, entity_pos_t px, entity_pos_t pz, entity_pos_t minRange, entity_pos_t maxRange, bool opposite) const
+{
+	fixed dist = DistanceToPoint(ent, px, pz);
+	// Treat -1 max range as infinite
+	return dist != fixed::FromInt(-1) &&
+	      (dist <= (maxRange + fixed::FromFloat(0.0001)) || maxRange < fixed::Zero()) &&
+	      (opposite ? MaxDistanceToPoint(ent, px, pz) : dist) >= minRange - fixed::FromFloat(0.0001);
+}
+
+bool CCmpObstructionManager::IsInTargetRange(entity_id_t ent, entity_id_t target, entity_pos_t minRange, entity_pos_t maxRange, bool opposite) const
+{
+	fixed dist = DistanceToTarget(ent, target);
+	// Treat -1 max range as infinite
+	return dist != fixed::FromInt(-1) &&
+	      (dist <= (maxRange + fixed::FromFloat(0.0001)) || maxRange < fixed::Zero()) &&
+	      (opposite ? MaxDistanceToTarget(ent, target) : dist) >= minRange - fixed::FromFloat(0.0001);
+}
+bool CCmpObstructionManager::IsPointInPointRange(entity_pos_t x, entity_pos_t z, entity_pos_t px, entity_pos_t pz, entity_pos_t minRange, entity_pos_t maxRange) const
+{
+	entity_pos_t distance = (CFixedVector2D(x, z) - CFixedVector2D(px, pz)).Length();
+	// Treat -1 max range as infinite
+	return (distance <= (maxRange + fixed::FromFloat(0.0001)) || maxRange < fixed::Zero()) &&
+	        distance >= minRange - fixed::FromFloat(0.0001);
+}
+
+bool CCmpObstructionManager::AreShapesInRange(const ObstructionSquare& source, const ObstructionSquare& target, entity_pos_t minRange, entity_pos_t maxRange, bool opposite) const
+{
+	fixed dist = DistanceBetweenShapes(source, target);
+	// Treat -1 max range as infinite
+	return dist != fixed::FromInt(-1) &&
+	      (dist <= (maxRange + fixed::FromFloat(0.0001)) || maxRange < fixed::Zero()) &&
+	      (opposite ? MaxDistanceBetweenShapes(source, target) : dist) >= minRange - fixed::FromFloat(0.0001);
+}
 
 bool CCmpObstructionManager::TestLine(const IObstructionTestFilter& filter, entity_pos_t x0, entity_pos_t z0, entity_pos_t x1, entity_pos_t z1, entity_pos_t r, bool relaxClearanceForUnits) const
 {
@@ -873,7 +1073,7 @@ void CCmpObstructionManager::Rasterize(Grid<NavcellData>& grid, const std::vecto
 		{
 		case PathfinderPassability::PATHFINDING:
 		{
-			auto it = pathfindingMasks.find(passability.m_Clearance);
+			std::map<entity_pos_t, u16>::iterator it = pathfindingMasks.find(passability.m_Clearance);
 			if (it == pathfindingMasks.end())
 				pathfindingMasks[passability.m_Clearance] = passability.m_Mask;
 			else
@@ -962,7 +1162,7 @@ void CCmpObstructionManager::GetUnitObstructionsInRange(const IObstructionTestFi
 	m_UnitSubdivision.GetInRange(unitShapes, CFixedVector2D(x0, z0), CFixedVector2D(x1, z1));
 	for (entity_id_t& unitShape : unitShapes)
 	{
-		auto it = m_UnitShapes.find(unitShape);
+		std::map<u32, UnitShape>::const_iterator it = m_UnitShapes.find(unitShape);
 		ENSURE(it != m_UnitShapes.end());
 
 		if (!filter.TestShape(UNIT_INDEX_TO_TAG(it->first), it->second.flags, it->second.group, INVALID_ENTITY))
@@ -990,7 +1190,7 @@ void CCmpObstructionManager::GetStaticObstructionsInRange(const IObstructionTest
 	m_StaticSubdivision.GetInRange(staticShapes, CFixedVector2D(x0, z0), CFixedVector2D(x1, z1));
 	for (entity_id_t& staticShape : staticShapes)
 	{
-		auto it = m_StaticShapes.find(staticShape);
+		std::map<u32, StaticShape>::const_iterator it = m_StaticShapes.find(staticShape);
 		ENSURE(it != m_StaticShapes.end());
 
 		if (!filter.TestShape(STATIC_INDEX_TO_TAG(it->first), it->second.flags, it->second.group, it->second.group2))
@@ -1013,7 +1213,7 @@ void CCmpObstructionManager::GetUnitsOnObstruction(const ObstructionSquare& squa
 	PROFILE("GetUnitsOnObstruction");
 
 	// In order to avoid getting units on impassable cells, we want to find all
-	// units s.t. the RasterizeRectWithClearance of the building's shape with the
+	// units subject to the RasterizeRectWithClearance of the building's shape with the
 	// unit's clearance covers the navcell the unit is on.
 
 	std::vector<entity_id_t> unitShapes;
@@ -1027,7 +1227,7 @@ void CCmpObstructionManager::GetUnitsOnObstruction(const ObstructionSquare& squa
 
 	for (const u32& unitShape : unitShapes)
 	{
-		auto it = m_UnitShapes.find(unitShape);
+		std::map<u32, UnitShape>::const_iterator it = m_UnitShapes.find(unitShape);
 		ENSURE(it != m_UnitShapes.end());
 
 		const UnitShape& shape = it->second;
@@ -1069,6 +1269,40 @@ void CCmpObstructionManager::GetUnitsOnObstruction(const ObstructionSquare& squa
 	}
 }
 
+void CCmpObstructionManager::GetStaticObstructionsOnObstruction(const ObstructionSquare& square, std::vector<entity_id_t>& out, const IObstructionTestFilter& filter) const
+{
+	PROFILE("GetStaticObstructionsOnObstruction");
+
+	std::vector<entity_id_t> staticShapes;
+	CFixedVector2D center(square.x, square.z);
+	CFixedVector2D expandedBox = Geometry::GetHalfBoundingBox(square.u, square.v, CFixedVector2D(square.hw, square.hh));
+	m_StaticSubdivision.GetInRange(staticShapes, center - expandedBox, center + expandedBox);
+
+	for (const u32& staticShape : staticShapes)
+	{
+		std::map<u32, StaticShape>::const_iterator it = m_StaticShapes.find(staticShape);
+		ENSURE(it != m_StaticShapes.end());
+
+		const StaticShape& shape = it->second;
+
+		if (!filter.TestShape(STATIC_INDEX_TO_TAG(staticShape), shape.flags, shape.group, shape.group2))
+			continue;
+
+		if (Geometry::TestSquareSquare(
+		    center,
+		    square.u,
+		    square.v,
+		    CFixedVector2D(square.hw, square.hh),
+		    CFixedVector2D(shape.x, shape.z),
+		    shape.u,
+		    shape.v,
+		    CFixedVector2D(shape.hw, shape.hh)))
+		{
+			out.push_back(shape.entity);
+		}
+	}
+}
+
 void CCmpObstructionManager::RenderSubmit(SceneCollector& collector)
 {
 	if (!m_DebugOverlayEnabled)
@@ -1094,7 +1328,7 @@ void CCmpObstructionManager::RenderSubmit(SceneCollector& collector)
 		{
 			m_DebugOverlayLines.push_back(SOverlayLine());
 			m_DebugOverlayLines.back().m_Color = ((it->second.flags & FLAG_MOVING) ? movingColor : defaultColor);
-			SimRender::ConstructSquareOnGround(GetSimContext(), it->second.x.ToFloat(), it->second.z.ToFloat(), it->second.clearance.ToFloat()*2, it->second.clearance.ToFloat()*2, 0, m_DebugOverlayLines.back(), true);
+			SimRender::ConstructSquareOnGround(GetSimContext(), it->second.x.ToFloat(), it->second.z.ToFloat(), it->second.clearance.ToFloat(), it->second.clearance.ToFloat(), 0, m_DebugOverlayLines.back(), true);
 		}
 
 		for (std::map<u32, StaticShape>::iterator it = m_StaticShapes.begin(); it != m_StaticShapes.end(); ++it)

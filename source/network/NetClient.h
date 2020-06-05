@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
 #include "network/NetFileTransfer.h"
 #include "network/NetHost.h"
 #include "scriptinterface/ScriptVal.h"
+#include "scriptinterface/ScriptInterface.h"
 
 #include "ps/CStr.h"
 
@@ -91,6 +92,12 @@ public:
 	void SetUserName(const CStrW& username);
 
 	/**
+	 * Set the name of the hosting player.
+	 * This is needed for the secure lobby authentication.
+	 */
+	void SetHostingPlayerName(const CStr& hostingPlayerName);
+
+	/**
 	 * Returns the GUID of the local client.
 	 * Used for distinguishing observers.
 	 */
@@ -101,7 +108,7 @@ public:
 	 * @param server IP address or host name to connect to
 	 * @return true on success, false on connection failure
 	 */
-	bool SetupConnection(const CStr& server, const u16 port, ENetHost* enetClient = NULL);
+	bool SetupConnection(const CStr& server, const u16 port, ENetHost* enetClient);
 
 	/**
 	 * Destroy the connection to the server.
@@ -147,7 +154,16 @@ public:
 	 * Add a message to the queue, to be read by GuiPoll.
 	 * The script value must be in the GetScriptInterface() JS context.
 	 */
-	void PushGuiMessage(const JS::HandleValue message);
+	template<typename... Args>
+	void PushGuiMessage(Args const&... args)
+	{
+		JSContext* cx = GetScriptInterface().GetContext();
+		JSAutoRequest rq(cx);
+
+		JS::RootedValue message(cx);
+		ScriptInterface::CreateObject(cx, &message, args...);
+		m_GuiMessageQueue.push_back(JS::Heap<JS::Value>(message));
+	}
 
 	/**
 	 * Return a concatenation of all messages in the GUI queue,
@@ -159,7 +175,7 @@ public:
 	 * Get the script interface associated with this network client,
 	 * which is equivalent to the one used by the CGame in the constructor.
 	 */
-	ScriptInterface& GetScriptInterface();
+	const ScriptInterface& GetScriptInterface();
 
 	/**
 	 * Send a message to the server.
@@ -189,7 +205,7 @@ public:
 	 */
 	void LoadFinished();
 
-	void SendGameSetupMessage(JS::MutableHandleValue attrs, ScriptInterface& scriptInterface);
+	void SendGameSetupMessage(JS::MutableHandleValue attrs, const ScriptInterface& scriptInterface);
 
 	void SendAssignPlayerMessage(const int playerID, const CStr& guid);
 
@@ -218,10 +234,14 @@ public:
 	void SendPausedMessage(bool pause);
 
 private:
+
+	void SendAuthenticateMessage();
+
 	// Net message / FSM transition handlers
 	static bool OnConnect(void* context, CFsmEvent* event);
 	static bool OnHandshake(void* context, CFsmEvent* event);
 	static bool OnHandshakeResponse(void* context, CFsmEvent* event);
+	static bool OnAuthenticateRequest(void* context, CFsmEvent* event);
 	static bool OnAuthenticate(void* context, CFsmEvent* event);
 	static bool OnChat(void* context, CFsmEvent* event);
 	static bool OnReady(void* context, CFsmEvent* event);
@@ -251,6 +271,7 @@ private:
 
 	CGame *m_Game;
 	CStrW m_UserName;
+	CStr m_HostingPlayerName;
 
 	/// Current network session (or NULL if not connected)
 	CNetClientSession* m_Session;

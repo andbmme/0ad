@@ -6,9 +6,11 @@
   </Armour>
   <Attack>
     <Melee>
-      <Hack>1</Hack>
-      <Pierce>3</Pierce>
-      <MaxRange>8.0</MaxRange>
+      <Damage>
+        <Hack>1</Hack>
+        <Pierce>3</Pierce>
+      </Damage>
+      <MaxRange>7</MaxRange>
       <RepeatTime>2000</RepeatTime>
       <Bonuses>
           <BonusCavMelee>
@@ -24,7 +26,7 @@
     </Resources>
   </Cost>
   <Identity>
-    <VisibleClasses datatype="tokens">Spear Pike</VisibleClasses>
+    <VisibleClasses datatype="tokens">Pikeman</VisibleClasses>
     <GenericName>Pikeman</GenericName>
     <Tooltip>Counters: 3x vs. Cavalry.</Tooltip>
     <Formations datatype="tokens">
@@ -36,8 +38,10 @@
   </Loot>
   <UnitMotion>
     <WalkSpeed op="mul">0.8</WalkSpeed>
-    <Run>
-      <Speed op="mul">0.8</Speed>
-    </Run>
   </UnitMotion>
+  <Sound>
+    <SoundGroups>
+      <attack_melee>attack/weapon/pike_attack.xml</attack_melee>
+    </SoundGroups>
+  </Sound>
 </Entity>

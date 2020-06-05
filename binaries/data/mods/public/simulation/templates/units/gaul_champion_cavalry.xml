@@ -3,11 +3,11 @@
   <Identity>
     <Civ>gaul</Civ>
     <GenericName>Gallic Noble Cavalry</GenericName>
-    <SpecificName>Gallic Brihent</SpecificName>
+    <SpecificName>Uerouicos</SpecificName>
     <SelectionGroupName>units/gaul_champion_cavalry</SelectionGroupName>
-    <Icon>units/celt_champion_cavalry_gaul.png</Icon>
+    <Icon>units/gaul_champion_cavalry.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/celts/champion_unit_2.xml</Actor>
+    <Actor>units/gauls/cavalry_spearman_c_m.xml</Actor>
   </VisualActor>
 </Entity>

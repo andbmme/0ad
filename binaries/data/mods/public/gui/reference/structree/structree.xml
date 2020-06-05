@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <objects>
-	<script file="gui/common/functions_civinfo.js"/>
-	<script file="gui/common/functions_global_object.js"/>
-	<script file="gui/common/functions_utility.js"/>
-	<script file="gui/common/tooltips.js"/>
+
+	<script directory="gui/common/"/>
 	<script directory="gui/reference/common/"/>
-	<script file="gui/reference/structree/structree.js"/>
-	<script file="gui/reference/structree/draw.js"/>
+	<script directory="gui/reference/structree/"/>
+
+	<object	hotkey="structree">
+		<action on="Press">
+			closePage();
+		</action>
+	</object>
 
 	<!-- Add a translucent black background to fade out the menu page -->
-	<object type="image" z="0" sprite="BackgroundTranslucent"/>
+	<object type="image" sprite="BackgroundTranslucent"/>
 
 	<object type="image" style="ModernDialog" size="16 24 100%-16 100%-24">
 		<object style="TitleText" type="text" size="50%-128 -18 50%+128 14">
@@ -24,11 +27,11 @@
 				font="sans-bold-16"
 				textcolor="white"
 				text_align="left"
-				size="100%-264 10 100%-160 48">
+				size="100%-290 10 100%-180 48">
 				<translatableAttribute id="caption">Civilization:</translatableAttribute>
 			</object>
 
-			<object name="civSelection" type="dropdown" style="ModernDropDown" size="100%-160 8 100% 34" dropdown_size="350">
+			<object name="civSelection" type="dropdown" style="ModernDropDown" size="100%-180 8 100% 34" dropdown_size="424">
 				<action on="SelectionChange">selectCiv(this.list_data[this.selected]);</action>
 			</object>
 		</object>
@@ -99,12 +102,12 @@
 				<repeat count="6" var="t">
 					<object type="image" style="StructBox" name="trainer[t]">
 						<object type="text" style="StructNameSpecific" name="trainer[t]_name"/>
-						<object type="image" style="StructIcon" name="trainer[t]_icon"
+						<object type="button" style="StructIcon" name="trainer[t]_icon"
 							sprite="stretched:pregame/shell/logo/wfg_logo_white.png"
 						/>
 						<object name="trainer[t]_row">
 							<repeat count="4" var="p">
-								<object type="image" style="ProdBox" name="trainer[t]_prod[p]"/>
+								<object type="button" style="ProdBox" name="trainer[t]_prod[p]"/>
 							</repeat>
 						</object>
 					</object>
@@ -112,16 +115,27 @@
 			</object>
 		</object>
 
+		<!-- Civilization Overview page -->
+		<object
+			type="button"
+			style="StoneButton"
+			size="100%-421 100%-44 100%-221 100%-16"
+			name="civinfo"
+			hotkey="civinfo"
+		>
+			<translatableAttribute id="caption">Civilization Overview</translatableAttribute>
+			<action on="Press">switchToCivInfoPage();</action>
+		</object>
 		<!-- Close dialog -->
 		<object
 			type="button"
 			style="StoneButton"
-			size="100%-164 100%-44 100%-16 100%-16"
+			size="100%-216 100%-44 100%-16 100%-16"
+			name="close"
 			hotkey="cancel"
 		>
 			<translatableAttribute id="caption">Close</translatableAttribute>
 			<action on="Press">closePage();</action>
 		</object>
-
 	</object>
 </objects>

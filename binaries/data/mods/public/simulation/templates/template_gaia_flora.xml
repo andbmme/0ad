@@ -3,6 +3,7 @@
   <Identity>
     <Classes datatype="tokens">ForestPlant</Classes>
     <Icon>gaia/flora_tree_generic.png</Icon>
+    <Tooltip>Chop trees for wood.</Tooltip>
   </Identity>
   <Minimap>
     <Type>wood</Type>
@@ -10,6 +11,8 @@
   </Minimap>
   <Obstruction>
     <Static width="1.6" depth="1.6"/>
+    <!-- Trees are deleted as a workaround for gates until random maps are smart enough to not place trees inside walls -->
+    <DeleteUponConstruction>true</DeleteUponConstruction>
   </Obstruction>
   <ResourceSupply>
     <KillBeforeGather>false</KillBeforeGather>
@@ -18,11 +21,11 @@
     <MaxGatherers>8</MaxGatherers>
   </ResourceSupply>
   <Selectable>
-    <EditorOnly disable=""/>
     <Overlay>
+      <Outline disable=""/>
       <Texture>
-        <MainTexture>circle/128x128.png</MainTexture>
-        <MainTextureMask>circle/128x128_mask.png</MainTextureMask>
+        <MainTexture>128x128/ellipse.png</MainTexture>
+        <MainTextureMask>128x128/ellipse_mask.png</MainTextureMask>
       </Texture>
     </Overlay>
   </Selectable>

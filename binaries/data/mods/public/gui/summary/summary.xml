@@ -1,26 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <objects>
-	<script file="gui/common/functions_global_object.js"/>
-	<script file="gui/common/functions_civinfo.js"/>
-	<script file="gui/common/functions_utility.js"/>
-	<script file="gui/common/gamedescription.js"/>
-	<script file="gui/common/settings.js"/>
-	<script file="gui/common/tooltips.js"/>
 
-	<!-- After settings.js, which defines g_Settings and g_MaxPlayers. -->
-	<script file="gui/summary/counters.js"/>
-	<script file="gui/summary/summary.js"/>
+	<script directory="gui/common/"/>
+	<script directory="gui/summary/"/>
 
-	<!-- Needs the colors from summary.js -->
-	<script file="gui/summary/layout.js"/>
+	<object hotkey="summary">
+		<action on="Press">continueButton();</action>
+	</object>
+
+	<object hotkey="cancel">
+		<action on="Press">
+		if (g_GameData.gui.isInGame)
+			continueButton();
+		</action>
+	</object>
+
+	<object hotkey="tab.next">
+		<action on="KeyDown">selectNextTab(1);</action>
+	</object>
+
+	<object hotkey="tab.prev">
+		<action on="KeyDown">selectNextTab(-1);</action>
+	</object>
+
+	<object type="image" sprite="ModernFade" name="fadeImage"/>
 
 	<object name="summaryWindow"
 		type="image"
 		style="ModernWindow"
-		size="0 0 100% 100%"
 	>
-		<object style="ModernLabelText" type="text" size="50%-128 4 50%+128 36">
+		<object name="summaryWindowTitle" type="text" style="ModernLabelText">
 			<translatableAttribute id="caption">Summary</translatableAttribute>
 		</object>
 
@@ -68,7 +78,7 @@
 		<object name="buildingsPanelButton" type="button" style="ModernTabButtonHorizontal" size="142 92 260 120">
 			<action on="Press">selectPanel(this);</action>
 			<object type="text" style="ModernLabelText" ghost="true">
-				<translatableAttribute id="caption">Buildings</translatableAttribute>
+				<translatableAttribute id="caption">Structures</translatableAttribute>
 			</object>
 		</object>
 
@@ -191,19 +201,34 @@
 					</object>
 
 					<object type="image" sprite="color: 255 255 255 20" size="0 75 100% 100%"/>
-					<object name="chart[k]" type="chart" size="5 80 100%-5 100%-5"/>
+					<object name="chart[k]" type="chart" style="ModernChart" format_x="DURATION_SHORT" format_y="INTEGER" size="5 80 100%-5 100%-25"/>
+					<object name="chart[k]XAxisLabel" type="text" style="ModernLabelText" size="5 100%-25 100%-5 100%-5"/>
 				</object>
 			</repeat>
 
 			<object name="chartLegend" type="text" style="ModernLabelText" size="15 100%-35 100%-15 100%-5"/>
 		</object>
 
-		<object type="button" name="replayButton" style="ModernButtonRed" size="100%-310 100%-48 100%-170 100%-20">
-			<translatableAttribute id="caption">Replay</translatableAttribute>
-			<action on="Press">confirmStartReplay();</action>
+		<!-- View Lobby Button -->
+		<object name="lobbyButton"
+			type="button"
+			sprite="iconBubbleGold"
+			sprite_over="iconBubbleWhite"
+			size="100%-336 100%-45 100%-320 100%-29"
+			hotkey="lobby"
+		>
+			<action on="Press">
+				if (Engine.HasXmppClient())
+					Engine.PushGuiPage("page_lobby.xml", { "dialog": true });
+			</action>
 		</object>
 
-		<object type="button" style="ModernButtonRed" size="100%-160 100%-48 100%-20 100%-20">
+		<object type="button" name="replayButton" style="ModernButtonRed" size="100%-310 100%-48 100%-170 100%-20">
+			<translatableAttribute id="caption">Watch Replay</translatableAttribute>
+			<action on="Press">startReplay();</action>
+		</object>
+
+		<object type="button" name="continueButton" style="ModernButtonRed" size="100%-160 100%-48 100%-20 100%-20">
 			<translatableAttribute id="caption">Continue</translatableAttribute>
 			<action on="Press">continueButton();</action>
 		</object>

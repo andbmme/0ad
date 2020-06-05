@@ -16,12 +16,13 @@
   </Health>
   <Identity>
     <GenericName>Corral</GenericName>
+    <SelectionGroupName>template_structure_resource_corral</SelectionGroupName>
     <Tooltip>Raise herd animals for food. Task domestic animals here to gain a trickle of food or other bonus (Not yet implemented).</Tooltip>
     <VisibleClasses datatype="tokens">Village Corral</VisibleClasses>
     <Icon>structures/corral.png</Icon>
   </Identity>
   <Loot>
-    <food>25</food>
+    <wood>20</wood>
   </Loot>
   <Obstruction>
     <Static width="16.0" depth="15.0"/>
@@ -29,7 +30,7 @@
   <ProductionQueue>
     <BatchTimeModifier>0.7</BatchTimeModifier>
     <Entities datatype="tokens">
-      gaia/fauna_sheep
+      gaia/fauna_sheep_trainable
     </Entities>
     <Technologies datatype="tokens">
       gather_animals_stockbreeding
@@ -41,7 +42,6 @@
     <SoundGroups>
       <select>interface/select/building/sel_corral.xml</select>
       <constructed>interface/complete/building/complete_corral.xml</constructed>
-      <death>attack/destruction/building_collapse_large.xml</death>
     </SoundGroups>
   </Sound>
   <TerritoryInfluence>

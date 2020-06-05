@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -33,6 +33,7 @@
 #include "graphics/Terrain.h"
 #include "graphics/Unit.h"
 #include "lib/ogl.h"
+#include "lib/utf8.h"
 #include "maths/MathUtil.h"
 #include "maths/Matrix3D.h"
 #include "ps/CLogger.h"
@@ -145,7 +146,10 @@ static CColor GetOwnerPlayerColor(PlayerColorMap& colorMap, entity_id_t id)
 			entity_id_t playerEnt = cmpPlayerManager->GetPlayerByID(owner);
 			CmpPtr<ICmpPlayer> cmpPlayer(sim, playerEnt);
 			if (cmpPlayer)
-				color = colorMap[owner] = cmpPlayer->GetColor();
+			{
+				colorMap[owner] = cmpPlayer->GetDisplayedColor();
+				color = colorMap[owner];
+			}
 		}
 	}
 	return color;
@@ -251,21 +255,21 @@ QUERYHANDLER(GetObjectMapSettings)
 	CmpPtr<ICmpTemplateManager> cmpTemplateManager(*g_Game->GetSimulation2(), SYSTEM_ENTITY);
 	ENSURE(cmpTemplateManager);
 
-	XML_Start();
+	XMLWriter_File exampleFile;
 	{
-		XML_Element("Entities");
+		XMLWriter_Element entitiesTag(exampleFile, "Entities");
 		{
 			for (entity_id_t id : ids)
 			{
-				XML_Element("Entity");
+				XMLWriter_Element entityTag(exampleFile, "Entity");
 				{
 					//Template name
-					XML_Setting("Template", cmpTemplateManager->GetCurrentTemplateName(id));
+					entityTag.Setting("Template", cmpTemplateManager->GetCurrentTemplateName(id));
 
 					//Player
 					CmpPtr<ICmpOwnership> cmpOwnership(*g_Game->GetSimulation2(), id);
 					if (cmpOwnership)
-						XML_Setting("Player", (int)cmpOwnership->GetOwner());
+						entityTag.Setting("Player", static_cast<int>(cmpOwnership->GetOwner()));
 
 					//Adding position to make some relative position later
 					CmpPtr<ICmpPosition> cmpPosition(*g_Game->GetSimulation2(), id);
@@ -274,30 +278,29 @@ QUERYHANDLER(GetObjectMapSettings)
 						CFixedVector3D pos = cmpPosition->GetPosition();
 						CFixedVector3D rot = cmpPosition->GetRotation();
 						{
-							XML_Element("Position");
-							XML_Attribute("x", pos.X);
-							XML_Attribute("z", pos.Z);
+							XMLWriter_Element positionTag(exampleFile, "Position");
+							positionTag.Attribute("x", pos.X);
+							positionTag.Attribute("z", pos.Z);
 							// TODO: height offset etc
 						}
 						{
-							XML_Element("Orientation");
-							XML_Attribute("y", rot.Y);
-														// TODO: X, Z maybe
+							XMLWriter_Element orientationTag(exampleFile, "Orientation");
+							orientationTag.Attribute("y", rot.Y);
+							// TODO: X, Z maybe
 						}
 					}
 
 					// Adding actor seed
 					CmpPtr<ICmpVisual> cmpVisual(*g_Game->GetSimulation2(), id);
 					if (cmpVisual)
-						XML_Setting("ActorSeed", (unsigned int)cmpVisual->GetActorSeed());
-
+						entityTag.Setting("ActorSeed", static_cast<unsigned int>(cmpVisual->GetActorSeed()));
 				}
 			}
 		}
 	}
 
-	const CStr& data = XML_GetOutput();
-	msg->xmldata = std::wstring(data.begin(), data.end());
+	const CStr& data = exampleFile.GetOutput();
+	msg->xmldata = data.FromUTF8();
 }
 
 
@@ -375,14 +378,14 @@ static CVector3D GetUnitPos(const Position& pos, bool floating)
 
 	// Clamp the position to the edges of the world:
 
-	// Use 'clamp' with a value slightly less than the width, so that converting
+	// Use 'Clamp' with a value slightly less than the width, so that converting
 	// to integer (rounding towards zero) will put it on the tile inside the edge
 	// instead of just outside
 	float mapWidth = (g_Game->GetWorld()->GetTerrain()->GetVerticesPerSide()-1)*TERRAIN_TILE_SIZE;
 	float delta = 1e-6f; // fraction of map width - must be > FLT_EPSILON
 
-	float xOnMap = clamp(vec.X, 0.f, mapWidth * (1.f - delta));
-	float zOnMap = clamp(vec.Z, 0.f, mapWidth * (1.f - delta));
+	float xOnMap = Clamp(vec.X, 0.f, mapWidth * (1.f - delta));
+	float zOnMap = Clamp(vec.Z, 0.f, mapWidth * (1.f - delta));
 
 	// Don't waste time with GetExactGroundLevel unless we've changed
 	if (xOnMap != vec.X || zOnMap != vec.Z)
@@ -415,9 +418,8 @@ MESSAGEHANDLER(ObjectPreviewToEntity)
 	//I need to re create the objects finally delete preview objects
 	for (entity_id_t ent : g_PreviewEntitiesID)
 	{
-		//Get template
-		std::string templateName = cmpTemplateManager->GetCurrentTemplateName(ent);
-		std::wstring wTemplateName(templateName.begin() + 8, templateName.end());
+		//Get template name (without the "preview|" prefix)
+		std::wstring wTemplateName = wstring_from_utf8(cmpTemplateManager->GetCurrentTemplateName(ent).substr(8));
 		//Create new entity
 		entity_id_t new_ent = g_Game->GetSimulation2()->AddEntity(wTemplateName);
 		if (new_ent == INVALID_ENTITY)

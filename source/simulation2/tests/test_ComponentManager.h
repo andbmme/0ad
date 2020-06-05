@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -43,7 +43,7 @@ class TestComponentManager : public CxxTest::TestSuite
 public:
 	void setUp()
 	{
-		g_VFS = CreateVfs(20 * MiB);
+		g_VFS = CreateVfs();
 		TS_ASSERT_OK(g_VFS->Mount(L"", DataDir()/"mods"/"_test.sim", VFS_MOUNT_MUST_EXIST));
 		TS_ASSERT_OK(g_VFS->Mount(L"cache", DataDir()/"_testcache"));
 		CXeromyces::Startup();
@@ -615,6 +615,31 @@ public:
 
 		TS_ASSERT_EQUALS(static_cast<ICmpTest1*> (man.QueryInterface(ent3, IID_Test1))->GetX(), 1000);
 		TS_ASSERT_EQUALS(static_cast<ICmpTest1*> (man.QueryInterface(ent4, IID_Test1))->GetX(), 200);
+	}
+
+	void test_script_modding()
+	{
+		CSimContext context;
+		CComponentManager man(context, g_ScriptRuntime);
+		man.LoadComponentTypes();
+
+		CParamNode testParam;
+		TS_ASSERT_EQUALS(CParamNode::LoadXMLString(testParam, "<x>100</x>"), PSRETURN_OK);
+
+		entity_id_t ent1 = 1, ent2 = 2;
+		CEntityHandle hnd1 = man.AllocateEntityHandle(ent1);
+		CEntityHandle hnd2 = man.AllocateEntityHandle(ent2);
+
+		TS_ASSERT(man.LoadScript(L"simulation/components/test-modding1.js"));
+
+		man.AddComponent(hnd1, man.LookupCID("Modding"), testParam);
+		TS_ASSERT_EQUALS(static_cast<ICmpTest1*> (man.QueryInterface(ent1, IID_Test1))->GetX(), 100);
+
+		TS_ASSERT(man.LoadScript(L"simulation/components/test-modding2.js"));
+
+		TS_ASSERT_EQUALS(static_cast<ICmpTest1*> (man.QueryInterface(ent1, IID_Test1))->GetX(), 1000);
+		man.AddComponent(hnd2, man.LookupCID("Modding"), testParam);
+		TS_ASSERT_EQUALS(static_cast<ICmpTest1*> (man.QueryInterface(ent2, IID_Test1))->GetX(), 1000);
 	}
 
 	void test_serialization()

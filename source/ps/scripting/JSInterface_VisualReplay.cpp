@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -17,11 +17,11 @@
 
 #include "precompiled.h"
 
-#include "ps/scripting/JSInterface_VisualReplay.h"
+#include "JSInterface_VisualReplay.h"
 
 #include "ps/CStr.h"
-#include "ps/Profile.h"
 #include "ps/VisualReplay.h"
+#include "scriptinterface/ScriptInterface.h"
 
 bool JSI_VisualReplay::StartVisualReplay(ScriptInterface::CxPrivate* UNUSED(pCxPrivate), const CStrW& directory)
 {
@@ -60,7 +60,7 @@ void JSI_VisualReplay::AddReplayToCache(ScriptInterface::CxPrivate* pCxPrivate, 
 
 CStrW JSI_VisualReplay::GetReplayDirectoryName(ScriptInterface::CxPrivate* UNUSED(pCxPrivate), const CStrW& directoryName)
 {
-	return wstring_from_utf8(OsPath(VisualReplay::GetDirectoryName() / directoryName).string8());
+	return wstring_from_utf8(OsPath(VisualReplay::GetDirectoryPath() / directoryName).string8());
 }
 
 void JSI_VisualReplay::RegisterScriptFunctions(const ScriptInterface& scriptInterface)

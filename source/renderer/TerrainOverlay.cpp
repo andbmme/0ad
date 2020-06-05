@@ -1,4 +1,4 @@
-/* Copyright (C) 2015 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -19,13 +19,13 @@
 
 #include "TerrainOverlay.h"
 
+#include "graphics/Color.h"
 #include "graphics/Terrain.h"
 #include "lib/bits.h"
 #include "lib/ogl.h"
 #include "maths/MathUtil.h"
 #include "ps/Game.h"
 #include "ps/Profile.h"
-#include "ps/Shapes.h"
 #include "ps/World.h"
 #include "renderer/Renderer.h"
 #include "renderer/TerrainRenderer.h"
@@ -134,10 +134,10 @@ void TerrainOverlay::RenderBeforeWater()
 	// Clamp the min to 0, but the max to -1 - so tile -1 can never be rendered,
 	// but if unclamped_max<0 then no tiles at all will be rendered. And the same
 	// for the upper limit.
-	min_i = clamp(min_i, ssize_t(0), m_Terrain->GetTilesPerSide());
-	min_j = clamp(min_j, ssize_t(0), m_Terrain->GetTilesPerSide());
-	max_i = clamp(max_i, ssize_t(-1), m_Terrain->GetTilesPerSide()-1);
-	max_j = clamp(max_j, ssize_t(-1), m_Terrain->GetTilesPerSide()-1);
+	min_i = Clamp<ssize_t>(min_i, 0, m_Terrain->GetTilesPerSide());
+	min_j = Clamp<ssize_t>(min_j, 0, m_Terrain->GetTilesPerSide());
+	max_i = Clamp<ssize_t>(max_i, -1, m_Terrain->GetTilesPerSide()-1);
+	max_j = Clamp<ssize_t>(max_j, -1, m_Terrain->GetTilesPerSide()-1);
 
 	for (m_j = min_j; m_j <= max_j; ++m_j)
 		for (m_i = min_i; m_i <= max_i; ++m_i)

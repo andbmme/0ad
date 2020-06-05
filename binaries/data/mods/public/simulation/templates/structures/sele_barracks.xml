@@ -15,13 +15,17 @@
   </Health>
   <Identity>
     <Civ>sele</Civ>
-    <SpecificName>Stratones</SpecificName>
+    <SpecificName>Stratopedon</SpecificName>
   </Identity>
+  <Loot>
+    <wood>30</wood>
+    <stone>30</stone>
+  </Loot>
   <Obstruction>
     <Static width="20.0" depth="20.0"/>
   </Obstruction>
   <VisualActor>
     <Actor>structures/seleucids/barracks.xml</Actor>
-    <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
+    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
   </VisualActor>
 </Entity>

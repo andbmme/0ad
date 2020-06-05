@@ -10,11 +10,12 @@
   <Identity>
     <Civ>pers</Civ>
     <VisibleClasses datatype="tokens">Chariot</VisibleClasses>
-    <GenericName>Darius The Great</GenericName>
-    <SpecificName>Darayavahush I</SpecificName>
+    <Lang>persian</Lang>
+    <GenericName>Darius I the Great</GenericName>
+    <SpecificName>Dārayavahuš</SpecificName>
     <Icon>units/pers_hero_darius.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/persians/hero_darius_chariot.xml</Actor>
+    <Actor>units/persians/hero_chariot_archer_darius_m.xml</Actor>
   </VisualActor>
 </Entity>

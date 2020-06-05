@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -15,7 +15,6 @@
  * along with 0 A.D.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-
 #ifndef INCLUDED_JSINTERFACE_RENDERER
 #define INCLUDED_JSINTERFACE_RENDERER
 
@@ -29,7 +28,9 @@ namespace JSI_Renderer
 {
 	std::string GetRenderPath(ScriptInterface::CxPrivate* pCxPrivate);
 	void SetRenderPath(ScriptInterface::CxPrivate* pCxPrivate, const std::string& name);
+	void UpdateAntiAliasingTechnique(ScriptInterface::CxPrivate* pCxPrivate);
 	void RecreateShadowMap(ScriptInterface::CxPrivate* pCxPrivate);
+	bool TextureExists(ScriptInterface::CxPrivate* pCxPrivate, const std::wstring& filename);
 
 	DECLARE_BOOLEAN_SCRIPT_SETTING(Shadows);
 	DECLARE_BOOLEAN_SCRIPT_SETTING(ShadowPCF);
@@ -41,15 +42,17 @@ namespace JSI_Renderer
 	DECLARE_BOOLEAN_SCRIPT_SETTING(WaterReflection);
 	DECLARE_BOOLEAN_SCRIPT_SETTING(WaterRefraction);
 	DECLARE_BOOLEAN_SCRIPT_SETTING(WaterShadows);
+	DECLARE_BOOLEAN_SCRIPT_SETTING(Fog);
 	DECLARE_BOOLEAN_SCRIPT_SETTING(Silhouettes);
 	DECLARE_BOOLEAN_SCRIPT_SETTING(ShowSky);
 	DECLARE_BOOLEAN_SCRIPT_SETTING(SmoothLOS);
-	DECLARE_BOOLEAN_SCRIPT_SETTING(Postproc);
+	DECLARE_BOOLEAN_SCRIPT_SETTING(PostProc);
 	DECLARE_BOOLEAN_SCRIPT_SETTING(DisplayFrustum);
+	DECLARE_BOOLEAN_SCRIPT_SETTING(DisplayShadowsFrustum);
 
 	void RegisterScriptFunctions(const ScriptInterface& scriptInterface);
 }
 
 #undef DECLARE_BOOLEAN_SCRIPT_SETTING
 
-#endif
+#endif // INCLUDED_JSINTERFACE_RENDERER

@@ -1,28 +1,30 @@
 # Translation template for 0 A.D. — Empires Ascendant.
-# Copyright © 2014 Wildfire Games
+# Copyright (C) 2019 Wildfire Games
 # This file is distributed under the same license as the 0 A.D. — Empires Ascendant project.
 # 
 # Translators:
 # lynx121 <adam.ostruszka@seznam.cz>, 2016
-# Jaroslav Lichtblau <dragonlord@seznam.cz>, 2016
-# J D <jonas.dyba@gmail.com>, 2016
-# fri, 2014-2017
+# Jaroslav Lichtblau <jlichtblau@seznam.cz>, 2016
+# Wesalius <jonas.dyba@gmail.com>, 2016
+# fri, 2014-2018
 # Pavel Šindelář <pavelsin123@gmail.com>, 2015
 # Petr Hála <halapetr@selfnet.cz>, 2016-2017
+# Radek Mašek <warrriog@gmail.com>, 2018
 # Robin Kriebel <kriebel.robin@gmail.com>, 2016-2017
+# Tomáš Matýs <thommathys@gmail.com>, 2018
 # Vojtěch Valigura <Encounter@seznam.cz>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: 0 A.D.\n"
-"POT-Creation-Date: 2017-09-11 09:05+0200\n"
-"PO-Revision-Date: 2017-09-11 15:01+0000\n"
+"POT-Creation-Date: 2019-05-24 09:43+0200\n"
+"PO-Revision-Date: 2019-05-24 14:54+0000\n"
 "Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
 "Language-Team: Czech (http://www.transifex.com/wildfire-games/0ad/language/cs/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: cs\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
 #: simulation/ai/petra/chatHelper.js:6
 #, javascript-format
@@ -216,7 +218,7 @@ msgstr "Nechť obě naše země vzkvétají z tohoto mírového svazku, %(_playe
 #: simulation/ai/petra/chatHelper.js:79
 #, javascript-format
 msgid "We have found common ground, %(_player_)s. I accept the alliance."
-msgstr ""
+msgstr "Máme společné zájmy,%(_player_)s. Toto spojenectví přijímám."
 
 #: simulation/ai/petra/chatHelper.js:80
 #, javascript-format
@@ -241,8 +243,8 @@ msgstr "%(_player_)s, musíš mi poslat tribut (projev úcty, vlastně vazalskou
 #, javascript-format
 msgid ""
 "Unless you send me %(_amount_)s %(_resource_)s, an alliance won’t be formed,"
-" %(_player_)s,"
-msgstr "Dokud mi nepošleš %(_amount_)s %(_resource_)s, tak spojenectví utvořeno nebude, %(_player_)s,"
+" %(_player_)s."
+msgstr ""
 
 #: simulation/ai/petra/chatHelper.js:88
 #, javascript-format
@@ -322,44 +324,44 @@ msgstr "%(_player_)s, nepřijmu dohodu o neutralitě s tebou, pokud mi v brzké 
 msgid ""
 "%(_player_)s, it would help both of our civilizations if we formed an "
 "alliance. If you become allies with me, I will respond in kind."
-msgstr ""
+msgstr "%(_player_)s, pomohlo by oběma našim civilizacím, kdyby vytvořily spojenectví.   Pokud se staneš mým spojencem, odvděčím se štědře."
 
 #: simulation/ai/petra/chatHelper.js:122
 #, javascript-format
 msgid "%(_player_)s, my offer for an alliance has expired."
-msgstr ""
+msgstr "%(_player_)s, moje nabídka spojenectví vypršela."
 
 #: simulation/ai/petra/chatHelper.js:123
 #, javascript-format
 msgid ""
 "%(_player_)s, I have rescinded my previous offer for an alliance between us."
-msgstr ""
+msgstr "%(_player_)s, odstoupil jsem od nabídky spojenectví mezi námi."
 
 #: simulation/ai/petra/chatHelper.js:128
 #, javascript-format
 msgid ""
 "%(_player_)s, I would like to request a neutrality pact between our "
 "civilizations. If you become neutral with me, I will respond in kind."
-msgstr ""
+msgstr "%(_player_)s, chtěl bych požádat o smlouvu o neutralitě mezi našimi civilizacemi. Pokud se staneš neutrálním ke mně, odvděčím se ti štědře."
 
 #: simulation/ai/petra/chatHelper.js:129
 #, javascript-format
 msgid ""
 "%(_player_)s, it would be both to our benefit if we negotiated a neutrality "
 "pact. I will become neutral with you if you do the same."
-msgstr ""
+msgstr "%(_player_)s, bylo by to k našemu společnému prospěchu, pokud bychom vyjednali smlouvu o neutralitě. Stanu se vůči tobě neutrálním, pokud uděláš totéž."
 
 #: simulation/ai/petra/chatHelper.js:132
 #, javascript-format
 msgid "%(_player_)s, I have decided to revoke my offer for a neutrality pact."
-msgstr ""
+msgstr "%(_player_)s, rozhodl jsem se zrušit svoji nabídku dohody o neutralitě."
 
 #: simulation/ai/petra/chatHelper.js:133
 #, javascript-format
 msgid ""
 "%(_player_)s, as you have failed to respond to my request for peace between "
 "us, I have abrogated my offer."
-msgstr ""
+msgstr "%(_player_)s, protože jste neodpověděli na mou žádost o mír mezi námi, zrušil jsem svou nabídku."
 
 #: simulation/components/BuildRestrictions.js:87
 #, javascript-format
@@ -430,12 +432,12 @@ msgid ""
 "%(validTerritories)s"
 msgstr "%(name)s nelze postavit na území %(territoryType)s. Platné území: %(validTerritories)s"
 
-#: simulation/components/BuildRestrictions.js:253
+#: simulation/components/BuildRestrictions.js:228
 #, javascript-format
 msgid "%(name)s must be built on a valid shoreline"
 msgstr "%(name)s lze postavit jen na platné pobřežní čáře"
 
-#: simulation/components/BuildRestrictions.js:281
+#: simulation/components/BuildRestrictions.js:256
 #, javascript-format
 msgid ""
 "%(name)s too close to a %(category)s, must be at least %(distance)s meter "
@@ -446,8 +448,9 @@ msgid_plural ""
 msgstr[0] "%(name)s je příliš blízko %(category)s, musí být alespoň %(distance)s metr daleko."
 msgstr[1] "%(name)s je příliš blízko %(category)s, musí být alespoň %(distance)s metry daleko."
 msgstr[2] "%(name)s je příliš blízko %(category)s, musí být alespoň %(distance)s metrů daleko."
+msgstr[3] "%(name)s je příliš blízko %(category)s, musí být alespoň %(distance)s metrů daleko."
 
-#: simulation/components/BuildRestrictions.js:302
+#: simulation/components/BuildRestrictions.js:277
 #, javascript-format
 msgid ""
 "%(name)s too far from a %(category)s, must be within %(distance)s meter"
@@ -456,31 +459,32 @@ msgid_plural ""
 msgstr[0] "%(name)s je moc daleko od %(category)s, může být maximálně vzdáleno %(distance)s metr."
 msgstr[1] "%(name)s je moc daleko od %(category)s, může být maximálně vzdáleno %(distance)s metry."
 msgstr[2] "%(name)s je moc daleko od %(category)s, může být vzdáleno nejvíce %(distance)s metrů."
+msgstr[3] "%(name)s je moc daleko od %(category)s, může být vzdáleno nejvíce %(distance)s metrů."
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:342
+#: simulation/components/BuildRestrictions.js:317
 msgctxt "Territory type list"
 msgid "own"
 msgstr "vlastní"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:344
+#: simulation/components/BuildRestrictions.js:319
 msgctxt "Territory type list"
 msgid "ally"
 msgstr "spojenec"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:346
+#: simulation/components/BuildRestrictions.js:321
 msgctxt "Territory type list"
 msgid "neutral"
 msgstr "neutrální"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:348
+#: simulation/components/BuildRestrictions.js:323
 msgctxt "Territory type list"
 msgid "enemy"
 msgstr "nepřátelský"
@@ -494,53 +498,54 @@ msgstr "Můžete zaútočit za %(time)s"
 msgid "You can attack now!"
 msgstr "Můžete zaútočit nyní!"
 
-#: simulation/components/EndGameManager.js:173
+#: simulation/components/EndGameManager.js:171
 #, javascript-format
 msgid "%(lastPlayer)s has won (last player alive)."
 msgid_plural "%(players)s and %(lastPlayer)s have won (last players alive)."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%(lastPlayer)szvítězil (poslední hráč naživu)."
+msgstr[1] "%(lastPlayer)svyhráli (poslední hráč naživu)."
+msgstr[2] "%(lastPlayer)svyhrálo (poslední hráči naživu)."
+msgstr[3] "%(players)sa%(lastPlayer)s zvítězili (poslední hráči naživu)."
 
-#: simulation/components/EndGameManager.js:181
+#: simulation/components/EndGameManager.js:179
 msgid "Last remaining player wins."
 msgstr "Poslední zbývající hráč vyhrává."
 
-#: simulation/components/EntityLimits.js:166
+#: simulation/components/EntityLimits.js:165
 #, javascript-format
 msgid "%(category)s build limit of %(limit)s reached"
 msgstr "%(category)s stavebního limitu %(limit)s dosaženo"
 
-#: simulation/components/EntityLimits.js:168
+#: simulation/components/EntityLimits.js:167
 #, javascript-format
 msgid "%(category)s training limit of %(limit)s reached"
 msgstr "%(category)s kapacity výcviku %(limit)s dosaženo"
 
-#: simulation/components/EntityLimits.js:172
+#: simulation/components/EntityLimits.js:171
 #, javascript-format
 msgid "%(category)s limit of %(limit)s reached"
 msgstr "%(category)s limitu %(limit)s dosaženo"
 
-#: simulation/components/Player.js:304
+#: simulation/components/Player.js:352
 #, javascript-format
 msgid "Insufficient resources - %(resourceAmount1)s %(resourceType1)s"
 msgstr "Nedostatek surovin - %(resourceAmount1)s %(resourceType1)s"
 
-#: simulation/components/Player.js:306
+#: simulation/components/Player.js:354
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
 "%(resourceAmount2)s %(resourceType2)s"
 msgstr "Nedostatek surovin - %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s"
 
-#: simulation/components/Player.js:308
+#: simulation/components/Player.js:356
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
 "%(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s"
 msgstr "Nedostatek surovin - %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s"
 
-#: simulation/components/Player.js:310
+#: simulation/components/Player.js:358
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
@@ -548,68 +553,68 @@ msgid ""
 "%(resourceType3)s, %(resourceAmount4)s %(resourceType4)s"
 msgstr "Nedostatek surovin - %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s, %(resourceAmount4)s %(resourceType4)s"
 
-#: simulation/components/ProductionQueue.js:401
+#: simulation/components/ProductionQueue.js:394
 msgid "The production queue is full."
 msgstr "Výrobní řada je plná."
 
-#: simulation/components/ProductionQueue.js:783
+#: simulation/components/ProductionQueue.js:769
 msgid "Can't find free space to spawn trained units"
 msgstr "Nelze najít místo na vytváření cvičených jednotek"
 
 #: simulation/helpers/Cheat.js:53
 #, javascript-format
 msgid "%(player)s has been defeated (cheat)."
-msgstr ""
+msgstr "%(player)s byl poražen (podváděl)."
 
 #: simulation/helpers/Cheat.js:62
 msgid "You need to select a building that trains units."
 msgstr "Je potřeba, abyste vybral budovu, v níž se provádí výcvik jednotek."
 
-#: simulation/helpers/Commands.js:133
+#: simulation/helpers/Commands.js:124
 msgid "(Cheat - control all units)"
 msgstr "(Podfuk - Ovládat všechny jednotky)"
 
-#: simulation/helpers/Commands.js:148
+#: simulation/helpers/Commands.js:139
 msgid "(Cheat - reveal map)"
 msgstr "(Podvod - odhalit mapu)"
 
-#: simulation/helpers/Commands.js:453
+#: simulation/helpers/Commands.js:466
 #, javascript-format
 msgid "%(player)s has resigned."
-msgstr ""
+msgstr "%(player)s se vzdal."
 
-#: simulation/helpers/Commands.js:595
+#: simulation/helpers/Commands.js:608
 msgid "(Cheat - promoted units)"
 msgstr "(Podfuk - povýšení jednotek)"
 
-#: simulation/helpers/Commands.js:709
+#: simulation/helpers/Commands.js:722
 msgid ""
 "Cannot upgrade as distance requirements are not verified or terrain is "
 "obstructed."
 msgstr "Vylepšení nelze uvnitř tohoto odstupu provést, aniž by byla přezkoušena vzdálenost, nebo jsou v území položeny překážky."
 
-#: simulation/helpers/Commands.js:719
+#: simulation/helpers/Commands.js:732
 msgid "Cannot upgrade a garrisoned entity."
 msgstr "Nelze provést vylepšení jednotky obsazené posádkou."
 
-#: simulation/helpers/Commands.js:765
+#: simulation/helpers/Commands.js:775
 #, javascript-format
 msgid "Attack against %(_player_)s requested."
 msgstr "Požadován útok proti %(_player_)s."
 
-#: simulation/helpers/Commands.js:801
+#: simulation/helpers/Commands.js:814
 msgid "There are no bribable units"
 msgstr "Nejsou tu žádné podplatitelné jednotky"
 
-#: simulation/helpers/Commands.js:847
+#: simulation/helpers/Commands.js:860
 msgid "Unable to ungarrison unit(s)"
 msgstr "Nelze vyložit jednotky"
 
-#: simulation/helpers/Commands.js:861
+#: simulation/helpers/Commands.js:874
 msgid "Some unit(s) can't go back to work"
 msgstr "Některé jednotky nemohou jít zpět do práce"
 
-#: simulation/helpers/Commands.js:1115
+#: simulation/helpers/Commands.js:1112
 msgid "The building's technology requirements are not met."
 msgstr "Technologické požadavky na postavení budovy nejsou splněny."
 
@@ -701,27 +706,29 @@ msgstr "Ukořistěte všechny památky po celé mapěa podržte je po určitou d
 
 #: simulation/data/settings/victory_conditions/capture_the_relic.jsonData.Title
 msgid "Capture the Relic"
-msgstr ""
+msgstr "Ukořistit památku"
 
 #: simulation/data/settings/victory_conditions/conquest.jsonData.Description
-msgid "Defeat all opponents to win."
-msgstr "Poražte všechny soupeře a vyhrajte."
+msgid ""
+"Defeat opponents by killing all their units and destroying all their "
+"structures."
+msgstr "Poražte nepřátele zabitím všech jejich jednotek a zničením všech jejich staveb."
 
 #: simulation/data/settings/victory_conditions/conquest.jsonData.Title
 msgid "Conquest"
 msgstr "Dobytí"
 
 #: simulation/data/settings/victory_conditions/conquest_structures.jsonData.Description
-msgid "Destroy all enemy structures to win."
-msgstr "Zničte všechny nepřátelské stavby a vyhrajte."
+msgid "Defeat opponents by destroying all their structures."
+msgstr "Poražte nepřátele zničením všech jejich staveb."
 
 #: simulation/data/settings/victory_conditions/conquest_structures.jsonData.Title
 msgid "Conquest Structures"
 msgstr "Dobýt budovy"
 
 #: simulation/data/settings/victory_conditions/conquest_units.jsonData.Description
-msgid "Kill all enemy units to win."
-msgstr "Zabijte všechny nepřátelské jednotky a vyhrajte."
+msgid "Defeat opponents by killing all their units."
+msgstr "Poražte nepřátele zabitím všech jejich jednotek."
 
 #: simulation/data/settings/victory_conditions/conquest_units.jsonData.Title
 msgid "Conquest Units"
@@ -737,9 +744,11 @@ msgstr "Královrah"
 
 #: simulation/data/settings/victory_conditions/wonder.jsonData.Description
 msgid ""
-"Be the first to build or capture a wonder and keep it for a certain time to "
-"win the game."
-msgstr "Buďte prvními, kdo postaví nebo zajmou div a podržte jej po určitou dobu, abyste zvítězili ve hře."
+"Be the first to build or capture a Wonder and keep it for a certain time to "
+"win the game. The timer will be reset when the Wonder is destroyed or "
+"captured. If the allied victory mode is enabled, the timer will also be "
+"reset when the alliances of the owner change."
+msgstr ""
 
 #: simulation/data/settings/victory_conditions/wonder.jsonData.Title
 msgid "Wonder"
@@ -775,13 +784,55 @@ msgctxt "startingResources"
 msgid "Deathmatch"
 msgstr "Zápas na život a na smrt"
 
+#: simulation/data/settings/trigger_difficulties.jsonData[0].Tooltip
+msgid "Choose this difficulty if you are discovering 0 A.D."
+msgstr "Zvolte tuto obtížnost, pokud objevujete 0 A.D."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[0].Title
+msgid "Very Easy"
+msgstr "Velmi lehká"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[1].Tooltip
+msgid "Choose this difficulty if you do not like being knocked down."
+msgstr "Zvolte tuto obtížnost, pokud nemáte rád, když jste porážen."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[1].Title
+msgid "Easy"
+msgstr "Lehká"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[2].Tooltip
+msgid ""
+"Choose this difficulty if you have already a good experience with 0 A.D."
+msgstr "Zvolte tuto obtížnost, pokud jste již s 0 A.D dobře obeznámen."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[2].Title
+#: simulation/data/settings/map_sizes.jsonData[2].Name
+msgid "Medium"
+msgstr "Střední"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[3].Tooltip
+msgid "Choose this difficulty if you want to be really challenged."
+msgstr "Zvolte tuto obtížnost, pokud chcete být v nevýhodě (totiž podmínkami značně postižen, prostě milujete opravdové výzvy)."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[3].Title
+msgid "Hard"
+msgstr "Těžká"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[4].Tooltip
+msgid "Choose this difficulty if you do not mind being swept out."
+msgstr "Zvolte tuto obtížnost, pokud vám nevadí, že se s vámi zametá."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[4].Title
+msgid "Very Hard"
+msgstr "Velmi těžká"
+
 #: simulation/data/settings/map_sizes.jsonData[0].Name
 msgid "Tiny"
 msgstr "Drobná"
 
 #: simulation/data/settings/map_sizes.jsonData[0].Tooltip
 msgid "This map size has barely any room for even the most basic resources."
-msgstr ""
+msgstr "Tato velikost mapy má jen taktak nějaký prostor pro dokonce byť nejzákladnější zdroje."
 
 #: simulation/data/settings/map_sizes.jsonData[1].Name
 msgid "Small"
@@ -791,17 +842,13 @@ msgstr "Malá"
 msgid ""
 "Small maps are suitable for 1v1 matches, as players can reach the enemy "
 "quickly while still having some room to expand."
-msgstr ""
-
-#: simulation/data/settings/map_sizes.jsonData[2].Name
-msgid "Medium"
-msgstr "Střední"
+msgstr "Malé mapy jsou vhodné pro zápasy 1v1 (jeden na jednoho), jelikož se hráči mohou dostat rychle k nepříteli, zatímco mají stále prostor k rozšíření."
 
 #: simulation/data/settings/map_sizes.jsonData[2].Tooltip
 msgid ""
 "Medium-sized maps provide plenty of space for two players, but even eight "
 "players fit."
-msgstr ""
+msgstr "Středně velké mapy poskytují dostatek místa pro dva hráče, ale vejde se na ně dokonce i osm hráčů."
 
 #: simulation/data/settings/map_sizes.jsonData[3].Name
 msgid "Normal"
@@ -811,7 +858,7 @@ msgstr "Normální"
 msgid ""
 "This is the ideal mapsize for 4 to 8 players, because there is plenty of "
 "space to expand while the neighbors are quickly reachable."
-msgstr ""
+msgstr "Toto je dokonalá velikost mapy pro 4 až 8 hráčů, protože existuje dostatek prostoru pro rozšíření, zatímco sousedi jsou rychle dosažitelní."
 
 #: simulation/data/settings/map_sizes.jsonData[4].Name
 msgid "Large"
@@ -821,7 +868,7 @@ msgstr "Velká"
 msgid ""
 "The large mapsize is recommended when great portions of the map are covered "
 "with water or inaccessible mountains."
-msgstr ""
+msgstr "Velká velikost mapy se doporučuje, když velké části mapy jsou pokryté vodou nebo nepřístupnými horami."
 
 #: simulation/data/settings/map_sizes.jsonData[5].Name
 msgid "Very Large"
@@ -832,7 +879,7 @@ msgstr "Velmi velká"
 msgid ""
 "Very large maps are not recommended as it takes very long to reach the enemy"
 " and the game performance can be reduced."
-msgstr ""
+msgstr "Velmi velké mapy se nedoporučují, protože trvá velmi dlouho, než se dostanete k nepříteli a výkon hry se může snížit."
 
 #: simulation/data/settings/map_sizes.jsonData[6].Name
 msgid "Giant"
@@ -846,5 +893,5 @@ msgstr "UI Petra"
 msgid ""
 "Petra is the default 0 A.D. AI bot. Please report issues to Wildfire Games (see the link in the main menu).\n"
 "\n"
-"The AI has a bonus/penalty on resource stockpiling (either gathering rate or trade gain) varying from -50% for Sandbox to +60% for Very Hard (Medium 0%). In addition, the Sandbox level does not expand nor attack."
-msgstr "Petra je výchozí počítačový hráč (AI) 0 A.D. Prosím upozorňujte na chyby Wildfire Games (odkaz najdete v hlavní nabídce).\n\nUmělá inteligence má zvýhodnění/znevýhodnění v získávaní zdrojů (rychlost sběru nebo obchodování) začínající od -50% u pískoviště do +60% pro Velmi těžké (střední = 0%). V režimu pískoviště se umělá inteligence nerozšiřuje ani neutočí."
+"The AI's resource gathering rate and trade gain depend on the difficulty level (Sandbox −58%, Very Easy −44%, Easy −25%, Medium ±0%, Hard +25%, Very Hard +56%). The easiest levels also have a slower research, training, and building rate. In addition, the Sandbox level does not expand nor attack."
+msgstr ""

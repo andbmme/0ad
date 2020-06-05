@@ -7,15 +7,14 @@
     </Resources>
   </Cost>
   <Identity>
-    <Civ>gaia</Civ>
+    <VisibleClasses datatype="tokens">Mercenary</VisibleClasses>
     <Lang>greek</Lang>
     <GenericName>Heavy Skirmisher</GenericName>
     <SpecificName>Thyreophóros</SpecificName>
     <Icon>units/mace_thureophoros.png</Icon>
     <RequiredTechnology>phase_city</RequiredTechnology>
-    <VisibleClasses datatype="tokens">Mercenary</VisibleClasses>
   </Identity>
   <VisualActor>
-    <Actor>units/macedonians/thureophoros.xml</Actor>
+    <Actor>units/hellenes/infantry_javelinist_c_thureophoros.xml</Actor>
   </VisualActor>
 </Entity>

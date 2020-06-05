@@ -2,7 +2,7 @@
 <Entity parent="template_unit_infantry_ranged_javelinist">
   <Builder>
     <Entities datatype="tokens">
-      structures/sele_military_colony
+      structures/sele_tower_artillery
       structures/sele_library
     </Entities>
   </Builder>
@@ -19,6 +19,6 @@
     <Entity>units/sele_infantry_javelinist_a</Entity>
   </Promotion>
   <VisualActor>
-    <Actor>units/persians/infantry_javelinist_b.xml</Actor>
+    <Actor>units/seleucids/infantry_javelinist_b.xml</Actor>
   </VisualActor>
 </Entity>

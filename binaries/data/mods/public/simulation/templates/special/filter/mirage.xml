@@ -8,6 +8,7 @@
     <Tooltip merge=""/>
     <History merge=""/>
     <Icon merge=""/>
+    <Undeletable merge=""/>
   </Identity>
   <Minimap merge=""/>
   <Mirage replace=""/>
@@ -16,6 +17,7 @@
     <BlockPathfinding>false</BlockPathfinding>
     <BlockFoundation>false</BlockFoundation>
     <BlockConstruction>false</BlockConstruction>
+    <DeleteUponConstruction>false</DeleteUponConstruction>
   </Obstruction>
   <OverlayRenderer merge=""/>
   <Ownership merge=""/>

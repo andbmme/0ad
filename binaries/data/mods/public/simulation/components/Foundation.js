@@ -75,6 +75,16 @@ Foundation.prototype.GetBuildPercentage = function()
 	return Math.floor(this.GetBuildProgress() * 100);
 };
 
+/**
+ * Returns the current builders.
+ *
+ * @return {number[]} - An array containing the entity IDs of assigned builders.
+ */
+Foundation.prototype.GetBuilders = function()
+{
+	return Array.from(this.builders.keys());
+};
+
 Foundation.prototype.GetNumBuilders = function()
 {
 	return this.builders.size;
@@ -117,22 +127,52 @@ Foundation.prototype.OnDestroy = function()
 };
 
 /**
+ * Adds an array of builders.
+ *
+ * @param {number[]} builders - An array containing the entity IDs of builders to assign.
+ */
+Foundation.prototype.AddBuilders = function(builders)
+{
+	let changed = false;
+	for (let builder of builders)
+		changed = this.AddBuilderHelper(builder) || changed;
+
+	if (changed)
+		this.HandleBuildersChanged();
+};
+
+/**
+ * Adds a single builder to this entity.
+ *
+ * @param {number} builderEnt - The entity to add.
+ * @return {boolean} - Whether the addition was successful.
+ */
+Foundation.prototype.AddBuilderHelper = function(builderEnt)
+{
+	if (this.builders.has(builderEnt))
+		return false;
+
+	let cmpBuilder = Engine.QueryInterface(builderEnt, IID_Builder) ||
+		Engine.QueryInterface(this.entity, IID_AutoBuildable);
+	if (!cmpBuilder)
+		return false;
+
+	let buildRate = cmpBuilder.GetRate();
+	this.builders.set(builderEnt, buildRate);
+	this.totalBuilderRate += buildRate;
+
+	return true;
+}
+
+/**
  * Adds a builder to the counter.
+ *
+ * @param {number} builderEnt - The entity to add.
  */
 Foundation.prototype.AddBuilder = function(builderEnt)
 {
-	if (this.builders.has(builderEnt))
-		return;
-
-	this.builders.set(builderEnt, Engine.QueryInterface(builderEnt, IID_Builder).GetRate());
-	this.totalBuilderRate += this.builders.get(builderEnt);
-	this.SetBuildMultiplier();
-
-	let cmpVisual = Engine.QueryInterface(this.entity, IID_Visual);
-	if (cmpVisual)
-		cmpVisual.SetVariable("numbuilders", this.builders.size);
-
-	Engine.PostMessage(this.entity, MT_FoundationBuildersChanged, { "to": [...this.builders.keys()] });
+	if (this.AddBuilderHelper(builderEnt))
+		this.HandleBuildersChanged();
 };
 
 Foundation.prototype.RemoveBuilder = function(builderEnt)
@@ -142,14 +182,22 @@ Foundation.prototype.RemoveBuilder = function(builderEnt)
 
 	this.totalBuilderRate -= this.builders.get(builderEnt);
 	this.builders.delete(builderEnt);
+	this.HandleBuildersChanged();
+};
+
+/**
+ * This has to be called whenever the number of builders change.
+ */
+Foundation.prototype.HandleBuildersChanged = function()
+{
 	this.SetBuildMultiplier();
 
 	let cmpVisual = Engine.QueryInterface(this.entity, IID_Visual);
 	if (cmpVisual)
 		cmpVisual.SetVariable("numbuilders", this.builders.size);
 
-	Engine.PostMessage(this.entity, MT_FoundationBuildersChanged, { "to": [...this.builders.keys()] });
-};
+	Engine.PostMessage(this.entity, MT_FoundationBuildersChanged, { "to": this.GetBuilders() });
+}
 
 /**
  * The build multiplier is a penalty that is applied to each builder.
@@ -157,6 +205,7 @@ Foundation.prototype.RemoveBuilder = function(builderEnt)
  */
 Foundation.prototype.CalculateBuildMultiplier = function(num)
 {
+	// Avoid division by zero, in particular 0/0 = NaN which isn't reliably serialized
 	return num < 2 ? 1 : Math.pow(num, this.buildTimePenalty) / num;
 };
 
@@ -172,8 +221,9 @@ Foundation.prototype.GetBuildTime = function()
 	// The rate if we add another woman to the foundation.
 	let rateNew = (this.totalBuilderRate + 1) * this.CalculateBuildMultiplier(this.GetNumBuilders() + 1);
 	return {
-		"timeRemaining": timeLeft / rate,
-		"timeSpeedup": timeLeft / rate - timeLeft / rateNew
+		// Avoid division by zero, in particular 0/0 = NaN which isn't reliably serialized
+		"timeRemaining": rate ? timeLeft / rate : 0,
+		"timeRemainingNew": timeLeft / rateNew
 	};
 };
 
@@ -189,29 +239,22 @@ Foundation.prototype.Build = function(builderEnt, work)
 	if (this.GetBuildProgress() == 1.0)
 		return;
 
-	// If there's any units in the way, ask them to move away
-	// and return early from this method.
 	var cmpObstruction = Engine.QueryInterface(this.entity, IID_Obstruction);
+	// If there are any units in the way, ask them to move away and return early from this method.
 	if (cmpObstruction && cmpObstruction.GetBlockMovementFlag())
 	{
-		var collisions = cmpObstruction.GetUnitCollisions();
+		// Remove animal corpses
+		for (let ent of cmpObstruction.GetEntitiesDeletedUponConstruction())
+			Engine.DestroyEntity(ent);
+
+		let collisions = cmpObstruction.GetEntitiesBlockingConstruction();
 		if (collisions.length)
 		{
-			var cmpFoundationOwnership = Engine.QueryInterface(this.entity, IID_Ownership);
 			for (var ent of collisions)
 			{
 				var cmpUnitAI = Engine.QueryInterface(ent, IID_UnitAI);
 				if (cmpUnitAI)
 					cmpUnitAI.LeaveFoundation(this.entity);
-				else
-				{
-					// If obstructing fauna is gaia or our own but doesn't have UnitAI, just destroy it
-					var cmpOwnership = Engine.QueryInterface(ent, IID_Ownership);
-					var cmpIdentity = Engine.QueryInterface(ent, IID_Identity);
-					if (cmpOwnership && cmpIdentity && cmpIdentity.HasClass("Animal")
-						&& (cmpOwnership.GetOwner() == 0 || cmpFoundationOwnership && cmpOwnership.GetOwner() == cmpFoundationOwnership.GetOwner()))
-						Engine.DestroyEntity(ent);
-				}
 
 				// TODO: What if an obstruction has no UnitAI?
 			}
@@ -244,7 +287,7 @@ Foundation.prototype.Build = function(builderEnt, work)
 		// Switch foundation to scaffold variant
 		var cmpFoundationVisual = Engine.QueryInterface(this.entity, IID_Visual);
 		if (cmpFoundationVisual)
-			cmpFoundationVisual.SelectAnimation("scaffold", false, 1.0, "");
+			cmpFoundationVisual.SelectAnimation("scaffold", false, 1.0);
 
 		// Create preview entity and copy various parameters from the foundation
 		if (cmpFoundationVisual && cmpFoundationVisual.HasConstructionPreview())
@@ -406,7 +449,7 @@ Foundation.prototype.Build = function(builderEnt, work)
 
 		var cmpBuildingHealth = Engine.QueryInterface(building, IID_Health);
 		if (cmpBuildingHealth)
-			cmpBuildingHealth.SetHitpoints(cmpHealth.GetHitpoints());
+			cmpBuildingHealth.SetHitpoints(progress * cmpBuildingHealth.GetMaxHitpoints());
 
 		PlaySound("constructed", building);
 

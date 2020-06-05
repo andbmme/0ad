@@ -3,10 +3,9 @@
     "Name" : "Frontier",
     "Script" : "frontier.js",
     "Description" : "A wild, unknown landscape awaits rival explorers.",
-    "BaseTerrain" : ["medit_sea_depths"],
     "Preview" : "frontier.png",
-    "BaseHeight" : 2,
-    "SupportedBiomes": true,
-    "CircularMap" : true
+    "SupportedBiomes": "generic/",
+    "CircularMap" : true,
+    "TeamPlacements": ["radial", "line", "randomGroup", "stronghold"]
   }
 }

@@ -1,128 +1,67 @@
 function StatisticsTracker() {}
 
-const g_UpdateSequenceInterval = 30 * 1000;
-
 StatisticsTracker.prototype.Schema =
-	"<empty/>";
+	"<a:help>This component records statistics over the course of the match, such as the number of trained, lost, captured and destroyed units and buildings The statistics are consumed by the summary screen and lobby rankings.</a:help>" +
+	"<a:example>" +
+		"<UnitClasses>Infantry FemaleCitizen</UnitClasses>" +
+		"<StructureClasses>House Wonder</StructureClasses>" +
+	"</a:example>" +
+	"<element name='UnitClasses' a:help='The tracker records trained, lost, killed and captured units of entities that match any of these Identity classes.'>" +
+		"<attribute name='datatype'>" +
+			"<value>tokens</value>" +
+		"</attribute>" +
+		"<text/>" +
+	"</element>" +
+	"<element name='StructureClasses' a:help='The tracker records constructed, lost, destroyed and captured structures of entities that match any of these Identity classes.'>" +
+		"<attribute name='datatype'>" +
+			"<value>tokens</value>" +
+		"</attribute>" +
+		"<text/>" +
+	"</element>";
+
+/**
+ * This number specifies the time in milliseconds between consecutive statistics snapshots recorded.
+ */
+StatisticsTracker.prototype.UpdateSequenceInterval = 30 * 1000;
 
 StatisticsTracker.prototype.Init = function()
 {
-	this.unitsClasses = [
-		"Infantry",
-		"Worker",
-		"FemaleCitizen",
-		"Cavalry",
-		"Champion",
-		"Hero",
-		"Siege",
-		"Ship",
-		"Trader"
-	];
-	this.unitsTrained = {
-		"Infantry": 0,
-		"Worker": 0,
-		"FemaleCitizen": 0,
-		"Cavalry": 0,
-		"Champion": 0,
-		"Hero": 0,
-		"Siege": 0,
-		"Ship": 0,
-		"Trader": 0,
-		"total": 0
-	};
-	this.domesticUnitsTrainedValue = 0;
-	this.unitsLost = {
-		"Infantry": 0,
-		"Worker": 0,
-		"FemaleCitizen": 0,
-		"Cavalry": 0,
-		"Champion": 0,
-		"Hero": 0,
-		"Siege": 0,
-		"Ship": 0,
-		"Trader": 0,
-		"total": 0
-	};
+	this.unitsClasses = this.template.UnitClasses._string.split(/\s+/);
+	this.buildingsClasses = this.template.StructureClasses._string.split(/\s+/);
+
+	this.unitsTrained = {};
+	this.unitsLost = {};
+	this.enemyUnitsKilled = {};
+	this.unitsCaptured = {};
+
 	this.unitsLostValue = 0;
-	this.enemyUnitsKilled = {
-		"Infantry": 0,
-		"Worker": 0,
-		"FemaleCitizen": 0,
-		"Cavalry": 0,
-		"Champion": 0,
-		"Hero": 0,
-		"Siege": 0,
-		"Ship": 0,
-		"Trader": 0,
-		"total": 0
-	};
 	this.enemyUnitsKilledValue = 0;
-	this.unitsCaptured = {
-		"Infantry": 0,
-		"Worker": 0,
-		"FemaleCitizen": 0,
-		"Cavalry": 0,
-		"Champion": 0,
-		"Hero": 0,
-		"Siege": 0,
-		"Ship": 0,
-		"Trader": 0,
-		"total": 0
-	};
 	this.unitsCapturedValue = 0;
 
-	this.buildingsClasses = [
-		"House",
-		"Economic",
-		"Outpost",
-		"Military",
-		"Fortress",
-		"CivCentre",
-		"Wonder"
-	];
-	this.buildingsConstructed = {
-		"House": 0,
-		"Economic": 0,
-		"Outpost": 0,
-		"Military": 0,
-		"Fortress": 0,
-		"CivCentre": 0,
-		"Wonder": 0,
-		"total": 0
-	};
-	this.buildingsLost = {
-		"House": 0,
-		"Economic": 0,
-		"Outpost": 0,
-		"Military": 0,
-		"Fortress": 0,
-		"CivCentre": 0,
-		"Wonder": 0,
-		"total": 0
-	};
+	for (let counterName of ["unitsTrained", "unitsLost", "enemyUnitsKilled", "unitsCaptured"])
+	{
+		this[counterName].total = 0;
+		for (let unitClass of this.unitsClasses)
+			// Domestic units are only counted for training
+			if (unitClass != "Domestic" || counterName == "unitsTrained")
+				this[counterName][unitClass] = 0;
+	}
+
+	this.buildingsConstructed = {};
+	this.buildingsLost = {};
+	this.enemyBuildingsDestroyed = {};
+	this.buildingsCaptured = {};
+
 	this.buildingsLostValue = 0;
-	this.enemyBuildingsDestroyed = {
-		"House": 0,
-		"Economic": 0,
-		"Outpost": 0,
-		"Military": 0,
-		"Fortress": 0,
-		"CivCentre": 0,
-		"Wonder": 0,
-		"total": 0
-	};
 	this.enemyBuildingsDestroyedValue = 0;
-	this.buildingsCaptured = {
-		"House": 0,
-		"Economic": 0,
-		"Outpost": 0,
-		"Military": 0,
-		"Fortress": 0,
-		"CivCentre": 0,
-		"Wonder": 0,
-		"total": 0
-	};
 	this.buildingsCapturedValue = 0;
+
+	for (let counterName of ["buildingsConstructed", "buildingsLost", "enemyBuildingsDestroyed", "buildingsCaptured"])
+	{
+		this[counterName].total = 0;
+		for (let unitClass of this.buildingsClasses)
+			this[counterName][unitClass] = 0;
+	}
 
 	this.resourcesGathered = {
 		"vegetarianFood": 0
@@ -150,7 +89,7 @@ StatisticsTracker.prototype.Init = function()
 
 	let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
 	this.updateTimer = cmpTimer.SetInterval(
-		this.entity, IID_StatisticsTracker, "UpdateSequences", 0, g_UpdateSequenceInterval);
+		this.entity, IID_StatisticsTracker, "UpdateSequences", 0, this.UpdateSequenceInterval);
 };
 
 StatisticsTracker.prototype.OnGlobalInitGame = function()
@@ -179,7 +118,6 @@ StatisticsTracker.prototype.GetStatistics = function()
 {
 	return {
 		"unitsTrained": this.unitsTrained,
-		"domesticUnitsTrainedValue": this.domesticUnitsTrainedValue,
 		"unitsLost": this.unitsLost,
 		"unitsLostValue": this.unitsLostValue,
 		"enemyUnitsKilled": this.enemyUnitsKilled,
@@ -273,11 +211,15 @@ StatisticsTracker.prototype.IncreaseTrainedUnitsCounter = function(trainedUnit)
 	for (let type of this.unitsClasses)
 		this.CounterIncrement(cmpUnitEntityIdentity, "unitsTrained", type);
 
-	++this.unitsTrained.total;
+	if (!cmpUnitEntityIdentity.HasClass("Domestic"))
+		++this.unitsTrained.total;
 
 	if (cmpUnitEntityIdentity.HasClass("Domestic") && costs)
-		for (let type in costs)
-			this.domesticUnitsTrainedValue += costs[type];
+	{
+		// Subtract costs for sheep/goats/pigs to get the net food gain/use for corralling
+		this.resourcesUsed.food -= costs.food;
+		this.resourcesGathered.food -= costs.food;
+	}
 
 };
 
@@ -307,13 +249,8 @@ StatisticsTracker.prototype.KilledEntity = function(targetEntity)
 	var cmpCost = Engine.QueryInterface(targetEntity, IID_Cost);
 	var costs = cmpCost && cmpCost.GetResourceCosts();
 
-	var cmpTargetOwnership = Engine.QueryInterface(targetEntity, IID_Ownership);
-
-	// Ignore gaia
-	if (cmpTargetOwnership.GetOwner() == 0)
-		return;
-
-	if (cmpTargetEntityIdentity.HasClass("Unit") && !cmpTargetEntityIdentity.HasClass("Domestic"))
+	// Exclude gaia animals but not gaia soldiers.
+	if (cmpTargetEntityIdentity.HasClass("Unit") && !cmpTargetEntityIdentity.HasClass("Animal"))
 	{
 		for (let type of this.unitsClasses)
 			this.CounterIncrement(cmpTargetEntityIdentity, "enemyUnitsKilled", type);
@@ -478,9 +415,11 @@ StatisticsTracker.prototype.IncreaseFailedBribesCounter = function()
 
 StatisticsTracker.prototype.GetPercentMapExplored = function()
 {
-	var cmpRangeManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_RangeManager);
-	var cmpPlayer = Engine.QueryInterface(this.entity, IID_Player);
-	return cmpRangeManager.GetPercentMapExplored(cmpPlayer.GetPlayerID());
+	let cmpPlayer = Engine.QueryInterface(this.entity, IID_Player);
+	if (!cmpPlayer)
+		return 0;
+
+	return Engine.QueryInterface(SYSTEM_ENTITY, IID_RangeManager).GetPercentMapExplored(cmpPlayer.GetPlayerID());
 };
 
 /**
@@ -489,20 +428,19 @@ StatisticsTracker.prototype.GetPercentMapExplored = function()
  */
 StatisticsTracker.prototype.GetTeamPercentMapExplored = function()
 {
-	var cmpRangeManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_RangeManager);
-
-	var cmpPlayerManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_PlayerManager);
-	var cmpPlayer = Engine.QueryInterface(this.entity, IID_Player);
+	let cmpPlayer = Engine.QueryInterface(this.entity, IID_Player);
 	if (!cmpPlayer)
 		return 0;
 
-	var team = cmpPlayer.GetTeam();
+	let team = cmpPlayer.GetTeam();
+	let cmpRangeManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_RangeManager);
 	// If teams are not locked, this statistic won't be displayed, so don't bother computing
 	if (team == -1 || !cmpPlayer.GetLockTeams())
 		return cmpRangeManager.GetPercentMapExplored(cmpPlayer.GetPlayerID());
 
-	var teamPlayers = [];
-	for (var i = 1; i < cmpPlayerManager.GetNumPlayers(); ++i)
+	let teamPlayers = [];
+	let numPlayers = Engine.QueryInterface(SYSTEM_ENTITY, IID_PlayerManager).GetNumPlayers();
+	for (let i = 1; i < numPlayers; ++i)
 	{
 		let cmpOtherPlayer = QueryPlayerIDInterface(i);
 		if (cmpOtherPlayer && cmpOtherPlayer.GetTeam() == team)
@@ -514,28 +452,27 @@ StatisticsTracker.prototype.GetTeamPercentMapExplored = function()
 
 StatisticsTracker.prototype.GetPercentMapControlled = function()
 {
-	var cmpPlayer = Engine.QueryInterface(this.entity, IID_Player);
-	var cmpTerritoryManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_TerritoryManager);
-	if (!cmpPlayer || !cmpTerritoryManager)
+	let cmpPlayer = Engine.QueryInterface(this.entity, IID_Player);
+	if (!cmpPlayer)
 		return 0;
 
-	return cmpTerritoryManager.GetTerritoryPercentage(cmpPlayer.GetPlayerID());
+	return Engine.QueryInterface(SYSTEM_ENTITY, IID_TerritoryManager).GetTerritoryPercentage(cmpPlayer.GetPlayerID());
 };
 
 StatisticsTracker.prototype.GetTeamPercentMapControlled = function()
 {
-	var cmpPlayer = Engine.QueryInterface(this.entity, IID_Player);
-	var cmpPlayerManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_PlayerManager);
-	var cmpTerritoryManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_TerritoryManager);
-	if (!cmpPlayer || !cmpTerritoryManager)
+	let cmpPlayer = Engine.QueryInterface(this.entity, IID_Player);
+	if (!cmpPlayer)
 		return 0;
 
-	var team = cmpPlayer.GetTeam();
+	let team = cmpPlayer.GetTeam();
+	let cmpTerritoryManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_TerritoryManager);
 	if (team == -1 || !cmpPlayer.GetLockTeams())
 		return cmpTerritoryManager.GetTerritoryPercentage(cmpPlayer.GetPlayerID());
 
-	var teamPercent = 0;
-	for (let i = 1; i < cmpPlayerManager.GetNumPlayers(); ++i)
+	let teamPercent = 0;
+	let numPlayers = Engine.QueryInterface(SYSTEM_ENTITY, IID_PlayerManager).GetNumPlayers();
+	for (let i = 1; i < numPlayers; ++i)
 	{
 		let cmpOtherPlayer = QueryPlayerIDInterface(i);
 		if (cmpOtherPlayer && cmpOtherPlayer.GetTeam() == team)
@@ -547,13 +484,23 @@ StatisticsTracker.prototype.GetTeamPercentMapControlled = function()
 
 StatisticsTracker.prototype.OnTerritoriesChanged = function(msg)
 {
-	var newPercent = this.GetPercentMapControlled();
-	if (newPercent > this.peakPercentMapControlled)
-		this.peakPercentMapControlled = newPercent;
+	this.UpdatePeakPercentages();
+};
 
-	newPercent = this.GetTeamPercentMapControlled();
-	if (newPercent > this.teamPeakPercentMapControlled)
-		this.teamPeakPercentMapControlled = newPercent;
+StatisticsTracker.prototype.OnGlobalPlayerDefeated = function(msg)
+{
+	this.UpdatePeakPercentages();
+};
+
+StatisticsTracker.prototype.OnGlobalPlayerWon = function(msg)
+{
+	this.UpdatePeakPercentages();
+};
+
+StatisticsTracker.prototype.UpdatePeakPercentages = function()
+{
+	this.peakPercentMapControlled = Math.max(this.peakPercentMapControlled, this.GetPercentMapControlled());
+	this.teamPeakPercentMapControlled = Math.max(this.teamPeakPercentMapControlled, this.GetTeamPercentMapControlled());
 };
 
 /**

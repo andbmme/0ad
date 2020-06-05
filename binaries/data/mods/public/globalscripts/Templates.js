@@ -1,18 +1,49 @@
 /**
- * Gets an array of all classes for this identity template
+ * Loads history and gameplay data of all civs.
+ *
+ * @param selectableOnly {boolean} - Only load civs that can be selected
+ *        in the gamesetup. Scenario maps might set non-selectable civs.
+ */
+function loadCivFiles(selectableOnly)
+{
+	let propertyNames = [
+		"Code", "Culture", "Name", "Emblem", "History", "Music", "Factions", "CivBonuses", "TeamBonuses",
+		"Structures", "StartEntities", "Formations", "AINames", "SkirmishReplacements", "SelectableInGameSetup"];
+
+	let civData = {};
+
+	for (let filename of Engine.ListDirectoryFiles("simulation/data/civs/", "*.json", false))
+	{
+		let data = Engine.ReadJSONFile(filename);
+
+		for (let prop of propertyNames)
+			if (data[prop] === undefined)
+				throw new Error(filename + " doesn't contain " + prop);
+
+		if (!selectableOnly || data.SelectableInGameSetup)
+			civData[data.Code] = data;
+	}
+
+	return civData;
+}
+
+/**
+ * @return {string[]} - All the classes for this identity template.
  */
 function GetIdentityClasses(template)
 {
-	var classList = [];
+	let classString = "";
+
 	if (template.Classes && template.Classes._string)
-		classList = classList.concat(template.Classes._string.split(/\s+/));
+		classString += " " + template.Classes._string;
 
 	if (template.VisibleClasses && template.VisibleClasses._string)
-		classList = classList.concat(template.VisibleClasses._string.split(/\s+/));
+		classString += " " + template.VisibleClasses._string;
 
 	if (template.Rank)
-		classList = classList.concat(template.Rank);
-	return classList;
+		classString += " " + template.Rank;
+
+	return classString.length > 1 ? classString.substring(1).split(" ") : [];
 }
 
 /**
@@ -21,9 +52,7 @@ function GetIdentityClasses(template)
  */
 function GetVisibleIdentityClasses(template)
 {
-	if (template.VisibleClasses && template.VisibleClasses._string)
-		return template.VisibleClasses._string.split(/\s+/);
-	return [];
+	return template.VisibleClasses && template.VisibleClasses._string ? template.VisibleClasses._string.split(" ") : [];
 }
 
 /**
@@ -58,8 +87,8 @@ function MatchesClassList(classes, match)
 		// If the elements are still strings, split them by space or by '+'
 		if (typeof sublist == "string")
 			sublist = sublist.split(/[+\s]+/);
-		if (sublist.every(c => (c[0] == "!" && classes.indexOf(c.substr(1)) == -1)
-		                    || (c[0] != "!" && classes.indexOf(c) != -1)))
+		if (sublist.every(c => (c[0] == "!" && classes.indexOf(c.substr(1)) == -1) ||
+		                       (c[0] != "!" && classes.indexOf(c) != -1)))
 			return true;
 	}
 
@@ -99,8 +128,8 @@ function GetModifiedTemplateDataValue(template, value_path, mod_key, player, mod
 
 	if (player)
 		current_value = ApplyValueModificationsToTemplate(mod_key, current_value, player, template);
-	else if (modifiers)
-		current_value = GetTechModifiedProperty(modifiers, GetIdentityClasses(template.Identity), mod_key, current_value);
+	else if (modifiers && modifiers[mod_key])
+		current_value = GetTechModifiedProperty(modifiers[mod_key], GetIdentityClasses(template.Identity), current_value);
 
 	// Using .toFixed() to get around spidermonkey's treatment of numbers (3 * 1.1 = 3.3000000000000003 for instance).
 	return +current_value.toFixed(8);
@@ -116,13 +145,11 @@ function GetModifiedTemplateDataValue(template, value_path, mod_key, player, mod
  * @param {number} player - An optional player id to get the technology modifications
  *                          of properties.
  * @param {object} auraTemplates - In the form of { key: { "auraName": "", "auraDescription": "" } }.
- * @param {object} resources - An instance of the Resources prototype.
- * @param {object} damageTypes - An instance of the DamageTypes prototype.
  * @param {object} modifiers - Modifications from auto-researched techs, unit upgrades
  *                             etc. Optional as only used if there's no player
  *                             id provided.
  */
-function GetTemplateDataHelper(template, player, auraTemplates, resources, damageTypes, modifiers={})
+function GetTemplateDataHelper(template, player, auraTemplates, modifiers = {})
 {
 	// Return data either from template (in tech tree) or sim state (ingame).
 	// @param {string} value_path - Route to the value within the template.
@@ -136,9 +163,28 @@ function GetTemplateDataHelper(template, player, auraTemplates, resources, damag
 	if (template.Armour)
 	{
 		ret.armour = {};
-		for (let damageType of damageTypes.GetTypes())
-			ret.armour[damageType] = getEntityValue("Armour/" + damageType);
+		for (let damageType in template.Armour)
+			if (damageType != "Foundation")
+				ret.armour[damageType] = getEntityValue("Armour/" + damageType);
 	}
+
+	let getAttackEffects = (temp, path) => {
+		let effects = {};
+		if (temp.Capture)
+			effects.Capture = getEntityValue(path + "/Capture");
+
+		if (temp.Damage)
+		{
+			effects.Damage = {};
+			for (let damageType in temp.Damage)
+				effects.Damage[damageType] = getEntityValue(path + "/Damage/" + damageType);
+		}
+
+		if (temp.ApplyStatus)
+			effects.ApplyStatus = temp.ApplyStatus;
+
+		return effects;
+	};
 
 	if (template.Attack)
 	{
@@ -149,34 +195,28 @@ function GetTemplateDataHelper(template, player, auraTemplates, resources, damag
 				return getEntityValue("Attack/" + type + "/" + stat);
 			};
 
-			if (type == "Capture")
-				ret.attack.Capture = {
-					"value": getAttackStat("Value")
-				};
-			else
-			{
-				ret.attack[type] = {
-					"minRange": getAttackStat("MinRange"),
-					"maxRange": getAttackStat("MaxRange"),
-					"elevationBonus": getAttackStat("ElevationBonus")
-				};
-				for (let damageType of damageTypes.GetTypes())
-					ret.attack[type][damageType] = getAttackStat(damageType);
+			ret.attack[type] = {
+				"minRange": getAttackStat("MinRange"),
+				"maxRange": getAttackStat("MaxRange"),
+				"elevationBonus": getAttackStat("ElevationBonus"),
+			};
 
-				ret.attack[type].elevationAdaptedRange = Math.sqrt(ret.attack[type].maxRange *
-					(2 * ret.attack[type].elevationBonus + ret.attack[type].maxRange));
-			}
+			ret.attack[type].elevationAdaptedRange = Math.sqrt(ret.attack[type].maxRange *
+				(2 * ret.attack[type].elevationBonus + ret.attack[type].maxRange));
+
 			ret.attack[type].repeatTime = getAttackStat("RepeatTime");
+			if (template.Attack[type].Projectile)
+				ret.attack[type].friendlyFire = template.Attack[type].Projectile.FriendlyFire == "true";
+
+			Object.assign(ret.attack[type], getAttackEffects(template.Attack[type], "Attack/" + type));
 
 			if (template.Attack[type].Splash)
 			{
 				ret.attack[type].splash = {
-					// true if undefined
 					"friendlyFire": template.Attack[type].Splash.FriendlyFire != "false",
-					"shape": template.Attack[type].Splash.Shape
+					"shape": template.Attack[type].Splash.Shape,
 				};
-				for (let damageType of damageTypes.GetTypes())
-					ret.attack[type].splash[damageType] = getAttackStat("Splash/" + damageType);
+				Object.assign(ret.attack[type].splash, getAttackEffects(template.Attack[type].Splash, "Attack/" + type + "/Splash"));
 			}
 		}
 	}
@@ -184,23 +224,23 @@ function GetTemplateDataHelper(template, player, auraTemplates, resources, damag
 	if (template.DeathDamage)
 	{
 		ret.deathDamage = {
-			"friendlyFire": template.DeathDamage.FriendlyFire != "false"
+			"friendlyFire": template.DeathDamage.FriendlyFire != "false",
 		};
-		for (let damageType of damageTypes.GetTypes())
-			ret.deathDamage[damageType] = getEntityValue("DeathDamage/" + damageType);
+
+		Object.assign(ret.deathDamage, getAttackEffects(template.DeathDamage, "DeathDamage"));
 	}
 
-	if (template.Auras)
+	if (template.Auras && auraTemplates)
 	{
 		ret.auras = {};
 		for (let auraID of template.Auras._string.split(/\s+/))
 		{
 			let aura = auraTemplates[auraID];
 			ret.auras[auraID] = {
-					"name": aura.auraName,
-					"description": aura.auraDescription || null,
-					"radius": aura.radius || null
-				};
+				"name": aura.auraName,
+				"description": aura.auraDescription || null,
+				"radius": aura.radius || null
+			};
 		}
 	}
 
@@ -228,10 +268,10 @@ function GetTemplateDataHelper(template, player, auraTemplates, resources, damag
 			};
 
 			if (template.BuildRestrictions.Distance.MinDistance)
-				ret.buildRestrictions.distance.min = getEntityValue("BuildRestrctions/Distance/MinDistance");
+				ret.buildRestrictions.distance.min = getEntityValue("BuildRestrictions/Distance/MinDistance");
 
 			if (template.BuildRestrictions.Distance.MaxDistance)
-				ret.buildRestrictions.distance.max = getEntityValue("BuildRestrctions/Distance/MaxDistance");
+				ret.buildRestrictions.distance.max = getEntityValue("BuildRestrictions/Distance/MaxDistance");
 		}
 	}
 
@@ -361,6 +401,7 @@ function GetTemplateDataHelper(template, player, auraTemplates, resources, damag
 		ret.tooltip = template.Identity.Tooltip;
 		ret.requiredTechnology = template.Identity.RequiredTechnology;
 		ret.visibleIdentityClasses = GetVisibleIdentityClasses(template.Identity);
+		ret.nativeCiv = template.Identity.Civ;
 	}
 
 	if (template.UnitMotion)
@@ -368,8 +409,9 @@ function GetTemplateDataHelper(template, player, auraTemplates, resources, damag
 		ret.speed = {
 			"walk": getEntityValue("UnitMotion/WalkSpeed"),
 		};
-		if (template.UnitMotion.Run)
-			ret.speed.run = getEntityValue("UnitMotion/Run/Speed");
+		ret.speed.run = getEntityValue("UnitMotion/WalkSpeed");
+		if (template.UnitMotion.RunMultiplier)
+			ret.speed.run *= getEntityValue("UnitMotion/RunMultiplier");
 	}
 
 	if (template.Upgrade)
@@ -409,20 +451,32 @@ function GetTemplateDataHelper(template, player, auraTemplates, resources, damag
 		};
 
 	if (template.WallSet)
+	{
 		ret.wallSet = {
 			"templates": {
 				"tower": template.WallSet.Templates.Tower,
 				"gate": template.WallSet.Templates.Gate,
+				"fort": template.WallSet.Templates.Fort || "structures/" + template.Identity.Civ + "_fortress",
 				"long": template.WallSet.Templates.WallLong,
 				"medium": template.WallSet.Templates.WallMedium,
-				"short": template.WallSet.Templates.WallShort,
+				"short": template.WallSet.Templates.WallShort
 			},
 			"maxTowerOverlap": +template.WallSet.MaxTowerOverlap,
-			"minTowerOverlap": +template.WallSet.MinTowerOverlap,
+			"minTowerOverlap": +template.WallSet.MinTowerOverlap
 		};
+		if (template.WallSet.Templates.WallEnd)
+			ret.wallSet.templates.end = template.WallSet.Templates.WallEnd;
+		if (template.WallSet.Templates.WallCurves)
+			ret.wallSet.templates.curves = template.WallSet.Templates.WallCurves.split(/\s+/);
+	}
 
 	if (template.WallPiece)
-		ret.wallPiece = { "length": +template.WallPiece.Length };
+		ret.wallPiece = {
+			"length": +template.WallPiece.Length,
+			"angle": +(template.WallPiece.Orientation || 1) * Math.PI,
+			"indent": +(template.WallPiece.Indent || 0),
+			"bend": +(template.WallPiece.Bend || 0) * Math.PI
+		};
 
 	return ret;
 }
@@ -442,7 +496,8 @@ function GetTechnologyBasicDataHelper(template, civ)
 		"description": template.description,
 		"reqs": DeriveTechnologyRequirements(template, civ),
 		"modifications": template.modifications,
-		"affects": template.affects
+		"affects": template.affects,
+		"replaces": template.replaces
 	};
 }
 
@@ -486,3 +541,12 @@ function calculateCarriedResources(carriedResources, tradingGoods)
 	return resources;
 }
 
+/**
+ * Remove filter prefix (mirage, corpse, etc) from template name.
+ *
+ * ie. filter|dir/to/template -> dir/to/template
+ */
+function removeFiltersFromTemplateName(templateName)
+{
+	return templateName.split("|").pop();
+}

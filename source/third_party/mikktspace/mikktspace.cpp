@@ -7,6 +7,7 @@
 #include "precompiled.h"
 
 #ifdef _MSC_VER
+# pragma warning(disable:4456) // hides previous local declaration
 # pragma warning(disable:4189) // local variable is initialized but not referenced
 #endif
 

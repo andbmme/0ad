@@ -69,10 +69,17 @@ function Cheat(input)
 			cmpProductionQueue.SpawnUnits(input.templates[i % input.templates.length], 1, null);
 		return;
 	case "fastactions":
-		cmpPlayer.SetCheatTimeMultiplier((cmpPlayer.GetCheatTimeMultiplier() == 1) ? 0.01 : 1);
-		return;
-	case "changespeed":
-		cmpPlayer.SetCheatTimeMultiplier(input.parameter);
+		let cmpModifiersManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_ModifiersManager);
+		if (cmpModifiersManager.HasAnyModifier("cheat/fastactions", playerEnt))
+			cmpModifiersManager.RemoveAllModifiers("cheat/fastactions", playerEnt);
+		else
+			cmpModifiersManager.AddModifiers("cheat/fastactions", {
+				"Cost/BuildTime": [{ "affects": [["Structure"], ["Unit"]], "multiply": 0.01 }],
+				"ResourceGatherer/BaseSpeed": [{ "affects": [["Structure"], ["Unit"]], "multiply": 1000 }],
+				"Pack/Time": [{ "affects": [["Structure"], ["Unit"]], "multiply": 0.01 }],
+				"Upgrade/Time": [{ "affects": [["Structure"], ["Unit"]], "multiply": 0.01 }],
+				"ProductionQueue/TechCostMultiplier/time": [{ "affects": [["Structure"], ["Unit"]], "multiply": 0.01 }]
+			}, playerEnt);
 		return;
 	case "changephase":
 		var cmpTechnologyManager = Engine.QueryInterface(playerEnt, IID_TechnologyManager);
@@ -88,10 +95,10 @@ function Cheat(input)
 		else
 			return;
 
-		// check if specialised tech exists (like phase_town_athen)
-		var cmpDataTemplateManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_DataTemplateManager);
-		if (cmpDataTemplateManager.ListAllTechs().indexOf(parameter + "_" + cmpPlayer.civ) > -1)
+		if (TechnologyTemplates.Has(parameter + "_" + cmpPlayer.civ))
 			parameter += "_" + cmpPlayer.civ;
+		else
+			parameter += "_generic";
 
 		Cheat({ "player": input.player, "action": "researchTechnology", "parameter": parameter, "selected": input.selected });
 		return;
@@ -138,13 +145,8 @@ function Cheat(input)
 			}
 		}
 
-		// check, if technology exists
-		var template = cmpTechnologyManager.GetTechnologyTemplate(techname);
-		if (!template)
-			return;
-
-		// check, if technology is already researched
-		if (!cmpTechnologyManager.IsTechnologyResearched(techname))
+		if (TechnologyTemplates.Has(techname) &&
+		    !cmpTechnologyManager.IsTechnologyResearched(techname))
 			cmpTechnologyManager.ResearchTechnology(techname);
 		return;
 	case "metaCheat":
@@ -156,6 +158,16 @@ function Cheat(input)
 		for (let i=0; i<2; ++i)
 			Cheat({ "player": input.player, "action": "changephase", "selected": input.selected });
 		return;
+	case "playRetro":
+		let play = input.parameter.toLowerCase() != "off";
+		cmpGuiInterface.PushNotification({
+			"type": "play-tracks",
+			"tracks": play && input.parameter.split(" "),
+			"lock": play,
+			"players": [input.player]
+		});
+		return;
+
 	default:
 		warn("Cheat '" + input.action + "' is not implemented");
 		return;

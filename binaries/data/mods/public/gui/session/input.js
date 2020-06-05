@@ -29,7 +29,8 @@ const INPUT_BATCHTRAINING = 6;
 const INPUT_PRESELECTEDACTION = 7;
 const INPUT_BUILDING_WALL_CLICK = 8;
 const INPUT_BUILDING_WALL_PATHING = 9;
-const INPUT_MASSTRIBUTING = 10;
+const INPUT_UNIT_POSITION_START = 10;
+const INPUT_UNIT_POSITION = 11;
 
 var inputState = INPUT_NORMAL;
 
@@ -39,8 +40,36 @@ var mouseX = 0;
 var mouseY = 0;
 var mouseIsOverObject = false;
 
-// Number of pixels the mouse can move before the action is considered a drag
-var maxDragDelta = 4;
+/**
+ * Containing the ingame position which span the line.
+ */
+var g_FreehandSelection_InputLine = [];
+
+/**
+ * Minimum squared distance when a mouse move is called a drag.
+ */
+const g_FreehandSelection_ResolutionInputLineSquared = 1;
+
+/**
+ * Minimum length a dragged line should have to use the freehand selection.
+ */
+const g_FreehandSelection_MinLengthOfLine = 8;
+
+/**
+ * To start the freehandSelection function you need a minimum number of units.
+ * Minimum must be 2, for better performance you could set it higher.
+ */
+const g_FreehandSelection_MinNumberOfUnits = 2;
+
+/**
+ * Number of pixels the mouse can move before the action is considered a drag.
+ */
+const g_MaxDragDelta = 4;
+
+/**
+ * Used for remembering mouse coordinates at start of drag operations.
+ */
+var g_DragStart;
 
 /**
  * Store the clicked entity on mousedown or mouseup for single/double/triple clicks to select entities.
@@ -59,9 +88,9 @@ function updateCursorAndTooltip()
 	var cursorSet = false;
 	var tooltipSet = false;
 	var informationTooltip = Engine.GetGUIObjectByName("informationTooltip");
-	if (!mouseIsOverObject && (inputState == INPUT_NORMAL || inputState == INPUT_PRESELECTEDACTION))
+	if (!mouseIsOverObject && (inputState == INPUT_NORMAL || inputState == INPUT_PRESELECTEDACTION) || g_MiniMapPanel.isMouseOverMiniMap())
 	{
-		let action = determineAction(mouseX, mouseY);
+		let action = determineAction(mouseX, mouseY, g_MiniMapPanel.isMouseOverMiniMap());
 		if (action)
 		{
 			if (action.cursor)
@@ -134,8 +163,8 @@ function updateBuildingPlacementPreview()
 
 			if (placementSupport.attack && placementSupport.attack.Ranged)
 			{
-				// building can be placed here, and has an attack
-				// show the range advantage in the tooltip
+				// Structure can be placed here, and has an attack.
+				// Show the range advantage in the tooltip.
 				var cmd = {
 					"x": placementSupport.position.x,
 					"z": placementSupport.position.z,
@@ -177,52 +206,45 @@ function updateBuildingPlacementPreview()
 /**
  * Determine the context-sensitive action that should be performed when the mouse is at (x,y)
  */
-function determineAction(x, y, fromMinimap)
+function determineAction(x, y, fromMiniMap)
 {
-	var selection = g_Selection.toList();
-
-	// No action if there's no selection
+	let selection = g_Selection.toList();
 	if (!selection.length)
 	{
 		preSelectedAction = ACTION_NONE;
 		return undefined;
 	}
 
-	// If the selection doesn't exist, no action
-	var entState = GetEntityState(selection[0]);
+	// If the selection doesn't exist, no action.
+	let entState = GetEntityState(selection[0]);
 	if (!entState)
 		return undefined;
 
-	// If the selection isn't friendly units, no action
-	var allOwnedByPlayer = selection.every(ent => {
-		var entState = GetEntityState(ent);
-		return entState && entState.player == g_ViewedPlayer;
-	});
-
-	if (!g_DevSettings.controlAll && !allOwnedByPlayer)
+	// If the selection isn't friendly units, no action.
+	if (!selection.every(ownsEntity) &&
+	    !(g_SimState.players[g_ViewedPlayer] &&
+	      g_SimState.players[g_ViewedPlayer].controlsAll))
 		return undefined;
 
-	var target = undefined;
-	if (!fromMinimap)
+	let target;
+	if (!fromMiniMap)
 	{
-		var ent = Engine.PickEntityAtPoint(x, y);
+		let ent = Engine.PickEntityAtPoint(x, y);
 		if (ent != INVALID_ENTITY)
 			target = ent;
 	}
 
-	// decide between the following ordered actions
+	// Decide between the following ordered actions,
 	// if two actions are possible, the first one is taken
-	// so the most specific should appear first
-	var actions = Object.keys(g_UnitActions).slice();
-	actions.sort((a, b) => g_UnitActions[a].specificness - g_UnitActions[b].specificness);
+	// thus the most specific should appear first.
 
-	var actionInfo = undefined;
+	let actionInfo = undefined;
 	if (preSelectedAction != ACTION_NONE)
 	{
-		for (var action of actions)
+		for (let action of g_UnitActionsSortedKeys)
 			if (g_UnitActions[action].preSelectedActionCheck)
 			{
-				var r = g_UnitActions[action].preSelectedActionCheck(target, selection);
+				let r = g_UnitActions[action].preSelectedActionCheck(target, selection);
 				if (r)
 					return r;
 			}
@@ -230,18 +252,18 @@ function determineAction(x, y, fromMinimap)
 		return { "type": "none", "cursor": "", "target": target };
 	}
 
-	for (var action of actions)
+	for (let action of g_UnitActionsSortedKeys)
 		if (g_UnitActions[action].hotkeyActionCheck)
 		{
-			var r = g_UnitActions[action].hotkeyActionCheck(target, selection);
+			let r = g_UnitActions[action].hotkeyActionCheck(target, selection);
 			if (r)
 				return r;
 		}
 
-	for (var action of actions)
+	for (let action of g_UnitActionsSortedKeys)
 		if (g_UnitActions[action].actionCheck)
 		{
-			var r = g_UnitActions[action].actionCheck(target, selection);
+			let r = g_UnitActions[action].actionCheck(target, selection);
 			if (r)
 				return r;
 		}
@@ -249,8 +271,18 @@ function determineAction(x, y, fromMinimap)
 	return { "type": "none", "cursor": "", "target": target };
 }
 
+function ownsEntity(ent)
+{
+	let entState = GetEntityState(ent);
+	return entState && entState.player == g_ViewedPlayer;
+}
 
-var dragStart; // used for remembering mouse coordinates at start of drag operations
+function isSnapToEdgesEnabled()
+{
+	let config = Engine.ConfigDB_GetValue("user", "gui.session.snaptoedges");
+	let hotkeyPressed = Engine.HotkeyIsPressed("session.snaptoedges");
+	return hotkeyPressed == (config == "disabled");
+}
 
 function tryPlaceBuilding(queued)
 {
@@ -281,7 +313,7 @@ function tryPlaceBuilding(queued)
 		"autocontinue": true,
 		"queued": queued
 	});
-	Engine.GuiInterfaceCall("PlaySound", { "name": "order_repair", "entity": selection[0] });
+	Engine.GuiInterfaceCall("PlaySound", { "name": "order_build", "entity": selection[0] });
 
 	if (!queued)
 		placementSupport.Reset();
@@ -338,30 +370,26 @@ function tryPlaceWall(queued)
 	if (hasWallSegment)
 	{
 		Engine.PostNetworkCommand(cmd);
-		Engine.GuiInterfaceCall("PlaySound", { "name": "order_repair", "entity": selection[0] });
+		Engine.GuiInterfaceCall("PlaySound", { "name": "order_build", "entity": selection[0] });
 	}
 
 	return true;
 }
 
-// Updates the bandbox object with new positions and visibility.
-// The coordinates [x0, y0, x1, y1] are returned for further use.
+/**
+ * Updates the bandbox object with new positions and visibility.
+ * @returns {array} The coordinates of the vertices of the bandbox.
+ */
 function updateBandbox(bandbox, ev, hidden)
 {
-	var x0 = dragStart[0];
-	var y0 = dragStart[1];
-	var x1 = ev.x;
-	var y1 = ev.y;
-	// normalize the orientation of the rectangle
-	if (x0 > x1) { let t = x0; x0 = x1; x1 = t; }
-	if (y0 > y1) { let t = y0; y0 = y1; y1 = t; }
-
 	let scale = +Engine.ConfigDB_GetValue("user", "gui.scale");
+	let vMin = Vector2D.min(g_DragStart, ev);
+	let vMax = Vector2D.max(g_DragStart, ev);
 
-	bandbox.size = new GUISize(x0 / scale, y0 / scale, x1 / scale, y1 / scale);
+	bandbox.size = new GUISize(vMin.x / scale, vMin.y / scale, vMax.x / scale, vMax.y / scale);
 	bandbox.hidden = hidden;
 
-	return [x0, y0, x1, y1];
+	return [vMin.x, vMin.y, vMax.x, vMax.y];
 }
 
 // Define some useful unit filters for getPreferredEntities
@@ -379,6 +407,12 @@ var unitFilters = {
 		return entState &&
 			g_MilitaryTypes.some(c => hasClass(entState, c));
 	},
+	"isNonMilitary": entity => {
+		var entState = GetEntityState(entity);
+		return entState &&
+			hasClass(entState, "Unit") &&
+			!g_MilitaryTypes.some(c => hasClass(entState, c));
+	},
 	"isIdle": entity => {
 		var entState = GetEntityState(entity);
 
@@ -387,6 +421,13 @@ var unitFilters = {
 			entState.unitAI &&
 			entState.unitAI.isIdle &&
 			!hasClass(entState, "Domestic");
+	},
+	"isWounded": entity => {
+		let entState = GetEntityState(entity);
+		return entState &&
+			hasClass(entState, "Unit") &&
+			entState.maxHitpoints &&
+			100 * entState.hitpoints <= entState.maxHitpoints * Engine.ConfigDB_GetValue("user", "gui.session.woundedunithotkeythreshold");
 	},
 	"isAnything": entity => {
 		return true;
@@ -401,10 +442,14 @@ function getPreferredEntities(ents)
 	var filters = [unitFilters.isUnit, unitFilters.isDefensive, unitFilters.isAnything];
 
 	// Handle hotkeys
-	if (Engine.HotkeyIsPressed("selection.milonly"))
+	if (Engine.HotkeyIsPressed("selection.militaryonly"))
 		filters = [unitFilters.isMilitary];
+	if (Engine.HotkeyIsPressed("selection.nonmilitaryonly"))
+		filters = [unitFilters.isNonMilitary];
 	if (Engine.HotkeyIsPressed("selection.idleonly"))
 		filters = [unitFilters.isIdle];
+	if (Engine.HotkeyIsPressed("selection.woundedonly"))
+		filters = [unitFilters.isWounded];
 
 	var preferredEnts = [];
 	for (var i = 0; i < filters.length; ++i)
@@ -439,7 +484,7 @@ function handleInputBeforeGui(ev, hoveredObject)
 	// Close the menu when interacting with the game world
 	if (!mouseIsOverObject && (ev.type =="mousebuttonup" || ev.type == "mousebuttondown")
 		&& (ev.button == SDL_BUTTON_LEFT || ev.button == SDL_BUTTON_RIGHT))
-		closeMenu();
+		g_Menu.close();
 
 	// State-machine processing:
 	//
@@ -508,16 +553,24 @@ function handleInputBeforeGui(ev, hoveredObject)
 		}
 		break;
 
+	case INPUT_UNIT_POSITION:
+		switch (ev.type)
+		{
+		case "mousemotion":
+			return positionUnitsFreehandSelectionMouseMove(ev);
+		case "mousebuttonup":
+			return positionUnitsFreehandSelectionMouseUp(ev);
+		}
+		break;
+
 	case INPUT_BUILDING_CLICK:
 		switch (ev.type)
 		{
 		case "mousemotion":
 			// If the mouse moved far enough from the original click location,
 			// then switch to drag-orientation mode
-			var dragDeltaX = ev.x - dragStart[0];
-			var dragDeltaY = ev.y - dragStart[1];
-			var maxDragDelta = 16;
-			if (Math.abs(dragDeltaX) >= maxDragDelta || Math.abs(dragDeltaY) >= maxDragDelta)
+			let maxDragDelta = 16;
+			if (g_DragStart.distanceTo(ev) >= maxDragDelta)
 			{
 				inputState = INPUT_BUILDING_DRAG;
 				return false;
@@ -593,7 +646,7 @@ function handleInputBeforeGui(ev, hoveredObject)
 			case "mousemotion":
 				placementSupport.wallEndPosition = Engine.GetTerrainAtScreenPoint(ev.x, ev.y);
 
-				// Update the building placement preview, and by extension, the list of snapping candidate entities for both (!)
+				// Update the structure placement preview, and by extension, the list of snapping candidate entities for both (!)
 				// the ending point and the starting point to snap to.
 				//
 				// TODO: Note that here, we need to fetch all similar entities, including any offscreen ones, to support the case
@@ -660,14 +713,11 @@ function handleInputBeforeGui(ev, hoveredObject)
 		switch (ev.type)
 		{
 		case "mousemotion":
-			var dragDeltaX = ev.x - dragStart[0];
-			var dragDeltaY = ev.y - dragStart[1];
-			var maxDragDelta = 16;
-			if (Math.abs(dragDeltaX) >= maxDragDelta || Math.abs(dragDeltaY) >= maxDragDelta)
+			let maxDragDelta = 16;
+			if (g_DragStart.distanceTo(ev) >= maxDragDelta)
 			{
 				// Rotate in the direction of the mouse
-				var target = Engine.GetTerrainAtScreenPoint(ev.x, ev.y);
-				placementSupport.angle = Math.atan2(target.x - placementSupport.position.x, target.z - placementSupport.position.z);
+				placementSupport.angle = placementSupport.position.horizAngleTo(Engine.GetTerrainAtScreenPoint(ev.x, ev.y));
 			}
 			else
 			{
@@ -675,11 +725,14 @@ function handleInputBeforeGui(ev, hoveredObject)
 				placementSupport.SetDefaultAngle();
 			}
 
-			var snapData = Engine.GuiInterfaceCall("GetFoundationSnapData", {
-				"template": placementSupport.template,
-				"x": placementSupport.position.x,
-				"z": placementSupport.position.z
-			});
+			let snapData = Engine.GuiInterfaceCall("GetFoundationSnapData", {
+ 				"template": placementSupport.template,
+ 				"x": placementSupport.position.x,
+				"z": placementSupport.position.z,
+				"angle": placementSupport.angle,
+				"snapToEdges": isSnapToEdgesEnabled() && Engine.GetEdgesOfStaticObstructionsOnScreenNearTo(
+					placementSupport.position.x, placementSupport.position.z)
+ 			});
 			if (snapData)
 			{
 				placementSupport.angle = snapData.angle;
@@ -693,7 +746,7 @@ function handleInputBeforeGui(ev, hoveredObject)
 		case "mousebuttonup":
 			if (ev.button == SDL_BUTTON_LEFT)
 			{
-				// If shift is down, let the player continue placing another of the same building
+				// If shift is down, let the player continue placing another of the same structure.
 				var queued = Engine.HotkeyIsPressed("session.queue");
 				if (tryPlaceBuilding(queued))
 				{
@@ -722,14 +775,6 @@ function handleInputBeforeGui(ev, hoveredObject)
 		}
 		break;
 
-	case INPUT_MASSTRIBUTING:
-		if (ev.type == "hotkeyup" && ev.hotkey == "session.masstribute")
-		{
-			g_FlushTributing();
-			inputState = INPUT_NORMAL;
-		}
-		break;
-
 	case INPUT_BATCHTRAINING:
 		if (ev.type == "hotkeyup" && ev.hotkey == "session.batchtrain")
 		{
@@ -749,17 +794,6 @@ function handleInputAfterGui(ev)
 
 	if (ev.hotkey === undefined)
 		ev.hotkey = null;
-
-	// Handle the time-warp testing features, restricted to single-player
-	if (!g_IsNetworked && Engine.GetGUIObjectByName("devTimeWarp").checked)
-	{
-		if (ev.type == "hotkeydown" && ev.hotkey == "session.timewarp.fastforward")
-			Engine.SetSimRate(20.0);
-		else if (ev.type == "hotkeyup" && ev.hotkey == "session.timewarp.fastforward")
-			Engine.SetSimRate(1.0);
-		else if (ev.type == "hotkeyup" && ev.hotkey == "session.timewarp.rewind")
-			Engine.RewindTimeWarp();
-	}
 
 	if (ev.hotkey == "session.highlightguarding")
 	{
@@ -795,7 +829,7 @@ function handleInputAfterGui(ev)
 		case "mousebuttondown":
 			if (ev.button == SDL_BUTTON_LEFT)
 			{
-				dragStart = [ ev.x, ev.y ];
+				g_DragStart = new Vector2D(ev.x, ev.y);
 				inputState = INPUT_SELECTING;
 				// If a single click occured, reset the clickedEntity.
 				// Also set it if we're double/triple clicking and missed the unit earlier.
@@ -805,10 +839,10 @@ function handleInputAfterGui(ev)
 			}
 			else if (ev.button == SDL_BUTTON_RIGHT)
 			{
-				var action = determineAction(ev.x, ev.y);
-				if (!action)
+				if (!controlsPlayer(g_ViewedPlayer))
 					break;
-				return doAction(action, ev);
+				g_DragStart = new Vector2D(ev.x, ev.y);
+				inputState = INPUT_UNIT_POSITION_START;
 			}
 			break;
 
@@ -856,7 +890,7 @@ function handleInputAfterGui(ev)
 				var action = determineAction(ev.x, ev.y);
 				if (!action)
 					break;
-				if (!Engine.HotkeyIsPressed("session.queue"))
+				if (!Engine.HotkeyIsPressed("session.queue") && !Engine.HotkeyIsPressed("session.orderone"))
 				{
 					preSelectedAction = ACTION_NONE;
 					inputState = INPUT_NORMAL;
@@ -886,10 +920,7 @@ function handleInputAfterGui(ev)
 		{
 		case "mousemotion":
 			// If the mouse moved further than a limit, switch to bandbox mode
-			var dragDeltaX = ev.x - dragStart[0];
-			var dragDeltaY = ev.y - dragStart[1];
-
-			if (Math.abs(dragDeltaX) >= maxDragDelta || Math.abs(dragDeltaY) >= maxDragDelta)
+			if (g_DragStart.distanceTo(ev) >= g_MaxDragDelta)
 			{
 				inputState = INPUT_BANDBOXING;
 				return false;
@@ -973,6 +1004,29 @@ function handleInputAfterGui(ev)
 		}
 		break;
 
+	case INPUT_UNIT_POSITION_START:
+		switch (ev.type)
+		{
+		case "mousemotion":
+			// If the mouse moved further than a limit, switch to unit position mode
+			if (g_DragStart.distanceToSquared(ev) >= Math.square(g_MaxDragDelta))
+			{
+				inputState = INPUT_UNIT_POSITION;
+				return false;
+			}
+			break;
+		case "mousebuttonup":
+			inputState = INPUT_NORMAL;
+			if (ev.button == SDL_BUTTON_RIGHT)
+			{
+				let action = determineAction(ev.x, ev.y);
+				if (action)
+					return doAction(action, ev);
+			}
+			break;
+		}
+		break;
+
 	case INPUT_BUILDING_PLACEMENT:
 		switch (ev.type)
 		{
@@ -997,11 +1051,13 @@ function handleInputAfterGui(ev)
 					return true;
 				}
 
-				var snapData = Engine.GuiInterfaceCall("GetFoundationSnapData", {
-					"template": placementSupport.template,
-					"x": placementSupport.position.x,
-					"z": placementSupport.position.z,
-				});
+				let snapData = Engine.GuiInterfaceCall("GetFoundationSnapData", {
+ 					"template": placementSupport.template,
+ 					"x": placementSupport.position.x,
+ 					"z": placementSupport.position.z,
+					"snapToEdges": isSnapToEdgesEnabled() && Engine.GetEdgesOfStaticObstructionsOnScreenNearTo(
+						placementSupport.position.x, placementSupport.position.z)
+ 				});
 				if (snapData)
 				{
 					placementSupport.angle = snapData.angle;
@@ -1025,7 +1081,25 @@ function handleInputAfterGui(ev)
 				else
 				{
 					placementSupport.position = Engine.GetTerrainAtScreenPoint(ev.x, ev.y);
-					dragStart = [ ev.x, ev.y ];
+
+					if (isSnapToEdgesEnabled())
+					{
+						let snapData = Engine.GuiInterfaceCall("GetFoundationSnapData", {
+							"template": placementSupport.template,
+							"x": placementSupport.position.x,
+							"z": placementSupport.position.z,
+							"snapToEdges": Engine.GetEdgesOfStaticObstructionsOnScreenNearTo(
+								placementSupport.position.x, placementSupport.position.z)
+						});
+						if (snapData)
+						{
+							placementSupport.angle = snapData.angle;
+							placementSupport.position.x = snapData.x;
+							placementSupport.position.z = snapData.z;
+						}
+					}
+
+					g_DragStart = new Vector2D(ev.x, ev.y);
 					inputState = INPUT_BUILDING_CLICK;
 				}
 				return true;
@@ -1067,56 +1141,120 @@ function doAction(action, ev)
 	if (!controlsPlayer(g_ViewedPlayer))
 		return false;
 
-	// If shift is down, add the order to the unit's order queue instead
-	// of running it immediately
-	var orderone = Engine.HotkeyIsPressed("session.orderone");
-	var queued = Engine.HotkeyIsPressed("session.queue");
-	var target = Engine.GetTerrainAtScreenPoint(ev.x, ev.y);
+	return handleUnitAction(Engine.GetTerrainAtScreenPoint(ev.x, ev.y), action);
+}
 
-	if (g_UnitActions[action.type] && g_UnitActions[action.type].execute)
-	{
-		let selection = g_Selection.toList();
-		if (orderone)
-		{
-			// pick the first unit that can do this order.
-			let unit = selection.find(entity =>
-				["preSelectedActionCheck", "hotkeyActionCheck", "actionCheck"].some(method =>
-					g_UnitActions[action.type][method] &&
-					g_UnitActions[action.type][method](action.target || undefined, [entity])
-				));
-			if (unit)
-			{
-				selection = [unit];
-				g_Selection.removeList(selection);
-			}
-		}
-		return g_UnitActions[action.type].execute(target, action, selection, queued);
-	}
 
-	error("Invalid action.type " + action.type);
+function positionUnitsFreehandSelectionMouseMove(ev)
+{
+	// Converting the input line into a List of points.
+	// For better performance the points must have a minimum distance to each other.
+	let target = Vector2D.from3D(Engine.GetTerrainAtScreenPoint(ev.x, ev.y));
+	if (!g_FreehandSelection_InputLine.length ||
+	    target.distanceToSquared(g_FreehandSelection_InputLine[g_FreehandSelection_InputLine.length - 1]) >=
+	    g_FreehandSelection_ResolutionInputLineSquared)
+		g_FreehandSelection_InputLine.push(target);
 	return false;
 }
 
-function handleMinimapEvent(target)
+function positionUnitsFreehandSelectionMouseUp(ev)
 {
-	// Partly duplicated from handleInputAfterGui(), but with the input being
-	// world coordinates instead of screen coordinates.
+	inputState = INPUT_NORMAL;
+	let inputLine = g_FreehandSelection_InputLine;
+	g_FreehandSelection_InputLine = [];
+	if (ev.button != SDL_BUTTON_RIGHT)
+		return true;
 
-	if (inputState != INPUT_NORMAL)
+	let lengthOfLine = 0;
+	for (let i = 1; i < inputLine.length; ++i)
+		lengthOfLine += inputLine[i].distanceTo(inputLine[i - 1]);
+
+	let selection = g_Selection.toList().filter(ent => !!GetEntityState(ent).unitAI).sort((a, b) => a - b);
+
+	// Checking the line for a minimum length to save performance.
+	if (lengthOfLine < g_FreehandSelection_MinLengthOfLine || selection.length < g_FreehandSelection_MinNumberOfUnits)
+	{
+		let action = determineAction(ev.x, ev.y);
+		return !!action && doAction(action, ev);
+	}
+
+	// Even distribution of the units on the line.
+	let p0 = inputLine[0];
+	let entityDistribution = [p0];
+	let distanceBetweenEnts = lengthOfLine / (selection.length - 1);
+	let freeDist = -distanceBetweenEnts;
+
+	for (let i = 1; i < inputLine.length; ++i)
+	{
+		let p1 = inputLine[i];
+		freeDist += inputLine[i - 1].distanceTo(p1);
+
+		while (freeDist >= 0)
+		{
+			p0 = Vector2D.sub(p0, p1).normalize().mult(freeDist).add(p1);
+			entityDistribution.push(p0);
+			freeDist -= distanceBetweenEnts;
+		}
+	}
+
+	// Rounding errors can lead to missing or too many points.
+	entityDistribution = entityDistribution.slice(0, selection.length);
+	entityDistribution = entityDistribution.concat(new Array(selection.length - entityDistribution.length).fill(inputLine[inputLine.length - 1]));
+
+	if (Vector2D.from3D(GetEntityState(selection[0]).position).distanceTo(entityDistribution[0]) +
+	    Vector2D.from3D(GetEntityState(selection[selection.length - 1]).position).distanceTo(entityDistribution[selection.length - 1]) >
+	    Vector2D.from3D(GetEntityState(selection[0]).position).distanceTo(entityDistribution[selection.length - 1]) +
+	    Vector2D.from3D(GetEntityState(selection[selection.length - 1]).position).distanceTo(entityDistribution[0]))
+		entityDistribution.reverse();
+
+	Engine.PostNetworkCommand({
+		"type": Engine.HotkeyIsPressed("session.attackmove") ? "attack-walk-custom" : "walk-custom",
+		"entities": selection,
+		"targetPositions": entityDistribution.map(pos => pos.toFixed(2)),
+		"targetClasses": Engine.HotkeyIsPressed("session.attackmoveUnit") ? { "attack": ["Unit"] } : { "attack": ["Unit", "Structure"] },
+		"queued": Engine.HotkeyIsPressed("session.queue")
+	});
+
+	// Add target markers with a minimum distance of 5 to each other.
+	let entitiesBetweenMarker = Math.ceil(5 / distanceBetweenEnts);
+	for (let i = 0; i < entityDistribution.length; i += entitiesBetweenMarker)
+		DrawTargetMarker({ "x": entityDistribution[i].x, "z": entityDistribution[i].y });
+
+	Engine.GuiInterfaceCall("PlaySound", {
+		"name": "order_walk",
+		"entity": selection[0]
+	});
+
+	return true;
+}
+
+function handleUnitAction(target, action)
+{
+	if (!g_UnitActions[action.type] || !g_UnitActions[action.type].execute)
+	{
+		error("Invalid action.type " + action.type);
 		return false;
+	}
 
-	var fromMinimap = true;
-	var action = determineAction(undefined, undefined, fromMinimap);
-	if (!action)
-		return false;
+	let selection = g_Selection.toList();
+	if (Engine.HotkeyIsPressed("session.orderone"))
+	{
+		// Pick the first unit that can do this order.
+		let unit = selection.find(entity =>
+			["preSelectedActionCheck", "hotkeyActionCheck", "actionCheck"].some(method =>
+				g_UnitActions[action.type][method] &&
+				g_UnitActions[action.type][method](action.target || undefined, [entity])
+			));
+		if (unit)
+		{
+			selection = [unit];
+			g_Selection.removeList(selection);
+		}
+	}
 
-	var selection = g_Selection.toList();
-
-	var queued = Engine.HotkeyIsPressed("session.queue");
-	if (g_UnitActions[action.type] && g_UnitActions[action.type].execute)
-		return g_UnitActions[action.type].execute(target, action, selection, queued);
-	error("Invalid action.type " + action.type);
-	return false;
+	// If the session.queue hotkey is down, add the order to the unit's order queue instead
+	// of running it immediately
+	return g_UnitActions[action.type].execute(target, action, selection, Engine.HotkeyIsPressed("session.queue"));
 }
 
 function getEntityLimitAndCount(playerState, entType)
@@ -1151,8 +1289,8 @@ function startBuildingPlacement(buildTemplate, playerState)
 		return;
 
 	// TODO: we should clear any highlight selection rings here. If the mouse was over an entity before going onto the GUI
-	// to start building a structure, then the highlight selection rings are kept during the construction of the building.
-	// Gives the impression that somehow the hovered-over entity has something to do with the building you're constructing.
+	// to start building a structure, then the highlight selection rings are kept during the construction of the structure.
+	// Gives the impression that somehow the hovered-over entity has something to do with the structure you're building.
 
 	placementSupport.Reset();
 
@@ -1187,6 +1325,19 @@ var g_BatchTrainingEntities;
 var g_BatchTrainingType;
 var g_NumberOfBatches;
 var g_BatchTrainingEntityAllowedCount;
+var g_BatchSize = getDefaultBatchTrainingSize();
+
+function OnTrainMouseWheel(dir)
+{
+	if (!Engine.HotkeyIsPressed("session.batchtrain"))
+		return;
+
+	g_BatchSize += dir / Engine.ConfigDB_GetValue("user", "gui.session.scrollbatchratio");
+	if (g_BatchSize < 1 || !Number.isFinite(g_BatchSize))
+		g_BatchSize = 1;
+
+	updateSelectionDetails();
+}
 
 function getBuildingsWhichCanTrainEntity(entitiesToCheck, trainEntType)
 {
@@ -1197,10 +1348,28 @@ function getBuildingsWhichCanTrainEntity(entitiesToCheck, trainEntType)
 	});
 }
 
-function getBatchTrainingSize()
+function initBatchTrain()
+{
+	registerConfigChangeHandler(changes => {
+		if (changes.has("gui.session.batchtrainingsize"))
+			updateDefaultBatchSize();
+	});
+}
+
+function getDefaultBatchTrainingSize()
 {
 	let num = +Engine.ConfigDB_GetValue("user", "gui.session.batchtrainingsize");
 	return Number.isInteger(num) && num > 0 ? num : 5;
+}
+
+function getBatchTrainingSize()
+{
+	return Math.max(Math.round(g_BatchSize), 1);
+}
+
+function updateDefaultBatchSize()
+{
+	g_BatchSize = getDefaultBatchTrainingSize();
 }
 
 // Add the unit shown at position to the training queue for all entities in the selection
@@ -1215,7 +1384,7 @@ function addTrainingByPosition(position)
 	let trainableEnts = getAllTrainableEntitiesFromSelection();
 
 	let entToTrain = trainableEnts[position];
-	// When we have no building to train or the position is invalid
+	// When we have no structure to train units or the position is invalid
 	if (!entToTrain)
 		return;
 
@@ -1235,17 +1404,15 @@ function addTrainingToQueue(selection, trainEntType, playerState)
 	if (!decrement)
 		template = GetTemplateData(trainEntType);
 
-	let batchIncrementSize = getBatchTrainingSize();
-
 	// Batch training only possible if we can train at least 2 units
 	if (Engine.HotkeyIsPressed("session.batchtrain") && (canBeAddedCount == undefined || canBeAddedCount > 1))
 	{
 		if (inputState == INPUT_BATCHTRAINING)
 		{
-			// Check if we are training in the same building(s) as the last batch
+			// Check if we are training in the same structure(s) as the last batch
 			// NOTE: We just check if the arrays are the same and if the order is the same
 			// If the order changed, we have a new selection and we should create a new batch.
-			// If we're already creating a batch of this unit (in the same building(s)), then just extend it
+			// If we're already creating a batch of this unit (in the same structure(s)), then just extend it
 			// (if training limits allow)
 			if (g_BatchTrainingEntities.length == selection.length &&
 			    g_BatchTrainingEntities.every((ent, i) => ent == selection[i]) &&
@@ -1258,10 +1425,10 @@ function addTrainingToQueue(selection, trainEntType, playerState)
 						inputState = INPUT_NORMAL;
 				}
 				else if (canBeAddedCount == undefined ||
-				         canBeAddedCount > g_NumberOfBatches * batchIncrementSize * appropriateBuildings.length)
+				         canBeAddedCount > g_NumberOfBatches * getBatchTrainingSize() * appropriateBuildings.length)
 				{
 					if (Engine.GuiInterfaceCall("GetNeededResources", {
-						"cost": multiplyEntityCosts(template, (g_NumberOfBatches + 1) * batchIncrementSize)
+						"cost": multiplyEntityCosts(template, (g_NumberOfBatches + 1) * getBatchTrainingSize())
 					}))
 						return;
 
@@ -1278,7 +1445,7 @@ function addTrainingToQueue(selection, trainEntType, playerState)
 
 		// Don't start a new batch if decrementing or unable to afford it.
 		if (decrement || Engine.GuiInterfaceCall("GetNeededResources", { "cost":
-			multiplyEntityCosts(template, batchIncrementSize) }))
+			multiplyEntityCosts(template, getBatchTrainingSize()) }))
 			return;
 
 		inputState = INPUT_BATCHTRAINING;
@@ -1289,7 +1456,7 @@ function addTrainingToQueue(selection, trainEntType, playerState)
 	}
 	else
 	{
-		// Non-batched - just create a single entity in each building
+		// Non-batched - just create a single entity in each structure
 		// (but no more than entity limit allows)
 		let buildingsForTraining = appropriateBuildings;
 		if (canBeAddedCount !== undefined)
@@ -1309,28 +1476,27 @@ function addTrainingToQueue(selection, trainEntType, playerState)
  */
 function getTrainingStatus(selection, trainEntType, playerState)
 {
-	let batchIncrementSize = getBatchTrainingSize();
 	let appropriateBuildings = getBuildingsWhichCanTrainEntity(selection, trainEntType);
 	let nextBatchTrainingCount = 0;
 
 	let canBeAddedCount;
 	if (inputState == INPUT_BATCHTRAINING && g_BatchTrainingType == trainEntType)
 	{
-		nextBatchTrainingCount = g_NumberOfBatches * batchIncrementSize;
+		nextBatchTrainingCount = g_NumberOfBatches * getBatchTrainingSize();
 		canBeAddedCount = g_BatchTrainingEntityAllowedCount;
 	}
 	else
 		canBeAddedCount = getEntityLimitAndCount(playerState, trainEntType).canBeAddedCount;
 
-	// We need to calculate count after the next increment if it's possible
+	// We need to calculate count after the next increment if possible.
 	if ((canBeAddedCount == undefined || canBeAddedCount > nextBatchTrainingCount * appropriateBuildings.length) &&
 	    Engine.HotkeyIsPressed("session.batchtrain"))
-		nextBatchTrainingCount += batchIncrementSize;
+		nextBatchTrainingCount += getBatchTrainingSize();
 
 	nextBatchTrainingCount = Math.max(nextBatchTrainingCount, 1);
 
-	// If training limits don't allow us to train batchTrainingCount in each appropriate building
-	// train as many full batches as we can and remainer in one more building.
+	// If training limits don't allow us to train batchedSize in each appropriate structure,
+	// train as many full batches as we can and the remainder in one more structure.
 	let buildingsCountToTrainFullBatch = appropriateBuildings.length;
 	let remainderToTrain = 0;
 	if (canBeAddedCount !== undefined &&
@@ -1347,12 +1513,12 @@ function flushTrainingBatch()
 {
 	let batchedSize = g_NumberOfBatches * getBatchTrainingSize();
 	let appropriateBuildings = getBuildingsWhichCanTrainEntity(g_BatchTrainingEntities, g_BatchTrainingType);
-	// If training limits don't allow us to train batchedSize in each appropriate building
+	// If training limits don't allow us to train batchedSize in each appropriate structure.
 	if (g_BatchTrainingEntityAllowedCount !== undefined &&
 		g_BatchTrainingEntityAllowedCount < batchedSize * appropriateBuildings.length)
 	{
-		// Train as many full batches as we can
-		let buildingsCountToTrainFullBatch = Math.floor( g_BatchTrainingEntityAllowedCount / batchedSize);
+		// Train as many full batches as we can.
+		let buildingsCountToTrainFullBatch = Math.floor(g_BatchTrainingEntityAllowedCount / batchedSize);
 		Engine.PostNetworkCommand({
 			"type": "train",
 			"entities": appropriateBuildings.slice(0, buildingsCountToTrainFullBatch),
@@ -1360,13 +1526,15 @@ function flushTrainingBatch()
 			"count": batchedSize
 		});
 
-		// Train remainer in one more building
-		Engine.PostNetworkCommand({
-			"type": "train",
-			"entities": [appropriateBuildings[buildingsCountToTrainFullBatch]],
-			"template": g_BatchTrainingType,
-			"count": g_BatchTrainingEntityAllowedCount % batchedSize
-		});
+		// Train remainer in one more structure.
+		let remainer = g_BatchTrainingEntityAllowedCount % batchedSize;
+		if (remainer)
+			Engine.PostNetworkCommand({
+				"type": "train",
+				"entities": [appropriateBuildings[buildingsCountToTrainFullBatch]],
+				"template": g_BatchTrainingType,
+				"count": remainer
+			});
 	}
 	else
 		Engine.PostNetworkCommand({

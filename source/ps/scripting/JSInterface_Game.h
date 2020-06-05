@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2018 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -22,6 +22,7 @@
 
 namespace JSI_Game
 {
+	bool IsGameStarted(ScriptInterface::CxPrivate* pCxPrivate);
 	void StartGame(ScriptInterface::CxPrivate* pCxPrivate, JS::HandleValue attribs, int playerID);
 	void Script_EndGame(ScriptInterface::CxPrivate* pCxPrivate);
 	int GetPlayerID(ScriptInterface::CxPrivate* pCxPrivate);
@@ -40,4 +41,4 @@ namespace JSI_Game
 	void RegisterScriptFunctions(const ScriptInterface& ScriptInterface);
 }
 
-#endif
+#endif // INCLUDED_JSI_GAME

@@ -36,7 +36,7 @@ var g_MapNames = [];
 /**
  * Sorted list of the victory conditions occuring in the replays
  */
-var g_VictoryConditions = [];
+var g_VictoryConditions = g_Settings && g_Settings.VictoryConditions;
 
 /**
  * Directory name of the currently selected replay. Used to restore the selection after changing filters.
@@ -47,6 +47,13 @@ var g_SelectedReplayDirectory = "";
  * Skip duplicate expensive GUI updates before init is complete.
  */
 var g_ReplaysLoaded = false;
+
+/**
+ * Remember last viewed summary panel and charts.
+ */
+var g_SummarySelectedData;
+
+var g_MapCache = new MapCache();
 
 /**
  * Initializes globals, loads replays and displays the list.
@@ -69,6 +76,9 @@ function init(data)
 
 	initHotkeyTooltips();
 	displayReplayList();
+
+	if (data && data.summarySelectedData)
+		g_SummarySelectedData = data.summarySelectedData;
 }
 
 /**
@@ -100,10 +110,6 @@ function loadReplays(replaySelectionData, compareFiles)
 		if (g_MapNames.indexOf(replay.attribs.settings.Name) == -1 && replay.attribs.settings.Name != "")
 			g_MapNames.push(replay.attribs.settings.Name);
 
-		// Extract victory conditions
-		if (replay.attribs.settings.GameType && g_VictoryConditions.indexOf(replay.attribs.settings.GameType) == -1)
-			g_VictoryConditions.push(replay.attribs.settings.GameType);
-
 		// Extract playernames
 		for (let playerData of replay.attribs.settings.PlayerData)
 		{
@@ -130,7 +136,6 @@ function loadReplays(replaySelectionData, compareFiles)
 	}
 
 	g_MapNames.sort();
-	g_VictoryConditions.sort();
 
 	// Reload filters (since they depend on g_Replays and its derivatives)
 	initFilters(replaySelectionData && replaySelectionData.filters);
@@ -171,11 +176,8 @@ function sanitizeGameAttributes(attribs)
 	if (!attribs.settings.PopulationCap)
 		attribs.settings.PopulationCap = 300;
 
-	if (!attribs.settings.mapType)
-		attribs.settings.mapType = "skirmish";
-
-	if (!attribs.settings.GameType)
-		attribs.settings.GameType = "conquest";
+	if (!attribs.mapType)
+		attribs.mapType = "skirmish";
 
 	// Remove gaia
 	if (attribs.settings.PlayerData.length && attribs.settings.PlayerData[0] == null)
@@ -190,10 +192,19 @@ function sanitizeGameAttributes(attribs)
 function initHotkeyTooltips()
 {
 	Engine.GetGUIObjectByName("playersFilter").tooltip =
-		translate("Filter replays by typing one or more, partial or complete playernames.") +
+		translate("Filter replays by typing one or more, partial or complete player names.") +
 		" " + colorizeAutocompleteHotkey();
 
-	Engine.GetGUIObjectByName("deleteReplayButton").tooltip = deleteTooltip();
+	let deleteTooltip = colorizeHotkey(
+		translate("Delete the selected replay using %(hotkey)s."),
+		"session.savedgames.delete");
+
+	if (deleteTooltip)
+		deleteTooltip += colorizeHotkey(
+			"\n" + translate("Hold %(hotkey)s to skip the confirmation dialog while deleting."),
+			"session.savedgames.noconfirmation");
+
+	Engine.GetGUIObjectByName("deleteReplayButton").tooltip = deleteTooltip;
 }
 
 /**
@@ -267,8 +278,9 @@ function displayReplayDetails()
 
 	Engine.GetGUIObjectByName("sgMapName").caption = translate(replay.attribs.settings.Name);
 	Engine.GetGUIObjectByName("sgMapSize").caption = translateMapSize(replay.attribs.settings.Size);
-	Engine.GetGUIObjectByName("sgMapType").caption = translateMapType(replay.attribs.settings.mapType);
-	Engine.GetGUIObjectByName("sgVictory").caption = translateVictoryCondition(replay.attribs.settings.GameType);
+	Engine.GetGUIObjectByName("sgMapType").caption = translateMapType(replay.attribs.mapType);
+	Engine.GetGUIObjectByName("sgVictory").caption = replay.attribs.settings.VictoryConditions.map(victoryConditionName =>
+		translateVictoryCondition(victoryConditionName)).join(translate(", "));
 	Engine.GetGUIObjectByName("sgNbPlayers").caption = sprintf(translate("Players: %(numberOfPlayers)s"),
 		{ "numberOfPlayers": replay.attribs.settings.PlayerData.length });
 	Engine.GetGUIObjectByName("replayFilename").caption = Engine.GetReplayDirectoryName(replay.directory);
@@ -280,15 +292,12 @@ function displayReplayDetails()
 			Engine.GetGUIObjectByName("showSpoiler").checked &&
 				metadata &&
 				metadata.playerStates &&
-				metadata.playerStates.map(pState => pState.state)
-		);
+				metadata.playerStates.map(pState => pState.state));
 
-	let mapData = getMapDescriptionAndPreview(replay.attribs.settings.mapType, replay.attribs.map);
-	Engine.GetGUIObjectByName("sgMapDescription").caption = mapData.description;
+	Engine.GetGUIObjectByName("sgMapPreview").sprite = g_MapCache.getMapPreview(replay.attribs.mapType, replay.attribs.map, replay.attribs);
+	Engine.GetGUIObjectByName("sgMapDescription").caption = g_MapCache.getTranslatedMapDescription(replay.attribs.mapType, replay.attribs.map);
 
 	Engine.GetGUIObjectByName("summaryButton").hidden = !Engine.HasReplayMetadata(replay.directory);
-
-	setMapPreviewImage("sgMapPreview", mapData.preview);
 }
 
 /**
@@ -344,7 +353,7 @@ function getReplayDuration(replay)
  */
 function isReplayCompatible(replay)
 {
-	return replayHasSameEngineVersion(replay) && hasSameMods(replay.attribs, g_EngineInfo);
+	return replayHasSameEngineVersion(replay) && hasSameMods(replay.attribs.mods, g_EngineInfo.mods);
 }
 
 /**

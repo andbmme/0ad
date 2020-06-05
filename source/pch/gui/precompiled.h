@@ -1,4 +1,4 @@
-/* Copyright (C) 2010 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -15,8 +15,18 @@
  * along with 0 A.D.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#define MINIMAL_PCH 2
 #include "lib/precompiled.h"	// common precompiled header
 
 #if MSC_VERSION
 # pragma warning(disable:4250)	// "inherits 'IGUITextOwner::IGUITextOwner::UpdateCachedSize' via dominance"
 #endif
+
+#if CONFIG_ENABLE_PCH
+
+#include "gui/CGUI.h"
+#include "gui/ObjectBases/IGUIObject.h"
+#include "ps/CStr.h"
+#include "scriptinterface/ScriptInterface.h"
+
+#endif // CONFIG_ENABLE_PCH

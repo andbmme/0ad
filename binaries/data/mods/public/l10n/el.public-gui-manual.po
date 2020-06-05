@@ -1,5 +1,5 @@
 # Translation template for 0 A.D. — Empires Ascendant.
-# Copyright © 2014 Wildfire Games
+# Copyright (C) 2020 Wildfire Games
 # This file is distributed under the same license as the 0 A.D. — Empires Ascendant project.
 # 
 # Translators:
@@ -7,21 +7,24 @@
 # Archie Mc <archiemc1@gmail.com>, 2015
 # LOUKAS SKOUROLIAKOS, 2015
 # George Charoupas <labaxp@gmail.com>, 2015
+# George Spere <g.sperelakis@gmail.com>, 2018
 # LOUKAS SKOUROLIAKOS, 2015
 # LOUKAS SKOUROLIAKOS, 2015
 # malvanos <malvanos@gmail.com>, 2014-2015
+# Michael Chatz <chatziasemidismichael@gmail.com>, 2018
+# Nea Retrogamer (nearetrogamer), 2018
 # Nick Mantas <inactive+nickthegreek@transifex.com>, 2014
 # Nick Mantas <inactive+nickthegreek@transifex.com>, 2014
 # Sander Deryckere, 2016
 # Sander Deryckere, 2016
 # Steven Gikas <stevengk123@gmail.com>, 2016
-# Vasilis Drosos <basilisd@gmail.com>, 2016-2017
+# Vasilis Drosos <basilisd@gmail.com>, 2016-2020
 # Steven Gikas <stevengk123@gmail.com>, 2016
 msgid ""
 msgstr ""
 "Project-Id-Version: 0 A.D.\n"
-"POT-Creation-Date: 2017-11-13 09:02+0100\n"
-"PO-Revision-Date: 2017-11-15 21:50+0000\n"
+"POT-Creation-Date: 2020-01-17 08:08+0000\n"
+"PO-Revision-Date: 2020-04-06 17:54+0000\n"
 "Last-Translator: Vasilis Drosos <basilisd@gmail.com>\n"
 "Language-Team: Greek (http://www.transifex.com/wildfire-games/0ad/language/el/)\n"
 "MIME-Version: 1.0\n"
@@ -30,657 +33,697 @@ msgstr ""
 "Language: el\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: gui/manual/manual.xml:(caption):12
-msgid "Information"
-msgstr "Πληροφορίες"
+#: gui/manual/manual.xml:(caption):13
+msgid "Manual"
+msgstr "Εγχειρίδιο χρήσης"
 
-#: gui/manual/manual.xml:(caption):20
+#: gui/manual/manual.xml:(caption):23
 msgid "Close"
 msgstr "Κλείσιμο"
 
-#: gui/manual/manual.xml:(caption):24
+#: gui/manual/manual.xml:(caption):28
 msgid "View Online"
 msgstr "Προβολή στο διαδίκτυο"
 
 #: gui/manual/intro.txt:1
-msgid "[font=\"sans-bold-18\"]0 A.D. in-game manual"
-msgstr "[font=\"sans-bold-18\"] 0 π.Χ. Εγχειρίδιο παιχνιδιού"
+msgid "[font=\"sans-bold-18\"]0 A.D. in-game manual[font=\"sans-14\"]"
+msgstr "[font=\"sans-bold-18\"] 0  A.D. Εγχειρίδιο παιχνιδιού[font=\"sans-14\"]"
 
 #: gui/manual/intro.txt:2
-msgid "[font=\"sans-14\"]"
-msgstr "[font=\"sans-14\"]"
-
-#: gui/manual/intro.txt:3
 msgid ""
 "Thank you for installing 0 A.D.! This page will give a brief overview of the"
 " features available in this incomplete, under-development, alpha version of "
 "the game."
 msgstr "Ευχαριστούμε που εγκαταστήσατε το 0 A.D.! Στη σελίδα αυτή θα βρείτε μια συνοπτική επισκόπηση των χαρακτηριστικών και των δυνατοτήτων που είναι διαθέσιμα σε αυτήν την ημιτελή, υπό ανάπτυξη έκδοση alpha του παιχνιδιού."
 
-#: gui/manual/intro.txt:5
-msgid "[font=\"sans-bold-16\"]Graphics settings"
-msgstr "[font=\"sans-bold-16\"] Ρυθμίεις γραφικών"
+#: gui/manual/intro.txt:4
+msgid "[font=\"sans-bold-16\"]Graphics settings[font=\"sans-14\"]"
+msgstr "[font=\"sans-bold-16\"] Ρυθμίσεις γραφικών[font=\"sans-14\"]"
 
-#: gui/manual/intro.txt:6
+#: gui/manual/intro.txt:5
 msgid ""
-"[font=\"sans-14\"]You can switch between fullscreen and windowed mode by "
-"pressing Alt + Enter. In windowed mode, you can resize the window. If the "
-"game runs too slowly, you can change some settings in the options window: "
-"try disabling the \"HQ Water Effects\" and \"Shadows\" options."
-msgstr "[font=\"sans-14\"]Μπορείτε να εναλλάσσεστε μεταξύ πλήρους οθόνης και παραθύρου πατώντας Alt + Enter. Σε κατάσταση παραθύρου, μπορείτε να αλλάξετε το μέγεθος του παραθύρου. Αν το παιχνίδι τρέχει πολύ αργά, μπορείτε να αλλάξετε κάποιες ρυθμίσεις στο παράθυρο επιλογών: δοκιμάστε να απενεργοποιήσετε τις επιλογές \"Υψηλής Ποιότητας Εμφάνισης του Νερού\" και \"Σκιές\"."
+"You can switch between fullscreen and windowed mode by pressing Alt + Enter."
+" In windowed mode, you can resize the window. If the game runs too slowly, "
+"you can change some settings in the options window: try disabling the “HQ "
+"Water Effects” and “Shadows” options."
+msgstr "Μπορείτε να εναλλάσσεστε μεταξύ πλήρους οθόνης και παραθύρου πατώντας Alt + Enter. Σε κατάσταση παραθύρου, μπορείτε να αλλάξετε το μέγεθος του παραθύρου. Αν το παιχνίδι τρέχει πολύ αργά, μπορείτε να αλλάξετε κάποιες ρυθμίσεις στο παράθυρο επιλογών: δοκιμάστε να απενεργοποιήσετε τις επιλογές “Υψηλής Ποιότητας Εμφάνισης του Νερού” και “Σκιές”."
+
+#: gui/manual/intro.txt:7
+msgid "[font=\"sans-bold-16\"]Playing the game[font=\"sans-14\"]"
+msgstr "[font=\"sans-bold-16\"]Παίζοντας το παιχνίδι[font=\"sans-14\"]"
 
 #: gui/manual/intro.txt:8
-msgid "[font=\"sans-bold-16\"]Playing the game"
-msgstr "[font=\"sans-bold-16\"]Παίζεται το παιχνίδι"
-
-#: gui/manual/intro.txt:9
 msgid ""
-"[font=\"sans-14\"]The controls and gameplay should be familiar to players of"
-" traditional RTS games. There are currently a lot of missing features and "
-"poorly-balanced stats – you will probably have to wait until a beta release "
-"for it to work well."
-msgstr "[font=\"sans-14\"]Ο χειρισμός και ο τρόπος παιχνιδίου είναι οικεία σε παίκτες με εμπειρία σε Πραγματικού Χρόνου Στρατηγικής παιχνίδια. Μέχρι στιγμής λείπουν αρκετα χαρακτηριστικά ή είναι ασταθή-πιθανώς να πρέπει να περιμένετε μέχρι να βγεί μια δοκιμαστική εκδοση για να εκτελεστεί σωστά"
+"The controls and gameplay should be familiar to players of traditional real-"
+"time strategy (RTS) games. There are currently a lot of missing features and"
+" poorly-balanced stats – you will probably have to wait until a beta release"
+" for it to work well."
+msgstr "Ο χειρισμός και ο τρόπος παιχνιδιού είναι οικείοι σε παίκτες με εμπειρία σε πραγματικού χρόνου παιχνίδια στρατηγικής (RTS). Μέχρι στιγμής λείπουν αρκετά χαρακτηριστικά ή είναι ασταθή - πιθανώς θα πρέπει να περιμένετε μέχρι να βγει μια δοκιμαστική έκδοση για να λειτουργήσει πιο σωστά."
+
+#: gui/manual/intro.txt:10
+msgid "Basic controls:"
+msgstr "Βασικοί τρόποι χειρισμού:"
 
 #: gui/manual/intro.txt:11
-msgid "Basic controls:"
-msgstr "Βασικός τρόπος χειρισμού:"
+msgid "• Left-click to select units"
+msgstr "• Αριστερό κλικ για  να επιλέξετε μονάδες"
 
 #: gui/manual/intro.txt:12
-msgid "• Left-click to select units."
-msgstr "• Αριστερό κλικ για επιλογή μονάδων."
+msgid "• Left-click-and-drag to select groups of units"
+msgstr "• Αριστερό κλικ και σύρσιμο για να επιλέξεις πολλαπλές ομάδες μονάδων"
 
 #: gui/manual/intro.txt:13
-msgid "• Left-click-and-drag to select groups of units."
-msgstr "• Αριστερό κλικ και σύρσιμο για πολλαπλή επιλογή ομάδων μονάδων."
+msgid "• Right-click to order units to the target"
+msgstr "• Δεξί κλικ για μετακίνηση των μονάδων στο στόχο"
 
 #: gui/manual/intro.txt:14
-msgid "• Right-click to order units to the target."
-msgstr "• Δεξί κλικ για μετακίνηση των μονάδων στο στόχο."
+msgid "• Arrow keys or WASD keys to move the camera"
+msgstr "• Πλήκτρα βέλους ή πλήκτρα WASD για μετακίνηση της κάμερας"
 
 #: gui/manual/intro.txt:15
-msgid "• Arrow keys or WASD keys to move the camera."
-msgstr "• Πλήκτρα με βέλη ή πλήκτρα WASD για μετακίνηση της κάμερας."
+msgid "• Ctrl + arrow keys, or shift + mouse wheel, to rotate the camera"
+msgstr "• Ctrl + πλήκτρα βέλους ή shift + τροχός ποντικού, για να περιστρέψετε την κάμερα"
 
 #: gui/manual/intro.txt:16
-msgid "• Ctrl + arrow keys, or shift + mouse wheel, to rotate the camera."
-msgstr "• Ctrl + πλήκτρα με βέλη ή shift + τροχός ποντικού, για περιστροφή της κάμερας."
+msgid "• Mouse wheel, or “=”/“+” and “-”/“−” keys, to zoom"
+msgstr "• Τροχός ποντικιού ή τα πλήκτρα “=”/“+” και “-”/“−” για μεγέθυνση/σμίκρυνση"
 
-#: gui/manual/intro.txt:17
-msgid "• Mouse wheel, or \"+\" and \"-\" keys, to zoom."
-msgstr "• Τροχός ποντικιού ή πλήκτρα \"+\" και \"-\", για ζουμ (μεγέθυνση/σμίκρυνση)."
+#: gui/manual/intro.txt:18
+msgid "[font=\"sans-bold-16\"]Modes[font=\"sans-14\"]"
+msgstr "[font=\"sans-bold-16\"]Τρόποι παιχνιδιού[font=\"sans-14\"]"
 
 #: gui/manual/intro.txt:19
-msgid "[font=\"sans-bold-16\"]Modes"
-msgstr "[font=\"sans-bold-16\"]Τρόποι παιχνιδιού"
+msgid "The main menu gives access to two game modes:"
+msgstr "Το κύριο μενού δίνει πρόσβαση σε δύο τρόπους παιχνιδιού:"
 
 #: gui/manual/intro.txt:20
-msgid "[font=\"sans-14\"]The main menu gives access to two game modes:"
-msgstr "[font=\"sans-14\"]Το κύριο μενού δίνει πρόσβαση σε δύο τρόπους παιχνιδιού:"
-
-#: gui/manual/intro.txt:22
 msgid ""
-"• [font=\"sans-bold-14\"]Single-player[font=\"sans-14\"] — play a sandbox "
-"game or against one or more AI opponents. The AI/AIs are under development "
-"and may not always be up to date on the new features, but you can test "
-"playing the game against an actual opponent if you aren't able to play with "
-"a human."
-msgstr "• [font=\"sans-bold-14\"]Ένας παίκτης[font=\"sans-14\"] — Παίξτε ενα ανοιχτού ορίζοντα παιχνίδι με έναν ή περισσότερους αντιπάλους.O/Οι αντίπαλος/οι βρίσκονται υπό κατασκευή και μπορεί να μην έχουν ενημερωθεί με τα νέα χαρακτηριστικά,αλλά μπορείτε να δοκιμάσετε παίζοντας το παιχνίδι εναντίον αντιπάλου,αν δεν μπορείτε να παίξετε με άλλον παίκτη."
+"• [font=\"sans-bold-14\"]Single-player[font=\"sans-14\"] – Play a sandbox "
+"game or against one or more computer players (AI). The default AI (Petra) is"
+" under development and may not always be up to date on the new features, but"
+" you can play the game with or against it nonetheless."
+msgstr "• [font=\"sans-bold-14\"]Ένας παίκτης[font=\"sans-14\"] – Παίξε ένα παιχνίδι δοκιμών ή εναντίον ενός ή περισσοτέρων παικτών υπολογιστή (ΤΝ). Η προεπιλεγμένη Τεχνητή Νοημοσύνη (Πέτρα) βρίσκεται υπό ανάπτυξη και μπορεί να μην είναι πάντοτε ενημερωμένη με τα νέα χαρακτηριστικά, αλλά μπορείς να παίξεις το παιχνίδι μαζί ή ενάντια σε αυτήν παρ' όλα αυτά."
 
-#: gui/manual/intro.txt:24
+#: gui/manual/intro.txt:21
 msgid ""
-"• [font=\"sans-bold-14\"]Multiplayer[font=\"sans-14\"] — play against human "
+"• [font=\"sans-bold-14\"]Multiplayer[font=\"sans-14\"] – Play against human "
 "opponents over the internet."
-msgstr "• [font=\"sans-bold-14\"]Παιχνίδι με πολλούς παίκτες[font=\"sans-14\"] — παίξτε εναντίον άλλων παικτών στο διαδίκτυο."
+msgstr ""
+
+#: gui/manual/intro.txt:23
+msgid ""
+"To set up a multiplayer game, one player must select the “Host game” option."
+" The game uses UDP port 20595, so the host must configure their "
+"NAT/firewall/etc. to allow this. Other players can then select “Join game” "
+"and enter the host's IP address."
+msgstr ""
+
+#: gui/manual/intro.txt:25
+msgid "[font=\"sans-bold-16\"]Game setup[font=\"sans-14\"]"
+msgstr "[font=\"sans-bold-16\"]Ρύθμιση παιχνιδιού[font=\"sans-14\"]"
 
 #: gui/manual/intro.txt:26
-msgid ""
-"To set up a multiplayer game, one player must select the \"Host game\" "
-"option. The game uses UDP port 20595, so the host must configure their "
-"NAT/firewall/etc to allow this. Other players can then select \"Join game\" "
-"and enter the host's IP address."
-msgstr "Για να στήσετε ένα παιχνίδι με πολλούς παίκτες, ένας παίκτης πρέπει να διαλέξει την επιλογή  \"Στέγαση παιχνιδιού\". Το παιχνίδι χρησημοποιεί την θύρα UDP 20595, οπότε ο οικοδεσπότης του παιχνιδιού πρέπει να ρυθμίσει ρούτερ/τοίχο προστασίας/κλπ ώστε να επιτραπεί η σύνδεση. Οι υπόλοιποι παίκτες μπορούν τότε να επιλέξουν \"Συμμετοχή στο παιχνίδι\" και να εισάγουν την διεύθυνση IP του οικοδεσπότη."
+msgid "In a multiplayer game, only the host can alter the game setup options."
+msgstr "Στα παιχνίδια με πολλούς παίκτες, μόνο ο οικοδεσπότης του παιχνιδιού μπορεί να αλλάξει της επιλογές του παιχνιδιού."
 
 #: gui/manual/intro.txt:28
-msgid "[font=\"sans-bold-16\"]Game setup"
-msgstr "[font=\"sans-bold-16\"]Ρύθμιση παιχνιδίου"
+msgid "First, select what type of map you want to play:"
+msgstr "Πρώτα, επέλεξτε τι είδος χάρτη θέλετε να παίξετε."
 
 #: gui/manual/intro.txt:29
 msgid ""
-"[font=\"sans-14\"]In a multiplayer game, only the host can alter the game "
-"setup options."
-msgstr "[font=\"sans-14\"]Για παιχνίδια με πολλούς παίκτες, μόνο ο οικοδεσπότης του παιχνιδιού μπορεί να αλλάξει της επιλογές ρύθμισης του παιχνιδιού."
+"• [font=\"sans-bold-14\"]Random map[font=\"sans-14\"] – A map created "
+"automatically from a script"
+msgstr "• [font=\"sans-bold-14\"]Τυχαίος Χάρτης[font=\"sans-14\"] — Ένας χάρτης δημιουργημένος αυτόματα από έναν αλγόριθμο"
+
+#: gui/manual/intro.txt:30
+msgid ""
+"• [font=\"sans-bold-14\"]Scenario map[font=\"sans-14\"] – A map created by "
+"map designers and with fixed civilizations"
+msgstr "• [font=\"sans-bold-14\"]Χάρτης Σεναρίου[font=\"sans-14\"] — Ένας χάρτης δημιουργημένος από σχεδιαστές χαρτών και με προεπιλεγμένους πολιτισμούς"
 
 #: gui/manual/intro.txt:31
-msgid "First, select what type of map you want to play:"
-msgstr "Πρώτα, επέλεξε τι είδος χάρτη θέλεις να παίξεις:"
-
-#: gui/manual/intro.txt:32
 msgid ""
-"• [font=\"sans-bold-14\"]Random map[font=\"sans-14\"] — A map created "
-"automatically from a script"
-msgstr "• [font=\"sans-bold-14\"]Random map[font=\"sans-14\"] — Ένας χάρτης δημιουργημένος αυτόματα από ένα σενάριο"
+"• [font=\"sans-bold-14\"]Skirmish map[font=\"sans-14\"] – A map created by "
+"map designers but where the civilizations can be chosen"
+msgstr "• [font=\"sans-bold-14\"]Χάρτης Αψιμαχίας[font=\"sans-14\"] — Ένας χάρτης δημιουργημένος από σχεδιαστές χαρτών αλλά όπου οι πολιτισμοί μπορούν να διαλεχτούν."
 
 #: gui/manual/intro.txt:33
-msgid ""
-"• [font=\"sans-bold-14\"]Scenario map[font=\"sans-14\"] — A map created by "
-"map designers and with fixed civilisations"
-msgstr "• [font=\"sans-bold-14\"]Scenario map[font=\"sans-14\"] — Ένας χάρτης δημιουργημένος από σχεδιαστές χαρτών και με έτοιμους πολιτισμούς"
-
-#: gui/manual/intro.txt:34
-msgid ""
-"• [font=\"sans-bold-14\"]Skirmish map[font=\"sans-14\"] — A map created by "
-"map designers but where the civilisations can be chosen"
-msgstr "• [font=\"sans-bold-14\"]Skirmish map[font=\"sans-14\"] — Ένας χάρτης δημιουργημένος από σχεδιαστές χαρτών αλλά οι πολιτισμοί μπορούν να διαλεχτούν"
-
-#: gui/manual/intro.txt:36
 msgid ""
 "Then the maps can be further filtered. The default maps are generally "
 "playable maps. Naval maps are maps where not all opponents can be reached "
 "over land and demo maps are maps used for testing purposes (generally not "
-"useful to play on). The \"All Maps\" filter shows all maps together in one "
+"useful to play on). The “All Maps” filter shows all maps together in one "
 "list."
-msgstr "Τότε οι χάρτες μπορούν να φιλτραριστούν περαιτέρω. Οι προεπιλεγμένοι χάρτες είναι γενικά παικτοί χάρτες. Οι ναυτικοί χάρτες είναι χάρτες όπου δεν μπορούν να φτάσουν όλους τους αντίπαλους από την ξηρά και οι demo χάρτες είναι χάρες που χρησιμοποιούνται για σκοπούς δοκιμών (γενικά δεν είναι χρήσιμο να παίζεις σε αυτούς). Το φίλτρο \"Όλοι οι χάρτες\" δείχνει όλους τους χάρτες μαζί σε μία λίστα."
+msgstr "Έπειτα οι χάρτες μπορούν να φιλτραριστούν περαιτέρω. Οι προεπιλεγμένοι χάρτες είναι οι γενικοί χάρτες. Οι ναυτικοί χάρτες είναι χάρτες όπου δεν μπορούν να προσεγγίσουν όλοι οι αντίπαλοι από την ξηρά και οι δοκιμαστικοί χάρτες είναι χάρτες που χρησιμοποιούνται για δοκιμαστικούς σκοπούς (γενικά δεν προτείνεται για να παίζει κάνεις σε αυτούς). Το φίλτρο “Όλοι οι χάρτες” δείχνει όλους τους χάρτες μαζί σε μία λίστα."
 
-#: gui/manual/intro.txt:38
+#: gui/manual/intro.txt:35
 msgid ""
 "Finally change the settings. For random maps this includes the number of "
 "players, the size of a map, etc. For scenarios you can only select who "
-"controls which player (decides where you start on the map etc). The options "
-"are either a human player, an AI or no player at all (the opponent will just"
-" be idle)."
-msgstr "Τελικά άλλαξε τις ρυθμίσεις. Για τυχαίους χάρτες αυτό περιλαμβάνει τον αριθμό των παικτών, το μέγεθος του χάρτη, κτλ. Για σενάρια μπορείς μόνο να επιλέξεις ποιος ελέγχει ποιόν παίκτη (αποφασίζει σε ποια περιοχή του χάρτη θα ξεκινήσεις κτλ.). Οι επιλογές είναι είτε ένας ανθρώπινος παίκτης, ένας παίκτης ρομπότ ή κανένας παίκτης (οι μονάδες που ήδη υπάρχουν θα επιτεθούν σε εχθρούς που πλησιάζουν στην εμβέλειά τους αλλά δεν θα δημιουργηθούν καινούργιες μονάδες, ούτε θα σταλούν να επιτεθούν)."
+"controls which player (decides where you start on the map etc.). The options"
+" are either a human player, an AI or no player at all (the opponent will "
+"just be idle)."
+msgstr ""
+
+#: gui/manual/intro.txt:37
+msgid "When you are ready to start, click the “Start game” button."
+msgstr ""
+
+#: gui/manual/intro.txt:39
+msgid "[font=\"sans-bold-16\"]Hotkeys[font=\"sans-14\"]"
+msgstr "[font=\"sans-bold-16\"]Συντομεύσεις πληκτρολογίου[font=\"sans-14\"]"
 
 #: gui/manual/intro.txt:40
-msgid "When you are ready to start, click the \"Start game\" button."
-msgstr "Όταν είσαι έτοιμος να ξεκινήσεις, πάτα το κουμπί \"Εκίνηση παιχνιδιού\"."
+msgid "[font=\"sans-bold-14\"]Program-wide[font=\"sans-14\"]"
+msgstr "[font=\"sans-bold-14\"]Σε όλο το πρόγραμμα[font=\"sans-14\"]"
+
+#: gui/manual/intro.txt:41
+msgid ""
+"  Alt + F4 – Immediately close the game, without asking for confirmation"
+msgstr " Alt + F4 – Κλείνει ακαριαία το παιχνίδι, χωρίς να ζητά επιβεβαίωση"
 
 #: gui/manual/intro.txt:42
-msgid "[font=\"sans-bold-16\"]Hotkeys:"
-msgstr "[font=\"sans-bold-16\"]Συντομεύσεις πληκτολογίου"
+msgid "  Alt + Enter – Toggle between fullscreen and windowed"
+msgstr "Alt + Enter – Εναλλαγή μεταξύ προβολής πλήρους οθόνης και προβολής σε παράθυρο"
 
 #: gui/manual/intro.txt:43
-msgid "[font=\"sans-bold-14\"]Program-wide"
-msgstr "[font=\"sans-bold-14\"]Σε όλο το πρόγραμμα"
+msgid "  ~ or F9 – Show/hide console"
+msgstr "~ ή F9 – Εμφάνιση/απόκρυψη κονσόλας"
 
 #: gui/manual/intro.txt:44
-msgid "[font=\"sans-14\"]Alt + F4: Close the game, without confirmation"
-msgstr "[font=\"sans-14\"]Alt + F4: Κλείστε το παιχνίδι, χωρίς επιβεβαίωση"
+msgid "  Alt + F – Show/hide frame counter (FPS)"
+msgstr "Alt + F – Εμφάνιση/απόκρυψη καταμετρητή καρέ (FPS)"
 
 #: gui/manual/intro.txt:45
-msgid "Alt + Enter: Toggle between fullscreen and windowed"
-msgstr "Alt + Enter: Εναλλαγή μεταξύ προβολής πλήρους οθόνης και προβολής σε παράθυρο"
+msgid ""
+"  F11 – Enable/disable real-time profiler (toggles through the displays of "
+"information)"
+msgstr "F11 – Ενεργοποίηση/απενεργοποίηση προφίλ πραγματικού χρόνου (ενεργοποιεί την ροή εμφάνισης πληροφοριών)"
 
 #: gui/manual/intro.txt:46
-msgid "~ or F9: Show/hide console"
-msgstr "~ ή F9: Εμφάνιση/απόκρυψη κονσόλας"
+msgid "  Shift + F11 – Save current profiler data to “logs/profile.txt”"
+msgstr ""
 
 #: gui/manual/intro.txt:47
-msgid "Alt + F: Show/hide frame counter (FPS)"
-msgstr "Alt + F: Εμφάνιση/απόκρυψη καταμετρητή frame (FPS)"
+msgid ""
+"  F2 – Take screenshot (in .png format, location is displayed in the top "
+"left of the GUI after the file has been saved, and can also be seen in the "
+"console/logs if you miss it there)"
+msgstr "F2 – Δημιουργία στιγμιότυπου οθόνης (τύπου .png, η τοποθεσία του αρχείου εμφανίζεται στο πάνω αριστερό μέρος του γραφικού περιβάλλοντος χρήστη αφού το αρχείο έχει αποθηκευτεί, και μπορείτε επίσης να την δείτε στη κονσόλα/αρχείο καταγραφής εάν δεν προλάβατε να την δείτε)"
 
 #: gui/manual/intro.txt:48
 msgid ""
-"F11: Enable/disable real-time profiler (toggles through the displays of "
-"information)"
-msgstr "F11: Ενεργοποίηση/απενεργοποίηση προφίλ πραγματικού χρόνου (ενεργοποιή την ροή εμφάνισης πληροφοριών.)"
+"  Shift + F2 – Take huge screenshot (6400×4800 pixels, in .bmp format, "
+"location is displayed in the top left of the GUI after the file has been "
+"saved, and can also be seen in the console/logs if you miss it there)"
+msgstr "Shift + F2 –  Πάρτε ένα τεράστιο στιγμιότυπο οθόνης (6400×4800 εικονοστοιχείων, σε .bmp διαμόρφωση, η τοποθεσία που θα κατέβει το αρχείο φαίνεται αριστερά του Περιβάλλοντος Χρήστη αφού το αρχείο σωθεί, επίσης μπορεί να φανεί στις καταγραφές της κονσόλας εάν δεν το δείτε εκεί)"
 
 #: gui/manual/intro.txt:49
-msgid "Shift + F11: Save current profiler data to \"logs/profile.txt\""
-msgstr "Shift + F11: Αποθήκευσει τρέχων δεδομένων προφιλ σε \"logs/profile.txt\""
+msgid "  Tab, Alt + S – Switch to the next tab"
+msgstr "Tab, Alt + S – Μετάβαση στην επόμενη καρτέλα"
 
 #: gui/manual/intro.txt:50
-msgid ""
-"F2: Take screenshot (in .png format, location is displayed in the top left "
-"of the GUI after the file has been saved, and can also be seen in the "
-"console/logs if you miss it there)"
-msgstr "F2: Δημιουργία στιγμιότυπου οθόνης (με τύπο .png, η τοποθεσία του αρχείου εμφανίζεται στο πάνω αριστερό μέρος του γραφικού περιβάλλοντος αφού το αρχείο έχει αποθηκευτεί, και μπορείτε επίσης να την δείτε στη κονσόλα/αρχείο καταγραφής έαν δεν προλάβατε να την δείτε)"
+msgid "  Shift + Tab, Alt + W – Switch to the previous tab"
+msgstr "Shift + Tab, Alt + W – Μετάβαση στη προηγούμενη καρτέλα"
 
-#: gui/manual/intro.txt:51
-msgid ""
-"Shift + F2: Take huge screenshot (6400px*4800px, in .bmp format, location is"
-" displayed in the top left of the GUI after the file has been saved, and can"
-" also be seen in the console/logs if you miss it there)"
-msgstr "Shift + F2:  Πάρτε ένα τεράστιο screenshot (6400px*4800px, σε .bmp format, η τοποθεσία που θα κατέβει το αρχείο φαίνεται αριστερά του GUI αφού το αρχείο σωθεί, επίσης μπορεί να φανεί στο console/logs εάν δεν το δείτε εκεί)"
+#: gui/manual/intro.txt:52
+msgid "[font=\"sans-bold-14\"]In Game[font=\"sans-14\"]"
+msgstr "[font=\"sans-bold-14\"]Στο Παιχνίδι[font=\"sans-14\"]"
 
 #: gui/manual/intro.txt:53
-msgid "[font=\"sans-bold-14\"]In Game"
-msgstr "[font=\"sans-bold-14\"]Παίζει"
+msgid ""
+"  Double Left Click \\[on unit] – Select all of your units of the same kind "
+"on the screen (even if they're different ranks)"
+msgstr "Διπλό αριστερό κλικ \\[στην μονάδα] – Επιλογή όλων των μονάδων του ίδιου είδους που εμφανίζονται στην οθόνη (ακόμα και διαφορετικού βαθμού)"
 
 #: gui/manual/intro.txt:54
 msgid ""
-"[font=\"sans-14\"]Double Left Click \\[on unit]: Select all of your units of"
-" the same kind on the screen (even if they're different ranks)"
-msgstr "[font=\"sans-14\"]Διπλό αριστερό κλικ\\[στην μονάδα]:Επιλογή όλων των μονάδων του ίδιου είδους που εμφανίζονται στην οθόνη(ακόμα και διαφορετικού βαθμού)"
+"  Triple Left Click \\[on unit] – Select all of your units of the same kind "
+"and the same rank on the screen"
+msgstr "Τριπλό Αριστερό Κλικ \\[σε μία μονάδα] – Επιλογή όλων των μονάδων του ίδιου είδους και βαθμίδας στην οθόνη"
 
 #: gui/manual/intro.txt:55
 msgid ""
-"Triple Left Click \\[on unit]: Select all of your units of the same kind and"
-" the same rank on the screen"
-msgstr "Τριπλό αριστερό κλικ \\[σε μία μονάδα]: Επιλέγει όλες τις μονάδες του ίδιου είδους στην οθόνη "
+"  Alt + Double Left Click \\[on unit] – Select all your units of the same "
+"kind on the entire map (even if they have different ranks)"
+msgstr "Alt + Διπλό Αριστερό Κλικ \\[σε μία μονάδα] – Επιλέγετε όλες τις μονάδες του ίδιου είδους σε ολόκληρο τον χάρτη (ακόμα και αν είναι διαφορετική βαθμίδα)"
 
 #: gui/manual/intro.txt:56
 msgid ""
-"Alt + Double Left Click \\[on unit]: Select all your units of the same kind "
-"on the entire map (even if they have different ranks)"
-msgstr "Alt + Διπλό αριστερό κλικ \\[σε μία μονάδα]: Επιλέγει όλες τις μονάδες του ίδιου είδους και του ίδιου βαθμού σε ολόκληρο τον χάρτη(ακόμα και αν είναι διαφορετική βαθμίδα)"
+"  Alt + Triple Left Click \\[on unit] – Select all your units of the same "
+"kind and rank on the entire map"
+msgstr "Alt + Τριπλό αριστερό κλικ \\[σε μία μονάδα] – Επιλέγει όλες τις μονάδες του ίδιου είδους και βαθμίδας σε ολόκληρο τον χάρτη"
 
 #: gui/manual/intro.txt:57
-msgid ""
-"Alt + Triple Left Click \\[on unit]: Select all your units of the same kind "
-"and rank on the entire map"
-msgstr "Alt+Τριπλό αριστερό κλικ \\[σε μία μονάδα]: Επιλέγει όλες τις μονάδες του ίδιου είδουςσε όλο τον χάρτη"
+msgid "  Shift + F5 – Quicksave"
+msgstr "Shift + F5 – Γρήγορη αποθήκευση"
 
 #: gui/manual/intro.txt:58
-msgid "Shift + F5: Quicksave"
-msgstr "Shift + F5: Γρήγορη αποθήκευση"
+msgid "  Shift + F8 – Quickload"
+msgstr "Shift + F8 – Γρήγορη φόρτωση"
 
 #: gui/manual/intro.txt:59
-msgid "Shift + F8: Quickload"
-msgstr "Shift + F8: Γρήγορη φόρτωση"
+msgid "  F10 – Open/close menu"
+msgstr "F10 – Άνοιγμα/κλείσιμο μενού"
 
 #: gui/manual/intro.txt:60
-msgid "F10: Open/close menu"
-msgstr "F10: Άνοιγμα/κλείσιμο μενού"
+msgid "  F12 – Show/hide time elapsed counter"
+msgstr "F12 – Εμφάνιση/απόκρυψη χρονομετρητή"
 
 #: gui/manual/intro.txt:61
-msgid "F12: Show/hide time elapsed counter"
-msgstr "F12: Εμφάνιση/απόκρυψη χρονομετρητή"
+msgid "  Esc – Close all dialogs (chat, menu) or clear selected units"
+msgstr "Esc – Κλείσιμο όλων των παράθυρων (κουβέντα, μενού) ή απο-επιλογή των επιλεγμένων μονάδων"
 
 #: gui/manual/intro.txt:62
-msgid "ESC: Close all dialogs (chat, menu) or clear selected units"
-msgstr "ESC: Κελινει ολα τα παράθυρα(ομιλία,μενού)  ή απομακρύνει τις επιλεγμένες μονάδες"
+msgid "  Enter/Return – Open/send chat"
+msgstr "Enter/Return – Άνοιγμα/αποστολή συνομιλίας"
 
 #: gui/manual/intro.txt:63
-msgid "Enter/return: Open/send chat"
-msgstr "Enter/return: Άνοιγμα/αποστολή συνομιλίας"
+msgid "  T – Send team chat"
+msgstr "T – Αποστολή σε ομαδική συνομιλία"
 
 #: gui/manual/intro.txt:64
-msgid "T: Send team chat"
-msgstr "T: Αποστολή σε ομαδική συνομιλία"
+msgid "  L – Chat with the previously selected private chat partner"
+msgstr "L – Συνομιλία με τον προηγούμενο επιλεγμένο συνομιλητή στην ιδιωτική συνομιλία"
 
 #: gui/manual/intro.txt:65
-msgid "L: Chat with the previously selected private chat partner"
-msgstr "L: Συνομιλία με τον προηγούμενο επιλεγμένο συνομιλητή στην ιδιωτική συνομιλία"
+msgid "  Pause – Pause/resume the game"
+msgstr "Pause – Παύση/συνέχεια παιχνιδιού"
 
 #: gui/manual/intro.txt:66
-msgid "Pause: Pause/resume the game"
-msgstr "Pause:Παύση/συνέχεια παιχνιδιού."
+msgid ""
+"  Delete – Delete currently selected unit(s)/structure(s), ask for "
+"confirmation"
+msgstr ""
 
 #: gui/manual/intro.txt:67
-msgid "Delete: Delete currently selected units/buildings"
-msgstr "Διαγραφή: Διαγραφή επιλεγμένων μοναδών/κτηρίων"
+msgid ""
+"  Shift + Delete – Immediately delete currently selected "
+"unit(s)/structure(s), without asking for confirmation"
+msgstr " Shift + Delete – Άμεση διαγραφή των επιλεγμένων μονάδων/κτιρίων, χωρίς ερώτηση για επιβεβαίωση"
 
 #: gui/manual/intro.txt:68
-msgid ""
-"Shift + Delete: Delete currently selected units/buildings without "
-"confirmation"
-msgstr "Shift + Διαγραφή: Διαγραφή επιλεγμένων μοναδών/κτηρίων χωρίς επιβεβαίωση"
+msgid "  / (Slash) – Select idle fighter"
+msgstr "/ (Κάθετος) – Επιλογή αδρανή πολεμιστή"
 
 #: gui/manual/intro.txt:69
-msgid "/ (ForwardSlash): Select idle fighter"
-msgstr "/ (ForwardSlash): Επιλογή ακίνητου πολεμιστή"
+msgid "  Shift + / (Slash) – Add idle fighter to selection"
+msgstr "Shift + / (Κάθετος): Προσθήκη αδρανή πολεμιστή στην επιλογή"
 
 #: gui/manual/intro.txt:70
-msgid "Shift + /: add idle fighter to selection"
-msgstr "Shift + /: Προσθήκη ακίνητου πολεμιστή στην επιλογή"
+msgid "  Alt + / (Slash) – Select all idle fighters"
+msgstr "Alt + / (Κάθετος) – Επιλογή όλων των αδρανών πολεμιστών"
 
 #: gui/manual/intro.txt:71
-msgid "Alt + /: Select all idle fighters"
-msgstr "Alt + /: Επιλογή όλων των ανενεργών πολεμιστών"
+msgid "  . (Period) – Select idle worker (including citizen-soldiers)"
+msgstr ". (Τελεία) – Επιλογή τεμπέλη εργάτη (συμπεριλαμβάνονται πολίτες οπλίτες)"
 
 #: gui/manual/intro.txt:72
-msgid ". (Period): Select idle worker (including citizen soldiers)"
-msgstr ". (Τελεία): Επιλογή ακίνητου εργάτη (συμπεριλαμβάνονται μαχόμενοι πολίτες)"
+msgid ""
+"  Shift + . (Period) – Add idle worker to selection (including citizen-"
+"soldiers)"
+msgstr " Shift + . (Τελεία) – Προσθήκη τεμπέλη εργάτη στην επιλογή (συμπεριλαμβάνονται πολίτες οπλίτες)"
 
 #: gui/manual/intro.txt:73
-msgid "Shift + .: add idle worker to selection (including citizen soldiers)"
-msgstr "Shift + .: Προσθήκη ακίνητου εργάτη στην επιλογή (συμπεριλαμβάνονται μαχόμενοι πολίτες)"
+msgid ""
+"  Alt + . (Period) – Select all idle workers (including citizen-soldiers)"
+msgstr "Alt + . (Τελεία) – Επιλογή αδρανών εργατών (συμπεριλαμβάνονται οι πολίτες οπλίτες)"
 
 #: gui/manual/intro.txt:74
-msgid "Alt + .: Select all idle workers (including citizen soldiers)"
-msgstr "Alt + .: Επιλογή αδρανών εργατών (συμπεριλαμβάνονται οι πολίτες οπλίτες)"
+msgid "  \\\\ (Backslash) – Select idle unit"
+msgstr "\\\\ (Ανάποδη κάθετος) – Επιλογή αδρανής μονάδας"
 
 #: gui/manual/intro.txt:75
-msgid "H: Stop (halt) the currently selected units."
-msgstr "H: Σταμάτημα (Αλτ!) των επιλεγμένων μονάδων."
+msgid "  Shift + \\\\ (Backslash) – Add idle unit to selection"
+msgstr "Alt + \\\\ (Ανάποδη κάθετος) – Προσθήκη αδρανής μονάδας στην επιλογή"
 
 #: gui/manual/intro.txt:76
-msgid "Y: The unit will go back to work"
-msgstr "Υ: Η μονάδα θα γυρίσει στη δουλειά"
+msgid "  Alt + \\\\ (Backslash) – Select all idle units"
+msgstr "Alt + \\\\ (Ανάποδη κάθετος) – Επιλογή όλων των αδρανών μονάδων"
 
 #: gui/manual/intro.txt:77
-msgid "U: Unload the garrisoned units of the selected buildings"
-msgstr "U: Ξεφόρτωσε τις φρουρόμενες μονάδες από τα επιλεγμένα κτήρια"
+msgid "  H – Stop (halt) the currently selected units"
+msgstr "H – Σταμάτημα (Αλτ!) των επιλεγμένων μονάδων"
 
 #: gui/manual/intro.txt:78
-msgid ""
-"Ctrl + 1 (and so on up to Ctrl + 0): Create control group 1 (to 0) from the "
-"selected units/buildings"
-msgstr "Ctrl + 1 (μέχρι Ctrl + 0): Δημιουργίας ομάδας 1 (μέχρι 0) από τις επιλεγμένες μονάδες και κτήρια."
+msgid "  Y – The unit will go back to work"
+msgstr "Υ – Η μονάδα θα γυρίσει στη δουλειά"
 
 #: gui/manual/intro.txt:79
-msgid ""
-"1 (and so on up to 0): Select the units/buildings in control group 1 (to 0)"
-msgstr "1 (μέχρι 0): Επιλογή ομάδας 1 (μέχρι 0) "
+msgid "  U – Unload the garrisoned units of the selected structure(s)"
+msgstr ""
 
 #: gui/manual/intro.txt:80
 msgid ""
-"Shift + 1 (to 0): Add control group 1 (to 0) to the selected units/buildings"
-msgstr "Shift + 1 (έως 0):Προσθέστε στο group 1 (έως 0) τα επιλεγμένα κτήρια/μονάδες"
+"  Ctrl + 1 (and so on up to Ctrl + 0) – Create control group 1 (to 0) from "
+"the selected unit(s)/structure(s)"
+msgstr ""
 
 #: gui/manual/intro.txt:81
 msgid ""
-"Ctrl + F5 (and so on up to F8): Mark the current camera position, for "
-"jumping back to later."
-msgstr "Ctrl + F5 (και ουτο κάθε εξης μέχρι F8): Σημείωσε την τρέχον θέση της κάμερας, έτσι ώστε να ξαναγυρήσεις σε αυτήν αργότερα."
+"  1 (and so on up to 0) – Select the unit(s)/structure(s) in control group 1"
+" (to 0)"
+msgstr "1 (μέχρι 0) – Επιλογή ομάδας μονάδων ή κτιρίων 1 (μέχρι 0)"
 
 #: gui/manual/intro.txt:82
 msgid ""
-"F5, F6, F7, and F8: Move the camera to a marked position. Jump back to the "
-"last location if the camera is already over the marked position."
-msgstr "F5, F6, F7, και F8: Μετακίνησε την κάμερα σε μία σημαδεμένη θέση. Πήγαινε στην τελευταία θέση άμα η κάμερα είναι ήδη δε μία σημαδεμένη θέση."
+"  Shift + 1 (to 0) – Add control group 1 (to 0) to the selected "
+"unit(s)/structure(s)"
+msgstr ""
 
 #: gui/manual/intro.txt:83
 msgid ""
-"Z, X, C, V, B, N, M: With training buildings selected. Add the 1st, 2nd, ..."
-" unit shown to the training queue for all the selected buildings."
-msgstr "Z, X, C, V, B, N, M: Ελέγχοντας τα κτήρια εκπαίδευσης πρόσθεσε την 1η, 2η, .....μονάδα να φαίνεται στην σειρά εκπαίδευσης για όλα τα επιλεγμένα κτήρια."
+"  Ctrl + F5 (and so on up to F8) – Mark the current camera position, for "
+"jumping back to later"
+msgstr "Ctrl + F5 (και ούτω κάθε εξής μέχρι F8) – Σημείωσε την τρέχον θέση της κάμερας, έτσι ώστε να ξαναγυρήσεις σε αυτήν αργότερα"
 
 #: gui/manual/intro.txt:84
 msgid ""
-"PageUp with units selected: Highlights the units/buildings guarded by the "
-"selection."
-msgstr "PageUp μαζί με μονάδες επιλεγμένες: Επισημαίνει μονάδες/κτήρια που φρουρούνται από την επιλογή."
+"  F5 (and so on up to F8) – Move the camera to a marked position. Jump back "
+"to the last location if the camera is already over the marked position"
+msgstr ""
 
 #: gui/manual/intro.txt:85
 msgid ""
-"PageDown with units/buildings selected: Highlights the units guarding the "
-"selection."
-msgstr "PageDown μαζί με μονάδες/κτήρια επιλεγμένα: Επισημαίνει τις μονάδες που φρουρούν την επιλογή."
+"  Z, X, C, V, B, N, M – With training structure selected. Add the 1st, 2nd, "
+"… unit shown to the training queue for all the selected structures"
+msgstr ""
 
 #: gui/manual/intro.txt:86
-msgid "Tab: See all status bars (which would also show the building progress)"
-msgstr "Tab: Δες όλες τις μπάρες κατάστασης (που επίσης δείχνει την πρόοδο κατασκευής)"
+msgid ""
+"  PageUp with unit(s) selected – Highlight the unit(s)/structure(s) guarded "
+"by the selection"
+msgstr ""
+
+#: gui/manual/intro.txt:87
+msgid ""
+"  PageDown with unit(s)/structure(s) selected – Highlight the unit(s) "
+"guarding the selection"
+msgstr ""
 
 #: gui/manual/intro.txt:88
-msgid "[font=\"sans-bold-14\"]Modify mouse action"
-msgstr "[font=\"sans-bold-14\"]Τροποποίηση ενέργεια ποντικιού"
+msgid ""
+"  Tab – See all status bars (which would also show the building progress)"
+msgstr "Tab – Δες όλες τις μπάρες κατάστασης (που επίσης δείχνει την πρόοδο κατασκευής)"
 
 #: gui/manual/intro.txt:89
-msgid "[font=\"sans-14\"]Ctrl + Right Click on building: Garrison"
-msgstr "[font=\"sans-14\"]Ctrl + Δεξί Κλικ σε κτήριο: Ταμπούρωμα"
+msgid "  Ctrl + Tab – Toggle summary window"
+msgstr "Ctrl + Tab – Εμφάνιση/Εξαφάνιση του παραθύρου σύνοψης"
 
 #: gui/manual/intro.txt:90
-msgid "J + Right Click on building: Repair"
-msgstr "J + Δεξί κλικ σε κτήριο: Επισκευή"
+msgid "  Alt + L – Show the multiplayer lobby in a dialog window"
+msgstr "Alt + L – Εμφάνιση του λόμπι πολλαπλών παικτών σε ένα παράθυρο διαλόγου"
 
 #: gui/manual/intro.txt:91
-msgid "P + Right Click: Patrol"
-msgstr "P + Δεξί κλικ: Περιπολία"
+msgid "  Ctrl + H – Toggle in-game diplomacy panel"
+msgstr "Ctrl + H – Εμφάνιση/Εξαφάνιση του  ενδο-παιχγνιδικού παραθύρου διπλωματίας"
 
 #: gui/manual/intro.txt:92
-msgid "Shift + Right Click: Queue the move/build/gather/etc order"
-msgstr "Shift + Right Click: Βαλε σε αναμονή την εντολή μετακίνηση/χτίσε/σύλλεξε/κτλ "
+msgid "  Ctrl + B – Toggle in-game barter and trade panel"
+msgstr "Ctrl + B – Εμφάνιση/Εξαφάνιση του παραθύρου ανταλλαγών και εμπορίου"
 
 #: gui/manual/intro.txt:93
-msgid ""
-"Alt + Right Click: Order one unit from the current selection to "
-"move/build/gather/etc and unselect it. Used to quickly dispatch units with "
-"specific tasks."
-msgstr "Alt + Δεξί Κλικ: Δώσε εντολή στη τρέχουσα επιλεγμένη μονάδα για να μετακινηθεί/κατασκευάσει/συγκεντρώσει/κλπ και να αποεπιλεγεί. Χρησιμοποιείται για γρήγορη αποστολή μονάδων με συγκεκριμένες εργασίες."
+msgid "  Ctrl + O – Toggle in-game objectives panel"
+msgstr "Ctrl + O – Εμφάνιση/Εξαφάνιση του  ενδο-παιχγνιδικού παραθύρου στόχων"
 
 #: gui/manual/intro.txt:94
-msgid ""
-"Shift + Left Click when training units: Add units in batches (the batch size"
-" is 5 by default and can be changed in the options)"
-msgstr "Shift + Αριστερό κλικ κατά την εκπαίδευση μονάδων: Προσθέτει μονάδες στις δέσμες (το μέγεθος της δέσμης είναι 5 εξ ορισμού και μπορεί να αλλάξει από τις επιλογές)"
+msgid "  Ctrl + P – Toggle in-game tutorial panel"
+msgstr "Ctrl + P – Εμφάνιση / Εξαφάνιση του  ενδο-παιχγνιδικού παραθύρου εκμάθησης."
 
 #: gui/manual/intro.txt:95
-msgid ""
-"Shift + Left Click or Left Drag over unit on map: Add unit to selection"
-msgstr "Shift + Αριστερό Click  ή Αριστερό κλικ και σέρνεις πάνω από μία μονάδα: Πρόσθεσε την μονάδα στην ήδη επιλεγμένη όμαδα στρατιωτών"
+msgid "  Alt + Shift + T – Toggle structure tree panel"
+msgstr "Alt + Shift + T – Εναλλαγή παραθύρου δέντρου κατασκευής"
 
 #: gui/manual/intro.txt:96
-msgid ""
-"Ctrl + Left Click or Left Drag over unit on map: Remove unit from selection"
-msgstr "Shift + Αριστερό Click ή Αριστερό κλικ και σέρνεις πάνω από μία μονάδα: Αφαιρείς μία μοναδα από την επιλεγμένη ομάδα στρατιωτών"
-
-#: gui/manual/intro.txt:97
-msgid "Alt + Left Drag over units on map: Only select military units"
-msgstr "Alt + Αριστερό κλικ και σέρνεις πάνω από μονάδες στον χάρτη: Επιλέγεις μόνο στρατιωτικές μονάδες"
+msgid "  Alt + Shift + H – Toggle civilization info panel"
+msgstr "Alt + Shift + H – Εναλλαγή προβολής πληροφοριών πολιτισμού"
 
 #: gui/manual/intro.txt:98
-msgid "I + Left Drag over units on map: Only select idle units"
-msgstr "I + Σύρσιμο με αριστερό κλικ πάνω από μονάδες στον χάρτη: Επιλογή μονάδων που είναι σε αναμονή."
+msgid "[font=\"sans-bold-14\"]Modify mouse action[font=\"sans-14\"]"
+msgstr "[font=\"sans-bold-14\"]Τροποποίηση λειτουργίας ποντικιού[font=\"sans-14\"]"
 
 #: gui/manual/intro.txt:99
-msgid ""
-"Ctrl + Left Click on unit/group icon with multiple units selected: Deselect"
-msgstr "Ctrl + Αριστερό κλικ σε ένα εικονίδιο μιάς μονάδας ή ομάδας με πολλαπλές μονάδες: Αφαιρείς την επιλογη "
+msgid "  Ctrl + Right Click on structure – Garrison"
+msgstr ""
 
 #: gui/manual/intro.txt:100
-msgid ""
-"Right Click with a building/buildings selected: sets a rally point for units"
-" created/ungarrisoned from that building."
-msgstr "Δεξί κλίκ με ένα προεπιλεγμένο κτίριο/κτίρια: ορίζει ένα σημείο συγκέντρωσης για μονάδες που δημιουργήθηκαν/απ' οχυρώθηκαν από αυτό το κτίριο."
+msgid "  J + Right Click on structure – Repair"
+msgstr "J + Δεξί Κλικ σε κτήριο – Επισκευή"
 
 #: gui/manual/intro.txt:101
-msgid "Ctrl + Right Click with units selected:"
-msgstr "Ctrl + Δεξί κλικ με μονάδες επιλεγμένες:"
+msgid "  P + Right Click – Patrol"
+msgstr "P + Δεξί κλικ – Περιπολία"
 
 #: gui/manual/intro.txt:102
-msgid "    - If the cursor is over an allied structure: Garrison"
-msgstr "Αν ο κέρσορας είναι πάνω από ένα φιλικό κτήριο: Ταμπούρωμα"
+msgid "  Shift + Right Click – Queue the move/build/gather/etc. order"
+msgstr ""
 
 #: gui/manual/intro.txt:103
 msgid ""
-"    - If the cursor is over a non-allied unit or building: Attack (instead "
-"of capture or gather)"
-msgstr "Αν ο κέρσορας είναι πάνω από μία μη συμμαχική μονάδα ή κτίριο: Επίθεση (αντί για σύλληψη ή συλλογή)"
+"  Alt + Right Click – Order one unit from the current selection to "
+"move/build/gather/etc. and unselect it. Used to quickly dispatch units with "
+"specific tasks"
+msgstr ""
 
 #: gui/manual/intro.txt:104
 msgid ""
-"    - Otherwise: Attack move (by default all enemy units and structures "
-"along the way are targeted, use Ctrl + Q + Right Click to target only "
-"units). "
-msgstr "Διαφορετικά: Επίθεση κίνηση (από προεπιλογή όλες οι μονάδες του εχθρού και των δομών κατά μήκος του τρόπου στοχευμένες, χρησιμοποιήστε τα πλήκτρα Ctrl + Q + δεξί κλικ για να στοχεύσετε μόνο μονάδες)."
+"  Shift + Left Click when training units – Add units in batches (the batch "
+"size is 5 by default and can be changed in the options)"
+msgstr "Shift + Αριστερό κλικ κατά την εκπαίδευση μονάδων – Προσθέτει μονάδες στις ομάδες (το μέγεθος της ομάδας είναι 5 εξ ορισμού και μπορεί να αλλάξει από τις επιλογές)"
+
+#: gui/manual/intro.txt:105
+msgid ""
+"  Shift + Left Click or Left Drag over unit on map – Add unit to selection"
+msgstr "Shift + Αριστερό Κλικ ή Αριστερό κλικ και σέρνεις πάνω από μία μονάδα – Πρόσθεση μονάδας στην ήδη επιλεγμένη ομάδα στρατιωτών"
 
 #: gui/manual/intro.txt:106
-msgid "[font=\"sans-bold-14\"]Overlays"
-msgstr "[font=\"sans-bold-14\"]Επικαλύψεις"
+msgid ""
+"  Ctrl + Left Click or Left Drag over unit on map – Remove unit from "
+"selection"
+msgstr "Ctrl + Αριστερό κλικ ή Αριστερό – σύρσιμο πάνω από μία μονάδα: Αφαιρείς την μονάδα από την επιλογή"
 
 #: gui/manual/intro.txt:107
-msgid "[font=\"sans-14\"]Alt + G: Hide/show the GUI"
-msgstr "[font=\"sans-14\"]Alt + G: Απόκρυψη εμφάνιση του GUI"
+msgid "  Alt + Left Drag over units on map – Only select military units"
+msgstr "Alt + Αριστερό κλικ και σύρσιμο πάνω από μονάδες στον χάρτη – Επιλογή μόνο των στρατιωτικών μονάδων"
 
 #: gui/manual/intro.txt:108
-msgid "Alt + D: Show/hide developer overlay (with developer options)"
-msgstr "Alt + D: Εμφάνιση/απόκρυψη επικάλυψης προγραμματιστή (με τις επιλογές του προγραμματιστή)"
+msgid ""
+"  Alt + Y + Left Drag over units on map – Only select non-military units"
+msgstr "Alt + Y + Αριστερό σύρσιμο πάνω από μονάδες στον χάρτη – Επιλογή μόνο μη-στρατιωτικών μονάδων"
 
 #: gui/manual/intro.txt:109
-msgid ""
-"Alt + W: Toggle wireframe mode (press once to get wireframes overlaid over "
-"the textured models, twice to get just the wireframes colored by the "
-"textures, thrice to get back to normal textured mode)"
-msgstr "Alt + W: Λειτουργία Εναλλαγής wireframe (πατήστε μία φορά για να πάρετε τα wireframes που επικαλύπτονται πάνω από τα μοντέλα υφής, δύο φορές για να πάρει ακριβώς τα wireframes που είναι χρωματισμένα από τις υφές, τρεις φορές για να επιστρέψετε στην κανονική λειτουργία υφής)"
+msgid "  I + Left Drag over units on map – Only select idle units"
+msgstr "I + Σύρσιμο με αριστερό κλικ πάνω από μονάδες στον χάρτη – Επιλογή μονάδων που είναι αδρανείς"
 
 #: gui/manual/intro.txt:110
-msgid ""
-"Alt + S: Toggle unit silhouettes (might give a small performance boost)"
-msgstr "Alt + S: Ενεργοποίηση περιγράμματος μονάδας (μπορεί να βελτιώσει τις επιδόσεις κατα μικρή αναλογία)"
+msgid "  O + Left Drag over units on map – Only select wounded units"
+msgstr "Ο + Αριστερό σύρσιμο πάνω από μονάδες στον χάρτη – Επιλέξτε μόνο τραυματισμένες μονάδες"
 
 #: gui/manual/intro.txt:111
-msgid "Alt + Z: Toggle sky"
-msgstr "Alt + Z: Ενεργοποίηση/Απενεργοποίηση του ουρανού"
+msgid ""
+"  Ctrl + Left Click on unit/group icon with multiple units selected – "
+"Deselect"
+msgstr "Ctrl + Αριστερό κλικ σε ένα εικονίδιο μιας μονάδας ή ομάδας με πολλές μονάδες επιλεγμένες – Αποεπιλογή "
 
 #: gui/manual/intro.txt:112
 msgid ""
-"Alt + V: Toggle aura range visualizations of selected units and structures"
-msgstr "Alt + V: Εναλλάσσει την εμφάνιση του εύρους της αύρας για τις επιλεγμένες μονάδες και κατασκευές"
+"  Right Click with a structure(s) selected – Set a rally point for units "
+"created/ungarrisoned from that structure"
+msgstr ""
 
 #: gui/manual/intro.txt:113
-msgid "Alt + B: Toggle heal range visualizations of selected units"
-msgstr "Alt + B: Εναλλάσσει την εμφάνιση του εύρους θεραπείας για της επιλεγμένες μονάδες"
+msgid "  Ctrl + Right Click with unit(s) selected:"
+msgstr "Ctrl + Δεξί κλικ με την μονάδα(ες) επιλεγμένες:"
+
+#: gui/manual/intro.txt:114
+msgid "    • If the cursor is over an own or allied structure – Garrison"
+msgstr "• Αν ο κέρσορας είναι πάνω από ένα δικό σου ή συμμαχικό κτήριο – Ταμπούρωμα"
 
 #: gui/manual/intro.txt:115
-msgid "[font=\"sans-bold-14\"]Camera manipulation"
-msgstr "[font=\"sans-bold-14\"]Χειρισμός κάμερας"
+msgid ""
+"    • If the cursor is over an enemy unit/structure – Attack (instead of "
+"capture or gather)"
+msgstr ""
 
 #: gui/manual/intro.txt:116
-msgid "[font=\"sans-14\"]W or \\[up]: Pan screen up"
-msgstr "[font=\"sans-14\"]W or \\[up]:Μετακίνηση οθόνης προς τα πάνω"
+msgid ""
+"    • Otherwise – Attack move (by default all enemy units and structures "
+"along the way are targeted)"
+msgstr "• Διαφορετικά: Επιθετική κίνηση (από προεπιλογή όλες οι μονάδες και οι δομές του εχθρού  κατά μήκος της διαδρομής γίνονται στόχοι)"
 
 #: gui/manual/intro.txt:117
-msgid "S or \\[down]: Pan screen down"
-msgstr "S ή \\[κάτω]: Μετακίνηση οθόνης προς τα κάτω"
+msgid ""
+"  Ctrl + Q + Right Click with unit(s) selected – Attack move, only units "
+"along the way are targeted"
+msgstr "Ctrl + Q + Δεξί κλικ με επιλεγμένες μονάδες – Κίνηση με επίθεση, στοχεύουν μόνο τις μονάδες κατά μήκος της πορείας"
 
 #: gui/manual/intro.txt:118
-msgid "A or \\[left]: Pan screen left"
-msgstr "Α ή \\[αριστερά]: Μετακίνηση οθόνης προς τα αριστερά"
-
-#: gui/manual/intro.txt:119
-msgid "D or \\[right]: Pan screen right"
-msgstr "D ή \\[δεξιά]: Μετακίνηση οθόνης προς τα δεξιά"
+msgid ""
+"  Ctrl + Mouse Move near structures – Align the new structure with an "
+"existing nearby structure"
+msgstr "Ctrl + Μετακίνηση Ποντικιού κοντά στις κατασκευές –Ευθυγράμμιση της νέα κατασκευής με μια υπάρχουσα κοντινή δομή"
 
 #: gui/manual/intro.txt:120
-msgid "Ctrl + W or \\[up]: Rotate camera to look upward"
-msgstr "Ctrl + W ή \\[πάνω]: Περιστροφή κάμερα προς τα πάνω"
+msgid "[font=\"sans-bold-14\"]Overlays[font=\"sans-14\"]"
+msgstr "[font=\"sans-bold-14\"]Εμφανίσεις[font=\"sans-14\"]"
 
 #: gui/manual/intro.txt:121
-msgid "Ctrl + S or \\[down]: Rotate camera to look downward"
-msgstr "Ctrl + S ή \\[κάτω]: Περιστροφή κάμερα προς τα κάτω"
+msgid "  Alt + G – Hide/show the GUI"
+msgstr "Alt + G – Απόκρυψη/εμφάνιση της Διεπαφής Χρήστη (GUI)"
 
 #: gui/manual/intro.txt:122
-msgid "Ctrl + A or \\[left]: Rotate camera clockwise around terrain"
-msgstr "Ctrl + Α ή \\[πλήκτρο αριστερά]: Περιστροφή κάμερας δεξιόστροφα"
+msgid "  Alt + D – Show/hide developer overlay (with developer options)"
+msgstr "Alt + D – Εμφάνιση/απόκρυψη επικάλυψης προγραμματιστή (με τις επιλογές του προγραμματιστή)"
 
 #: gui/manual/intro.txt:123
-msgid "Ctrl + D or \\[right]: Rotate camera anticlockwise around terrain"
-msgstr "Ctrl + D ή \\[πλήκτρο δεξιά]: Περιστροφή κάμερας δεξιόστροφα"
+msgid ""
+"  Alt + Shift + W – Toggle wireframe mode (press once to get wireframes "
+"overlaid over the textured models, twice to get just the wireframes colored "
+"by the textures, thrice to get back to normal textured mode)"
+msgstr "Alt + Shift + W: Εναλλαγή σε κατάσταση προσχεδίου (πάτησε μία φορά για να πάρεις τα προσχέδια που επικαλύπτονται πάνω από τα μοντέλα υφής, δύο φορές για να πάρεις ακριβώς τα προσχέδια που είναι χρωματισμένα από τις υφές, τρεις φορές για να επιστρέψεις στην κανονική λειτουργία υφής)"
 
 #: gui/manual/intro.txt:124
-msgid "Q: Rotate camera clockwise around terrain"
-msgstr "Q: Περιστροφή κάμερας δεξιόστροφα"
+msgid ""
+"  Alt + Shift + S – Toggle unit silhouettes (might give a small performance "
+"boost)"
+msgstr "Alt + Shift + S –  Ενεργοποίηση/Απενεργοποίηση σκιών μονάδων (ίσως κάνει λίγο πιο γρήγορο το παιγνίδι)"
 
 #: gui/manual/intro.txt:125
-msgid "E: Rotate camera anticlockwise around terrain"
-msgstr "Ε: Περιστροφή κάμερας αριστερόστροφα"
+msgid "  Alt + Z – Toggle sky"
+msgstr "Alt + Z – Ενεργοποίηση/Απενεργοποίηση ουρανού"
 
 #: gui/manual/intro.txt:126
-msgid "Shift + Mouse Wheel Rotate Up: Rotate camera clockwise around terrain"
-msgstr "Shift + περιστροφή ροδέλας ποντικιού προς τα πάνω: Περιστροφή κάμερας δεξιόστροφα"
+msgid "  Alt + X – Toggle diplomacy colors"
+msgstr "Alt + X – Εναλλαγή διπλωματικών χρωμάτων"
 
 #: gui/manual/intro.txt:127
 msgid ""
-"Shift + Mouse Wheel Rotate Down: Rotate camera anticlockwise around terrain"
-msgstr "Shift + περιστροφή ροδέλας ποντικιού προς τα κάτω: Περιστροφή κάμερας αριστερόστροφα"
+"  Alt + C – Toggle attack range visualizations of selected units and "
+"structures"
+msgstr "Alt + C – Εναλλάσσει την εμφάνιση του εύρους της επίθεσης για τις επιλεγμένες μονάδες και κατασκευές"
 
 #: gui/manual/intro.txt:128
 msgid ""
-"F: Follow the selected unit (move the camera to stop it from following the "
-"unit)"
-msgstr "F: Παρακολούθηση επιλεγμένης μονάδας (μετακινήστε την κάμερα για να σταματήσει να ακολουθεί τη μονάδα)"
+"  Alt + V – Toggle aura range visualizations of selected units and "
+"structures"
+msgstr "Alt + V – Εναλλάσσει την εμφάνιση του εύρους της αύρας για τις επιλεγμένες μονάδες και κατασκευές"
 
 #: gui/manual/intro.txt:129
-msgid "R: Reset camera zoom/orientation"
-msgstr "R: Επανακίνηση της κάμερας στην αρχική της θέση"
-
-#: gui/manual/intro.txt:130
-msgid "+: Zoom in (keep pressed for continuous zoom)"
-msgstr "+: Zoom in (Κρατήστε πιεσμένο για συνεχόμενο zoom)"
+msgid "  Alt + B – Toggle heal range visualizations of selected units"
+msgstr "Alt + B – Εναλλάσσει την εμφάνιση του εύρους θεραπείας για της επιλεγμένες μονάδες"
 
 #: gui/manual/intro.txt:131
-msgid "-: Zoom out (keep pressed for continuous zoom)"
-msgstr "-: Zoom out (Κρατήστε πιεσμένο για συνεχόμενο zoom)"
+msgid "[font=\"sans-bold-14\"]Camera manipulation[font=\"sans-14\"]"
+msgstr "[font=\"sans-bold-14\"]Χειρισμός κάμερας[font=\"sans-14\"]"
 
 #: gui/manual/intro.txt:132
-msgid "Alt + W: Toggle through wireframe modes"
-msgstr "Alt + W: Ενναλαγή ανάμεστα στα wireframe modes"
+msgid "  W or ↑ (Up) – Pan screen up"
+msgstr "W ή ↑ (Πάνω) – Μετατόπιση οθόνης πάνω"
 
 #: gui/manual/intro.txt:133
-msgid "Middle Mouse Button: Keep pressed and move the mouse to pan"
-msgstr "Μεσαίο κουμπί ποντικιού: Κρατήστε πατημένο και μετακινήστε το ποντίκι για να περιηγηθείτε"
+msgid "  S or ↓ (Down) – Pan screen down"
+msgstr "S ή ↓ (Κάτω) – Μετακίνηση οθόνης προς τα κάτω"
+
+#: gui/manual/intro.txt:134
+msgid "  A or ← (Left) – Pan screen left"
+msgstr "Α ή  ← (Αριστερά) – Μετακίνηση οθόνης προς τα αριστερά"
 
 #: gui/manual/intro.txt:135
-msgid "[font=\"sans-bold-14\"]During Building Placement"
-msgstr "[font=\"sans-bold-14\"]Κατα τη διάρκεια τοποθέτησης κτηρίου"
+msgid "  D or → (Right) – Pan screen right"
+msgstr "D ή → (δεξιά) – Μετακίνηση οθόνης προς τα δεξιά"
 
 #: gui/manual/intro.txt:136
-msgid "[font=\"sans-14\"]\\[: Rotate building 15 degrees counter-clockwise"
-msgstr "[font=\"sans-14\"]\\[:Περιστροφή κτιρίου κατά 15 μοίρες δεξιόστροφα"
+msgid "  Ctrl + W or Ctrl + ↑ (Up) – Rotate camera to look upward"
+msgstr "Ctrl + W ή Ctrl + ↑ (πάνω) – Περιστροφή κάμερα προς τα πάνω"
 
 #: gui/manual/intro.txt:137
-msgid "]: Rotate building 15 degrees clockwise"
-msgstr "]: Περιστροφή κτιρίου κατά 15 μοίρες δεξιόστροφα"
+msgid "  Ctrl + S or Ctrl + ↓ (Down) – Rotate camera to look downward"
+msgstr "Ctrl + S ή Ctrl + ↓ (Κάτω) – Περιστροφή κάμερα προς τα κάτω"
 
 #: gui/manual/intro.txt:138
+msgid "  Ctrl + A or Ctrl + ← (Left) – Rotate camera clockwise around terrain"
+msgstr "Ctrl + Α ή Ctrl + ← (πλήκτρο αριστερά): Περιστροφή κάμερας δεξιόστροφα"
+
+#: gui/manual/intro.txt:139
 msgid ""
-"Left Drag: Rotate building using mouse (foundation will be placed on mouse "
-"release)"
-msgstr "Αριστερό κλικ και σέρνεις: Περστροφή κτηρίου χρησιμοποιώντας το ποντίκι (θα τοποθετηθεί με απελευθέρωση του αριστερού κιλκ)"
+"  Ctrl + D or Ctrl + → (Right) – Rotate camera counter-clockwise around "
+"terrain"
+msgstr "Ctrl + D ή  Ctrl + → (πλήκτρο δεξιά): Περιστροφή κάμερας αριστερόστροφα"
 
 #: gui/manual/intro.txt:140
-msgid "[font=\"sans-bold-14\"]When loading a saved game"
-msgstr "[font=\"sans-bold-14\"]Οταν φορτώνει ένα αποθηκευμένο παιχνίδι."
+msgid "  Q – Rotate camera clockwise around terrain"
+msgstr "Q – Περιστροφή κάμερας δεξιόστροφα"
 
 #: gui/manual/intro.txt:141
-msgid ""
-"[font=\"sans-14\"]Delete: delete the selected saved game asking confirmation"
-msgstr "[font=\"sans-14\"]Διαγραφή: διαγραφή των επιλεγμένων παιχνιδιών που ζητάνε επιβεβαίωση"
+msgid "  E – Rotate camera counter-clockwise around terrain"
+msgstr "Ε – Περιστροφή κάμερας αριστερόστροφα"
 
 #: gui/manual/intro.txt:142
-msgid "Shift: do not ask confirmation when deleting a saved game"
-msgstr "Shift: Mήν ρωτάτε επιβεβαίωση όταν διαγράφεται ένα αποθηκευμένο παιχνίδι"
-
-#: gui/manual/userreport.txt:1
 msgid ""
-"As a free, open source game, we don't have the resources to test on a wide "
-"range of systems, but we want to provide the best quality experience to as "
-"many players as possible. When you enable automatic feedback, we'll receive "
-"data to help us understand the hardware we should focus on supporting, and "
-"to identify performance problems we should fix."
-msgstr "Ως ένα δωρεάν, ανοικτού κώδικα παιχνίδι, δεν έχουμε τους πόρους για να δοκιμαστεί σε ένα ευρύ φάσμα των συστημάτων, αλλά θέλουμε να παρέχουμε την καλύτερη ποιότητα εμπειρία για οσο το δυνατόν περισσότερους παράγοντες. Όταν ενεργοποιείτε την αυτόματη ανατροφοδότηση, θα σας στείλουμε τα στοιχεία για να μας βοηθήσει να κατανοήσουμε το υλικό θα πρέπει να επικεντρωθεί στη στήριξη, καθώς και για τον εντοπισμό προβλημάτων απόδοσης θα πρέπει να διορθώσουμε."
+"  Shift + Mouse Wheel Rotate Up – Rotate camera clockwise around terrain"
+msgstr "Shift + περιστροφή ροδέλας ποντικιού προς τα πάνω –Περιστροφή κάμερας δεξιόστροφα"
 
-#: gui/manual/userreport.txt:3
-msgid "The following data will be sent to our server:"
-msgstr "Τα ακόλουθα δεδομένα θα σταλθούν στο σέρβερ μας:"
-
-#: gui/manual/userreport.txt:5
+#: gui/manual/intro.txt:143
 msgid ""
-"• A random user ID (stored in %APPDATA%\\0ad\\config\\user.cfg on Windows, "
-"~/.config/0ad/config/user.cfg on Unix), to let us detect repeated reports "
-"from the same user."
-msgstr " Ένα τυχαίο αναγνωριστικό χρήστη (αποθηκευμένο στο  %APPDATA%\\0ad\\config\\user.cfg σε Windows, ~/.config/0ad/config/user.cfg σε Unix), ώστε να μας επιτρέψει να εντοπίσουμε επανειλημμένες αναφορές από τον ίδιο χρήστη."
+"  Shift + Mouse Wheel Rotate Down – Rotate camera counter-clockwise around "
+"terrain"
+msgstr "Shift + περιστροφή ροδέλας ποντικιού προς τα κάτω – Περιστροφή κάμερας αριστερόστροφα"
 
-#: gui/manual/userreport.txt:6
+#: gui/manual/intro.txt:144
 msgid ""
-"• Game version number and basic build settings (optimisation mode, CPU "
-"architecture, timestamp, compiler version)."
-msgstr "• Αριθμός έκδοσης παιχνιδιού και βασικές ρυθμίσεις κατασκευής εκτελέσιμου (επιλογές βελτιστοποίησης, αρχιτεκτονική της CPU, χρονοσήμανση, έκδοση compiler)."
+"  F – Follow the selected unit (move the camera to stop following the unit)"
+msgstr "F – Παρακολούθηση επιλεγμένης μονάδας (μετακίνησε την κάμερα για να σταματήσει να ακολουθεί τη μονάδα)"
 
-#: gui/manual/userreport.txt:7
-msgid ""
-"• Hardware details: OS version, graphics driver version, OpenGL "
-"capabilities, screen size, CPU details, RAM size."
-msgstr "• Λεπτομέρειες Υλικού: έκδοση του λειτουργικού συστήματος,  έκδοση του οδηγού γραφικών, δυνατότητες OpenGL, το μέγεθος της οθόνης, τα στοιχεία της CPU, το μέγεθος της μνήμης RAM."
+#: gui/manual/intro.txt:145
+msgid "  R – Reset camera zoom/orientation"
+msgstr "  R – Επαναφορά κάμερας σε μεγέθυνση/προσανατολισμό"
 
-#: gui/manual/userreport.txt:8
-msgid ""
-"• Performance details: a snapshot of timing data a few seconds after you "
-"start a match or change graphics settings."
-msgstr "• Λεπτομέρειες της απόδοσης: ένα στιγμιότυπο του χρονισμού δεδομένων λίγα δευτερόλεπτα μετά την εκκίνηση ενός αγώνα παιχνιδιού ή αλλαγή ρυθμίσεων των γραφικών."
+#: gui/manual/intro.txt:146
+msgid "  = (Equals) or + (Plus) – Zoom in (keep pressed for continuous zoom)"
+msgstr "= (Ίσον) ή + (Συν) – Μεγέθυνση (κράτησέ το πατημένο για συνεχόμενη μεγέθυνση)"
 
-#: gui/manual/userreport.txt:10
+#: gui/manual/intro.txt:147
 msgid ""
-"The data will only be a few kilobytes each time you run the game, so "
-"bandwidth usage is minimal."
-msgstr "Τα δεδομένα θα είναι μόνο μερικά kilobytes κάθε φορά που εκτελείτε το παιχνίδι, η χρήση του εύρους ζώνης της σύνδεσης σας είναι ελάχιστη."
+"  - (Hyphen) or − (Minus) – Zoom out (keep pressed for continuous zoom)"
+msgstr " - (Παύλα) ή − (Μείον) –  Σμίκρυνση (κράτησέ το πατημένο για συνεχόμενη σμίκρυνση)"
 
-#: gui/manual/userreport.txt:12
+#: gui/manual/intro.txt:148
+msgid "  Middle Mouse Button – Keep pressed and move the mouse to pan"
+msgstr "Μεσαίο κουμπί ποντικιού – Κρατήστε το πατημένο και μετακινήστε το ποντίκι για να περιηγηθείτε"
+
+#: gui/manual/intro.txt:150
+msgid "[font=\"sans-bold-14\"]During Structure Placement[font=\"sans-14\"]"
+msgstr ""
+
+#: gui/manual/intro.txt:151
+msgid "  \\[ (Left Bracket) – Rotate structure 15 degrees counter-clockwise"
+msgstr ""
+
+#: gui/manual/intro.txt:152
+msgid "  ] (Right Bracket) – Rotate structure 15 degrees clockwise"
+msgstr ""
+
+#: gui/manual/intro.txt:153
 msgid ""
-"We will store the submitted data on our server, and may publish statistics "
-"or non-user-identifiable details to help other game developers with similar "
-"questions. We will store the IP address that submitted the data, to help "
-"detect abuse of the service, but will not publish it. The published data can"
-" be seen at http://feedback.wildfiregames.com/"
-msgstr "Θα αποθηκεύσουμε τα δεδομένα που υποβλήθηκαν στον server μας, και μπορεί να δημοσιεύσουμε στατιστικά στοιχεία ή μη ταυτοποίησημες λεπτομέρειες ώστε να βοηθηθούν άλλοι  προγραμματιστές παιχνιδιών με παρόμοιες ερωτήσεις. Εμείς θα αποθηκεύσουμε τη διεύθυνση IP από όπου υποβλήθηκαν τα δεδομένα, για να βοηθήσουμε στον εντοπισμό κατάχρησης της υπηρεσίας, αλλά δεν θα τα δημοσιεύσουμε. Τα δημοσιευμένα στοιχεία μπορείτε να τα δείτε στο http://feedback.wildfiregames.com/"
+"  Left Drag – Rotate structure using mouse (foundation will be placed on "
+"mouse release)"
+msgstr ""
+
+#: gui/manual/intro.txt:155
+msgid "[font=\"sans-bold-14\"]When loading a saved game[font=\"sans-14\"]"
+msgstr "[font=\"sans-bold-14\"]Όταν φορτώνει ένα αποθηκευμένο παιχνίδι[font=\"sans-14\"]"
+
+#: gui/manual/intro.txt:156
+msgid "  Esc – Cancel"
+msgstr "  Esc – Ακύρωση"
+
+#: gui/manual/intro.txt:157
+msgid "  Delete – Delete the selected saved game, ask for confirmation"
+msgstr "Delete – Διαγραφή του επιλεγμένου αποθηκευμένου παιχνιδιού, ερώτηση για επιβεβαίωση"
+
+#: gui/manual/intro.txt:158
+msgid ""
+"  Shift + Delete – Immediately delete the selected saved game, without "
+"asking for confirmation"
+msgstr " Shift + Delete – Άμεση διαγραφή του επιλεγμένου αποθηκευμένου παιχνιδιού, χωρίς ερώτηση για επιβεβαίωση"

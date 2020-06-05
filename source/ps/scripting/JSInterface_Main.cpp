@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2018 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -23,24 +23,27 @@
 #include "graphics/MapReader.h"
 #include "lib/sysdep/sysdep.h"
 #include "lib/utf8.h"
+#include "maths/MD5.h"
 #include "ps/CStrIntern.h"
 #include "ps/GUID.h"
 #include "ps/GameSetup/Atlas.h"
 #include "ps/Globals.h"
 #include "ps/Hotkey.h"
+#include "ps/Util.h"
+#include "scriptinterface/ScriptInterface.h"
 #include "tools/atlas/GameInterface/GameLoop.h"
 
-extern void restart_mainloop_in_atlas();
-extern void kill_mainloop();
+extern void QuitEngine();
+extern void StartAtlas();
 
-void JSI_Main::ExitProgram(ScriptInterface::CxPrivate* UNUSED(pCxPrivate))
+void JSI_Main::QuitEngine(ScriptInterface::CxPrivate* UNUSED(pCxPrivate))
 {
-	kill_mainloop();
+	::QuitEngine();
 }
 
-void JSI_Main::RestartInAtlas(ScriptInterface::CxPrivate* UNUSED(pCxPrivate))
+void JSI_Main::StartAtlas(ScriptInterface::CxPrivate* UNUSED(pCxPrivate))
 {
-	restart_mainloop_in_atlas();
+	::StartAtlas();
 }
 
 bool JSI_Main::AtlasIsAvailable(ScriptInterface::CxPrivate* UNUSED(pCxPrivate))
@@ -108,10 +111,21 @@ int JSI_Main::GetTextWidth(ScriptInterface::CxPrivate* UNUSED(pCxPrivate), const
 	return width;
 }
 
+std::string JSI_Main::CalculateMD5(ScriptInterface::CxPrivate* UNUSED(pCxPrivate), const std::string& input)
+{
+	u8 digest[MD5::DIGESTSIZE];
+
+	MD5 m;
+	m.Update((const u8*)input.c_str(), input.length());
+	m.Final(digest);
+
+	return Hexify(digest, MD5::DIGESTSIZE);
+}
+
 void JSI_Main::RegisterScriptFunctions(const ScriptInterface& scriptInterface)
 {
-	scriptInterface.RegisterFunction<void, &ExitProgram>("Exit");
-	scriptInterface.RegisterFunction<void, &RestartInAtlas>("RestartInAtlas");
+	scriptInterface.RegisterFunction<void, &QuitEngine>("Exit");
+	scriptInterface.RegisterFunction<void, &StartAtlas>("RestartInAtlas");
 	scriptInterface.RegisterFunction<bool, &AtlasIsAvailable>("AtlasIsAvailable");
 	scriptInterface.RegisterFunction<bool, &IsAtlasRunning>("IsAtlasRunning");
 	scriptInterface.RegisterFunction<void, std::string, &OpenURL>("OpenURL");
@@ -121,4 +135,5 @@ void JSI_Main::RegisterScriptFunctions(const ScriptInterface& scriptInterface)
 	scriptInterface.RegisterFunction<bool, std::string, &HotkeyIsPressed_>("HotkeyIsPressed");
 	scriptInterface.RegisterFunction<int, &GetFps>("GetFPS");
 	scriptInterface.RegisterFunction<int, std::string, std::wstring, &GetTextWidth>("GetTextWidth");
+	scriptInterface.RegisterFunction<std::string, std::string, &CalculateMD5>("CalculateMD5");
 }

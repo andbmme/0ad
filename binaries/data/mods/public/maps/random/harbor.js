@@ -1,33 +1,61 @@
-RMS.LoadLibrary("rmgen");
-RMS.LoadLibrary("rmgen2");
-RMS.LoadLibrary("rmbiome");
-
-InitMap();
+Engine.LoadLibrary("rmgen");
+Engine.LoadLibrary("rmgen-common");
+Engine.LoadLibrary("rmgen2");
+Engine.LoadLibrary("rmbiome");
 
 setSelectedBiome();
+
+var heightSeaGround = -18;
+var heightLand = 2;
+var heightOffsetHarbor = -11;
+
+var g_Map = new RandomMap(heightLand, g_Terrains.mainTerrain);
+
 initTileClasses();
 
 setFogFactor(0.04);
 
-resetTerrain(g_Terrains.mainTerrain, g_TileClasses.land, getMapBaseHeight());
-RMS.SetProgress(10);
+createArea(
+	new MapBoundsPlacer(),
+	new TileClassPainter(g_TileClasses.land));
 
-const mapSize = getMapSize();
-const startAngle = randFloat(0, 2 * Math.PI);
-const players = addBases("radial", 0.38, 0.05, startAngle);
-RMS.SetProgress(20);
+Engine.SetProgress(10);
+
+const mapSize = g_Map.getSize();
+const mapCenter = g_Map.getCenter();
+
+const startAngle = randomAngle();
+const [playerIDs, playerPosition] = createBasesByPattern("radial", fractionToTiles(0.38), fractionToTiles(0.05), startAngle);
+Engine.SetProgress(20);
 
 addCenterLake();
-RMS.SetProgress(30);
+Engine.SetProgress(30);
 
 if (mapSize >= 192)
 {
-	addHarbors(players);
-	RMS.SetProgress(40);
+	addHarbors();
+	Engine.SetProgress(40);
 }
 
 addSpines();
-RMS.SetProgress(50);
+Engine.SetProgress(50);
+
+addElements([
+	{
+		"func": addFish,
+		"avoid": [
+			g_TileClasses.fish, 12,
+			g_TileClasses.hill, 8,
+			g_TileClasses.mountain, 8,
+			g_TileClasses.player, 8,
+			g_TileClasses.spine, 4
+		],
+		"stay": [g_TileClasses.water, 7],
+		"sizes": g_AllSizes,
+		"mixes": g_AllMixes,
+		"amounts": ["many"]
+	}
+]);
 
 addElements(shuffleArray([
 	{
@@ -78,7 +106,7 @@ addElements(shuffleArray([
 	},
 	{
 		"func": addBluffs,
-		"baseHeight": getMapBaseHeight(),
+		"baseHeight": heightLand,
 		"avoid": [
 			g_TileClasses.bluff, 20,
 			g_TileClasses.mountain, 25,
@@ -93,7 +121,7 @@ addElements(shuffleArray([
 		"amounts": g_AllAmounts
 	}
 ]));
-RMS.SetProgress(60);
+Engine.SetProgress(60);
 
 addElements(shuffleArray([
 	{
@@ -152,7 +180,7 @@ addElements(shuffleArray([
 	}
 ]));
 
-RMS.SetProgress(70);
+Engine.SetProgress(70);
 
 addElements(shuffleArray([
 	{
@@ -211,7 +239,7 @@ addElements(shuffleArray([
 	}
 ]));
 
-RMS.SetProgress(80);
+Engine.SetProgress(80);
 
 addElements([
 	{
@@ -247,116 +275,83 @@ addElements([
 	}
 ]);
 
-RMS.SetProgress(90);
+Engine.SetProgress(90);
 
-ExportMap();
+placePlayersNomad(
+	g_TileClasses.player,
+	avoidClasses(
+		g_TileClasses.bluff, 4,
+		g_TileClasses.water, 4,
+		g_TileClasses.spine, 4,
+		g_TileClasses.plateau, 4,
+		g_TileClasses.forest, 1,
+		g_TileClasses.metal, 4,
+		g_TileClasses.rock, 4,
+		g_TileClasses.mountain, 4,
+		g_TileClasses.animals, 2));
+
+g_Map.ExportMap();
 
 function addCenterLake()
 {
-	let center = Math.round(fractionToTiles(0.5));
-
 	createArea(
 		new ChainPlacer(
 			2,
 			Math.floor(scaleByMapSize(2, 12)),
 			Math.floor(scaleByMapSize(35, 160)),
-			1,
-			center,
-			center,
+			Infinity,
+			mapCenter,
 			0,
-			[Math.floor(mapSize * 0.17 * Math.pow(scaleByMapSize(1, 6), 1/8))]),
+			[Math.floor(fractionToTiles(0.2))]),
 		[
-			new LayeredPainter(
-				[
-					g_Terrains.shore,
-					g_Terrains.water,
-					g_Terrains.water
-				],
-				[1, 100]
-			),
-			new SmoothElevationPainter(ELEVATION_SET, -18, 10),
-			paintClass(g_TileClasses.water)
+			new LayeredPainter([g_Terrains.shore, g_Terrains.water], [1]),
+			new SmoothElevationPainter(ELEVATION_SET, heightSeaGround, 10),
+			new TileClassPainter(g_TileClasses.water)
 		],
-		avoidClasses(g_TileClasses.player, 20)
-	);
+		avoidClasses(g_TileClasses.player, 20));
 
 	let fDist = 50;
 	if (mapSize <= 192)
 		fDist = 20;
-
-	// create a bunch of fish
-	createObjectGroup(
-		new SimpleGroup(
-			[new SimpleObject(g_Gaia.fish, 20, 30, 0, fDist)],
-			true,
-			g_TileClasses.baseResource,
-			center,
-			center
-		),
-		0,
-		[
-			avoidClasses(g_TileClasses.player, 5, g_TileClasses.hill, 3, g_TileClasses.mountain, 3),
-			stayClasses(g_TileClasses.water, 5)
-		]
-	);
 }
 
-function addHarbors(players)
+function addHarbors()
 {
-	let center = Math.round(fractionToTiles(0.5));
-
-	for (let i = 0; i < players.length; ++i)
+	for (let position of playerPosition)
 	{
-		let ix = round(fractionToTiles(players[i].x));
-		let iz = round(fractionToTiles(players[i].z));
-
-		let offsetX = Math.round((center - ix) / 2.5);
-		let offsetZ = Math.round((center - iz) / 2.5);
-
+		let harborPosition = Vector2D.add(position, Vector2D.sub(mapCenter, position).div(2.5).round());
 		createArea(
-			new ClumpPlacer(scaleByMapSize(1200, 1200), 0.5, 0.5, 1, ix + offsetX, iz + offsetZ),
+			new ClumpPlacer(1200, 0.5, 0.5, Infinity, harborPosition),
 			[
 				new LayeredPainter([g_Terrains.shore, g_Terrains.water], [2]),
-				new SmoothElevationPainter(ELEVATION_MODIFY, -11, 3),
-				paintClass(g_TileClasses.water)
+				new SmoothElevationPainter(ELEVATION_MODIFY, heightOffsetHarbor, 3),
+				new TileClassPainter(g_TileClasses.water)
 			],
 			avoidClasses(
 				g_TileClasses.player, 15,
 				g_TileClasses.hill, 1
 			)
 		);
-
-		// create fish in harbor
-		createObjectGroup(
-			new SimpleGroup(
-				[new SimpleObject(g_Gaia.fish, 6, 6, 1, 20)],
-				true, g_TileClasses.baseResource, ix + offsetX, iz + offsetZ
-			),
-			0,
-			[
-				avoidClasses(
-					g_TileClasses.hill, 3,
-					g_TileClasses.mountain, 3
-				),
-				stayClasses(g_TileClasses.water, 5)
-			]
-		);
 	}
 }
 
 function addSpines()
 {
+	let smallSpines = mapSize <= 192;
+	let spineSize = smallSpines ? 0.02 : 0.5;
+	let spineTapering = smallSpines ?-0.1 :  -1.4;
+	let heightOffsetSpine = smallSpines ? 20 : 35;
+
 	let numPlayers = getNumPlayers();
 	let spineTile = g_Terrains.dirt;
-	let elevation = 35;
 
-	if (currentBiome() == "snowy")
+	if (currentBiome() == "generic/snowy")
 		spineTile = g_Terrains.tier1Terrain;
 
-	if (currentBiome() == "alpine" || currentBiome() == "savanna")
+	if (currentBiome() == "generic/alpine" || currentBiome() == "generic/savanna")
 		spineTile = g_Terrains.tier2Terrain;
 
-	if (currentBiome() == "autumn")
+	if (currentBiome() == "generic/autumn")
 		spineTile = g_Terrains.tier4Terrain;
 
 	let split = 1;
@@ -366,38 +361,15 @@ function addSpines()
 	for (let i = 0; i < numPlayers * split; ++i)
 	{
 		let tang = startAngle + (i + 0.5) * 2 * Math.PI / (numPlayers * split);
-
-		let mStartCo = 0.12;
-		let mStopCo = 0.40;
-		let mSize = 0.5;
-		let mWaviness = 0.6;
-		let mOffset = 0.4;
-		let mTaper = -1.4;
-
-		// make small mountain dividers if we're on a small map
-		if (mapSize <= 192)
-		{
-			mSize = 0.02;
-			mTaper = -0.1;
-			elevation = 20;
-		}
+		let start = Vector2D.add(mapCenter, new Vector2D(fractionToTiles(0.12), 0).rotate(-tang));
+		let end = Vector2D.add(mapCenter, new Vector2D(fractionToTiles(0.4), 0).rotate(-tang));
 
 		createArea(
-			new PathPlacer(
-				fractionToTiles(0.5 + mStartCo * cos(tang)),
-				fractionToTiles(0.5 + mStartCo * sin(tang)),
-				fractionToTiles(0.5 + mStopCo * cos(tang)),
-				fractionToTiles(0.5 + mStopCo * sin(tang)),
-				scaleByMapSize(14, mSize),
-				mWaviness,
-				0.1,
-				mOffset,
-				mTaper
-			),
+			new PathPlacer(start, end, scaleByMapSize(14, spineSize), 0.6, 0.1, 0.4, spineTapering),
 			[
 				new LayeredPainter([g_Terrains.cliff, spineTile], [3]),
-				new SmoothElevationPainter(ELEVATION_MODIFY, elevation, 3),
-				paintClass(g_TileClasses.spine)
+				new SmoothElevationPainter(ELEVATION_MODIFY, heightOffsetSpine, 3),
+				new TileClassPainter(g_TileClasses.spine)
 			],
 			avoidClasses(g_TileClasses.player, 5)
 		);

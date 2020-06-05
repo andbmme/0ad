@@ -2,12 +2,12 @@
 <Entity parent="template_unit_champion_infantry_swordsman">
   <Identity>
     <Civ>brit</Civ>
-    <GenericName>Brythonic Longswordsman</GenericName>
-    <SpecificName>Delamokludda</SpecificName>
+    <GenericName>Brythonic Champion</GenericName>
+    <SpecificName>Argos</SpecificName>
     <SelectionGroupName>units/brit_champion_infantry</SelectionGroupName>
-    <Icon>units/celt_champion_infantry_brit.png</Icon>
+    <Icon>units/brit_champion_infantry.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/celts/champion_unit_3.xml</Actor>
+    <Actor>units/britons/infantry_swordsman_c.xml</Actor>
   </VisualActor>
 </Entity>

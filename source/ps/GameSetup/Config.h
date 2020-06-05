@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -44,9 +44,6 @@ extern bool g_NoGLVBO;
 // flag to pause the game on window focus loss
 extern bool g_PauseOnFocusLoss;
 
-// flag to switch on actor rendering
-extern bool g_RenderActors;
-
 // flag to switch on shadows
 extern bool g_Shadows;
 
@@ -67,6 +64,8 @@ extern bool g_WaterShadows;
 extern bool g_ShadowPCF;
 // flag to switch on particles rendering
 extern bool g_Particles;
+// flag to switch on fog
+extern bool g_Fog;
 // flag to switch on unit silhouettes
 extern bool g_Silhouettes;
 // flag to switch on sky rendering
@@ -79,7 +78,6 @@ extern bool g_PostProc;
 // Use smooth LOS interpolation
 extern bool g_SmoothLOS;
 
-extern float g_Gamma;
 // name of configured render path (depending on OpenGL extensions, this may not be
 // the render path that is actually in use right now)
 extern CStr g_RenderPath;

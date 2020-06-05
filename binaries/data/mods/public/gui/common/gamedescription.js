@@ -21,11 +21,7 @@ var g_BuddyListDelimiter = ",";
 function splitRatingFromNick(playerName)
 {
 	let result = /^(\S+)\ \((\d+)\)$/g.exec(playerName);
-
-	if (!result)
-		return [playerName, ""];
-
-	return [result[1], +result[2]];
+	return { "nick": result ? result[1] : playerName, "rating": result ? +result[2] : "" };
 }
 
 /**
@@ -37,39 +33,6 @@ var g_Buddies = Engine.ConfigDB_GetValue("user", "lobby.buddies").split(g_BuddyL
  * Denotes which players are a lobby buddy of the current user.
  */
 var g_BuddySymbol = '•';
-
-/**
- * Returns map description and preview image or placeholder.
- */
-function getMapDescriptionAndPreview(mapType, mapName)
-{
-	let mapData;
-	if (mapType == "random" && mapName == "random")
-		mapData = { "settings": { "Description": translate("A randomly selected map.") } };
-	else if (mapType == "random" && Engine.FileExists(mapName + ".json"))
-		mapData = Engine.ReadJSONFile(mapName + ".json");
-	else if (Engine.FileExists(mapName + ".xml"))
-		mapData = Engine.LoadMapSettings(mapName + ".xml");
-
-	return deepfreeze({
-		"description": mapData && mapData.settings && mapData.settings.Description ? translate(mapData.settings.Description) : translate("Sorry, no description available."),
-		"preview": mapData && mapData.settings && mapData.settings.Preview ? mapData.settings.Preview : "nopreview.png"
-	});
-}
-
-/**
- * Sets the mappreview image correctly.
- * It needs to be cropped as the engine only allows loading square textures.
- *
- * @param {string} guiObject
- * @param {string} filename
- */
-function setMapPreviewImage(guiObject, filename)
-{
-	Engine.GetGUIObjectByName(guiObject).sprite =
-		"cropped:" + 400 / 512 + "," + 300 / 512 + ":" +
-		"session/icons/mappreview/" + filename;
-}
 
 /**
  * Returns a formatted string describing the player assignments.
@@ -102,19 +65,19 @@ function formatPlayerInfo(playerDataArray, playerStates)
 			{
 				if (isActive)
 					// Translation: Describe a player in a selected game, f.e. in the replay- or savegame menu
-					playerDescription = translate("%(playerName)s (%(civ)s, %(AIdifficulty)s %(AIname)s)");
+					playerDescription = translate("%(playerName)s (%(civ)s, %(AIdescription)s)");
 				else
 					// Translation: Describe a player in a selected game, f.e. in the replay- or savegame menu
-					playerDescription = translate("%(playerName)s (%(civ)s, %(AIdifficulty)s %(AIname)s, %(state)s)");
+					playerDescription = translate("%(playerName)s (%(civ)s, %(AIdescription)s, %(state)s)");
 			}
 			else
 			{
 				if (isActive)
 					// Translation: Describe a player in a selected game, f.e. in the replay- or savegame menu
-					playerDescription = translate("%(playerName)s (%(AIdifficulty)s %(AIname)s)");
+					playerDescription = translate("%(playerName)s (%(AIdescription)s)");
 				else
 					// Translation: Describe a player in a selected game, f.e. in the replay- or savegame menu
-					playerDescription = translate("%(playerName)s (%(AIdifficulty)s %(AIname)s, %(state)s)");
+					playerDescription = translate("%(playerName)s (%(AIdescription)s, %(state)s)");
 			}
 		}
 		else
@@ -152,16 +115,15 @@ function formatPlayerInfo(playerDataArray, playerStates)
 		if (!playerDescriptions[teamIdx])
 			playerDescriptions[teamIdx] = [];
 
+		let playerNick = splitRatingFromNick(playerData.Name).nick;
 		playerDescriptions[teamIdx].push(sprintf(playerDescription, {
 			"playerName":
-				'[color="' +
+			coloredText(
+				(g_Buddies.indexOf(playerNick) != -1 ? g_BuddySymbol + " " : "") +
+				escapeText(playerData.Name),
 				(typeof getPlayerColor == 'function' ?
-					(isAI ? "white" : getPlayerColor(playerData.Name)) :
-					rgbToGuiColor(playerData.Color || g_Settings.PlayerDefaults[playerIdx].Color)) +
-				'"]' +
-				(g_Buddies.indexOf(splitRatingFromNick(playerData.Name)[0]) != -1 ? g_BuddySymbol + " " : "") +
-				escapeText(playerData.Name) +
-				"[/color]",
+					(isAI ? "white" : getPlayerColor(playerNick)) :
+					rgbToGuiColor(playerData.Color || g_Settings.PlayerDefaults[playerIdx].Color))),
 
 			"civ":
 				!playerData.Civ ?
@@ -175,8 +137,7 @@ function formatPlayerInfo(playerDataArray, playerStates)
 					translateWithContext("playerstate", "defeated") :
 					translateWithContext("playerstate", "won"),
 
-			"AIname": isAI ? translateAIName(playerData.AI) : "",
-			"AIdifficulty": isAI ? translateAIDifficulty(playerData.AIDiff) : ""
+			"AIdescription": translateAISettings(playerData)
 		}));
 	}
 
@@ -219,49 +180,60 @@ function formatPlayerInfo(playerDataArray, playerStates)
  *
  * Requires g_GameAttributes and g_VictoryConditions.
  */
-function getGameDescription(extended = false)
+function getGameDescription(mapCache)
 {
 	let titles = [];
+	if (!g_GameAttributes.settings.VictoryConditions.length)
+		titles.push({
+			"label": translateWithContext("victory condition", "Endless Game"),
+			"value": translate("No winner will be determined, even if everyone is defeated.")
+		});
 
-	let victoryIdx = g_VictoryConditions.Name.indexOf(g_GameAttributes.settings.GameType || g_VictoryConditions.Default);
-	if (victoryIdx != -1)
+	for (let victoryCondition of g_VictoryConditions)
 	{
-		let title = g_VictoryConditions.Title[victoryIdx];
-		if (g_VictoryConditions.Name[victoryIdx] == "wonder")
+		if (g_GameAttributes.settings.VictoryConditions.indexOf(victoryCondition.Name) == -1)
+			continue;
+
+		let title = translateVictoryCondition(victoryCondition.Name);
+		if (victoryCondition.Name == "wonder")
+		{
+			let wonderDuration = Math.round(g_GameAttributes.settings.WonderDuration);
 			title = sprintf(
 				translatePluralWithContext(
 					"victory condition",
 					"Wonder (%(min)s minute)",
 					"Wonder (%(min)s minutes)",
-					g_GameAttributes.settings.WonderDuration
+					wonderDuration
 				),
-				{ "min": g_GameAttributes.settings.WonderDuration }
-			);
+				{ "min": wonderDuration });
+		}
 
-		let isCaptureTheRelic = g_VictoryConditions.Name[victoryIdx] == "capture_the_relic";
+		let isCaptureTheRelic = victoryCondition.Name == "capture_the_relic";
 		if (isCaptureTheRelic)
+		{
+			let relicDuration = Math.round(g_GameAttributes.settings.RelicDuration);
 			title = sprintf(
 				translatePluralWithContext(
 					"victory condition",
 					"Capture the Relic (%(min)s minute)",
 					"Capture the Relic (%(min)s minutes)",
-					g_GameAttributes.settings.RelicDuration
+					relicDuration
 				),
-				{ "min": g_GameAttributes.settings.RelicDuration }
-			);
+				{ "min": relicDuration });
+		}
 
 		titles.push({
 			"label": title,
-			"value": g_VictoryConditions.Description[victoryIdx]
+			"value": victoryCondition.Description
 		});
 
 		if (isCaptureTheRelic)
 			titles.push({
 				"label": translate("Relic Count"),
-				"value": g_GameAttributes.settings.RelicCount
+				"value": Math.round(g_GameAttributes.settings.RelicCount)
 			});
 
-		if (g_VictoryConditions.Name[victoryIdx] == "regicide")
+		if (victoryCondition.Name == "regicide")
 			if (g_GameAttributes.settings.RegicideGarrison)
 				titles.push({
 					"label": translate("Hero Garrison"),
@@ -270,7 +242,7 @@ function getGameDescription(extended = false)
 			else
 				titles.push({
 					"label": translate("Exposed Heroes"),
-					"value": translate("Heroes cannot be garrisoned, and they are vulnerable to raids.")
+					"value": translate("Heroes cannot be garrisoned and they are vulnerable to raids.")
 				});
 	}
 
@@ -303,106 +275,132 @@ function getGameDescription(extended = false)
 			"value": translate("If one player wins, his or her allies win too. If one group of allies remains, they win.")
 		});
 
-	if (extended)
+	let ceasefire = Math.round(g_GameAttributes.settings.Ceasefire);
+	titles.push({
+		"label": translate("Ceasefire"),
+		"value":
+			ceasefire == 0 ?
+				translate("disabled") :
+				sprintf(translatePlural(
+					"For the first minute, other players will stay neutral.",
+					"For the first %(min)s minutes, other players will stay neutral.",
+					ceasefire),
+				{ "min": ceasefire })
+	});
+
+	if (g_GameAttributes.map == "random")
+		titles.push({
+			"label": translateWithContext("Map Selection", "Random Map"),
+			"value": translate("Randomly select a map from the list.")
+		});
+	else
 	{
 		titles.push({
-			"label": translate("Ceasefire"),
-			"value":
-				g_GameAttributes.settings.Ceasefire == 0 ?
-					translate("disabled") :
-					sprintf(translatePlural(
-						"For the first minute, other players will stay neutral.",
-						"For the first %(min)s minutes, other players will stay neutral.",
-						g_GameAttributes.settings.Ceasefire),
-					{ "min": g_GameAttributes.settings.Ceasefire })
-		});
-
-		titles.push({
 			"label": translate("Map Name"),
-			"value": translate(g_GameAttributes.settings.Name)
+			"value": mapCache.translateMapName(
+				mapCache.getTranslatableMapName(g_GameAttributes.mapType, g_GameAttributes.map, g_GameAttributes))
 		});
 
 		titles.push({
-			"label": translate("Map Type"),
-			"value": g_MapTypes.Title[g_MapTypes.Name.indexOf(g_GameAttributes.mapType)]
+			"label": translate("Map Description"),
+			"value": mapCache.getTranslatedMapDescription(g_GameAttributes.mapType, g_GameAttributes.map)
 		});
-
-		if (g_GameAttributes.mapType == "random")
-		{
-			let mapSize = g_MapSizes.Name[g_MapSizes.Tiles.indexOf(g_GameAttributes.settings.Size)];
-			if (mapSize)
-				titles.push({
-					"label": translate("Map Size"),
-					"value": mapSize
-				});
-		}
 	}
 
 	titles.push({
-		"label": translate("Map Description"),
-		"value":
-			g_GameAttributes.map == "random" ?
-				translate("Randomly selects a map from the list") :
-				g_GameAttributes.settings.Description ?
-					translate(g_GameAttributes.settings.Description) :
-					translate("Sorry, no description available.")
+		"label": translate("Map Type"),
+		"value": g_MapTypes.Title[g_MapTypes.Name.indexOf(g_GameAttributes.mapType)]
 	});
+
+	if (g_GameAttributes.mapType == "random")
+	{
+		let mapSize = g_MapSizes.Name[g_MapSizes.Tiles.indexOf(g_GameAttributes.settings.Size)];
+		if (mapSize)
+			titles.push({
+				"label": translate("Map Size"),
+				"value": mapSize
+			});
+	}
 
 	if (g_GameAttributes.settings.Biome)
 	{
 		let biome = g_Settings.Biomes.find(b => b.Id == g_GameAttributes.settings.Biome);
 		titles.push({
-			"label": translate("Biome"),
-			"value": biome ? biome.Title : translateWithContext("biome", "Random")
+			"label": biome ? biome.Title : translateWithContext("biome", "Random Biome"),
+			"value": biome ? biome.Description : translate("Randomly select a biome from the list.")
 		});
 	}
 
-	if (extended)
+	if (g_GameAttributes.settings.TriggerDifficulty !== undefined)
 	{
+		let triggerDifficulty = g_Settings.TriggerDifficulties.find(difficulty => difficulty.Difficulty == g_GameAttributes.settings.TriggerDifficulty);
 		titles.push({
-			"label": translate("Starting Resources"),
-			"value": sprintf(translate("%(startingResourcesTitle)s (%(amount)s)"), {
-				"startingResourcesTitle":
-					g_StartingResources.Title[
-						g_StartingResources.Resources.indexOf(
-							g_GameAttributes.settings.StartingResources)],
-				"amount": g_GameAttributes.settings.StartingResources
-			})
+			"label": triggerDifficulty.Title,
+			"value": triggerDifficulty.Tooltip
+		});
+	}
+
+	if (g_GameAttributes.settings.Nomad !== undefined)
+		titles.push({
+			"label": g_GameAttributes.settings.Nomad ? translate("Nomad Mode") : translate("Civic Centers"),
+			"value":
+				g_GameAttributes.settings.Nomad ?
+					translate("Players start with only few units and have to find a suitable place to build their city.") :
+					translate("Players start with a Civic Center.")
 		});
 
+	if (g_GameAttributes.settings.StartingResources !== undefined)
+		titles.push({
+			"label": translate("Starting Resources"),
+			"value":
+				g_GameAttributes.settings.PlayerData &&
+				g_GameAttributes.settings.PlayerData.some(pData => pData && pData.Resources !== undefined) ?
+					translateWithContext("starting resources", "Per Player") :
+					sprintf(translate("%(startingResourcesTitle)s (%(amount)s)"), {
+						"startingResourcesTitle":
+							g_StartingResources.Title[
+								g_StartingResources.Resources.indexOf(
+									g_GameAttributes.settings.StartingResources)],
+						"amount": g_GameAttributes.settings.StartingResources
+					})
+		});
+
+	if (g_GameAttributes.settings.PopulationCap !== undefined)
 		titles.push({
 			"label": translate("Population Limit"),
 			"value":
-				g_PopulationCapacities.Title[
-					g_PopulationCapacities.Population.indexOf(
-						g_GameAttributes.settings.PopulationCap)]
+				g_GameAttributes.settings.PlayerData &&
+				g_GameAttributes.settings.PlayerData.some(pData => pData && pData.PopulationLimit !== undefined) ?
+					translateWithContext("population limit", "Per Player") :
+					g_PopulationCapacities.Title[
+						g_PopulationCapacities.Population.indexOf(
+							g_GameAttributes.settings.PopulationCap)]
 		});
 
-		titles.push({
-			"label": translate("Treasures"),
-			"value": g_GameAttributes.settings.DisableTreasures ?
-				translateWithContext("treasures", "Disabled") :
-				translateWithContext("treasures", "As defined by the map.")
-		});
+	titles.push({
+		"label": translate("Treasures"),
+		"value": g_GameAttributes.settings.DisableTreasures ?
+			translateWithContext("treasures", "Disabled") :
+			translateWithContext("treasures", "As defined by the map.")
+	});
 
-		titles.push({
-			"label": translate("Revealed Map"),
-			"value": g_GameAttributes.settings.RevealMap
-		});
+	titles.push({
+		"label": translate("Revealed Map"),
+		"value": g_GameAttributes.settings.RevealMap
+	});
 
-		titles.push({
-			"label": translate("Explored Map"),
-			"value": g_GameAttributes.settings.ExploreMap
-		});
+	titles.push({
+		"label": translate("Explored Map"),
+		"value": g_GameAttributes.settings.ExploreMap
+	});
 
-		titles.push({
-			"label": translate("Cheats"),
-			"value": g_GameAttributes.settings.CheatsEnabled
-		});
-	}
+	titles.push({
+		"label": translate("Cheats"),
+		"value": g_GameAttributes.settings.CheatsEnabled
+	});
 
 	return titles.map(title => sprintf(translate("%(label)s %(details)s"), {
-		"label": "[color=\"" + g_DescriptionHighlight + "\"]" + title.label + ":" + "[/color]",
+		"label": coloredText(title.label, g_DescriptionHighlight),
 		"details":
 			title.value === true ? translateWithContext("gamesetup option", "enabled") :
 				title.value || translateWithContext("gamesetup option", "disabled")
@@ -411,13 +409,9 @@ function getGameDescription(extended = false)
 
 /**
  * Sets the win/defeat icon to indicate current player's state.
- * @param {string} state - The current in-game state of the player.
- * @param {string} imageID - The name of the XML image object to update.
  */
-function setOutcomeIcon(state, imageID)
+function setOutcomeIcon(state, image)
 {
-	let image = Engine.GetGUIObjectByName(imageID);
-
 	if (state == "won")
 	{
 		image.sprite = "stretched:session/icons/victory.png";
@@ -428,4 +422,16 @@ function setOutcomeIcon(state, imageID)
 		image.sprite = "stretched:session/icons/defeat.png";
 		image.tooltip = translate("Defeated");
 	}
+}
+
+function translateAISettings(playerData)
+{
+	if (!playerData.AI)
+		return "";
+
+	return sprintf(translate("%(AIdifficulty)s %(AIbehavior)s %(AIname)s"), {
+		"AIname": translateAIName(playerData.AI),
+		"AIdifficulty": translateAIDifficulty(playerData.AIDiff),
+		"AIbehavior": translateAIBehavior(playerData.AIBehavior),
+	});
 }

@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -46,9 +46,8 @@ public:
 		reset();
 	}
 
-	Grid(const Grid& g)
+	Grid(const Grid& g) : m_W(0), m_H(0), m_Data(NULL), m_DirtyID(0)
 	{
-		m_Data = NULL;
 		*this = g;
 	}
 
@@ -103,6 +102,22 @@ public:
 		return m_W == 0 && m_H == 0;
 	}
 
+	bool any_set_in_square(int i0, int j0, int i1, int j1) const
+	{
+	#if GRID_BOUNDS_DEBUG
+		ENSURE(i0 >= 0 && j0 >= 0 && i1 <= m_W && j1 <= m_H);
+	#endif
+		for (int j = j0; j < j1; ++j)
+		{
+			int sum = 0;
+			for (int i = i0; i < i1; ++i)
+				sum += m_Data[j*m_W + i];
+			if (sum > 0)
+				return true;
+		}
+		return false;
+	}
+
 	void reset()
 	{
 		if (m_Data)
@@ -150,7 +165,7 @@ public:
 	template<typename U>
 	bool compare_sizes(const Grid<U>* g) const
 	{
-		return m_W == g->m_W && m_H == g->m_H;
+		return g && m_W == g->m_W && m_H == g->m_H;
 	}
 
 	u16 m_W, m_H;
@@ -175,8 +190,7 @@ class SparseGrid
 		size_t b = (j >> BucketBits) * m_BW + (i >> BucketBits);
 		if (!m_Data[b])
 		{
-			m_Data[b] = new T[BucketSize*BucketSize];
-			memset(m_Data[b], 0, BucketSize*BucketSize*sizeof(T));
+			m_Data[b] = new T[BucketSize*BucketSize]();
 		}
 		return m_Data[b];
 	}
@@ -189,8 +203,7 @@ public:
 		m_BW = (u16)((m_W + BucketSize-1) >> BucketBits);
 		m_BH = (u16)((m_H + BucketSize-1) >> BucketBits);
 
-		m_Data = new T*[m_BW*m_BH];
-		memset(m_Data, 0, m_BW*m_BH*sizeof(T*));
+		m_Data = new T*[m_BW*m_BH]();
 	}
 
 	~SparseGrid()
@@ -204,7 +217,8 @@ public:
 		for (size_t i = 0; i < (size_t)(m_BW*m_BH); ++i)
 			delete[] m_Data[i];
 
-		memset(m_Data, 0, m_BW*m_BH*sizeof(T*));
+		// Reset m_Data by value-constructing in place with placement new.
+		m_Data = new (m_Data) T*[m_BW*m_BH]();
 	}
 
 	void set(int i, int j, const T& value)

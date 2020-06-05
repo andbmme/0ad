@@ -16,20 +16,21 @@
     <Square width="18.0" depth="18.0"/>
     <Height>8.0</Height>
   </Footprint>
+  <GarrisonHolder disable=""/>
   <Health>
     <Max>2500</Max>
     <SpawnEntityOnDeath>decay|rubble/rubble_stone_4x4</SpawnEntityOnDeath>
   </Health>
   <Identity>
     <GenericName>Dock</GenericName>
+    <SelectionGroupName>template_structure_military_dock</SelectionGroupName>
     <Tooltip>Build upon a shoreline to construct naval vessels and to open sea trade. Research naval improvements.</Tooltip>
     <Classes datatype="tokens">Naval NavalMarket</Classes>
     <VisibleClasses datatype="tokens">Economic Village Market Dock</VisibleClasses>
     <Icon>structures/dock.png</Icon>
   </Identity>
   <Loot>
-    <food>30</food>
-    <wood>30</wood>
+    <wood>40</wood>
   </Loot>
   <Market>
     <TradeType>land naval</TradeType>
@@ -70,10 +71,10 @@
     <SoundGroups>
       <select>interface/select/building/sel_dock.xml</select>
       <constructed>interface/complete/building/complete_dock.xml</constructed>
-      <death>attack/destruction/building_collapse_large.xml</death>
     </SoundGroups>
   </Sound>
   <TerritoryDecay disable=""/>
+  <TerritoryInfluence disable=""/>
   <Vision>
     <Range>40</Range>
   </Vision>

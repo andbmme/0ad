@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_military_embassy">
   <Cost>
-    <BuildTime>200</BuildTime>
     <Resources>
-      <wood>0</wood>
       <stone>200</stone>
-      <metal>0</metal>
     </Resources>
   </Cost>
   <Identity>
@@ -14,6 +11,9 @@
       <Tooltip>Hire Iberian mercenaries. Research improvements for these mercenaries.</Tooltip>
     <Icon>structures/iberian_embassy.png</Icon>
   </Identity>
+  <Loot>
+    <stone>40</stone>
+  </Loot>
   <Obstruction>
     <Static width="16.0" depth="16.0"/>
   </Obstruction>

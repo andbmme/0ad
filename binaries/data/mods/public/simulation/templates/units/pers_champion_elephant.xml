@@ -2,11 +2,12 @@
 <Entity parent="template_unit_champion_elephant_melee">
   <Identity>
     <Civ>pers</Civ>
+    <Lang>persian</Lang>
     <GenericName>Indian War Elephant</GenericName>
-    <SpecificName>Hinduya Pila</SpecificName>
-    <Icon>units/pers_war_elephant.png</Icon>
+    <SpecificName>Pila Hinduya</SpecificName>
+    <Icon>units/pers_champion_elephant.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/persians/war_elephant.xml</Actor>
+    <Actor>units/persians/elephantry_c_m.xml</Actor>
   </VisualActor>
 </Entity>

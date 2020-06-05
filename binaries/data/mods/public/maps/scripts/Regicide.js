@@ -1,15 +1,7 @@
-Trigger.prototype.CheckRegicideDefeat = function(data)
-{
-	if (data.entity == this.regicideHeroes[data.from])
-		TriggerHelper.DefeatPlayer(
-			data.from,
-			markForTranslation("%(player)s has been defeated (lost hero)."));
-};
-
 Trigger.prototype.InitRegicideGame = function(msg)
 {
 	let cmpEndGameManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_EndGameManager);
-	let regicideGarrison = cmpEndGameManager.GetGameTypeSettings().regicideGarrison;
+	let regicideGarrison = cmpEndGameManager.GetGameSettings().regicideGarrison;
 
 	let playersCivs = [];
 	for (let playerID = 1; playerID < TriggerHelper.GetNumberOfPlayers(); ++playerID)
@@ -20,7 +12,7 @@ Trigger.prototype.InitRegicideGame = function(msg)
 	let cmpTemplateManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_TemplateManager);
 	for (let templateName of cmpTemplateManager.FindAllTemplates(false))
 	{
-		if (templateName.substring(0,6) != "units/")
+		if (!templateName.startsWith("units/"))
 			continue;
 
 		let identity = cmpTemplateManager.GetTemplate(templateName).Identity;
@@ -67,8 +59,10 @@ Trigger.prototype.InitRegicideGame = function(msg)
 		if (!regicideGarrison && TriggerHelper.EntityMatchesClassList(spawnPoints[0], "Ship"))
 		{
 			let shipPosition = Engine.QueryInterface(spawnPoints[0], IID_Position).GetPosition2D();
+
 			let distanceToShip = entity =>
-				Engine.QueryInterface(entity, IID_Position).GetPosition2D().distanceTo(shipPosition);
+				Engine.QueryInterface(entity, IID_Position).GetPosition2D().distanceToSquared(shipPosition);
+
 			spawnPoints = TriggerHelper.GetLandSpawnPoints().sort((entity1, entity2) =>
 				distanceToShip(entity1) - distanceToShip(entity2));
 		}
@@ -121,9 +115,25 @@ Trigger.prototype.SpawnRegicideHero = function(playerID, heroTemplates, spawnPoi
 	return undefined;
 };
 
+Trigger.prototype.RenameRegicideHero = function(data)
+{
+	let index = this.regicideHeroes.indexOf(data.entity);
+	if (index != -1)
+		this.regicideHeroes[index] = data.newentity;
+};
+
+Trigger.prototype.CheckRegicideDefeat = function(data)
+{
+	if (data.entity == this.regicideHeroes[data.from])
+		TriggerHelper.DefeatPlayer(
+			data.from,
+			markForTranslation("%(player)s has been defeated (lost hero)."));
+};
+
 {
 	let cmpTrigger = Engine.QueryInterface(SYSTEM_ENTITY, IID_Trigger);
 	cmpTrigger.regicideHeroes = [];
 	cmpTrigger.DoAfterDelay(0, "InitRegicideGame", {});
 	cmpTrigger.RegisterTrigger("OnOwnershipChanged", "CheckRegicideDefeat", { "enabled": true });
+	cmpTrigger.RegisterTrigger("OnEntityRenamed", "RenameRegicideHero", { "enabled": true });
 }

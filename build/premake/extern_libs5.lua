@@ -80,8 +80,16 @@ local function add_default_links(def)
 		names = def.android_names
 	elseif os.istarget("linux") and def.linux_names then
 		names = def.linux_names
-	elseif os.istarget("macosx") and def.osx_names then
-		names = def.osx_names
+	elseif os.istarget("macosx") and (def.osx_names or def.osx_frameworks) then
+		if def.osx_names then
+			names = def.osx_names
+		end
+		-- OS X "Frameworks" are added to the links as "name.framework"
+		if def.osx_frameworks then
+			for i,name in pairs(def.osx_frameworks) do
+				links { name .. ".framework" }
+			end
+		end
 	elseif os.istarget("bsd") and def.bsd_names then
 		names = def.bsd_names
 	elseif def.unix_names then
@@ -100,22 +108,16 @@ local function add_default_links(def)
 		suffix = ""
 	end
 
-	-- OS X "Frameworks" are added to the links as "name.framework"
-	if os.istarget("macosx") and def.osx_frameworks then
-		for i,name in pairs(def.osx_frameworks) do
-			links { name .. ".framework" }
-		end
-	else
-		for i,name in pairs(names) do
-			filter "Debug"
-				links { name .. suffix }
-			filter "Release"
-				links { name }
-			filter { }
+	for i,name in pairs(names) do
+		filter "Debug"
+			links { name .. suffix }
+		filter "Release"
+			links { name }
+		filter { }
 
-			add_delayload(name, suffix, def)
-		end
+		add_delayload(name, suffix, def)
 	end
+
 end
 
 -- Library definitions
@@ -152,18 +154,21 @@ end
 --          * extern_lib: <libraryname> to be used in the libpath.
 --
 -- add_default_links
---		Description: Adds links to libraries and configures delayloading.
--- 		If the *_names parameter for a plattform is missing, no linking will be done
--- 		on that plattform.
---		The default assumptions are:
---		* debug import library and DLL are distinguished with a "d" suffix
--- 		* the library should be marked for delay-loading.
---		Parameters:
+--      Description: Adds links to libraries and configures delayloading.
+--      If the *_names parameter for a plattform is missing, no linking will be done
+--      on that plattform.
+--      The default assumptions are:
+--      * debug import library and DLL are distinguished with a "d" suffix
+--      * the library should be marked for delay-loading.
+--      Parameters:
 --      * win_names: table of import library / DLL names (no extension) when
---   	  running on Windows.
+--        running on Windows.
 --      * unix_names: as above; shared object names when running on non-Windows.
---      * osx_names: as above; for OS X specifically (overrides unix_names if both are
---        specified)
+--      * osx_names, osx_frameworks: for OS X specifically; if any of those is
+--        specified, unix_names is ignored. Using both is possible if needed.
+--          * osx_names: as above.
+--          * osx_frameworks: as above, for system libraries that need to be linked
+--            as "name.framework".
 --      * bsd_names: as above; for BSD specifically (overrides unix_names if both are
 --        specified)
 --      * linux_names: ditto for Linux (overrides unix_names if both given)
@@ -257,32 +262,31 @@ extern_lib_defs = {
 		compile_settings = function()
 			if os.istarget("windows") then
 				add_default_include_paths("gloox")
-			elseif os.istarget("macosx") then
-				-- Support GLOOX_CONFIG for overriding the default PATH-based gloox-config
-				gloox_config_path = os.getenv("GLOOX_CONFIG")
-				if not gloox_config_path then
-					gloox_config_path = "gloox-config"
-				end
-				pkgconfig.add_includes(nil, gloox_config_path.." --cflags")
+			else
+				-- Support GLOOX_CONFIG for overriding the default (pkg-config --cflags gloox)
+				-- i.e. on OSX where it gets set in update-workspaces.sh
+				pkgconfig.add_includes("gloox", os.getenv("GLOOX_CONFIG"))
 			end
 		end,
 		link_settings = function()
 			if os.istarget("windows") then
 				add_default_lib_paths("gloox")
-			end
-			if os.istarget("macosx") then
-				gloox_config_path = os.getenv("GLOOX_CONFIG")
-				if not gloox_config_path then
-					gloox_config_path = "gloox-config"
-				end
-				pkgconfig.add_links(nil, gloox_config_path.." --libs")
-			else
-				-- TODO: consider using pkg-config on non-Windows (for compile_settings too)
 				add_default_links({
 					win_names  = { "gloox-1.0" },
-					unix_names = { "gloox" },
 					no_delayload = 1,
 				})
+			else
+				pkgconfig.add_links("gloox", os.getenv("GLOOX_CONFIG"))
+
+				if os.istarget("macosx") then
+					-- Manually add gnutls dependencies, those are not present in gloox's pkg-config
+					add_default_lib_paths("nettle")
+					add_default_lib_paths("gmp")
+					add_default_links({
+						osx_names = { "nettle", "hogweed", "gmp" },
+					})
+				end
+
 			end
 		end,
 	},
@@ -326,32 +330,22 @@ extern_lib_defs = {
 		compile_settings = function()
 			if os.istarget("windows") then
 				add_default_include_paths("icu")
-			elseif os.istarget("macosx") then
-				-- Support ICU_CONFIG for overriding the default PATH-based icu-config
-				icu_config_path = os.getenv("ICU_CONFIG")
-				if not icu_config_path then
-					icu_config_path = "icu-config"
-				end
-				pkgconfig.add_includes(nil, icu_config_path.." --cppflags")
+			else
+				-- Support ICU_CONFIG for overriding the default (pkg-config --cflags icu-i18n)
+				-- i.e. on OSX where it gets set in update-workspaces.sh
+				pkgconfig.add_includes("icu-i18n", os.getenv("ICU_CONFIG"), "--cppflags")
 			end
 		end,
 		link_settings = function()
 			if os.istarget("windows") then
 				add_default_lib_paths("icu")
-			end
-			if os.istarget("macosx") then
-				icu_config_path = os.getenv("ICU_CONFIG")
-				if not icu_config_path then
-					icu_config_path = "gloox-config"
-				end
-				pkgconfig.add_links(nil, icu_config_path.." --ldflags-searchpath --ldflags-libsonly --ldflags-system")
-			else
 				add_default_links({
 					win_names  = { "icuuc", "icuin" },
-					unix_names = { "icui18n", "icuuc" },
 					dbg_suffix = "",
 					no_delayload = 1,
 				})
+			else
+				pkgconfig.add_links("icu-i18n", os.getenv("ICU_CONFIG"), "--ldflags-searchpath --ldflags-libsonly --ldflags-system")
 			end
 		end,
 	},
@@ -368,6 +362,8 @@ extern_lib_defs = {
 			add_default_links({
 				win_names  = { "libcurl" },
 				unix_names = { "curl" },
+				osx_names = { "curl", "z" },
+				osx_frameworks = { "Security" }
 			})
 		end,
 	},
@@ -393,24 +389,35 @@ extern_lib_defs = {
 			})
 		end,
 	},
+	libsodium = {
+		compile_settings = function()
+			if os.istarget("windows") or os.istarget("macosx") then
+				add_default_include_paths("libsodium")
+			end
+		end,
+		link_settings = function()
+			if os.istarget("windows") or os.istarget("macosx") then
+				add_default_lib_paths("libsodium")
+			end
+			add_default_links({
+				win_names  = { "libsodium" },
+				unix_names = { "sodium" },
+			})
+		end,
+	},
 	libxml2 = {
 		compile_settings = function()
 			if os.istarget("windows") then
 				add_default_include_paths("libxml2")
-			elseif os.istarget("macosx") then
-				-- Support XML2_CONFIG for overriding for the default PATH-based xml2-config
-				xml2_config_path = os.getenv("XML2_CONFIG")
-				if not xml2_config_path then
-					xml2_config_path = "xml2-config"
-				end
-
-				-- use xml2-config instead of pkg-config on OS X
-				pkgconfig.add_includes(nil, xml2_config_path.." --cflags")
+			else
+				-- Support XML2_CONFIG for overriding the default (pkg-config --cflags libxml-2.0)
+				-- i.e. on OSX where it gets set in update-workspaces.sh
+				pkgconfig.add_includes("libxml-2.0", os.getenv("XML2_CONFIG"))
+			end
+			if os.istarget("macosx") then
 				-- libxml2 needs _REENTRANT or __MT__ for thread support;
 				-- OS X doesn't get either set by default, so do it manually
 				defines { "_REENTRANT" }
-			else
-				pkgconfig.add_includes("libxml-2.0")
 			end
 		end,
 		link_settings = function()
@@ -421,14 +428,8 @@ extern_lib_defs = {
 				filter "Release"
 					links { "libxml2" }
 				filter { }
-			elseif os.istarget("macosx") then
-				xml2_config_path = os.getenv("XML2_CONFIG")
-				if not xml2_config_path then
-					xml2_config_path = "xml2-config"
-				end
-				pkgconfig.add_links(nil, xml2_config_path.." --libs")
 			else
-				pkgconfig.add_links("libxml-2.0")
+				pkgconfig.add_links("libxml-2.0", os.getenv("XML2_CONFIG"))
 			end
 		end,
 	},
@@ -462,7 +463,7 @@ extern_lib_defs = {
 			add_default_links({
 				win_names  = { "nvtt" },
 				unix_names = { "nvcore", "nvmath", "nvimage", "nvtt" },
-				osx_names = { "nvcore", "nvmath", "nvimage", "nvtt", "squish" },
+				osx_names = { "bc6h", "bc7", "nvcore", "nvimage", "nvmath", "nvthread", "nvtt", "squish" },
 				dbg_suffix = "", -- for performance we always use the release-mode version
 			})
 		end,
@@ -517,32 +518,24 @@ extern_lib_defs = {
 			if os.istarget("windows") then
 				includedirs { libraries_dir .. "sdl2/include/SDL" }
 			elseif not _OPTIONS["android"] then
-				-- Support SDL2_CONFIG for overriding the default PATH-based sdl2-config
-				sdl_config_path = os.getenv("SDL2_CONFIG")
-				if not sdl_config_path then
-					sdl_config_path = "sdl2-config"
-				end
-
-				pkgconfig.add_includes(nil, sdl_config_path.." --cflags")
+				-- Support SDL2_CONFIG for overriding the default (pkg-config sdl2)
+				-- i.e. on OSX where it gets set in update-workspaces.sh
+				pkgconfig.add_includes("sdl2", os.getenv("SDL2_CONFIG"))
 			end
 		end,
 		link_settings = function()
 			if os.istarget("windows") then
 				add_default_lib_paths("sdl2")
 			elseif not _OPTIONS["android"] then
-				sdl_config_path = os.getenv("SDL2_CONFIG")
-				if not sdl_config_path then
-					sdl_config_path = "sdl2-config"
-				end
-				pkgconfig.add_links(nil, sdl_config_path.." --libs")
+				pkgconfig.add_links("sdl2", os.getenv("SDL2_CONFIG"))
 			end
 		end,
 	},
 	spidermonkey = {
 		compile_settings = function()
-			if _OPTIONS["with-system-mozjs38"] then
+			if _OPTIONS["with-system-mozjs45"] then
 				if not _OPTIONS["android"] then
-					pkgconfig.add_includes("mozjs-38")
+					pkgconfig.add_includes("mozjs-45")
 				end
 			else
 				if os.istarget("windows") then
@@ -560,22 +553,21 @@ extern_lib_defs = {
 			end
 		end,
 		link_settings = function()
-			if _OPTIONS["with-system-mozjs38"] then
+			if _OPTIONS["with-system-mozjs45"] then
 				if _OPTIONS["android"] then
-					links { "mozjs-38" }
+					links { "mozjs-45" }
 				else
-					pkgconfig.add_links("nspr")
-					pkgconfig.add_links("mozjs-38")
+					pkgconfig.add_links("mozjs-45")
 				end
 			else
-				if os.istarget("macosx") then
-					add_default_lib_paths("nspr")
-					links { "nspr4", "plc4", "plds4" }
-				end
-				filter "Debug"
-					links { "mozjs38-ps-debug" }
-				filter "Release"
-					links { "mozjs38-ps-release" }
+				filter { "Debug", "action:vs2015" }
+					links { "mozjs45-ps-debug-vc140" }
+				filter { "Release", "action:vs2015" }
+					links { "mozjs45-ps-release-vc140" }
+				filter { "Debug", "action:not vs*" }
+					links { "mozjs45-ps-debug" }
+				filter { "Release", "action:not vs*" }
+					links { "mozjs45-ps-release" }
 				filter { }
 				add_source_lib_paths("spidermonkey")
 			end
@@ -616,10 +608,9 @@ extern_lib_defs = {
 				})
 			end
 			add_default_links({
-				win_names  = { "vorbisfile" },
+				win_names  = { "libvorbisfile" },
 				unix_names = { "vorbisfile" },
 				osx_names = { "vorbis", "vorbisenc", "vorbisfile", "ogg" },
-				dbg_suffix = "_d",
 			})
 		end,
 	},
@@ -629,34 +620,31 @@ extern_lib_defs = {
 				includedirs { libraries_dir.."wxwidgets/include/msvc" }
 				add_default_include_paths("wxwidgets")
 			else
-
-				-- Support WX_CONFIG for overriding for the default PATH-based wx-config
-				wx_config_path = os.getenv("WX_CONFIG")
-				if not wx_config_path then
-					wx_config_path = "wx-config"
-				end
-
-				pkgconfig.add_includes(nil, wx_config_path.." --unicode=yes --cxxflags")
+				-- wxwidgets does not come with a definition file for pkg-config,
+				-- so we have to use wxwidgets' own config tool
+				wx_config_path = os.getenv("WX_CONFIG") or "wx-config"
+				pkgconfig.add_includes(nil, wx_config_path, "--unicode=yes --cxxflags")
 			end
 		end,
 		link_settings = function()
 			if os.istarget("windows") then
 				libdirs { libraries_dir.."wxwidgets/lib/vc_lib" }
 			else
-				wx_config_path = os.getenv("WX_CONFIG")
-				if not wx_config_path then
-					wx_config_path = "wx-config"
-				end
-				pkgconfig.add_links(nil, wx_config_path.." --unicode=yes --libs std,gl")
+				wx_config_path = os.getenv("WX_CONFIG") or "wx-config"
+				pkgconfig.add_links(nil, wx_config_path, "--unicode=yes --libs std,gl")
 			end
 		end,
 	},
 	x11 = {
+		compile_settings = function()
+			if not os.istarget("windows") and not os.istarget("macosx") then
+				pkgconfig.add_includes("x11")
+			end
+		end,
 		link_settings = function()
-			add_default_links({
-				win_names  = { },
-				unix_names = { "X11" },
-			})
+			if not os.istarget("windows") and not os.istarget("macosx") then
+				pkgconfig.add_links("x11")
+			end
 		end,
 	},
 	xcursor = {

@@ -1,29 +1,34 @@
 # Translation template for 0 A.D. — Empires Ascendant.
-# Copyright © 2014 Wildfire Games
+# Copyright (C) 2019 Wildfire Games
 # This file is distributed under the same license as the 0 A.D. — Empires Ascendant project.
 # 
 # Translators:
 # kecer <adam@kecer.net>, 2016
+# Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2018
+# LeviTaule <levi.taule@gmail.com>, 2017
 # LeviTaule <levi.taule@gmail.com>, 2015-2016
 # Mário Bulejko, 2015
+# Miroslav Kadlec <mirokadlec12@gmail.com>, 2018
 # MiroslavR <miroslavr256@gmail.com>, 2014
 # Miroslav Remák <Unknown>, 2014
 # MiroslavR <miroslavr256@gmail.com>, 2014
+# Patrik Špaňo <pa4k.xyon@gmail.com>, 2020
 # SuroX <peter.surovcik@gmail.com>, 2016
-# Peter Tuharsky <peter.tuharsky@gmail.com>, 2015-2016
-# Angen <slavomir.slovenkai@gmail.com>, 2017
+# Peto (wt-ts) <peter.tuharsky@gmail.com>, 2015-2016
+# Angen <slavomir.slovenkai@gmail.com>, 2017-2019
+# Tom Hanax, 2019
 msgid ""
 msgstr ""
 "Project-Id-Version: 0 A.D.\n"
-"POT-Creation-Date: 2017-09-11 09:05+0200\n"
-"PO-Revision-Date: 2017-09-11 15:01+0000\n"
-"Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
+"POT-Creation-Date: 2019-05-24 09:43+0200\n"
+"PO-Revision-Date: 2020-01-02 14:42+0000\n"
+"Last-Translator: Patrik Špaňo <pa4k.xyon@gmail.com>\n"
 "Language-Team: Slovak (http://www.transifex.com/wildfire-games/0ad/language/sk/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Language: sk\n"
-"Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n == 1 ? 0 : n % 1 == 0 && n >= 2 && n <= 4 ? 1 : n % 1 != 0 ? 2: 3);\n"
 
 #: simulation/ai/petra/chatHelper.js:6
 #, javascript-format
@@ -52,7 +57,7 @@ msgstr "Práve som poslal armádu hráčovi %(_player_)s."
 #: simulation/ai/petra/chatHelper.js:17
 #, javascript-format
 msgid "Let me regroup my army and I will then join you against %(_player_)s."
-msgstr "Nechaj ma preskupiť armádu a potom sa k tebe pridám proti %(_player_)s."
+msgstr "Nechaj ma preskupiť si armádu a potom sa k tebe pridám proti %(_player_)s."
 
 #: simulation/ai/petra/chatHelper.js:18
 #, javascript-format
@@ -71,14 +76,14 @@ msgstr "Prepáč, práve nemám dosť vojakov, ale môj ďalší útok bude smer
 msgid ""
 "Sorry, I still need to strengthen my army. However, I will attack "
 "%(_player_)s next."
-msgstr "Prepáč, stále potrebujem posilniť svoju armádu. Avšak nabudúce zaútočím na %(_player_)s."
+msgstr "Prepáč, ešte potrebujem posilniť svoju armádu. Najbližšie ale zaútočím na hráča%(_player_)s."
 
 #: simulation/ai/petra/chatHelper.js:25
 #, javascript-format
 msgid ""
 "I cannot help you against %(_player_)s for the time being, I am planning to "
 "attack %(_player_2)s first."
-msgstr "Nemôžem ti pomôcť s útokom na %(_player_)s, plánujem najrpv zaútočiť na %(_player_2)s."
+msgstr "Nemôžem ti zatiaľ pomôcť s útokom na %(_player_)s, plánujem najrpv zaútočiť na %(_player_2)s."
 
 #: simulation/ai/petra/chatHelper.js:30
 #, javascript-format
@@ -95,7 +100,7 @@ msgstr "Vidím, že máš problémy, %(_player_)s. Dúfam, že toto ti pomôže.
 msgid ""
 "I can help you this time, %(_player_)s, but you should manage your resources"
 " more carefully in the future."
-msgstr "Tentoraz ti môžem pomôcť %(_player_)s, ale v budúcnosti sa pokús zodpovednejšie manipulovať so surovinami."
+msgstr "Tentoraz ti môžem pomôcť, %(_player_)s, ale v budúcnosti sa pokús zodpovednejšie manipulovať so surovinami."
 
 #: simulation/ai/petra/chatHelper.js:36
 #, javascript-format
@@ -127,22 +132,22 @@ msgstr "Vytvoril som novú obchodnú cestu s hráčom %(_player_)s. Obchodovanie
 msgid ""
 "A new trade route is set up with %(_player_)s. Take your share of the "
 "profits."
-msgstr "Nová obchodná cesta zriadená hráčmi %(_player_)s. Zúčastnite sa na zisku."
+msgstr "Bola zriadená nová obchodná cesta hráčmi %(_player_)s. Zúčastnite sa na zisku."
 
 #: simulation/ai/petra/chatHelper.js:48
 #, javascript-format
 msgid "%(_player_)s and I are now allies."
-msgstr "%(_player_)s je teraz môj spojenec."
+msgstr "%(_player_)s je odteraz môj spojenec."
 
 #: simulation/ai/petra/chatHelper.js:51
 #, javascript-format
 msgid "%(_player_)s and I are now neutral."
-msgstr "S hráčom %(_player_)ssme v neutrálnom vzťahu."
+msgstr "S hráčom %(_player_)s sme odteraz v neutrálnom vzťahu."
 
 #: simulation/ai/petra/chatHelper.js:54
 #, javascript-format
 msgid "%(_player_)s and I are now enemies."
-msgstr "S hráčom %(_player_)s ste teraz nepriatelia."
+msgstr "S hráčom %(_player_)s sme odteraz nepriatelia."
 
 #: simulation/ai/petra/chatHelper.js:61
 #, javascript-format
@@ -154,7 +159,7 @@ msgstr "Nemôžem akceptovať tvoj návrh na spojenectvo, %(_player_)s."
 msgid ""
 "I will not be your ally, %(_player_)s. However, I will consider a neutrality"
 " pact."
-msgstr "Nebudem tvoj spojenec, %(_player_)s. Avšak zvážim ponuku neutrality."
+msgstr "Nebudem tvoj spojenec, %(_player_)s. Zvážim, avšak, pakt neutrality."
 
 #: simulation/ai/petra/chatHelper.js:65
 #, javascript-format
@@ -166,7 +171,7 @@ msgstr "Odmietam tvoju ponuku na spojenectvo, %(_player_)s, ale mohli by sme by�
 #: simulation/ai/petra/chatHelper.js:66
 #, javascript-format
 msgid "%(_player_)s, only a neutrality agreement is conceivable to me."
-msgstr "%(_player_)s, budem uvažovať iba o neutrálnom vzťahu."
+msgstr "%(_player_)s, nič iné než dohoda o neutralite pre mňa nie je predstaviteľné."
 
 #: simulation/ai/petra/chatHelper.js:69
 #, javascript-format
@@ -178,30 +183,30 @@ msgstr "Naše predcházajúce spojenectvo nefungovalo, %(_player_)s. Musím tvoj
 #: simulation/ai/petra/chatHelper.js:70
 #, javascript-format
 msgid "I won’t ally you again, %(_player_)s!"
-msgstr "Nebude zase tvoj spojenec  %(_player_)s!"
+msgstr "Nebudem zase tvoj spojenec  %(_player_)s!"
 
 #: simulation/ai/petra/chatHelper.js:71
 #, javascript-format
 msgid "No more alliances between us, %(_player_)s!"
-msgstr "Žiadne ďalšie spojenctvo medzi nami, %(_player_)s!"
+msgstr "Už žiadne ďalšie spojenctvo medzi nami, %(_player_)s!"
 
 #: simulation/ai/petra/chatHelper.js:72
 #, javascript-format
 msgid "Your request for peace means nothing to me anymore, %(_player_)s!"
-msgstr "Tvoja ponuka na mier viac pre mňa nič neznamená, %(_player_)s!"
+msgstr "Tvoja mierová ponuka pre mňa nič neznamená, %(_player_)s!"
 
 #: simulation/ai/petra/chatHelper.js:73
 #, javascript-format
 msgid ""
 "My answer to your repeated peace proposal will remain war, %(_player_)s!"
-msgstr "Odpoveď na ďalšiu ponuku mieru bude vyhlásenie vojny, %(_player_)s!"
+msgstr "Odpoveď na tvoju ďalšiu ponuku mieru bude vyhlásenie vojny, %(_player_)s!"
 
 #: simulation/ai/petra/chatHelper.js:76
 #, javascript-format
 msgid ""
 "I will accept your offer to become allies, %(_player_)s. We will both "
 "benefit from this partnership."
-msgstr "Akceptujem tvoju ponuku na spojenectvo, %(_player_)s. Obaja budeme ťažiť z tohto partnerstva."
+msgstr "Akceptujem tvoju ponuku na spojenectvo, %(_player_)s. Toto partnerstvo bude pre nás obojstranne výhodné."
 
 #: simulation/ai/petra/chatHelper.js:77
 #, javascript-format
@@ -242,7 +247,7 @@ msgstr "%(_player_)s, musíš mi poslať dar %(_amount_)s %(_resource_)s predtý
 #, javascript-format
 msgid ""
 "Unless you send me %(_amount_)s %(_resource_)s, an alliance won’t be formed,"
-" %(_player_)s,"
+" %(_player_)s."
 msgstr "Kým mi nepošleš %(_amount_)s %(_resource_)s, spojenectvo nebude vytvorené, %(_player_)s."
 
 #: simulation/ai/petra/chatHelper.js:88
@@ -250,7 +255,7 @@ msgstr "Kým mi nepošleš %(_amount_)s %(_resource_)s, spojenectvo nebude vytvo
 msgid ""
 "%(_player_)s, my offer still stands. I will ally with you only if you send "
 "me a tribute of %(_amount_)s %(_resource_)s."
-msgstr "%(_player_)s, moja ponuka stále trvá. Budem tvojim spojencom jedina ak mi pošleš %(_amount_)s %(_resource_)s."
+msgstr "%(_player_)s, moja ponuka stále trvá. Budem tvojim spojencom jedine ak mi pošleš %(_amount_)s %(_resource_)s."
 
 #: simulation/ai/petra/chatHelper.js:89
 #, javascript-format
@@ -274,21 +279,21 @@ msgstr "Nebudem s tebou v neutrálnom vzťahu, %(_player_)s."
 #: simulation/ai/petra/chatHelper.js:96
 #, javascript-format
 msgid "%(_player_)s, I must decline your request for a neutrality pact."
-msgstr "%(_player_)s, musím odmietnuť tvoj návrh na neutrálny vzťah."
+msgstr "%(_player_)s, musím odmietnuť tvoj návrh na neutralitu."
 
 #: simulation/ai/petra/chatHelper.js:99
 #, javascript-format
 msgid ""
 "Our previous neutrality agreement ended in failure, %(_player_)s; I will not"
 " consider another one."
-msgstr "Naše predchádzajúca dohoda o neutralite skončila neúspechom, %(_player_)s: Nezvážim ďalšie."
+msgstr "Naše predchádzajúca dohoda o neutralite skončila neúspechom, %(_player_)s; Nebudem zvažovať ďalšie."
 
 #: simulation/ai/petra/chatHelper.js:102
 #, javascript-format
 msgid ""
 "I welcome your request for peace between our civilizations, %(_player_)s. I "
 "will accept."
-msgstr "Vítam tvoju žiadosť na mier mezdi našimi civilizáciami, %(_player_)s. Príjmem ju."
+msgstr "Vítam tvoju žiadosť na mier medzi našimi civilizáciami, %(_player_)s. Príjmem ju."
 
 #: simulation/ai/petra/chatHelper.js:103
 #, javascript-format
@@ -302,28 +307,28 @@ msgstr "%(_player_)s, ackeptujem tvoju žiadosť o neutralitu. Nech obe naše ci
 msgid ""
 "If you send me a tribute of %(_amount_)s %(_resource_)s, I will accept your "
 "neutrality request, %(_player_)s."
-msgstr "Ak mi pošleš poplatok %(_amount_)s %(_resource_)s, akceptujem tvoju žiadosť o neutralitu, %(_player_)s."
+msgstr "Ak mi pošleš ako dar %(_amount_)s %(_resource_)s, akceptujem tvoju žiadosť o neutralitu, %(_player_)s."
 
 #: simulation/ai/petra/chatHelper.js:107
 #, javascript-format
 msgid ""
 "%(_player_)s, if you send me %(_amount_)s %(_resource_)s, I will accept a "
 "neutrality pact."
-msgstr "%(_player_)s, ak mi pošleš %(_amount_)s %(_resource_)s, akceptujem neutrálny pakt."
+msgstr "%(_player_)s, ak mi pošleš %(_amount_)s %(_resource_)s, akceptujem pakt neutrality."
 
 #: simulation/ai/petra/chatHelper.js:110
 #, javascript-format
 msgid ""
 "%(_player_)s, I will not accept your neutrality request unless you tribute "
 "me %(_amount_)s %(_resource_)s soon."
-msgstr "%(_player_)s, neakceptujem tvoju žiadosť o neutrálnosť pokiaľ mi čoskoro nepošleš poplatok %(_amount_)s %(_resource_)s."
+msgstr "%(_player_)s, neakceptujem tvoju žiadosť o neutralitu pokiaľ mi čoskoro nepošleš poplatok %(_amount_)s %(_resource_)s."
 
 #: simulation/ai/petra/chatHelper.js:119
 #, javascript-format
 msgid ""
 "%(_player_)s, it would help both of our civilizations if we formed an "
 "alliance. If you become allies with me, I will respond in kind."
-msgstr "%(_player_)s, pomohlo by obom našim civilizáci´m ak by sme vytvorili alianciu. Ak sa staneš mojim spojencom, budem ja tvojim."
+msgstr "%(_player_)s, pomohlo by obom našim civilizáciám, ak by sme vytvorili alianciu. Ak sa staneš mojim spojencom, budem aj ja tvojim."
 
 #: simulation/ai/petra/chatHelper.js:122
 #, javascript-format
@@ -334,14 +339,14 @@ msgstr "%(_player_)s,  moja ponuka na spojenectvo vypršala."
 #, javascript-format
 msgid ""
 "%(_player_)s, I have rescinded my previous offer for an alliance between us."
-msgstr "%(_player_)s, zrušil som moju ponuku na spojenectvo medzi nami."
+msgstr "%(_player_)s, stiahol som moju ponuku na spojenectvo medzi nami."
 
 #: simulation/ai/petra/chatHelper.js:128
 #, javascript-format
 msgid ""
 "%(_player_)s, I would like to request a neutrality pact between our "
 "civilizations. If you become neutral with me, I will respond in kind."
-msgstr "%(_player_)s, rád by som nadviazal neutrálny pakt medzi našimi civilizáciami. Ak budeš ku mne neutrálny, ja k tebe tiež."
+msgstr "%(_player_)s, rád by som nadviazal neutrálny pakt medzi našimi civilizáciami. Ak budeš ku mne neutrálny, ja budem k tebe tiež."
 
 #: simulation/ai/petra/chatHelper.js:129
 #, javascript-format
@@ -353,14 +358,14 @@ msgstr "%(_player_)s, bolo by výhodné pre nás oboch, ak by sme rokovali o neu
 #: simulation/ai/petra/chatHelper.js:132
 #, javascript-format
 msgid "%(_player_)s, I have decided to revoke my offer for a neutrality pact."
-msgstr "%(_player_)s, rozhodol som sa zrušiť moju ponuku na neutrálny pakt."
+msgstr "%(_player_)s, rozhodol som sa stiahnuť moju ponuku na neutrálny pakt."
 
 #: simulation/ai/petra/chatHelper.js:133
 #, javascript-format
 msgid ""
 "%(_player_)s, as you have failed to respond to my request for peace between "
 "us, I have abrogated my offer."
-msgstr "%(_player_)s, keďže si neodpovedal na moju ponuku mieru, zrušil som ju."
+msgstr "%(_player_)s, keďže si neodpovedal na moju ponuku mieru, stiahol som ju."
 
 #: simulation/components/BuildRestrictions.js:87
 #, javascript-format
@@ -394,7 +399,7 @@ msgstr "vlastnom"
 #: simulation/components/BuildRestrictions.js:187
 msgctxt "Territory type"
 msgid "unconnected own"
-msgstr "nepripojenom spojeneckom"
+msgstr "nepripojenom vlastnom"
 
 #. Translation: territoryType being displayed in a translated sentence in the
 #. form: "House cannot be built in %(territoryType)s territory.".
@@ -431,12 +436,12 @@ msgid ""
 "%(validTerritories)s"
 msgstr "Budovu %(name)s nemožno postaviť na %(territoryType)s území. Platné územia: %(validTerritories)s"
 
-#: simulation/components/BuildRestrictions.js:253
+#: simulation/components/BuildRestrictions.js:228
 #, javascript-format
 msgid "%(name)s must be built on a valid shoreline"
 msgstr "Budovu %(name)s je nutné postaviť na platnom brehu"
 
-#: simulation/components/BuildRestrictions.js:281
+#: simulation/components/BuildRestrictions.js:256
 #, javascript-format
 msgid ""
 "%(name)s too close to a %(category)s, must be at least %(distance)s meter "
@@ -447,8 +452,9 @@ msgid_plural ""
 msgstr[0] "%(name)s je príliš blízko k %(category)s, musí byť aspoň %(distance)s meter ďaleko"
 msgstr[1] "%(name)s je príliš blízko k %(category)s, musí byť aspoň %(distance)s metre ďaleko"
 msgstr[2] "%(name)s je príliš blízko k %(category)s, musí byť aspoň %(distance)s metrov ďaleko"
+msgstr[3] "%(name)s je príliš blízko k %(category)s, musí byť aspoň %(distance)s metrov ďaleko"
 
-#: simulation/components/BuildRestrictions.js:302
+#: simulation/components/BuildRestrictions.js:277
 #, javascript-format
 msgid ""
 "%(name)s too far from a %(category)s, must be within %(distance)s meter"
@@ -457,31 +463,32 @@ msgid_plural ""
 msgstr[0] "%(name)s je príliš ďaleko od %(category)s, musí byť vo vzdialenosti najviac %(distance)s meter"
 msgstr[1] "%(name)s je príliš ďaleko od %(category)s, musí byť vo vzdialenosti najviac %(distance)s metre"
 msgstr[2] "%(name)s je príliš ďaleko od %(category)s, musí byť vo vzdialenosti najviac %(distance)s metrov"
+msgstr[3] "%(name)s je príliš ďaleko od %(category)s, musí byť vo vzdialenosti najviac %(distance)s metrov"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:342
+#: simulation/components/BuildRestrictions.js:317
 msgctxt "Territory type list"
 msgid "own"
 msgstr "vlastné"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:344
+#: simulation/components/BuildRestrictions.js:319
 msgctxt "Territory type list"
 msgid "ally"
 msgstr "spojenecké"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:346
+#: simulation/components/BuildRestrictions.js:321
 msgctxt "Territory type list"
 msgid "neutral"
 msgstr "neutrálne"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:348
+#: simulation/components/BuildRestrictions.js:323
 msgctxt "Territory type list"
 msgid "enemy"
 msgstr "nepriateľské"
@@ -495,53 +502,54 @@ msgstr "Môžeš zaútočiť o %(time)s"
 msgid "You can attack now!"
 msgstr "Teraz môžeš zaútočiť!"
 
-#: simulation/components/EndGameManager.js:173
+#: simulation/components/EndGameManager.js:171
 #, javascript-format
 msgid "%(lastPlayer)s has won (last player alive)."
 msgid_plural "%(players)s and %(lastPlayer)s have won (last players alive)."
-msgstr[0] ""
-msgstr[1] ""
-msgstr[2] ""
+msgstr[0] "%(lastPlayer)s vyhral (posledný preživší hráč)."
+msgstr[1] "%(players)s a %(lastPlayer)s vyhrali (poslední preživší hráči)."
+msgstr[2] "%(players)s a %(lastPlayer)s vyhrali (poslední preživší hráči)."
+msgstr[3] "%(players)s a %(lastPlayer)s vyhrali (poslední preživší hráči)."
 
-#: simulation/components/EndGameManager.js:181
+#: simulation/components/EndGameManager.js:179
 msgid "Last remaining player wins."
 msgstr "Posledný zostávajúci hráč vyhráva."
 
-#: simulation/components/EntityLimits.js:166
+#: simulation/components/EntityLimits.js:165
 #, javascript-format
 msgid "%(category)s build limit of %(limit)s reached"
 msgstr "%(category)s stavebný limit %(limit)s bol dosiahnutý"
 
-#: simulation/components/EntityLimits.js:168
+#: simulation/components/EntityLimits.js:167
 #, javascript-format
 msgid "%(category)s training limit of %(limit)s reached"
 msgstr "%(category)s limit tréningu %(limit)s bol dosiahnutý"
 
-#: simulation/components/EntityLimits.js:172
+#: simulation/components/EntityLimits.js:171
 #, javascript-format
 msgid "%(category)s limit of %(limit)s reached"
 msgstr "%(category)s limit %(limit)s bol dosiahnutý"
 
-#: simulation/components/Player.js:304
+#: simulation/components/Player.js:352
 #, javascript-format
 msgid "Insufficient resources - %(resourceAmount1)s %(resourceType1)s"
 msgstr "Chýbajúce suroviny - %(resourceAmount1)s %(resourceType1)s"
 
-#: simulation/components/Player.js:306
+#: simulation/components/Player.js:354
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
 "%(resourceAmount2)s %(resourceType2)s"
 msgstr "Chýbajúce suroviny - %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s"
 
-#: simulation/components/Player.js:308
+#: simulation/components/Player.js:356
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
 "%(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s"
 msgstr "Chýbajúce suroviny - %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s"
 
-#: simulation/components/Player.js:310
+#: simulation/components/Player.js:358
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
@@ -549,68 +557,68 @@ msgid ""
 "%(resourceType3)s, %(resourceAmount4)s %(resourceType4)s"
 msgstr "Chýbajúce suroviny - %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s, %(resourceAmount4)s %(resourceType4)s"
 
-#: simulation/components/ProductionQueue.js:401
+#: simulation/components/ProductionQueue.js:394
 msgid "The production queue is full."
 msgstr "Produkčný front je plný."
 
-#: simulation/components/ProductionQueue.js:783
+#: simulation/components/ProductionQueue.js:769
 msgid "Can't find free space to spawn trained units"
 msgstr "Nie je možné nájsť voľné miesto na uloženie vytrénovaných jednotiek"
 
 #: simulation/helpers/Cheat.js:53
 #, javascript-format
 msgid "%(player)s has been defeated (cheat)."
-msgstr ""
+msgstr "%(player)s prehral (cheat)."
 
 #: simulation/helpers/Cheat.js:62
 msgid "You need to select a building that trains units."
 msgstr "Musíš označiť budovu, ktorá bude trénovať jednotky."
 
-#: simulation/helpers/Commands.js:133
+#: simulation/helpers/Commands.js:124
 msgid "(Cheat - control all units)"
 msgstr "(Cheat - kontrola všetkých jednotiek)"
 
-#: simulation/helpers/Commands.js:148
+#: simulation/helpers/Commands.js:139
 msgid "(Cheat - reveal map)"
-msgstr ""
+msgstr "(Cheat - odhalenie mapy)"
 
-#: simulation/helpers/Commands.js:453
+#: simulation/helpers/Commands.js:466
 #, javascript-format
 msgid "%(player)s has resigned."
-msgstr ""
+msgstr "%(player)s sa vzdal."
 
-#: simulation/helpers/Commands.js:595
+#: simulation/helpers/Commands.js:608
 msgid "(Cheat - promoted units)"
 msgstr "(Cheat - kontrola povýšených jednotiek)"
 
-#: simulation/helpers/Commands.js:709
+#: simulation/helpers/Commands.js:722
 msgid ""
 "Cannot upgrade as distance requirements are not verified or terrain is "
 "obstructed."
-msgstr "Nemôžem povýšiť nakoľko požiadavky vzdialenosti nie sú overené alebo je terén zablokovaný."
+msgstr "Nemôžem pokračovať vo vylepšení, nakoľko požiadavky vzdialenosti nie sú overené alebo terén je zablokovaný."
 
-#: simulation/helpers/Commands.js:719
+#: simulation/helpers/Commands.js:732
 msgid "Cannot upgrade a garrisoned entity."
-msgstr "Nemôžem povýšiť posádku vnútri budovy alebo prostriedku."
+msgstr "Nemôžem vylepšiť posádku umiestnenú v nejakej entite."
 
-#: simulation/helpers/Commands.js:765
+#: simulation/helpers/Commands.js:775
 #, javascript-format
 msgid "Attack against %(_player_)s requested."
 msgstr "Žiada sa útok na %(_player_)s."
 
-#: simulation/helpers/Commands.js:801
+#: simulation/helpers/Commands.js:814
 msgid "There are no bribable units"
 msgstr "Nie sú tam žiadne podplatiteľné jednotky."
 
-#: simulation/helpers/Commands.js:847
+#: simulation/helpers/Commands.js:860
 msgid "Unable to ungarrison unit(s)"
 msgstr "Nieje možné odpojiť jednotku"
 
-#: simulation/helpers/Commands.js:861
+#: simulation/helpers/Commands.js:874
 msgid "Some unit(s) can't go back to work"
 msgstr "Niektoré jednotky sa nemôžu vrátiť do práce."
 
-#: simulation/helpers/Commands.js:1115
+#: simulation/helpers/Commands.js:1112
 msgid "The building's technology requirements are not met."
 msgstr "Technologické požiadavky pre budovu nie sú splnené."
 
@@ -702,31 +710,33 @@ msgstr "Zmocni sa všetkých relikvií rozmiestnených po mape a udrž ich po ur
 
 #: simulation/data/settings/victory_conditions/capture_the_relic.jsonData.Title
 msgid "Capture the Relic"
-msgstr ""
+msgstr "Zmocni sa reliktu"
 
 #: simulation/data/settings/victory_conditions/conquest.jsonData.Description
-msgid "Defeat all opponents to win."
-msgstr "Zvíťazí ten, kto porazí všetkých protivníkov."
+msgid ""
+"Defeat opponents by killing all their units and destroying all their "
+"structures."
+msgstr "Poraz oponentov zabitím všetkých ich jednotiek a zničeným budov. "
 
 #: simulation/data/settings/victory_conditions/conquest.jsonData.Title
 msgid "Conquest"
 msgstr "Dobytie"
 
 #: simulation/data/settings/victory_conditions/conquest_structures.jsonData.Description
-msgid "Destroy all enemy structures to win."
-msgstr "Zvíťazí ten, kto zničí všetky nepriateľské budovy."
+msgid "Defeat opponents by destroying all their structures."
+msgstr "Poraz oponentov zničením všetkých ich budov. "
 
 #: simulation/data/settings/victory_conditions/conquest_structures.jsonData.Title
 msgid "Conquest Structures"
-msgstr "Dobývacie budovy"
+msgstr "Dobytie budov"
 
 #: simulation/data/settings/victory_conditions/conquest_units.jsonData.Description
-msgid "Kill all enemy units to win."
-msgstr "Zvíťazí ten, kto zabije všetky nepriateľské jednotky."
+msgid "Defeat opponents by killing all their units."
+msgstr "Poraz oponentov zabitím všetkých ich jednotiek. "
 
 #: simulation/data/settings/victory_conditions/conquest_units.jsonData.Title
 msgid "Conquest Units"
-msgstr "Dobývacie jednotky"
+msgstr "Zničenie jednotiek"
 
 #: simulation/data/settings/victory_conditions/regicide.jsonData.Description
 msgid "Defeat opponents by killing their hero."
@@ -738,9 +748,11 @@ msgstr "Kráľovražda"
 
 #: simulation/data/settings/victory_conditions/wonder.jsonData.Description
 msgid ""
-"Be the first to build or capture a wonder and keep it for a certain time to "
-"win the game."
-msgstr "Vyhrá ten, kto prvý vybuduje div a udrží ho po určený čas."
+"Be the first to build or capture a Wonder and keep it for a certain time to "
+"win the game. The timer will be reset when the Wonder is destroyed or "
+"captured. If the allied victory mode is enabled, the timer will also be "
+"reset when the alliances of the owner change."
+msgstr "Ak chceš vyhrať, buď prvý, kto postaví alebo sa zmocní Divu sveta a obráň ho po istý čas. Časovač sa zresetuje, keď sa Div sveta zničí, alebo sa ho zmocní nepriateľská civilizácia, alebo ak je zapnutý mód spojeneckého víťazstva a zmenia sa aliancie vlastníka."
 
 #: simulation/data/settings/victory_conditions/wonder.jsonData.Title
 msgid "Wonder"
@@ -776,6 +788,48 @@ msgctxt "startingResources"
 msgid "Deathmatch"
 msgstr "Zápas na život a smrť"
 
+#: simulation/data/settings/trigger_difficulties.jsonData[0].Tooltip
+msgid "Choose this difficulty if you are discovering 0 A.D."
+msgstr "Vyber túto možnosť, ak práve objavuješ 0 A.D."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[0].Title
+msgid "Very Easy"
+msgstr "Veľmi ľahká"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[1].Tooltip
+msgid "Choose this difficulty if you do not like being knocked down."
+msgstr "Vyber túto možnosť, ak nemáš rád prehry."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[1].Title
+msgid "Easy"
+msgstr "Ľahká"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[2].Tooltip
+msgid ""
+"Choose this difficulty if you have already a good experience with 0 A.D."
+msgstr "Vyber túto možnosť, ak máš dostatočnú skúsenosť s 0 A.D."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[2].Title
+#: simulation/data/settings/map_sizes.jsonData[2].Name
+msgid "Medium"
+msgstr "Stredný"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[3].Tooltip
+msgid "Choose this difficulty if you want to be really challenged."
+msgstr "Vyber túto možnosť, ak chceš skutočnú výzvu."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[3].Title
+msgid "Hard"
+msgstr "Ťažká"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[4].Tooltip
+msgid "Choose this difficulty if you do not mind being swept out."
+msgstr "Vyber túto možnosť, ak ti neprekáža, že môžeš byť rozmetaný."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[4].Title
+msgid "Very Hard"
+msgstr "Veľmi ťažká"
+
 #: simulation/data/settings/map_sizes.jsonData[0].Name
 msgid "Tiny"
 msgstr "Najmenší"
@@ -792,17 +846,13 @@ msgstr "Malý"
 msgid ""
 "Small maps are suitable for 1v1 matches, as players can reach the enemy "
 "quickly while still having some room to expand."
-msgstr "Menšie mapy sú vhodné pre 1 proti 1 zápasy, keďže hráči môžu rýchlo dosiahnuť nepriateľské územie, kým majú stále dosť miesta na rozširovanie ríše."
-
-#: simulation/data/settings/map_sizes.jsonData[2].Name
-msgid "Medium"
-msgstr "Stredný"
+msgstr "Menšie mapy sú vhodné pre 1vs1 hry, keďže hráči môžu rýchlo dosiahnuť nepriateľské územie, stále majúc dosť miesta na expanziu ríše."
 
 #: simulation/data/settings/map_sizes.jsonData[2].Tooltip
 msgid ""
 "Medium-sized maps provide plenty of space for two players, but even eight "
 "players fit."
-msgstr "Stredne veľké mapy poskytujú dostatok miesta pre tvoch hráčov, ale dokonca sa hodia aj pre ôsmich."
+msgstr "Stredne veľké mapy poskytujú dostatok miesta pre dvoch hráčov, ale zmestia sa tu aj ôsmi."
 
 #: simulation/data/settings/map_sizes.jsonData[3].Name
 msgid "Normal"
@@ -812,7 +862,7 @@ msgstr "Normálny"
 msgid ""
 "This is the ideal mapsize for 4 to 8 players, because there is plenty of "
 "space to expand while the neighbors are quickly reachable."
-msgstr "Toto je ideálna veľkosť mapy pre 4 až 8 hráčov, pretože je tam dostatok miesta na rozširovanie územia, kým susedia sú rýchlo dosiahnuteľný."
+msgstr "Toto je ideálna veľkosť mapy pre 4 až 8 hráčov, pretože je tam dostatok miesta na rozširovanie územia, kým susedia sú ľahko dostupní."
 
 #: simulation/data/settings/map_sizes.jsonData[4].Name
 msgid "Large"
@@ -847,5 +897,5 @@ msgstr "Bot Petra"
 msgid ""
 "Petra is the default 0 A.D. AI bot. Please report issues to Wildfire Games (see the link in the main menu).\n"
 "\n"
-"The AI has a bonus/penalty on resource stockpiling (either gathering rate or trade gain) varying from -50% for Sandbox to +60% for Very Hard (Medium 0%). In addition, the Sandbox level does not expand nor attack."
-msgstr "Petra je základný 0 A.D. AI bot. Poprosím o nahlásenie problémov do Wildfire Games (Pozri link v hlavnom menu).\n\nUmelá inteligencia má bonus/znevýhodnenie na hromadení zdrojov (buď zber alebo obchodný zisk) od  -50% pre obtiažnosť Pieskovisko po +60% pre Veľmi ťažkú obtiažnosť (Stredná obtiažnosť má 0%). Navyše obtiažnosť Pieskovisko neexpanduje a neútočí."
+"The AI's resource gathering rate and trade gain depend on the difficulty level (Sandbox −58%, Very Easy −44%, Easy −25%, Medium ±0%, Hard +25%, Very Hard +56%). The easiest levels also have a slower research, training, and building rate. In addition, the Sandbox level does not expand nor attack."
+msgstr "Petra je predvolené AI pre 0 A.D. Poprosím o nahlásenie problémov do Wildfire Games (pozri odkaz v hlavnom menu). \n\nRýchlosť akým AI zbiera zdroje a výnos z obchodu závisí od úrovne obtiažnosti (Pieskovisko -58%, Veľmi ľahká -44, Ľahká -25, Priemerná 0, Ťažká 25, Veľmi ťažká 56). Najľahšie levely majú pomalší výskum, tréning a rýchlosť stavania budov. Navyše, Pieskovisko nerozširuje teritórium a neútočí."

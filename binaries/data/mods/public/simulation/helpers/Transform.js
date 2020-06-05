@@ -53,6 +53,11 @@ function ChangeEntityTemplate(oldEnt, newTemplate)
 		cmpNewHealth.SetHitpoints(cmpNewHealth.GetMaxHitpoints() * healthLevel);
 	}
 
+	let cmpBuilderList = QueryBuilderListInterface(oldEnt);
+	let cmpNewBuilderList = QueryBuilderListInterface(newEnt);
+	if (cmpBuilderList && cmpNewBuilderList)
+		cmpNewBuilderList.AddBuilders(cmpBuilderList.GetBuilders());
+
 	var cmpUnitAI = Engine.QueryInterface(oldEnt, IID_UnitAI);
 	var cmpNewUnitAI = Engine.QueryInterface(newEnt, IID_UnitAI);
 	if (cmpUnitAI && cmpNewUnitAI)
@@ -73,7 +78,24 @@ function ChangeEntityTemplate(oldEnt, newTemplate)
 				cmpNewUnitAI.SetGuardOf(guarded);
 			}
 		}
+		if (cmpUnitAI.IsGarrisoned())
+			cmpNewUnitAI.SetGarrisoned();
 	}
+
+	let cmpPromotion = Engine.QueryInterface(oldEnt, IID_Promotion);
+	let cmpNewPromotion = Engine.QueryInterface(newEnt, IID_Promotion);
+	if (cmpPromotion && cmpNewPromotion)
+		cmpNewPromotion.IncreaseXp(cmpPromotion.GetCurrentXp());
+
+	let cmpResGatherer = Engine.QueryInterface(oldEnt, IID_ResourceGatherer);
+	let cmpNewResGatherer = Engine.QueryInterface(newEnt, IID_ResourceGatherer);
+	if (cmpResGatherer && cmpNewResGatherer)
+	{
+		let carriedResources = cmpResGatherer.GetCarryingStatus();
+		cmpNewResGatherer.GiveResources(carriedResources);
+		cmpNewResGatherer.SetLastCarriedType(cmpResGatherer.GetLastCarriedType());
+	}
+
 
 	// Maintain the list of guards
 	let cmpGuard = Engine.QueryInterface(oldEnt, IID_Guard);
@@ -90,6 +112,20 @@ function ChangeEntityTemplate(oldEnt, newTemplate)
 				if (cmpEntUnitAI)
 					cmpEntUnitAI.SetGuardOf(newEnt);
 			}
+		}
+	}
+
+	let cmpStatusEffectsReceiver = Engine.QueryInterface(oldEnt, IID_StatusEffectsReceiver);
+	let cmpNewStatusEffectsReceiver = Engine.QueryInterface(newEnt, IID_StatusEffectsReceiver);
+	if (cmpStatusEffectsReceiver && cmpNewStatusEffectsReceiver)
+	{
+		let activeStatus = cmpStatusEffectsReceiver.GetActiveStatuses();
+		for (let status in activeStatus)
+		{
+			let newStatus = activeStatus[status];
+			if (newStatus.Duration)
+				newStatus.Duration -= newStatus._timeElapsed;
+			cmpNewStatusEffectsReceiver.ApplyStatus({ [status]: newStatus }, newStatus.source.entity, newStatus.source.owner);
 		}
 	}
 
@@ -190,8 +226,11 @@ function ObstructionsBlockingTemplateChange(ent, templateArg)
 			var cmpNewObstruction = Engine.QueryInterface(previewEntity, IID_Obstruction);
 			if (cmpNewObstruction && cmpNewObstruction.GetBlockMovementFlag())
 			{
-				// Check for units
-				var collisions = cmpNewObstruction.GetUnitCollisions();
+				// Remove all obstructions at the new entity, especially animal corpses
+				for (let ent of cmpNewObstruction.GetEntitiesDeletedUponConstruction())
+					Engine.DestroyEntity(ent);
+
+				let collisions = cmpNewObstruction.GetEntitiesBlockingConstruction();
 				if (collisions.length)
 					return DeleteEntityAndReturn(previewEntity, cmpPosition, pos, angle, cmpNewPosition, true);
 			}
@@ -218,16 +257,20 @@ function DeleteEntityAndReturn(ent, cmpPosition, position, angle, cmpNewPosition
 function TransferGarrisonedUnits(oldEnt, newEnt)
 {
 	// Transfer garrisoned units if possible, or unload them
-	var cmpOldGarrison = Engine.QueryInterface(oldEnt, IID_GarrisonHolder);
-	var cmpNewGarrison = Engine.QueryInterface(newEnt, IID_GarrisonHolder);
-	if (!cmpNewGarrison || !cmpOldGarrison || !cmpOldGarrison.GetEntities().length)
-		return;	// nothing to do as the code will by default unload all.
+	let cmpOldGarrison = Engine.QueryInterface(oldEnt, IID_GarrisonHolder);
+	if (!cmpOldGarrison || !cmpOldGarrison.GetEntities().length)
+		return;
 
-	var garrisonedEntities = cmpOldGarrison.GetEntities().slice();
-	for (let ent of garrisonedEntities)
+	let cmpNewGarrison = Engine.QueryInterface(newEnt, IID_GarrisonHolder);
+	let entities = cmpOldGarrison.GetEntities().slice();
+	for (let ent of entities)
 	{
-		let cmpUnitAI = Engine.QueryInterface(ent, IID_UnitAI);
 		cmpOldGarrison.Eject(ent);
+		if (!cmpNewGarrison)
+			continue;
+		let cmpUnitAI = Engine.QueryInterface(ent, IID_UnitAI);
+		if (!cmpUnitAI)
+			continue;
 		cmpUnitAI.Autogarrison(newEnt);
 		cmpNewGarrison.Garrison(ent);
 	}

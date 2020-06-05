@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -38,6 +38,12 @@ public:
 		FOUNDATION_CHECK_FAIL_TERRAIN_CLASS
 	};
 
+	enum EObstructionType {
+		STATIC,
+		UNIT,
+		CLUSTER
+	};
+
 	virtual ICmpObstructionManager::tag_t GetObstruction() const = 0;
 
 	/**
@@ -54,11 +60,20 @@ public:
 
 	virtual entity_pos_t GetSize() const = 0;
 
+	virtual CFixedVector2D GetStaticSize() const = 0;
+
 	virtual entity_pos_t GetUnitRadius() const = 0;
+
+	virtual EObstructionType GetObstructionType() const = 0;
 
 	virtual void SetUnitClearance(const entity_pos_t& clearance) = 0;
 
 	virtual bool IsControlPersistent() const = 0;
+
+	/**
+	 * Test whether the front of the obstruction square is in the water and the back is on the shore.
+	 */
+	virtual bool CheckShorePlacement() const = 0;
 
 	/**
 	 * Test whether this entity is colliding with any obstruction that are set to
@@ -84,10 +99,28 @@ public:
 	virtual bool CheckDuplicateFoundation() const = 0;
 
 	/**
-	 * Returns a list of units that are colliding with this entity,
-	 * @return vector of blocking units
+	 * Returns a list of entities that have an obstruction matching the given flag and intersect the current obstruction.
+	 * @return vector of blocking entities
 	 */
-	virtual std::vector<entity_id_t> GetUnitCollisions() const = 0;
+	virtual std::vector<entity_id_t> GetEntitiesByFlags(ICmpObstructionManager::flags_t flags) const = 0;
+
+	/**
+	 * Returns a list of entities that are blocking movement.
+	 * @return vector of blocking entities
+	 */
+	virtual std::vector<entity_id_t> GetEntitiesBlockingMovement() const = 0;
+
+	/**
+	 * Returns a list of entities that are blocking construction of a foundation.
+	 * @return vector of blocking entities
+	 */
+	virtual std::vector<entity_id_t> GetEntitiesBlockingConstruction() const = 0;
+
+	/**
+	 * Returns a list of entities that shall be deleted when a construction on this obstruction starts,
+	 * for example sheep carcasses.
+	 */
+	virtual std::vector<entity_id_t> GetEntitiesDeletedUponConstruction() const = 0;
 
 	/**
 	 * Detects collisions between foundation-blocking entities and

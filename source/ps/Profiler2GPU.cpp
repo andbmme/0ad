@@ -1,4 +1,4 @@
-/* Copyright (C) 2014 Wildfire Games.
+/* Copyright (C) 2018 Wildfire Games.
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -37,7 +37,7 @@ class CProfiler2GPU_base
 
 protected:
 	CProfiler2GPU_base(CProfiler2& profiler, const char* name) :
-		m_Profiler(profiler), m_Storage(profiler, name)
+		m_Profiler(profiler), m_Storage(*new CProfiler2::ThreadStorage(profiler, name))
 	{
 		m_Storage.RecordSyncMarker(m_Profiler.GetTime());
 		m_Storage.Record(CProfiler2::ITEM_EVENT, m_Profiler.GetTime(), "thread start");
@@ -51,7 +51,7 @@ protected:
 	}
 
 	CProfiler2& m_Profiler;
-	CProfiler2::ThreadStorage m_Storage;
+	CProfiler2::ThreadStorage& m_Storage;
 };
 
 //////////////////////////////////////////////////////////////////////////
@@ -549,10 +549,10 @@ public:
 
 		for (size_t i = 0; i < m_QueryTypes.size(); ++i)
 		{
-			GLuint id = NewQuery(i);
-			pglBeginPerfQueryINTEL(id);
+			GLuint local_id = NewQuery(i);
+			pglBeginPerfQueryINTEL(local_id);
 			ogl_WarnIfError();
-			event.queries.push_back(id);
+			event.queries.push_back(local_id);
 		}
 
 		frame.activeRegions.push_back(frame.events.size());

@@ -18,14 +18,15 @@ function shuffleArray(source)
 
 /**
  * Generates each permutation of the given array and runs the callback function on it.
+ * Uses the given clone function on each item of the array.
  * Creating arrays with all permutations of the given array has a bad memory footprint.
  * Algorithm by B. R. Heap. Changes the input array.
  */
-function heapsPermute(array, callback)
+function heapsPermute(array, cloneFunc, callback)
 {
 	let c = new Array(array.length).fill(0);
 
-	callback(clone(array));
+	callback(array.map(cloneFunc));
 
 	let i = 0;
 	while (i < array.length)
@@ -33,11 +34,11 @@ function heapsPermute(array, callback)
 		if (c[i] < i)
 		{
 			let swapIndex = i % 2 ? c[i] : 0;
-			let swapValue = clone(array[swapIndex]);
+			let swapValue = cloneFunc(array[swapIndex]);
 			array[swapIndex] = array[i];
 			array[i] = swapValue;
 
-			callback(clone(array));
+			callback(array.map(cloneFunc));
 
 			++c[i];
 			i = 0;
@@ -57,5 +58,24 @@ function heapsPermute(array, callback)
  */
 function basename(path)
 {
-	return path.slice(path.lastIndexOf("/") + 1);
+	return path.split("/").pop();
 }
+
+/**
+ * Returns the directories of a given path.
+ *
+ * ie. a/b/c/file.ext -> a/b/c
+ */
+function dirname(path)
+{
+	return path.split("/").slice(0, -1).join("/");
+}
+
+/**
+ * Returns names of files found in the given directory, stripping the directory path and file extension.
+ */
+function listFiles(path, extension, recurse)
+{
+	return Engine.ListDirectoryFiles(path, "*" + extension, recurse).map(filename => filename.slice(path.length, -extension.length));
+}
+

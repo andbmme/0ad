@@ -1,17 +1,17 @@
 # Translation template for 0 A.D. — Empires Ascendant.
-# Copyright © 2014 Wildfire Games
+# Copyright (C) 2019 Wildfire Games
 # This file is distributed under the same license as the 0 A.D. — Empires Ascendant project.
 # 
 # Translators:
-# GunChleoc, 2015-2017
+# GunChleoc, 2015-2018
 # GunChleoc, 2014-2015
 # GunChleoc, 2014-2016
 msgid ""
 msgstr ""
 "Project-Id-Version: 0 A.D.\n"
-"POT-Creation-Date: 2017-09-11 09:05+0200\n"
-"PO-Revision-Date: 2017-09-11 15:01+0000\n"
-"Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
+"POT-Creation-Date: 2019-05-24 09:43+0200\n"
+"PO-Revision-Date: 2020-05-17 08:08+0000\n"
+"Last-Translator: GunChleoc\n"
 "Language-Team: Gaelic, Scottish (http://www.transifex.com/wildfire-games/0ad/language/gd/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -236,7 +236,7 @@ msgstr "%(_player_)s, feumaidh tu cìs dhe %(_amount_)s %(_resource_)s a thoirt 
 #, javascript-format
 msgid ""
 "Unless you send me %(_amount_)s %(_resource_)s, an alliance won’t be formed,"
-" %(_player_)s,"
+" %(_player_)s."
 msgstr "%(_player_)s, cha bhi caidreachas eadarainn mura tabhann thu cìs dhe %(_amount_)s %(_resource_)s dhomh."
 
 #: simulation/ai/petra/chatHelper.js:88
@@ -425,12 +425,12 @@ msgid ""
 "%(validTerritories)s"
 msgstr "Cha ghabh %(name)s a thogail air ranntair %(territoryType)s. Ranntairean dligheach: %(validTerritories)s"
 
-#: simulation/components/BuildRestrictions.js:253
+#: simulation/components/BuildRestrictions.js:228
 #, javascript-format
 msgid "%(name)s must be built on a valid shoreline"
 msgstr "Feumaidh tu %(name)s a thogail air oirthir dligheach"
 
-#: simulation/components/BuildRestrictions.js:281
+#: simulation/components/BuildRestrictions.js:256
 #, javascript-format
 msgid ""
 "%(name)s too close to a %(category)s, must be at least %(distance)s meter "
@@ -443,7 +443,7 @@ msgstr[1] "Tha %(name)s ro fhaisg air %(category)s, feumaidh e bhith %(distance)
 msgstr[2] "Tha %(name)s ro fhaisg air %(category)s, feumaidh e bhith %(distance)s meatairean air falbh air a’ char as lugha"
 msgstr[3] "Tha %(name)s ro fhaisg air %(category)s, feumaidh e bhith %(distance)s meatair air falbh air a’ char as lugha"
 
-#: simulation/components/BuildRestrictions.js:302
+#: simulation/components/BuildRestrictions.js:277
 #, javascript-format
 msgid ""
 "%(name)s too far from a %(category)s, must be within %(distance)s meter"
@@ -456,28 +456,28 @@ msgstr[3] "Tha %(name)s ro fhad air falbh o %(category)s, feumaidh e bhith am br
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:342
+#: simulation/components/BuildRestrictions.js:317
 msgctxt "Territory type list"
 msgid "own"
 msgstr "agad fhèin"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:344
+#: simulation/components/BuildRestrictions.js:319
 msgctxt "Territory type list"
 msgid "ally"
 msgstr "aig caidreabhach"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:346
+#: simulation/components/BuildRestrictions.js:321
 msgctxt "Territory type list"
 msgid "neutral"
 msgstr "neo-phàirteach"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:348
+#: simulation/components/BuildRestrictions.js:323
 msgctxt "Territory type list"
 msgid "enemy"
 msgstr "aig an nàmhaid"
@@ -491,7 +491,7 @@ msgstr "’S urrainn dhut ionnsaigh a thoirt an ceann %(time)s"
 msgid "You can attack now!"
 msgstr "’S urrainn dhut ionnsaigh a thoirt a-nis!"
 
-#: simulation/components/EndGameManager.js:173
+#: simulation/components/EndGameManager.js:171
 #, javascript-format
 msgid "%(lastPlayer)s has won (last player alive)."
 msgid_plural "%(players)s and %(lastPlayer)s have won (last players alive)."
@@ -500,45 +500,45 @@ msgstr[1] "Bhuannaich %(players)s ’s %(lastPlayer)s (na cluicheadairean mu dhe
 msgstr[2] "Bhuannaich %(players)s ’s %(lastPlayer)s (na cluicheadairean mu dheireadh ’s iad fhathast beò)."
 msgstr[3] "Bhuannaich %(players)s ’s %(lastPlayer)s (na cluicheadairean mu dheireadh ’s iad fhathast beò)."
 
-#: simulation/components/EndGameManager.js:181
+#: simulation/components/EndGameManager.js:179
 msgid "Last remaining player wins."
 msgstr "Buannaichidh an cluicheadair a sheasas thar càich."
 
-#: simulation/components/EntityLimits.js:166
+#: simulation/components/EntityLimits.js:165
 #, javascript-format
 msgid "%(category)s build limit of %(limit)s reached"
 msgstr "Chan fhaod thu %(category)s a thogail on a tha %(limit)s dhiubh agad mar-thà"
 
-#: simulation/components/EntityLimits.js:168
+#: simulation/components/EntityLimits.js:167
 #, javascript-format
 msgid "%(category)s training limit of %(limit)s reached"
-msgstr "Chan fhaod thu %(category)s a thrèanadh on a tha %(limit)s dhiubh agad mar-thà"
+msgstr "Chan fhaod thu %(category)s oideachadh on a tha %(limit)s dhiubh agad mar-thà"
 
-#: simulation/components/EntityLimits.js:172
+#: simulation/components/EntityLimits.js:171
 #, javascript-format
 msgid "%(category)s limit of %(limit)s reached"
 msgstr "Chan fhaod thu %(category)s a chur ris on a tha %(limit)s dhiubh agad mar-thà"
 
-#: simulation/components/Player.js:304
+#: simulation/components/Player.js:352
 #, javascript-format
 msgid "Insufficient resources - %(resourceAmount1)s %(resourceType1)s"
 msgstr "Tha stòras a dhìth – %(resourceAmount1)s %(resourceType1)s"
 
-#: simulation/components/Player.js:306
+#: simulation/components/Player.js:354
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
 "%(resourceAmount2)s %(resourceType2)s"
 msgstr "Tha stòras a dhìth – %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s"
 
-#: simulation/components/Player.js:308
+#: simulation/components/Player.js:356
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
 "%(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s"
 msgstr "Tha stòras a dhìth – %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s"
 
-#: simulation/components/Player.js:310
+#: simulation/components/Player.js:358
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
@@ -546,13 +546,13 @@ msgid ""
 "%(resourceType3)s, %(resourceAmount4)s %(resourceType4)s"
 msgstr "Tha stòras a dhìth – %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s, %(resourceAmount4)s %(resourceType4)s"
 
-#: simulation/components/ProductionQueue.js:401
+#: simulation/components/ProductionQueue.js:394
 msgid "The production queue is full."
 msgstr "Tha an ciutha làn."
 
-#: simulation/components/ProductionQueue.js:783
+#: simulation/components/ProductionQueue.js:769
 msgid "Can't find free space to spawn trained units"
-msgstr "Cha do lorg sinn rum saor gus na h-aonadan air an trèanadh a shìoladh"
+msgstr "Cha do lorg sinn rum saor gus na h-aonadan air an oideachadh a shìoladh"
 
 #: simulation/helpers/Cheat.js:53
 #, javascript-format
@@ -561,53 +561,53 @@ msgstr "Chaidh ruaig a chur air %(player)s (cealgaireachd)."
 
 #: simulation/helpers/Cheat.js:62
 msgid "You need to select a building that trains units."
-msgstr "Feumaidh tu togalach a thaghadh a thrèanaicheas aonadan."
+msgstr "Feumaidh tu togalach a thaghadh a dh’oidicheas aonadan."
 
-#: simulation/helpers/Commands.js:133
+#: simulation/helpers/Commands.js:124
 msgid "(Cheat - control all units)"
 msgstr "(Cealgaireachd – stiùirich a h‑uile aonad)"
 
-#: simulation/helpers/Commands.js:148
+#: simulation/helpers/Commands.js:139
 msgid "(Cheat - reveal map)"
 msgstr "(Gealgaireachd – nochd am mapa)"
 
-#: simulation/helpers/Commands.js:453
+#: simulation/helpers/Commands.js:466
 #, javascript-format
 msgid "%(player)s has resigned."
 msgstr "Ghèill %(player)s."
 
-#: simulation/helpers/Commands.js:595
+#: simulation/helpers/Commands.js:608
 msgid "(Cheat - promoted units)"
 msgstr "(Cealgaireachd – aonad air an àrdachadh)"
 
-#: simulation/helpers/Commands.js:709
+#: simulation/helpers/Commands.js:722
 msgid ""
 "Cannot upgrade as distance requirements are not verified or terrain is "
 "obstructed."
 msgstr "Cha ghabh àrdachadh o nach deach riatanasan an astair a dhearbadh no air sgàth ’s gu bheil bacadh air an tìr."
 
-#: simulation/helpers/Commands.js:719
+#: simulation/helpers/Commands.js:732
 msgid "Cannot upgrade a garrisoned entity."
 msgstr "Tha aonad ’na ghearastan ann nach gabh àrdachadh."
 
-#: simulation/helpers/Commands.js:765
+#: simulation/helpers/Commands.js:775
 #, javascript-format
 msgid "Attack against %(_player_)s requested."
 msgstr "Chaidh ionnsaigh an aghaidh %(_player_)s iarraidh."
 
-#: simulation/helpers/Commands.js:801
+#: simulation/helpers/Commands.js:814
 msgid "There are no bribable units"
 msgstr "Chan eil aonad a ghabhas ceannach ann"
 
-#: simulation/helpers/Commands.js:847
+#: simulation/helpers/Commands.js:860
 msgid "Unable to ungarrison unit(s)"
 msgstr "Chan urrainn dhan aonad/dha na h-aonadan an gearastan falbh"
 
-#: simulation/helpers/Commands.js:861
+#: simulation/helpers/Commands.js:874
 msgid "Some unit(s) can't go back to work"
 msgstr "Chan urrainn dhan a h-uile aonad tilleadh dhan obair"
 
-#: simulation/helpers/Commands.js:1115
+#: simulation/helpers/Commands.js:1112
 msgid "The building's technology requirements are not met."
 msgstr "Cha deach na riatanasan teicneòlais airson an togalaich a choileanadh."
 
@@ -702,24 +702,26 @@ msgid "Capture the Relic"
 msgstr "Glac na taisean"
 
 #: simulation/data/settings/victory_conditions/conquest.jsonData.Description
-msgid "Defeat all opponents to win."
-msgstr "Thoir buaidh air gach nàmhaid airson buannachd."
+msgid ""
+"Defeat opponents by killing all their units and destroying all their "
+"structures."
+msgstr "Marbh aonadan is mill togalaichean uile nan nàmhad gus ruaig a chur orra."
 
 #: simulation/data/settings/victory_conditions/conquest.jsonData.Title
 msgid "Conquest"
 msgstr "Ceannsachadh"
 
 #: simulation/data/settings/victory_conditions/conquest_structures.jsonData.Description
-msgid "Destroy all enemy structures to win."
-msgstr "Mill gach togalach nan nàimhdean airson buannachd."
+msgid "Defeat opponents by destroying all their structures."
+msgstr "Mill togalaichean uile nan nàmhad gus ruaig a chur orra."
 
 #: simulation/data/settings/victory_conditions/conquest_structures.jsonData.Title
 msgid "Conquest Structures"
 msgstr "Ceannsaich togalaichean"
 
 #: simulation/data/settings/victory_conditions/conquest_units.jsonData.Description
-msgid "Kill all enemy units to win."
-msgstr "Marbh gach aonad nan nàimhdean airson buannachd."
+msgid "Defeat opponents by killing all their units."
+msgstr "Marbh aonadan uile nan nàmhad gus ruaig a chur orra."
 
 #: simulation/data/settings/victory_conditions/conquest_units.jsonData.Title
 msgid "Conquest Units"
@@ -735,9 +737,11 @@ msgstr "Rìgh-mhort"
 
 #: simulation/data/settings/victory_conditions/wonder.jsonData.Description
 msgid ""
-"Be the first to build or capture a wonder and keep it for a certain time to "
-"win the game."
-msgstr "Tog no glac mìorbhail an toiseach air càch agus cum e fad ùine shònraichte gus an geama a bhuannachd."
+"Be the first to build or capture a Wonder and keep it for a certain time to "
+"win the game. The timer will be reset when the Wonder is destroyed or "
+"captured. If the allied victory mode is enabled, the timer will also be "
+"reset when the alliances of the owner change."
+msgstr "Tog no glac mìorbhail air thoiseach càich agus cum e fad ùine shònraichte gus an geama a bhuannachd. Thèid an tìmear ath-shuidheachadh nuair a thèid am mìorbhail a mhilleadh no a ghlacadh. Ma chaidh buaidh caidreachais a thaghadh, thèid an tìmear ath-shuidheachadh cuideachd nuair a dh’atharraicheas caidreachas an t-seilbheadair."
 
 #: simulation/data/settings/victory_conditions/wonder.jsonData.Title
 msgid "Wonder"
@@ -773,6 +777,48 @@ msgctxt "startingResources"
 msgid "Deathmatch"
 msgstr "Gus an dig am bàs"
 
+#: simulation/data/settings/trigger_difficulties.jsonData[0].Tooltip
+msgid "Choose this difficulty if you are discovering 0 A.D."
+msgstr "Tagh an duilgheas seo ma tha 0 A.D ùr dhut."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[0].Title
+msgid "Very Easy"
+msgstr "Glè fhurasta"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[1].Tooltip
+msgid "Choose this difficulty if you do not like being knocked down."
+msgstr "Tagh an duilgheas seo mura toigh leat mòran strì."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[1].Title
+msgid "Easy"
+msgstr "Furasta"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[2].Tooltip
+msgid ""
+"Choose this difficulty if you have already a good experience with 0 A.D."
+msgstr "Tagh an duilgheadas seo ma tha thu eòlach air 0 A.D."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[2].Title
+#: simulation/data/settings/map_sizes.jsonData[2].Name
+msgid "Medium"
+msgstr "Meadhanach"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[3].Tooltip
+msgid "Choose this difficulty if you want to be really challenged."
+msgstr "Tagh an duilgheas seo ma tha thu a’ sireadh dùbhlan."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[3].Title
+msgid "Hard"
+msgstr "Doirbh"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[4].Tooltip
+msgid "Choose this difficulty if you do not mind being swept out."
+msgstr "Tagh an duilgheas seo ma tha thu coma gun dèid cur às dhut."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[4].Title
+msgid "Very Hard"
+msgstr "Dùbhlanach"
+
 #: simulation/data/settings/map_sizes.jsonData[0].Name
 msgid "Tiny"
 msgstr "Beag bìodach"
@@ -791,10 +837,6 @@ msgid ""
 "quickly while still having some room to expand."
 msgstr "Tha mapaichean beaga iomchaidh dha dhithis on a ruigeas na cluicheadairean an nàmhaid gu luath fhad ’s a bhios beagan ruim aca fhathast airson leudachadh an ranntair."
 
-#: simulation/data/settings/map_sizes.jsonData[2].Name
-msgid "Medium"
-msgstr "Meadhanach"
-
 #: simulation/data/settings/map_sizes.jsonData[2].Tooltip
 msgid ""
 "Medium-sized maps provide plenty of space for two players, but even eight "
@@ -809,7 +851,7 @@ msgstr "Àbhaisteach"
 msgid ""
 "This is the ideal mapsize for 4 to 8 players, because there is plenty of "
 "space to expand while the neighbors are quickly reachable."
-msgstr "Seo am meud as fhearr airson 4 gu 8 chluicheadair on a tha pailteas ruim ann gus an ranntair leudachadh fhad ’s ghabhas na nabaidhean ruigsinn gu luath."
+msgstr "Seo am meud as fheàrr airson 4 gu 8 chluicheadair on a tha pailteas ruim ann gus an ranntair leudachadh fhad ’s ghabhas na nàbaidhean ruigsinn gu luath."
 
 #: simulation/data/settings/map_sizes.jsonData[4].Name
 msgid "Large"
@@ -844,5 +886,5 @@ msgstr "Bot Peadra"
 msgid ""
 "Petra is the default 0 A.D. AI bot. Please report issues to Wildfire Games (see the link in the main menu).\n"
 "\n"
-"The AI has a bonus/penalty on resource stockpiling (either gathering rate or trade gain) varying from -50% for Sandbox to +60% for Very Hard (Medium 0%). In addition, the Sandbox level does not expand nor attack."
-msgstr "’S e am bot tùsail aig 0 A.D. a th’ ann am Peadra. An aithris thu duilgheadas sam bith gu Wildfire Games (faic an ceangal air a’ phrìomh chlàr-taice)?\n\nTha sgeama buannachd ’s peanais aig an IF airson glèidheadh stòrasan (air reat a’ chruinneachaidh no air a’ mhalart) eadar -50% aig a’ Bhogsa-ghainmhich gu +60% airson Dùbhlanach (Meadhanach = 0%). A bharrachd air sin, cha dèan leibheil a’ Bhogsa-ghainmhich leudachadh ’s cha doir e ionnsaigh."
+"The AI's resource gathering rate and trade gain depend on the difficulty level (Sandbox −58%, Very Easy −44%, Easy −25%, Medium ±0%, Hard +25%, Very Hard +56%). The easiest levels also have a slower research, training, and building rate. In addition, the Sandbox level does not expand nor attack."
+msgstr "’S e am bot tùsail aig 0 A.D. a th’ ann am Peadra. An aithris thu duilgheadas sam bith gu Wildfire Games (faic an ceangal air a’ phrìomh chlàr-taice)?\n\nTha buannachd a’ chruinneachaidh ’s air a’ mhalart an IF a-rèir leibheil an duilgheadais (seo −58% air leibheil a’ bhogsa-gainmhich, −44% air leibheil glè fhurasta, −25% air leibheil fhurasta, ±0% air leibheil mheadhanach, +25% air leibheil dhoirbh, +56% air leibheil dhùbhlanach). Tha an rannsachadh, an t-oideachadh ’s an togail nas maille air na leibheilean as fhasa cuideachd. A bharrachd air sin, cha dèan leibheil a’ bhogsa-ghainmhich leudachadh ’s cha doir e ionnsaigh."

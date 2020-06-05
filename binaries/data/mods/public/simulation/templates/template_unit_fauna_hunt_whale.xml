@@ -2,15 +2,10 @@
 <Entity parent="template_unit_fauna">
   <Health>
     <Max>200</Max>
-    <DeathType>remain</DeathType>
     <Unhealable>true</Unhealable>
   </Health>
   <Identity>
-    <Classes datatype="tokens">SeaCreature</Classes>
-    <Civ>gaia</Civ>
-    <GenericName>Cetacean</GenericName>
-    <Tooltip>Kill, then collect food from this bountiful oceanic resource.</Tooltip>
-    <Icon>gaia/fauna_fish.png</Icon>
+    <Tooltip>Kill to butcher for food.</Tooltip>
   </Identity>
   <Loot>
     <xp>10</xp>
@@ -20,6 +15,7 @@
     <BlockPathfinding>false</BlockPathfinding>
   </Obstruction>
   <Position>
+    <Anchor>upright</Anchor>
     <Floating>true</Floating>
     <FloatDepth>0.0</FloatDepth>
   </Position>
@@ -32,8 +28,8 @@
   <Selectable>
     <Overlay>
       <Texture>
-        <MainTexture>circle/512x512.png</MainTexture>
-        <MainTextureMask>circle/512x512_mask.png</MainTextureMask>
+        <MainTexture>128x512/ellipse.png</MainTexture>
+        <MainTextureMask>128x512/ellipse_mask.png</MainTextureMask>
       </Texture>
     </Overlay>
   </Selectable>
@@ -54,8 +50,6 @@
   <UnitMotion>
     <PassabilityClass>ship-small</PassabilityClass>
     <WalkSpeed op="mul">1.8</WalkSpeed>
-    <Run>
-      <Speed op="mul">1.8</Speed>
-    </Run>
+    <RunMultiplier>1</RunMultiplier>
   </UnitMotion>
 </Entity>

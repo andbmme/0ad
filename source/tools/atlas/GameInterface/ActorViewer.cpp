@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -42,11 +42,13 @@
 #include "ps/GameSetup/Config.h"
 #include "ps/ProfileViewer.h"
 #include "renderer/Renderer.h"
+#include "renderer/RenderingOptions.h"
 #include "renderer/Scene.h"
 #include "renderer/SkyManager.h"
 #include "renderer/WaterManager.h"
 #include "scriptinterface/ScriptInterface.h"
 #include "simulation2/Simulation2.h"
+#include "simulation2/components/ICmpAttack.h"
 #include "simulation2/components/ICmpOwnership.h"
 #include "simulation2/components/ICmpPosition.h"
 #include "simulation2/components/ICmpRangeManager.h"
@@ -77,7 +79,7 @@ public:
 
 	entity_id_t Entity;
 	CStrW CurrentUnitID;
-	CStrW CurrentUnitAnim;
+	CStr CurrentUnitAnim;
 	float CurrentSpeed;
 	bool WalkEnabled;
 	bool GroundEnabled;
@@ -253,7 +255,7 @@ ActorViewer::ActorViewer()
 	m.WalkEnabled = false;
 	m.GroundEnabled = true;
 	m.WaterEnabled = false;
-	m.ShadowsEnabled = g_Renderer.GetOptionBool(CRenderer::OPT_SHADOWS);
+	m.ShadowsEnabled = g_RenderingOptions.GetShadows();
 	m.SelectionBoxEnabled = false;
 	m.AxesMarkerEnabled = false;
 	m.PropPointsMode = 0;
@@ -287,9 +289,13 @@ ActorViewer::ActorViewer()
 		debug_warn(L"Failed to load whiteness texture");
 	}
 
-	// Start the simulation
+	// Prepare the simulation
 	m.Simulation2.LoadDefaultScripts();
 	m.Simulation2.ResetState();
+
+	// Set player data
+	m.Simulation2.SetMapSettings(m.Simulation2.GetPlayerDefaults());
+	m.Simulation2.LoadPlayerSettings(true);
 
 	// Tell the simulation we've already loaded the terrain
 	CmpPtr<ICmpTerrain> cmpTerrain(m.Simulation2, SYSTEM_ENTITY);
@@ -300,6 +306,8 @@ ActorViewer::ActorViewer()
 	CmpPtr<ICmpRangeManager> cmpRangeManager(m.Simulation2, SYSTEM_ENTITY);
 	if (cmpRangeManager)
 		cmpRangeManager->SetLosRevealAll(-1, true);
+
+	m.Simulation2.InitGame();
 }
 
 ActorViewer::~ActorViewer()
@@ -322,7 +330,7 @@ void ActorViewer::UnloadObjects()
 	m.ObjectManager.UnloadObjects();
 }
 
-void ActorViewer::SetActor(const CStrW& name, const CStrW& animation, player_id_t playerID)
+void ActorViewer::SetActor(const CStrW& name, const CStr& animation, player_id_t playerID)
 {
 	bool needsAnimReload = false;
 
@@ -370,68 +378,45 @@ void ActorViewer::SetActor(const CStrW& name, const CStrW& animation, player_id_
 
 	if (needsAnimReload)
 	{
-		CStr anim = animation.ToUTF8().LowerCase();
-
-		// Emulate the typical simulation animation behaviour
-		float speed;
-		float repeattime = 0.f;
+		// Emulate the typical simulation animation behaviour.
+		CStr anim = animation.LowerCase();
+		float speed = 1.0f;
+		// Speed will be ignored if we have a repeat time.
+		float repeattime = 0.0f;
+		m.CurrentSpeed = 0.0f;
 		if (anim == "walk")
 		{
 			CmpPtr<ICmpUnitMotion> cmpUnitMotion(m.Simulation2, m.Entity);
 			if (cmpUnitMotion)
-				speed = cmpUnitMotion->GetWalkSpeed().ToFloat();
+				speed  = cmpUnitMotion->GetWalkSpeed().ToFloat();
 			else
-				speed = 7.f; // typical unit speed
-
+				speed = 7.f; // Typical unit walk speed.
 			m.CurrentSpeed = speed;
 		}
 		else if (anim == "run")
 		{
 			CmpPtr<ICmpUnitMotion> cmpUnitMotion(m.Simulation2, m.Entity);
 			if (cmpUnitMotion)
-				speed = cmpUnitMotion->GetRunSpeed().ToFloat();
+				speed = cmpUnitMotion->GetWalkSpeed().ToFloat() * cmpUnitMotion->GetRunMultiplier().ToFloat();
 			else
-				speed = 12.f; // typical unit speed
+				speed = 12.f; // Typical unit run speed.
 
 			m.CurrentSpeed = speed;
 		}
-		else if (anim == "melee")
-		{
-			speed = 1.f; // speed will be ignored if we have a repeattime
-			m.CurrentSpeed = 0.f;
-
-			CStr code = "var cmp = Engine.QueryInterface("+CStr::FromUInt(m.Entity)+", IID_Attack); " +
-				"if (cmp) cmp.GetTimers(cmp.GetBestAttack()).repeat; else 0;";
-			m.Simulation2.GetScriptInterface().Eval(code.c_str(), repeattime);
-		}
-		else
-		{
-			// Play the animation at normal speed, but movement speed is zero
-			speed = 1.f;
-			m.CurrentSpeed = 0.f;
-		}
-
-		CStr sound;
-		if (anim == "melee")
-			sound = "attack";
-		else if (anim == "build")
-			sound = "build";
-		else if (anim.Find("gather_") == 0)
-			sound = anim;
-
-		std::wstring soundgroup;
-		if (!sound.empty())
-		{
-			CStr code = "var cmp = Engine.QueryInterface("+CStr::FromUInt(m.Entity)+", IID_Sound); " +
-				"if (cmp) cmp.GetSoundGroup('"+sound+"'); else '';";
-			m.Simulation2.GetScriptInterface().Eval(code.c_str(), soundgroup);
-		}
+		else if (anim == "attack_melee")
+			repeattime = GetRepeatTimeByAttackType("Melee");
+		else if (anim == "attack_ranged")
+			repeattime = GetRepeatTimeByAttackType("Ranged");
+		else if (anim == "attack_slaughter")
+			repeattime = GetRepeatTimeByAttackType("Slaughter");
+		else if (anim == "attack_capture")
+			repeattime = GetRepeatTimeByAttackType("Capture");
 
 		CmpPtr<ICmpVisual> cmpVisual(m.Simulation2, m.Entity);
 		if (cmpVisual)
 		{
 			// TODO: SetEntitySelection(anim)
-			cmpVisual->SelectAnimation(anim, false, fixed::FromFloat(speed), soundgroup);
+			cmpVisual->SelectAnimation(anim, false, fixed::FromFloat(speed));
 			if (repeattime)
 				cmpVisual->SetAnimationSyncRepeat(fixed::FromFloat(repeattime));
 		}
@@ -449,11 +434,11 @@ void ActorViewer::SetEnabled(bool enabled)
 	if (enabled)
 	{
 		// Set shadows, sky and water.
-		m.OldShadows = g_Renderer.GetOptionBool(CRenderer::OPT_SHADOWS);
-		g_Renderer.SetOptionBool(CRenderer::OPT_SHADOWS, m.ShadowsEnabled);
+		m.OldShadows = g_RenderingOptions.GetShadows();
+		g_RenderingOptions.SetShadows(m.ShadowsEnabled);
 
-		m.OldSky = g_Renderer.GetSkyManager()->m_RenderSky;
-		g_Renderer.GetSkyManager()->m_RenderSky = false;
+		m.OldSky = g_Renderer.GetSkyManager()->GetRenderSky();
+		g_Renderer.GetSkyManager()->SetRenderSky(false);
 
 		m.OldWater = g_Renderer.GetWaterManager()->m_RenderWater;
 		g_Renderer.GetWaterManager()->m_RenderWater = m.WaterEnabled;
@@ -461,8 +446,8 @@ void ActorViewer::SetEnabled(bool enabled)
 	else
 	{
 		// Restore the old renderer state
-		g_Renderer.SetOptionBool(CRenderer::OPT_SHADOWS, m.OldShadows);
-		g_Renderer.GetSkyManager()->m_RenderSky = m.OldSky;
+		g_RenderingOptions.SetShadows(m.OldShadows);
+		g_Renderer.GetSkyManager()->SetRenderSky(m.OldSky);
 		g_Renderer.GetWaterManager()->m_RenderWater = m.OldWater;
 	}
 }
@@ -497,6 +482,15 @@ void ActorViewer::SetStatsEnabled(bool enabled)
 		g_ProfileViewer.ShowTable("");
 }
 
+float ActorViewer::GetRepeatTimeByAttackType(const std::string& type) const
+{
+	CmpPtr<ICmpAttack> cmpAttack(m.Simulation2, m.Entity);
+	if (cmpAttack)
+		return cmpAttack->GetRepeatTime(type);
+
+	return 0.0f;
+}
+
 void ActorViewer::Render()
 {
 	m.Terrain.MakeDirty(RENDERDATA_UPDATE_COLOR);
@@ -513,7 +507,7 @@ void ActorViewer::Render()
 	CVector3D centre;
 	CmpPtr<ICmpVisual> cmpVisual(m.Simulation2, m.Entity);
 	if (cmpVisual)
-		cmpVisual->GetBounds().GetCentre(centre);
+		cmpVisual->GetBounds().GetCenter(centre);
 	else
 		centre.Y = 0.f;
 	centre.X = centre.Z = TERRAIN_TILE_SIZE * m.Terrain.GetPatchesPerSide()*PATCH_SIZE/2;

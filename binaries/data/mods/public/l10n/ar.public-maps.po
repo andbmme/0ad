@@ -1,5 +1,5 @@
 # Translation template for 0 A.D. — Empires Ascendant.
-# Copyright © 2014 Wildfire Games
+# Copyright (C) 2020 Wildfire Games
 # This file is distributed under the same license as the 0 A.D. — Empires Ascendant project.
 # 
 # Translators:
@@ -8,13 +8,13 @@
 # Omar Anwar <omaraglan91@yahoo.com>, 2017
 # nitro361 <nitro361@gmail.com>, 2015
 # salama <salamacast@yahoo.com>, 2014
-# صفا الفليج <safaalfulaij@hotmail.com>, 2015,2017
+# صفا الفليج <safaalfulaij@hotmail.com>, 2015,2017-2018
 # محمد أحمد <mohamedstarwars@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: 0 A.D.\n"
-"POT-Creation-Date: 2017-10-30 09:05+0100\n"
-"PO-Revision-Date: 2017-10-30 15:19+0000\n"
+"POT-Creation-Date: 2020-01-17 08:09+0000\n"
+"PO-Revision-Date: 2020-01-17 15:02+0000\n"
 "Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/wildfire-games/0ad/language/ar/)\n"
 "MIME-Version: 1.0\n"
@@ -45,7 +45,7 @@ msgstr "السّهول الأفريقيّة"
 msgid ""
 "High Alpine mountains surrounding deep valleys strung with mountain streams "
 "and finger-like lakes."
-msgstr "جبال الألب الشاهقة المحيطة بالوديان العميقة المتوترة مع سيول الجبال وبحيرات تشبه الإصبع."
+msgstr "جبال الألب الشاهقة المحاطة بوديان عميقة ترافقها تدفّقات جبليّة وبحيرات بشكل الإصبع."
 
 #: maps/random/alpine_lakes.jsonsettings.Name
 msgid "Alpine Lakes"
@@ -95,18 +95,18 @@ msgid ""
 "animals, profiting from its milder climate. Wolves, ever present, have shed "
 "their winter clothes; deer, hares and muskox populate the plains. The last "
 "traces of winter are rapidly disappearing, only to reappear very soon."
-msgstr ""
+msgstr "وصل الصيف المناطق الباردة من الشمال ما مكّن العديد من الحيوانات من اقتناص هذا الطقس المعتدل. تركت الذئاب ثيابها الشتوية، وانتشرت الغزلان والأرانب البريّة وثور المسك في الأراضي. آخر ما بقي من الشتاء يضمحلّ سريعًا، لتأتي ثانيةً وقريبًا جدًّا."
 
 #: maps/random/arctic_summer.jsonsettings.Name
 msgid "Arctic Summer"
-msgstr ""
+msgstr "صيف القطب الشماليّ"
 
 #: maps/random/ardennes_forest.jsonsettings.Description
 msgid ""
 "Each player starts deep in the forest.\n"
 "\n"
 "The Ardennes is a region of extensive forests, rolling hills and ridges formed within the Givetian  Ardennes mountain range, primarily in modern day Belgium and Luxembourg. The region took its name from the ancient Silva, a vast forest in Roman times called Arduenna Silva."
-msgstr "كل لاعب يبدأ في مكان عميق في الغابة.\n\nالأردين هي منطقة ذات غابات كثيفة، وتلال وسلاسل تلِّيّة منحدرة تكونت داخل السلسلة الجبلية المسماة بالـ\"الأردينية الغيفتية\"، أغلبها في بلجيكا ولوكسمبورغ الحديثتين. أخذت المنطقة اسمها من الغابة القديمة، وهي غابة فسيحة في زمن الرومان كان اسمها \"غابة أردوينا\"."
+msgstr "يبدأ كلّ لاعب في مكان عميق في الغابة.\n\nالأردين هي منطقة ذات غابات كثيفة، وتلال وسلاسل تلِّيّة منحدرة تكوّنت داخل السلسلة الجبلية المسمّاة بِ‍”الأردينيّة الغيفتيّة“، أغلبها في بلجيكا ولوكسمبورغ الحديثتين. أخذت المنطقة اسمها من الغابة القديمة، وهي غابة فسيحة في زمن الرومان كان اسمها ”غابة أردوينا“."
 
 #: maps/random/ardennes_forest.jsonsettings.Name
 msgid "Ardennes Forest"
@@ -115,12 +115,27 @@ msgstr "غابات الأردين"
 #: maps/random/atlas_mountains.jsonsettings.Description
 msgid ""
 "A rugged land with small room for buildings with scarce wood. Represents the"
-" mountain range in the north-west africa."
-msgstr "أرض وعرة ليس فيها الكثير من الأماكن للبناء عليها مع شحّ الخشب. تمثّل مَدى الجبال في أفريقيا الشّماليّة الغربيّة."
+" mountain range in the Northwest Africa."
+msgstr ""
 
 #: maps/random/atlas_mountains.jsonsettings.Name
 msgid "Atlas Mountains"
 msgstr "جبال الأطلس"
+
+#: maps/random/bahrain.jsonsettings.Description
+msgid ""
+"Bahrain, centre of the Dilmun civilization which fell in 800BC, was in turn "
+"controlled by Sumerians, Assyrians, Babylonians, Persians and other later "
+"peoples. An island strategically placed in the Sinus Persicus (Persian Gulf)"
+" and also centre of pearl trading due to its magnificent pearl fisheries, "
+"Bahrain is never left unoccupied for long. But now, with the previous "
+"occupants gone, the land prepares for war. Will you be the next Ruler of "
+"Bahrain?"
+msgstr "كانت تُحكم البحرين (مركز حضارة دلمون التي سقطت عام 800 قبل الميلاد) على يد الشعوب السومريّة والآشوريّة والبابليّة والفارسيّة وما أتى بعدها. هذه الجزيرة التي تقع في موقع استراتيجيّ في ”سينوس برسيكوس“ (الخليج العربيّ/الفارسيّ) والتي كانت أيضًا مركز تجارة اللؤلؤ نظرًا لصائدي اللؤلؤ المهرة، هذه الجزيرة لم تُترك شاغرة لوقت طويل. إلّا أنّه الآن ومع رحيل المستعمرين السابقين، باتت البحرين تتجهّز للحرب. هل ستكون الحاكم التالي للبحرين؟"
+
+#: maps/random/bahrain.jsonsettings.Name
+msgid "Bahrain"
+msgstr "البحرين"
 
 #: maps/random/belgian_uplands.jsonsettings.Description
 msgid ""
@@ -150,7 +165,7 @@ msgid ""
 "Fertile lands surrounded by harsh terrain.\n"
 "Remains of recent snowfalls still haunt the forests, and torrential rivers from the snowmelt have barely died away.\n"
 "Aiming at a realistic terrain, this map might not always be balanced."
-msgstr ""
+msgstr "أراضٍ خصبة تحيطها أرض قاسية.\nما زالت بقايا الثلوج على الغابات، وبالكاد اختفت الأنهار المتدفّقة من ذوبان الثلوج.\nإن كنت تريد أرضًا واقعيّة، فهذه الخريطة لن تكون متوازنة دائمًا."
 
 #: maps/random/caledonian_meadows.jsonsettings.Name
 msgid "Caledonian Meadows"
@@ -164,7 +179,7 @@ msgstr "يبدأ كلّ لاعب فوق تلّ تحيطه منحدرات حاد�
 
 #: maps/random/cantabrian_highlands.jsonsettings.Name
 msgid "Cantabrian Highlands"
-msgstr "مرتفعات سانتندر"
+msgstr "مرتفعات كانتابريا"
 
 #: maps/random/canyon.jsonsettings.Description
 msgid "Players start around the map in deep canyons."
@@ -175,24 +190,27 @@ msgid "Canyon"
 msgstr "الوادي"
 
 #: maps/random/continent.jsonsettings.Description
+#: maps/random/unknown.jsonsettings.Landscapes.land[0].Description
 msgid "All players starts on a continent surrounded by water."
 msgstr "يبدأ كلّ اللاعبون في قارّة تحيطها المياه."
 
 #: maps/random/continent.jsonsettings.Name
+#: maps/random/unknown.jsonsettings.Landscapes.land[0].Name
 msgid "Continent"
 msgstr "قارّة"
 
 #: maps/random/corinthian_isthmus.jsonsettings.Description
+#: maps/random/unknown.jsonsettings.Landscapes.land[1].Description
 #: maps/skirmishes/Corinthian Isthmus (2).xml:Description:39
 #: maps/skirmishes/Corinthian Isthmus (4).xml:Description:40
 msgid ""
 "Two Mediterranean land masses connected by a narrow spit of land, called an "
 "'Isthmus'."
-msgstr "منطقتين متوسطتين متصلتين بقطعه صغيره من اليابسة, تسمى 'برزخ'."
+msgstr "كتلتي الأرض في البحر الأبيض المتوسّط المتّصلتين بقطعة يابسة صغريّة تُسمّى ”البرزخ“."
 
 #: maps/random/corinthian_isthmus.jsonsettings.Name
 msgid "Corinthian Isthmus"
-msgstr "كورنثية البرزخ"
+msgstr "برزخ كورنث"
 
 #: maps/random/corsica.jsonsettings.Description
 msgid ""
@@ -209,7 +227,7 @@ msgid ""
 "Each player starts on an island surrounded by water.\n"
 "\n"
 "The Cyclades is an island group in the Aegean Sea, south-east of the mainland of Greece. They are one of the island groups which constitute the Aegean archipelago. The name refers to the islands around  the sacred island of Delos. The Cyclades comprise about 220 islands. The islands are peaks of a submerged mountainous terrain, with the exception of two volcanic islands, Milos and Santorini. The climate is generally dry and mild, but with the exception of Naxos the soil is not very fertile."
-msgstr "كلا اللاعبيين يبدأن بجزيرة محاطة بالماء.\n\nالكيكلادس هى مجموعة جزر فى بحر إيجة، جنوب شرق البر الرئيسي للاغريق. هى واحدة من الجزر حيث تشكل أرخبيل إيجة. الاسم يشير إلى الجزر حول الجزيرة المقدسة ديلوس. الكيكلادس يحتوى على حوالى 220 جزيرة. الجزر عبارة عن قمم واراضى الجبال المغمورة، مع الاستثناء لجزيرتين بركانيتين، ميلوس و سانتوريني. المناخ عادة جاف ومعتدل، لكن مع استثناء ناكسوس التربة غير خصبة جداً."
+msgstr "يبدأ كلّ لاعب في جزيرة محاطة بالمياه.\n\n”كيكلادس“ هي مجموعة جزر في بحر إيجة جنوب شرق البرّ الرئيسي لليونان. تُعتبر هذه المجموعة إحدى مجموعات الجزر التي تشكّل أرخبيل إيجة. يُشير الاسم إلى الجزر المحيطة بجزيرة ديلوس المقدّسة. تضمّ كيكلادس حوالي 220 جزيرة. هذه الجزر هي قمم لأرض جبليّة مغمورة، باستثناء جزيرتين بركانيّتين هما ميلوس وسانتوريني. يكون الطقس عادة جافًّا ومعتدلًا، وإن استثنينا ناكسوس، فالتربة ليست خصبة تمامًا."
 
 #: maps/random/cycladic_archipelago.jsonsettings.Name
 msgid "Cycladic Archipelago"
@@ -226,27 +244,69 @@ msgid ""
 "the reemergence of the Geto-Dacian Confederation under King Burebista."
 msgstr ""
 
+#: maps/random/danubius.jsonsettings.Daytime[0].Description
+msgid "Bright daylight illuminates the scene."
+msgstr ""
+
+#: maps/random/danubius.jsonsettings.Daytime[0].Name
+msgid "Day"
+msgstr ""
+
+#: maps/random/danubius.jsonsettings.Daytime[1].Description
+msgid "Attackers are covered by the darkness of the night."
+msgstr ""
+
+#: maps/random/danubius.jsonsettings.Daytime[1].Name
+msgid "Night"
+msgstr ""
+
 #: maps/random/danubius.jsonsettings.Name
 msgid "Danubius"
-msgstr ""
+msgstr "الدانوب"
 
 #: maps/random/deep_forest.jsonsettings.Description
 msgid "A deep dark forest in Germania."
-msgstr "غابة مظلمة عميقة فى ألمانيا"
+msgstr "غابة مظلمة عميقة في جيرمانيا."
 
 #: maps/random/deep_forest.jsonsettings.Name
 msgid "Deep Forest"
 msgstr "غابة كثيفة"
 
+#: maps/random/dodecanese.jsonsettings.Description
+msgid ""
+"Controlling access to the Aegean Sea from the East, the Dodecanese have been"
+" subject to numerous yet short-lived invasions. Ultimately consolidating "
+"power with Rhodes at their lead, these islands developed into great "
+"maritime, commercial and cultural centers. Will you acheive the same?"
+msgstr "بسبب تحكّمها بحركة الدخول والخروج من وإلى بحر إيجة من الشرق، كانت دوديكانيسيا ضحيّة لعدد كبير من الاعتداءات قصيرة المدّة. بأخذ النظر بعين الاعتبار لقوّة رودس في القيادة، تحوّلت هذه الجزر إلى مراكز بحريّة وتجاريّة وثقافيّة. أستتمكّن من تحقيق ذلك أيضًا؟"
+
+#: maps/random/dodecanese.jsonsettings.Name
+msgid "Dodecanese"
+msgstr "دوديكانيسيا"
+
+#: maps/random/elephantine.jsonsettings.Description
+msgid ""
+"Forming the traditional frontier between ancient Kush and Egypt, the "
+"fortified Island of Elephantine was situated on the Nile River at the first "
+"cataract. As the border between Upper Egypt and Lower Nubia, Elephantine "
+"became an important way-station for the trade in ivory and other goods. It "
+"was considered to be the home of the god Khnum, guardian of the source of "
+"the Nile, and boasted an impressive temple complex."
+msgstr ""
+
+#: maps/random/elephantine.jsonsettings.Name
+msgid "Elephantine"
+msgstr "إلفنتين"
+
 #: maps/random/empire.jsonsettings.Description
 msgid ""
 "A neighboring province has pledged alegiance to your rule. It's up to you to"
 " command them to victory."
-msgstr "المقاطعة القريبة قد عاهدت على إطاعة حكمك، الامر مُسند إليك لتقودهم إلى النصر."
+msgstr "راهنت إحدى الأقاليم القريبة على الامتثال لحكمك. الأمر عائد إليك لتقودهم نحو النصر."
 
 #: maps/random/empire.jsonsettings.Name
 msgid "Empire"
-msgstr "مملكة"
+msgstr "إمبراطوريّة"
 
 #: maps/random/english_channel.jsonsettings.Description
 msgid ""
@@ -256,24 +316,37 @@ msgstr "يبدأ اللاعبون في فرنسا الشّماليّة أو بر
 
 #: maps/random/english_channel.jsonsettings.Name
 msgid "English Channel"
-msgstr "القناة الانجليزية"
+msgstr "القناة الإنجليزيّة"
 
 #: maps/random/extinct_volcano.jsonsettings.Description
 msgid ""
 "[color=\"red\"]IMPORTANT NOTE: AI PLAYERS DO NOT WORK WITH THIS MAP[/color]\n"
 "\n"
-"A once fertile valley... desolated by the eruption of the long-dormant volcano in the heart of the region. Following years of empty, scorched deadness, signs of life started reappearing and spreading. Now the land is half-way to the full lushness of its former era. Alas, it is not to be: following a long stretch of drought, interminable rains have set in in the higher regions to the north. Water levels are rising at drastic levels, slowly forcing players to seek the high ground of the lesser, extinct volcanoes or the now again dormant great cone."
+"A once fertile valley, desolated by the eruption of the long-dormant volcano in the heart of the region. Following years of empty, scorched deadness, signs of life started reappearing and spreading. Now the land is half-way to the full lushness of its former era. Alas, it is not to be: following a long stretch of drought, interminable rains have set in in the higher regions to the north. Water levels are rising at drastic levels, slowly forcing players to seek the high ground of the lesser, extinct volcanoes or the now again dormant great cone."
 msgstr ""
 
 #: maps/random/extinct_volcano.jsonsettings.Name
 msgid "Extinct Volcano"
+msgstr "البركان الخامد"
+
+#: maps/random/fields_of_meroe.jsonsettings.Description
+msgid ""
+"The \"Island of Meroë\", a vast peninsula flanked by the Nile and Atbarah "
+"rivers, formed the heartland of ancient Kush. Where the harsh deserts start "
+"making way for the semi-arid savannahs and small acacia forests dot the "
+"landscape. The area is rich in resources and the ever-present Nile brings "
+"life, but grave threats loom on the opposite riverbank."
+msgstr ""
+
+#: maps/random/fields_of_meroe.jsonsettings.Name
+msgid "Fields of Meroë"
 msgstr ""
 
 #: maps/random/flood.jsonsettings.Description
 msgid ""
 "A great flood has moved across the valley enabling ships and troops to "
 "battle in chest deep waters."
-msgstr "فيضان عظيم تحرك خلال الوادى مكن السفن والقوات من القتال فى مياه عميقة مظلمة."
+msgstr "انسلّ فيضان شديد عبر الوادي ما سمح للسفن والجُند بالقتال في منتصف المياه العميقة."
 
 #: maps/random/flood.jsonsettings.Name
 msgid "Flood"
@@ -281,23 +354,23 @@ msgstr "الفيضان"
 
 #: maps/random/fortress.jsonsettings.Description
 msgid "Players start in a ready-made fortress with piles of resources."
-msgstr "اللاعبين يبداًون فى قلعة جاهزة مع أكوام من الموارد."
+msgstr "يبدأ اللاعبون في قلعة جاهزة مع كميّة عظيمة من الموارد."
 
 #: maps/random/fortress.jsonsettings.Name
 msgid "Fortress"
-msgstr "قلعة"
+msgstr "القلعة"
 
 #: maps/random/frontier.jsonsettings.Description
 msgid "A wild, unknown landscape awaits rival explorers."
-msgstr "أرض كبيرة طبيعية غير مكتشفة تنتظر من يكتشفها."
+msgstr "أرض مجهولة برّيّة تنتظر مستكشفين ليتخاصموا عليها."
 
 #: maps/random/frontier.jsonsettings.Name
 msgid "Frontier"
-msgstr "الحدود"
+msgstr "التُخوم"
 
 #: maps/random/gear.jsonsettings.Description
 msgid "A land with waterways decorated in a manner similar to spider web."
-msgstr "أرض مع مسارات ماء تشبة إلى حد ما شبكة العنكبوت."
+msgstr "أرض فيها مسارات لمياه مزيّنة بطريقة تشبه شبكة العنكبوت."
 
 #: maps/random/gear.jsonsettings.Name
 msgid "Gear"
@@ -308,7 +381,7 @@ msgid ""
 "Players start in the shores of the Mediterranean Sea with a river flowing between them.\n"
 "\n"
 "The Guadalquivir is the fifth longest river in the Iberian peninsula and the second longest river with its entire length in Spain. The Guadalquivir river is the only great navigable river in Spain. Currently it is navigable to Seville, but in Roman times it was navigable to Cordoba. The ancient city of Tartessos was said to have been located at the mouth of the Guadalquivir, although its site has not yet been found."
-msgstr "اللاعبين يبدوأون على شواطئ البحر المتوسط مع نهر يتدفق بينهما.\n\nالوادي الكبير هو خامس أكبر نهر فى شبة الجزيرة الايبرية وثانى أطول نهر فى أسبانيا. نهر الوادى الكبير هو الوحيد الكبير كفاية للملاحة فية فى اسبانيا. حاليا هو كافى للملاحة إلى إشبيلية، لكن فى العهد الرومانى كان كافى للملاحة إلى قرطبة. المدينة القديمة تارتيسوس قيل أنها كانت توجد عند منبع نهر الوادى الكبير، على الرغم من ذلك لم يوُجد الموقع بعد."
+msgstr "يبدأ اللاعبون على شواطئ البحر المتوسط حيث يمرّ نهر جارٍ بينهم.\n\nالوادي الكبير هو خامس أطول نهر في شبه الجزيرة الإيبيريّة وثاني أطول نهر (بقياس طوله كاملًا) في إسبانيا. يمكن الإبحار فيه حاليًّا إلى حدّ إشبيليّة، ولكن في عهد الرومان كان الإبحار فيه ممكنًا إلى حدّ قرطبة. قيل بأنّ مدينة تارتيسوس الأثريّة موجودة في مصبّ الوادي الكبير، إلّا أنّ هذا المكان لم يجده أحد بعد."
 
 #: maps/random/guadalquivir_river.jsonsettings.Name
 msgid "Guadalquivir River"
@@ -319,11 +392,11 @@ msgid ""
 "Players start around a gulf dotted with small islands.\n"
 "\n"
 "The Gulf of Bothnia is the northernmost arm of the Baltic Sea."
-msgstr "يبدأ اللاعبون حول الخليج منقط بالجزر الصغيرة.\n\nخليج بوثنيا هي أقصى الشمال من بحر البلطيق."
+msgstr "يبدأ اللاعبون حول خليج تُحوّطه جزر صغيرة.\n\nخليج بوثنيه هو خليج بأقصى شمال بحر البلطيق."
 
 #: maps/random/gulf_of_bothnia.jsonsettings.Name
 msgid "Gulf of Bothnia"
-msgstr ""
+msgstr "خليج بوثنيه"
 
 #: maps/random/harbor.jsonsettings.Description
 msgid ""
@@ -332,11 +405,23 @@ msgid ""
 "cliffs in the deep ocean. Small passages at the base of the cliffs make for "
 "tight fighting and easy fortification. Will you fight your way through the "
 "narrow passageways or take to the sea?"
-msgstr "اللاعبيين يبدأون مع فرصة صغيرة للاصتياد الأسماك فى المياة الهادئة فى الميناء المحمي. كمية كبيرة من طعام البحر تتواجد ما بين الجروف المحمية فى المحيط العميق. ممر ضيق للقاعدة من خلال الجروف تجعل القتال أضيق وتجعل المكان أسهل للتحصين.هل سوف تحارب فى طريقك من خلال الممر الضيق او سوف تبدأ فى البحر؟"
+msgstr "يبدأ اللاعبون بوجود فرص صيد قليلة في المياه الهادئة لمرفأ محميّ. يقع مقدار ضخم من الطعام البحريّ في أجراف محميّة في أعماق المحيط. تجعل الممرّات الصغيرة في قواعد الأجراف التقاتل ضيّقًا والتحصينات سهلة. أستحارب وتشقّ طريقك نحو الممرّات الضيّقة أم أنّك ستتوجّه إلى البحر؟"
 
 #: maps/random/harbor.jsonsettings.Name
 msgid "Harbor"
-msgstr "ميناء"
+msgstr "المرفأ"
+
+#: maps/random/hellas.jsonsettings.Description
+msgid ""
+"Hellas, home to the Greeks and through them birthplace to the foundation of "
+"western civilization. Yet the land lacks unity, countless city-states vie "
+"for dominance. Will you lead your polis to glory and greatness or see it "
+"fall into oblivion, erased from the histories?"
+msgstr ""
+
+#: maps/random/hellas.jsonsettings.Name
+msgid "Hellas"
+msgstr "هلَّس"
 
 #: maps/random/hells_pass.jsonsettings.Description
 msgid ""
@@ -344,17 +429,17 @@ msgid ""
 " bountiful resources far from the front lines, teams may choose to support "
 "their exposed teammates financially, or retreat to more fertile, but less "
 "defensible ground."
-msgstr "ممر ضيق بين جبال منحدرة تُمكن من قتال دفاعي علي نطاق ضيق. مع الموارد الوفيرة البعيدة عن الخطوط الامامية، الفِرق رُبما تختار أن تدعم زُملائِها المكشوفيين دعماً مادياً، أو الإنسحاب إلى أرض خصبة، لكنها أصعب للدفاع."
+msgstr "ممرّ ضيّق بين جبال شديدة الانحدار تؤدّي إلى تشابك دفاعيّ مُحكم. بوجود موارد جميلة بعيدة من خطوط النار، يمكن للفِرق الاختيار ما بين دعم رفقتهم في الحرب ماليًّا، أو الانسحاب إلى أرض خصبة أكثر ولكن أصعب في الدفاع."
 
 #: maps/random/hells_pass.jsonsettings.Name
 msgid "Hell's Pass"
-msgstr "ممر الجحيم"
+msgstr "ممرّ نحو الجحيم"
 
 #: maps/random/hyrcanian_shores.jsonsettings.Description
 msgid ""
 "Each player starts in a coastal area between forested hills and the Caspian "
 "Sea."
-msgstr ""
+msgstr "يبدأ كلّ لاعب في منطقة ساحليّة بين التلال الغابيّة وبحر قزوين."
 
 #: maps/random/hyrcanian_shores.jsonsettings.Name
 msgid "Hyrcanian Shores"
@@ -366,7 +451,7 @@ msgid ""
 "life-bringing rain which is already two months late. Due to the extended "
 "dryness and scorching heat, only the largest lake remains. The hardy trees "
 "which have survived the climate are spread out, yet not too scarce."
-msgstr ""
+msgstr "الهند الوسطى قبل الرياح الموسميّة — أرض جافّة تنتظر مطر الحياة الذي تأخّر لشهرين كاملين. بسبب الجفاف الممتدّ والحرارة الحارقة، لم تبقَ إلّا أكبر البحيرات. الأشجار قويّة الاحتمال التي صمدت في هذا الطقس منتشرة في المكان، ولا يمكننا القول بأنّها نادرة الوجود."
 
 #: maps/random/india.jsonsettings.Name
 msgid "India"
@@ -376,7 +461,7 @@ msgstr "الهند"
 msgid ""
 "Teams start off with nearly adjacent civic centers on a small island, "
 "offering a fortified base from which to expand."
-msgstr ""
+msgstr "تبدأ الفِرق على جزيرة صغيرة ومركز مدينة كلّ منها قريب من الآخر، ما يقدّم قاعدة محميّة يمكن التوسّع منها."
 
 #: maps/random/island_stronghold.jsonsettings.Name
 msgid "Island Stronghold"
@@ -388,6 +473,22 @@ msgstr "يبدأ اللاعبون في جزر صغيرة تحيطها الكثي
 
 #: maps/random/islands.jsonsettings.Name
 msgid "Islands"
+msgstr "الجُزر"
+
+#: maps/random/jebel_barkal.jsonsettings.Description
+msgid ""
+"Starting near the fertile banks of the Nile, the players besiege the heavily"
+" defended city Napata which lies at the foot of the hill Jebel Barkal, the "
+"\"Pure Mountain\". It is the Southern home of Amun, and according to "
+"Kushites and Egyptians alike, the birthplace of man. Known as the Throne of "
+"the Two Lands, the ancient religious capital of Napata lay in its shadow. "
+"This is where Kings were made... and unmade! Abutting a rich floodplain "
+"downstream from the 4th cataract, this area became the breadbasket of "
+"ancient Kush."
+msgstr ""
+
+#: maps/random/jebel_barkal.jsonsettings.Name
+msgid "Jebel Barkal"
 msgstr ""
 
 #: maps/random/kerala.jsonsettings.Description
@@ -398,7 +499,7 @@ msgstr "يبدأ اللاعبون في شواطئ الهند الجنوبيّة 
 
 #: maps/random/kerala.jsonsettings.Name
 msgid "Kerala"
-msgstr "كيرالا"
+msgstr "كيرلا"
 
 #: maps/random/lake.jsonsettings.Description
 msgid "Players start around a lake in the center of the map."
@@ -427,31 +528,82 @@ msgstr "تحمي المنحدرات العالية قواعد اللاعبين �
 
 #: maps/random/lions_den.jsonsettings.Name
 msgid "Lion's Den"
-msgstr "عرين الاسد"
+msgstr "عرين الأسد"
 
 #: maps/random/lorraine_plain.jsonsettings.Description
 msgid ""
 "Players start in a nearly flat Gallic plain divided by a river and its "
 "tributaries."
-msgstr "اللاعبين يبدوان على ارض غالية مستوية تقريباً مُقسمة بنهر وروافدة."
+msgstr "يبدأ اللاعبون على أرض غاليّة مسطّحة يقسهما نهر وروافده."
 
 #: maps/random/lorraine_plain.jsonsettings.Name
 msgid "Lorraine Plain"
-msgstr "السهول الورينية"
+msgstr "السهول اللورينيّة"
+
+#: maps/random/lower_nubia.jsonsettings.Description
+msgid ""
+"Known in the Greco-Roman world as the Triakontaschoinos, Lower Nubia was the"
+" area between the first and second cataracts of the Nile and formed the "
+"traditional border region between Kush and Egypt. The scorching desert, "
+"steep valleys and towering cliffs of the area make this an inhospitable "
+"place to live, but the control of this ancient corridor was vital for any "
+"power seeking to control the lucrative trade routes on the Nile and affords "
+"access to the rich goldfields of the Nubian desert."
+msgstr ""
+
+#: maps/random/lower_nubia.jsonsettings.Name
+msgid "Lower Nubia"
+msgstr ""
 
 #: maps/random/mainland.jsonsettings.Description
+#: maps/random/unknown.jsonsettings.Landscapes.land[8].Description
 msgid "A typical map without any water."
-msgstr "خريطة نموذجية خالية من الماء."
+msgstr "خريطة قياسيّة خالية من المياه."
 
 #: maps/random/mainland.jsonsettings.Name
+#: maps/random/unknown.jsonsettings.Landscapes.land[8].Name
 msgid "Mainland"
-msgstr "يابسة"
+msgstr "اليابسة"
+
+#: maps/random/marmara.jsonsettings.Description
+msgid ""
+"The Propontis (Sea of Marmara) connects the Pontus Euxinus (Black Sea) to "
+"the Aegean Sea, and seperates Asia Minor from Thrace. To the south-west lies"
+" the Hellespont (Dardanelles), at the entrance of which the ancient city of "
+"Ilium (Troy) once stood. To the north-east lies the Bosporus Thraciae "
+"(Bosporus strait) where in time the Greek city of Byzantium would be "
+"founded, later to become the capital of the great Byzantine Empire under the"
+" new name of Constantinople. Players start on fertile land with adequate "
+"resources."
+msgstr ""
+
+#: maps/random/marmara.jsonsettings.Name
+msgid "Marmara"
+msgstr "مرمرة"
+
+#: maps/random/mediterranean.jsonsettings.Description
+msgid ""
+"The Mediterranean, home to the Phoenicians, Greeks, Egyptians and later on "
+"Romans. They took the rudimentary knowledge and principles of organisation "
+"from Mesopotamia and forged it into something more, thereby shifting the "
+"centre of learning and knowledge to the Mediterranean Coast, thus laying the"
+" foundations of civilization as we know it today. The Mediterranean Sea is "
+"almost completely enclosed by land: on the north by Gallia Transalpina "
+"(Transalpine Gaul), Italia, Greece (Graecia) and Anatolia, on the east by "
+"Syria, on the south by Libya and Mauritania, and on the west by Iberia. The "
+"name Mediterranean is derived from Latin, but the Romans themselves "
+"preferred the term 'Mare Internum' or even 'Mare Nostrum'."
+msgstr ""
+
+#: maps/random/mediterranean.jsonsettings.Name
+msgid "Mediterranean"
+msgstr "البحر الأبيض المتوسّط"
 
 #: maps/random/migration.jsonsettings.Description
 msgid ""
 "Players start in small islands in the eastern part of the map. There is a "
 "big continent in the west ready for expansion."
-msgstr "يبدأ اللاعبون في جزر صغيرة في جزء الخريطة الشرقيّ. توجد قارّة كبيرة غربيّ الخريطة جاهزة للتّوسّع."
+msgstr "يبدأ اللاعبون على جُزر صغيرة في الجزء الشرقيّ من الخريطة. توجد قارّة كبيرة غربيّ الخريطة جاهزة للتوسّع."
 
 #: maps/random/migration.jsonsettings.Name
 #: maps/scenarios/Migration.xml:Name:27
@@ -471,52 +623,64 @@ msgstr ""
 
 #: maps/random/new_rms_test.jsonsettings.Description
 msgid "A basic test of the random map generator - not playable."
-msgstr "اختبار بسيط لمولّد خرائط عشوائيّ - غير قابلة لللعب."
+msgstr "اختبار بسيط لمولّد الخرائط العشوائيّ - اللعب عليها محال."
 
 #: maps/random/new_rms_test.jsonsettings.Name
 msgid "New RMS Test"
-msgstr "اختبار جديد لـRMS \"مولد خرائط عشوائى\""
+msgstr "اختبار جديد لِ‍”سكربت الخرائط العشوائيّة“"
+
+#: maps/random/ngorongoro.jsonsettings.Description
+msgid ""
+"Ngorongoro Crater is the world's largest intact volcanic caldera and is one "
+"of the Seven Natural Wonders of Africa. Due to it's climate, biodiversity "
+"and history, Ngorongoro is believed by some to be Africa's Garden of Eden "
+"and the birthplace of mankind."
+msgstr "فوّهة نجورونجورو هي أكبر بحيرة بركانيّة صدميّة في العالم وإحدى العجائب السبعة لأفريقيا. بسبب الطقس السائد فيها كما والتنوّع الحيويّ والتاريخ، يعتقد البعض بأنّ نجورونجورو هي جنّات عدن الأفريقيّة ومولد البشريّة."
+
+#: maps/random/ngorongoro.jsonsettings.Name
+msgid "Ngorongoro"
+msgstr "نجورونجورو"
 
 #: maps/random/northern_lights.jsonsettings.Description
 msgid ""
 "Players start in a tough map to play with scarce wood and dangerous polar "
 "animals."
-msgstr "اللاعبيين يبدأون فى خريطة صعبة مع أخشاب نادرة وحيوانات قطبية خطيرة."
+msgstr "يبدأ اللاعبون في خريطة شاقّة ليلعبون حيث الأخشاب نادرة الوجود والحيوانات القطبيّة خطرة."
 
 #: maps/random/northern_lights.jsonsettings.Name
 msgid "Northern Lights"
-msgstr "الأضواء الشّماليّة"
+msgstr "الشَّفق القطبيّ"
 
 #: maps/random/oasis.jsonsettings.Description
 msgid ""
 "Players start around a small oasis in the center of the map which holds much"
 " of the available wood on the map."
-msgstr "يبدأ اللاعبون حول واحة في وسط الخريطة حيث تحتوى على كثير من الخشب فى الخريطة."
+msgstr "يبدأ اللاعبون حول واحة في وسط الخريطة حيث فيها أغلب الخشب المتوفّر على الأرض."
 
 #: maps/random/oasis.jsonsettings.Name
 msgid "Oasis"
-msgstr "واحة"
+msgstr "الواحة"
 
 #: maps/random/persian_highlands.jsonsettings.Description
 msgid ""
 "A dry central plateau rich in minerals surrounded by rocky hills\n"
 "\n"
 "The southern parts of Zagros Mountains were the heart of the Persian empires and population. Although the altitude is high, the southern parts are drier that the northern Zagros, leading to a semi-arid climate. Still there are some sparse oak forests in the higher grounds."
-msgstr "هضبة متوسطة رطبة غنية بالمعادن محاطة بـ تلال صخرية\n\nالجزء الجنوبي من جبال زاغروس كان قلب المملكة الفارسية وسكانها. على الرغم من أن الأرتفاع شاهق، الأجزاء الجنوبية كانت أكثر جفافاً من الجزء الشمالي، مما تسبب بمناخ جاف وقاحل. على الرغم من ذلك تتواجد بعض غابات السنديان المتناثرة فى المناطق المرتفعة."
+msgstr "هضبة وسطة جافّة غنيّة بالمعادن تحيطها تلال صخريّة.\n\nكان الجزء الجنوبيّ من جبال زاغروس قلبَ الإمبراطوريّة الفارسيّة وسكّانها. على الرغم ارتفاع الأرض، فالأجزاء الجنوبيّة كانت أكثر جفافًا من شماليّ زاغروس، ما جعل المناخ شبه قاحل. رغم ذلك فبعض غابات السنديان متفرّقة في المناطق المرتفعة."
 
 #: maps/random/persian_highlands.jsonsettings.Name
 msgid "Persian Highlands"
-msgstr "الهضبة الفارسيّة"
+msgstr "الهضاب الفارسيّة"
 
 #: maps/random/phoenician_levant.jsonsettings.Description
 msgid ""
 "Players start in the eastern part of the map while a great sea is located to"
 " the west."
-msgstr "يبدأ اللاعبون في جزء الخريطة الشّرقيّ حيث يوجد بحر رائع في غربها."
+msgstr "يبدأ اللاعبون في الجزء الشرقيّ من الخريطة حيث يوجد بحر رائع في غربها."
 
 #: maps/random/phoenician_levant.jsonsettings.Name
 msgid "Phoenician Levant"
-msgstr "فينيقي الشرق"
+msgstr "الشام الفينيقيّة"
 
 #: maps/random/polar_sea.jsonsettings.Description
 msgid ""
@@ -529,11 +693,39 @@ msgid ""
 "undermine his economy and cause his downfall. [color=\"red\"]Warning: It is "
 "inadvisable to disable treasures, since there is no gatherable wood. Not "
 "recommended for inexperienced players.[/color]"
+msgstr "يبدأ اللاعبون في منطقة قطبيّة باردة لا خُضرة فيها. تزخر المياه بالسمك والحيتان، بينما الأرض الجليديّة الهشّة تتّحد مع حيوان الفظّ والذئاب المميتة. بدأت هذه الذئاب الشرسة -لقساوة الطقس- والتي تنجذب إلى رائحة فريستها، بدأت بالظهور بأعداد مخيفة. الحاكم الرشيد والقويّ سوف لن يحقّق النصر على أعدائه فحسب، بل وأيضًا سيُبقي عددًا لا بأس به من هذه الوحوش بعيدًا عنه، ذلك خشية أن يُضعفوا اقتصاده ويتسبّبوا له الانهيار. [color=\"red\"]تحذير: لا ننصح بتعطيل الكنوز، إذ لا وجود للخشب لجمعه. لا يُنصح بها للّاعبين غير المتمرّسين.[/color]"
+
+#: maps/random/polar_sea.jsonsettings.Daytime[0].Description
+msgid "Scattered sunlight illuminates the scenery in a vivid red tone."
+msgstr ""
+
+#: maps/random/polar_sea.jsonsettings.Daytime[0].Name
+msgid "Dawn"
+msgstr ""
+
+#: maps/random/polar_sea.jsonsettings.Daytime[1].Description
+msgid "The scenery is illuminated by direct or indirect sunlight."
+msgstr ""
+
+#: maps/random/polar_sea.jsonsettings.Daytime[1].Name
+msgid "Daylight"
 msgstr ""
 
 #: maps/random/polar_sea.jsonsettings.Name
 msgid "Polar Sea"
-msgstr "البحر القطبي"
+msgstr "البحر القطبيّ"
+
+#: maps/random/pompeii.jsonsettings.Description
+msgid ""
+"Pompeii was an ancient Roman coastal city, in the Campania region of Italy. "
+"Pompeii, along with much of the surrounding area, was mostly destroyed and "
+"buried under 4 to 6 meters of volcanic ash and pumice in the eruption of "
+"Mount Vesuvius in AD 79."
+msgstr "بومبي كانت مدينة رومانية ساحلية قديمة، فى أقليم كامبانيا الايطالي. بومبي، مع بعض المناطق المحيطة بها، فى الغالب دُمرت ودُفنت تحت 4 إلى 6 أمتار من الرماد البركاني لجبل فيزوف فى عام 79 قبل الميلاد."
+
+#: maps/random/pompeii.jsonsettings.Name
+msgid "Pompeii"
+msgstr "بومبي"
 
 #: maps/random/pyrenean_sierra.jsonsettings.Description
 msgid ""
@@ -545,6 +737,30 @@ msgstr "جبال عالية تفصل الاعداء.\n\nالبيريني هو س
 #: maps/random/pyrenean_sierra.jsonsettings.Name
 msgid "Pyrenean Sierra"
 msgstr "بيرينيه سييرا"
+
+#: maps/random/ratumacos.jsonsettings.Description
+msgid ""
+"Players start on the banks of the River Sequana (Seine) in Northern Gaul "
+"near the settlement of Ratumacos. Destined to become one of the largest and "
+"most prosperous cities of Medieval Europe and one of the Anglo-Norman "
+"dynasty capitals under the new name of Rouen, Ratumacos is still a peaceful "
+"land - but not for long."
+msgstr ""
+
+#: maps/random/ratumacos.jsonsettings.Name
+msgid "Ratumacos"
+msgstr ""
+
+#: maps/random/red_sea.jsonsettings.Description
+msgid ""
+"Historically, the Red Sea was a sea of many nations. Ideally situated for "
+"trade with the Far East, it was coveted by all. Although dry, this land is "
+"by no means inhospitable, and is amply provided with all resources."
+msgstr "تاريخياً، البحر الأحمر كان بحر العديد من الدول. بطريقة مثالية كان جيد للتجارة مع الشرق الاقصي، كان مطمعاً للجميع. علي الرغم من جفافها، هذه الأرض بكل المعاني ليست مضيافة، و بإسهاب توفر جميع الموارد."
+
+#: maps/random/red_sea.jsonsettings.Name
+msgid "Red Sea"
+msgstr "البحر الأحمر"
 
 #: maps/random/rhine_marshlands.jsonsettings.Description
 msgid ""
@@ -614,6 +830,19 @@ msgstr "خريطة مليئة بالغابات مع بحيرة فى المنتص
 msgid "Schwarzwald"
 msgstr "الغابة السوداء"
 
+#: maps/random/scythian_rivulet.jsonsettings.Description
+msgid ""
+"Carpeted in snow, the land slumbers in repose, but this fragile peace is "
+"destined to be shattered - and not by spring. Large packs of wolves lurk in "
+"the wild searching for prey, a lone arctic fox scurries away to hide. "
+"Starting in this seemingly hostile terrain, players must conquer - or be "
+"conquered."
+msgstr ""
+
+#: maps/random/scythian_rivulet.jsonsettings.Name
+msgid "Scythian Rivulet"
+msgstr ""
+
 #: maps/random/snowflake_searocks.jsonsettings.Description
 msgid "Many small islands connected to each other by narrow passages."
 msgstr "جزر صغيرة كثيرة متّصلة بممرّات ضيّقة."
@@ -663,31 +892,94 @@ msgid "The Nile"
 msgstr "النّيل"
 
 #: maps/random/unknown.jsonsettings.Description
-msgid "The unknown... Warning: May be a naval map."
-msgstr "المجهول... تحذير: قد تكون خريطة بحريّة."
+msgid "The unknown."
+msgstr "المجهول."
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[1].Name
+msgid "Isthmus"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[2].Description
+msgid "A small central river."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[2].Name
+msgid "Central River"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[3].Description
+msgid ""
+"Players are aligned on a strip of land with seas bordering on one or both "
+"sides that may hold islands."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[3].Name
+msgid "Edge Seas"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[4].Description
+msgid "Land shaped like a concrescent moon around a central lake."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[4].Name
+msgid "Gulf"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[5].Description
+msgid "Mainland style with some small random lakes."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[5].Name
+msgid "Lakes"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[6].Description
+msgid ""
+"A large hill encompasses the map and leaves players only a small passage to "
+"the two neighboring players."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[6].Name
+msgid "Passes"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[7].Description
+msgid ""
+"The land is enclosed by a hill that leaves a small area per player connected"
+" to the large central place."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.land[7].Name
+msgid "Lowlands"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.naval[0].Description
+msgid "A huge sea is dividing the map into two halves."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.naval[0].Name
+msgid "Naval: Central Sea"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.naval[1].Description
+msgid "Players are scattered across island chains and disconnected islands."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.naval[1].Name
+msgid "Naval: Archipelago"
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.naval[2].Description
+msgid "A central lake with rivers possibly separating neighboring players."
+msgstr ""
+
+#: maps/random/unknown.jsonsettings.Landscapes.naval[2].Name
+msgid "Naval: Lake and rivers"
+msgstr ""
 
 #: maps/random/unknown.jsonsettings.Name
 msgid "Unknown"
 msgstr "مجهول"
-
-#: maps/random/unknown_land.jsonsettings.Description
-msgid "The unknown..."
-msgstr "المجهول ..."
-
-#: maps/random/unknown_land.jsonsettings.Name
-msgid "Unknown Land"
-msgstr "الأرض المجهولة"
-
-#: maps/random/unknown_nomad.jsonsettings.Description
-msgid ""
-"The unknown... Players start with only some citizen soldiers and females. "
-"[color=\"red\"]Warning: The starting resources should be set at least at "
-"Medium.[/color]"
-msgstr "المجهول... يبدأ اللاعبون ببعض الجنود والمواطنات. [color=\"red\"]تحذير: يجب ضبط موارد البدء لتكون متوسّطة على الأقلّ.[/color]"
-
-#: maps/random/unknown_nomad.jsonsettings.Name
-msgid "Unknown Nomad"
-msgstr "بدوي مجهول"
 
 #: maps/random/volcanic_lands.jsonsettings.Description
 msgid "A charred dead land where players start around a smoking volcano."
@@ -699,8 +991,8 @@ msgstr "الأراضي البركانيّة"
 
 #: maps/random/wall_demo.jsonsettings.Description
 msgid ""
-"A demonstration of wall placement methods/code in random maps. Very large "
-"map size is recommended."
+"A demonstration of wall placement methods/code in random maps. Giant map "
+"size is recommended!"
 msgstr ""
 
 #: maps/random/wall_demo.jsonsettings.Name
@@ -715,230 +1007,41 @@ msgstr "بحيرة تحيط بها التّلال."
 msgid "Wild Lake"
 msgstr ""
 
-#: maps/random/rmbiome/biomes/alpine.jsonDescription.Description
-msgid ""
-"A region in the high snowy mountains. Biting winds sweep through the "
-"abundant conifer forests, making even the more resilient deer and mountain "
-"goats shiver."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/alpine.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"A region in the high snowy mountains. Biting winds sweep through the "
-"abundant conifer forests, making even the more resilient deer and mountain "
-"goats shiver."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/alpine.jsonDescription.Title
-msgid "Alpine"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/alpine.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Alpine"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/autumn.jsonDescription.Description
-msgid ""
-"Autumn at its peak. The landscape is a dazzling dash of colors irrevocably "
-"intertwined. The native beech and oak trees of this temperate zone display a"
-" multi-coloured foliage while the evergreen pines look on with indifference "
-"at the approaching winter."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/autumn.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"Autumn at its peak. The landscape is a dazzling dash of colors irrevocably "
-"intertwined. The native beech and oak trees of this temperate zone display a"
-" multi-coloured foliage while the evergreen pines look on with indifference "
-"at the approaching winter."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/autumn.jsonDescription.Title
-msgid "Autumn"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/autumn.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Autumn"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/desert.jsonDescription.Description
-msgid ""
-"A semi-desert area that boasts numerous clumps of date palms and tamarix "
-"trees. Herds of camels roam the wild and the occasional gazelle jumps up in "
-"fright at being disturbed."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/desert.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"A semi-desert area that boasts numerous clumps of date palms and tamarix "
-"trees. Herds of camels roam the wild and the occasional gazelle jumps up in "
-"fright at being disturbed."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/desert.jsonDescription.Title
-msgid "Desert"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/desert.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Desert"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/mediterranean.jsonDescription.Description
-msgid ""
-"Start in a region blessed with the Mediterranean climate, a warm and "
-"inviting land. The cypresses are in a perpetual struggle with the dominant "
-"fan palms while deer graze in their shadows, blissfully unaware."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/mediterranean.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"Start in a region blessed with the Mediterranean climate, a warm and "
-"inviting land. The cypresses are in a perpetual struggle with the dominant "
-"fan palms while deer graze in their shadows, blissfully unaware."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/mediterranean.jsonDescription.Title
-msgid "Mediterranean"
-msgstr "البحر الأبيض المتوسّط"
-
-#: maps/random/rmbiome/biomes/mediterranean.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Mediterranean"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/savanna.jsonDescription.Description
-msgid ""
-"The savanna, a dry climate in which only the hardy Baobab trees thrive. "
-"Solitary gazelles graze the sparse grass, while herds of zebras, wildebeest,"
-" giraffes or elephants roam the wild in search of food."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/savanna.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"The savanna, a dry climate in which only the hardy Baobab trees thrive. "
-"Solitary gazelles graze the sparse grass, while herds of zebras, wildebeest,"
-" giraffes or elephants roam the wild in search of food."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/savanna.jsonDescription.Title
-msgid "Savanna"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/savanna.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Savanna"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/snowy.jsonDescription.Description
-msgid ""
-"Settle in the cold regions of the North, the native habitat of the wooly "
-"muskox. Here you can pine away to your content and also hunt the occasional "
-"walrus or two."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/snowy.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"Settle in the cold regions of the North, the native habitat of the wooly "
-"muskox. Here you can pine away to your content and also hunt the occasional "
-"walrus or two."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/snowy.jsonDescription.Title
-msgid "Snowy"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/snowy.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Snowy"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/temperate.jsonDescription.Description
-msgid ""
-"Lush grasslands carpet the land, in places giving way to magnificent and "
-"diverse broadleaf forests. Poplars, pines, beeches and oaks all vie for "
-"supremacy but this root-war is a neverending struggle. Numerous apple trees "
-"dot the land, deer and sheep gorge themselves on this years fallen fruit."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/temperate.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"Lush grasslands carpet the land, in places giving way to magnificent and "
-"diverse broadleaf forests. Poplars, pines, beeches and oaks all vie for "
-"supremacy but this root-war is a neverending struggle. Numerous apple trees "
-"dot the land, deer and sheep gorge themselves on this years fallen fruit."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/temperate.jsonDescription.Title
-msgid "Temperate"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/temperate.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Temperate"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/tropic.jsonDescription.Description
-msgid ""
-"Explore the mysterious tropics. An extremely green, but also extremely humid"
-" environment awaits. The tall Toona trees look on disapprovingly at this "
-"invasion of their privacy and ferocious tigers are determined to defend "
-"their territory at all costs."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/tropic.jsonDescription.Description
-msgctxt "biome definition"
-msgid ""
-"Explore the mysterious tropics. An extremely green, but also extremely humid"
-" environment awaits. The tall Toona trees look on disapprovingly at this "
-"invasion of their privacy and ferocious tigers are determined to defend "
-"their territory at all costs."
-msgstr ""
-
-#: maps/random/rmbiome/biomes/tropic.jsonDescription.Title
-msgid "Tropic"
-msgstr ""
-
-#: maps/random/rmbiome/biomes/tropic.jsonDescription.Title
-msgctxt "biome definition"
-msgid "Tropic"
-msgstr ""
-
 #: maps/random/extinct_volcano_triggers.js:65
 msgid "It keeps on raining, we will have to evacuate soon!"
 msgstr "لا يتوقّف المطر عن الهطول، علينا أن نخلي المكان عاجلًا!"
 
 #: maps/random/extinct_volcano_triggers.js:66
 msgid "The rivers are standing high, we need to find a safe place!"
-msgstr "مستوى الماء في الأنهار يرتفع، علينا العثور على مكان آمن!"
+msgstr "ارتفاع مستوى الماء في الأنهار يزداد، علينا أن نجد مكانًا آمنًا!"
 
 #: maps/random/extinct_volcano_triggers.js:67
 msgid "We have to find dry ground, our lands will drown soon!"
-msgstr "علينا العثور على أرضيّة جافّة، ستنغمر أراضينا قريبًا!"
+msgstr "علينا أن نجد أرضيّة جافّة، ستنغمر أراضينا قريبًا!"
 
 #: maps/random/extinct_volcano_triggers.js:68
 msgid "The lakes start swallowing the land, we have to find shelter!"
+msgstr "بدأت البحيرات تأخذ من أراضينا، علينا أن نجد مأوًى!"
+
+#: maps/random/jebel_barkal_triggers.js:592
+msgid "Napata is attacking!"
 msgstr ""
 
-#: maps/random/survivalofthefittest_triggers.js:193
+#: maps/random/jebel_barkal_triggers.js:602
+#, javascript-format
+msgid "Napata will attack in %(time)s!"
+msgstr ""
+
+#: maps/random/survivalofthefittest_triggers.js:163
 #, javascript-format
 msgid "The first wave will start in %(time)s!"
 msgstr "ستبدأ أوّل موجة خلال %(time)s!"
 
-#: maps/random/survivalofthefittest_triggers.js:327
+#: maps/random/survivalofthefittest_triggers.js:264
 msgid "An enemy wave is attacking!"
 msgstr "موجة للأعداء تهاجم!"
 
-#: maps/random/survivalofthefittest_triggers.js:351
+#: maps/random/survivalofthefittest_triggers.js:288
 #, javascript-format
 msgid "%(player)s has been defeated (lost civic center)."
 msgstr ""
@@ -967,40 +1070,40 @@ msgstr ""
 msgid "Say rather not"
 msgstr ""
 
-#: maps/scenarios/treasure_islands.js:10
+#: maps/scenarios/treasure_islands.js:9
 msgid "Collect the treasures before your enemy does! May the better win!"
 msgstr "اجمع الكنوز قبل أعدائك! القويّ يستحقّ الفوز!"
 
-#: maps/scenarios/treasure_islands.js:29
+#: maps/scenarios/treasure_islands.js:28
 msgid "No winner yet, prepare for battle!"
 msgstr "لا فائز بعد، تجهز من أجل المعركة!"
 
-#: maps/scenarios/treasure_islands.js:44
+#: maps/scenarios/treasure_islands.js:43
 msgid "Your enemy's treasury is filled to the brim, you lose!"
 msgstr "خزينة العدوّ امتلأت عن آخرها. لقد خسرت!"
 
-#: maps/scenarios/treasure_islands.js:49
+#: maps/scenarios/treasure_islands.js:48
 msgid "Your treasury is filled to the brim, you are victorious!"
 msgstr "خزينتك امتلأت عن آخرها. لقد انتصرت!"
 
-#: maps/scenarios/treasure_islands.js:61
+#: maps/scenarios/treasure_islands.js:60
 msgid "Hurry up! Your enemy is close to victory!"
 msgstr "أسرِع! اقترب عدوّك من النّصر!"
 
-#: maps/scenarios/treasure_islands.js:72
+#: maps/scenarios/treasure_islands.js:71
 #, javascript-format
 msgid "Treasures remaining to collect for victory:  %(remainingTreasures)s!"
 msgstr "الكنوز اللازمة لجمعها من أجل الفوز:  %(remainingTreasures)s!"
 
-#: maps/scenarios/treasure_islands.js:80
+#: maps/scenarios/treasure_islands.js:79
 msgid "You have collected a treasure!"
 msgstr ""
 
-#: maps/scenarios/treasure_islands.js:92
+#: maps/scenarios/treasure_islands.js:91
 msgid "Defeat your enemy to win!"
 msgstr "اهزم عدوّك للفوز."
 
-#: maps/scenarios/treasure_islands.js:101
+#: maps/scenarios/treasure_islands.js:100
 #, javascript-format
 msgid "%(lastPlayer)s has won (treasure collected)."
 msgid_plural "%(players)s and %(lastPlayer)s have won (treasure collected)."
@@ -1011,7 +1114,7 @@ msgstr[3] ""
 msgstr[4] ""
 msgstr[5] ""
 
-#: maps/scenarios/treasure_islands.js:105
+#: maps/scenarios/treasure_islands.js:104
 #, javascript-format
 msgid "%(lastPlayer)s has been defeated (treasure collected)."
 msgid_plural ""
@@ -1043,7 +1146,7 @@ msgstr ""
 #: maps/scenarios/Necropolis.xml:PlayerData[0].Name:39 maps/scenarios/Saharan
 #: Oases.xml:PlayerData[0].Name:27 maps/scenarios/Sandbox -
 #: Britons.xml:PlayerData[0].Name:39 maps/scenarios/Sandbox -
-#: Gauls.xml:PlayerData[0].Name:39 maps/scenarios/Sandbox -
+#: Gauls.xml:PlayerData[1].Name:40 maps/scenarios/Sandbox -
 #: Iberians.xml:PlayerData[0].Name:39 maps/scenarios/Sandbox -
 #: Romans.xml:PlayerData[0].Name:39 maps/scenarios/Siwa
 #: Oasis.xml:PlayerData[0].Name:27 maps/scenarios/The Massacre of
@@ -1053,48 +1156,6 @@ msgstr ""
 #: maps/scenarios/WallTest.xml:PlayerData[0].Name:27
 #: maps/scenarios/Walls.xml:PlayerData[0].Name:27
 #: maps/scenarios/reservoir.xml:PlayerData[0].Name:27
-#: maps/skirmishes/Acropolis Bay (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Alpine_Valleys_(2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Bactria (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Barcania (3).xml:PlayerData[0].Name:27
-#: maps/skirmishes/Belgian Bog (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Caspian Sea (2v2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Corinthian Isthmus (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Corinthian Isthmus (4).xml:PlayerData[0].Name:40
-#: maps/skirmishes/Corsica and Sardinia (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Cycladic Archipelago (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Death Canyon (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Deccan Plateau (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Gallic Fields (3).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Gambia River (3).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Golden Oasis (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Greek Acropolis (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Greek Acropolis (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Greek Acropolis Night (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Libyan Oases (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Libyan Oasis (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Lorraine Plain (2).xml:PlayerData[0].Name:40
-#: maps/skirmishes/Median Oasis (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Median Oasis (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Mediterranean Cove (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Neareastern Badlands (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Neareastern Badlands (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Nile River (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Persian Highlands (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Punjab (2).xml:PlayerData[0].Name:40
-#: maps/skirmishes/Saharan Oases (4).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Sahel (4).xml:PlayerData[0].Name:39 maps/skirmishes/Savanna
-#: River.xml:PlayerData[0].Name:39 maps/skirmishes/Sicilia
-#: (2).xml:PlayerData[0].Name:39
-#: maps/skirmishes/Sicilia_Nomad.xml:PlayerData[0].Name:35
-#: maps/skirmishes/Siwa Oasis (2).xml:PlayerData[0].Name:40
-#: maps/skirmishes/Sporades Islands (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Syria (2).xml:PlayerData[0].Name:39 maps/skirmishes/Team
-#: Oasis - 2v2.xml:PlayerData[0].Name:39 maps/skirmishes/Thessalian Plains
-#: (4).xml:PlayerData[0].Name:39 maps/skirmishes/Tuscan Acropolis
-#: (4).xml:PlayerData[0].Name:40 maps/skirmishes/Watering Holes
-#: (4).xml:PlayerData[0].Name:39 maps/skirmishes/Zagros Mountains
-#: (2).xml:PlayerData[0].Name:39
 msgid "Player 1"
 msgstr "اللاعب 1"
 
@@ -1110,7 +1171,7 @@ msgstr "اللاعب 1"
 #: maps/scenarios/Necropolis.xml:PlayerData[1].Name:39 maps/scenarios/Saharan
 #: Oases.xml:PlayerData[1].Name:27 maps/scenarios/Sandbox -
 #: Britons.xml:PlayerData[1].Name:39 maps/scenarios/Sandbox -
-#: Gauls.xml:PlayerData[1].Name:39 maps/scenarios/Sandbox -
+#: Gauls.xml:PlayerData[2].Name:40 maps/scenarios/Sandbox -
 #: Iberians.xml:PlayerData[1].Name:39 maps/scenarios/Sandbox -
 #: Romans.xml:PlayerData[1].Name:39 maps/scenarios/Siwa
 #: Oasis.xml:PlayerData[1].Name:27 maps/scenarios/The Massacre of
@@ -1118,49 +1179,7 @@ msgstr "اللاعب 1"
 #: Islands.xml:PlayerData[1].Name:39 maps/scenarios/Tropical
 #: Island.xml:PlayerData[1].Name:39
 #: maps/scenarios/WallTest.xml:PlayerData[1].Name:27
-#: maps/scenarios/Walls.xml:PlayerData[1].Name:27 maps/skirmishes/Acropolis
-#: Bay (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Alpine_Valleys_(2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Bactria (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Barcania (3).xml:PlayerData[1].Name:27
-#: maps/skirmishes/Belgian Bog (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Caspian Sea (2v2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Corinthian Isthmus (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Corinthian Isthmus (4).xml:PlayerData[1].Name:40
-#: maps/skirmishes/Corsica and Sardinia (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Cycladic Archipelago (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Death Canyon (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Deccan Plateau (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Gallic Fields (3).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Gambia River (3).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Golden Oasis (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Greek Acropolis (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Greek Acropolis (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Greek Acropolis Night (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Libyan Oases (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Libyan Oasis (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Lorraine Plain (2).xml:PlayerData[1].Name:40
-#: maps/skirmishes/Median Oasis (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Median Oasis (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Mediterranean Cove (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Neareastern Badlands (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Neareastern Badlands (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Nile River (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Persian Highlands (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Punjab (2).xml:PlayerData[1].Name:40
-#: maps/skirmishes/Saharan Oases (4).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Sahel (4).xml:PlayerData[1].Name:39 maps/skirmishes/Savanna
-#: River.xml:PlayerData[1].Name:39 maps/skirmishes/Sicilia
-#: (2).xml:PlayerData[1].Name:39
-#: maps/skirmishes/Sicilia_Nomad.xml:PlayerData[1].Name:35
-#: maps/skirmishes/Siwa Oasis (2).xml:PlayerData[1].Name:40
-#: maps/skirmishes/Sporades Islands (2).xml:PlayerData[2].Name:39
-#: maps/skirmishes/Syria (2).xml:PlayerData[1].Name:39 maps/skirmishes/Team
-#: Oasis - 2v2.xml:PlayerData[1].Name:39 maps/skirmishes/Thessalian Plains
-#: (4).xml:PlayerData[1].Name:39 maps/skirmishes/Tuscan Acropolis
-#: (4).xml:PlayerData[1].Name:40 maps/skirmishes/Watering Holes
-#: (4).xml:PlayerData[1].Name:39 maps/skirmishes/Zagros Mountains
-#: (2).xml:PlayerData[1].Name:39
+#: maps/scenarios/Walls.xml:PlayerData[1].Name:27
 msgid "Player 2"
 msgstr "اللاعب 2"
 
@@ -1388,26 +1407,8 @@ msgstr "قوة الغزو"
 #: maps/scenarios/Necropolis.xml:PlayerData[2].Name:39 maps/scenarios/Saharan
 #: Oases.xml:PlayerData[2].Name:27 maps/scenarios/Sandbox -
 #: Britons.xml:PlayerData[2].Name:39 maps/scenarios/Sandbox -
-#: Gauls.xml:PlayerData[2].Name:39 maps/scenarios/Siwa
-#: Oasis.xml:PlayerData[2].Name:27 maps/skirmishes/Barcania
-#: (3).xml:PlayerData[2].Name:27 maps/skirmishes/Caspian Sea
-#: (2v2).xml:PlayerData[2].Name:39 maps/skirmishes/Corinthian Isthmus
-#: (4).xml:PlayerData[2].Name:40 maps/skirmishes/Corsica and Sardinia
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Gallic Fields
-#: (3).xml:PlayerData[2].Name:39 maps/skirmishes/Gambia River
-#: (3).xml:PlayerData[2].Name:39 maps/skirmishes/Greek Acropolis
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Libyan Oases
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Median Oasis
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Neareastern Badlands
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Nile River
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Persian Highlands
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Saharan Oases
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Sahel
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Team Oasis -
-#: 2v2.xml:PlayerData[2].Name:39 maps/skirmishes/Thessalian Plains
-#: (4).xml:PlayerData[2].Name:39 maps/skirmishes/Tuscan Acropolis
-#: (4).xml:PlayerData[2].Name:40 maps/skirmishes/Watering Holes
-#: (4).xml:PlayerData[2].Name:39
+#: Gauls.xml:PlayerData[3].Name:40 maps/scenarios/Siwa
+#: Oasis.xml:PlayerData[2].Name:27
 msgid "Player 3"
 msgstr "اللاعب 3"
 
@@ -1444,22 +1445,7 @@ msgstr ""
 #: maps/scenarios/Gold_Rush.xml:PlayerData[3].Name:27
 #: maps/scenarios/Necropolis.xml:PlayerData[3].Name:39 maps/scenarios/Saharan
 #: Oases.xml:PlayerData[3].Name:27 maps/scenarios/Siwa
-#: Oasis.xml:PlayerData[3].Name:27 maps/skirmishes/Caspian Sea
-#: (2v2).xml:PlayerData[3].Name:39 maps/skirmishes/Corinthian Isthmus
-#: (4).xml:PlayerData[3].Name:40 maps/skirmishes/Corsica and Sardinia
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Greek Acropolis
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Libyan Oases
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Median Oasis
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Neareastern Badlands
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Nile River
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Persian Highlands
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Saharan Oases
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Sahel
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Team Oasis -
-#: 2v2.xml:PlayerData[3].Name:39 maps/skirmishes/Thessalian Plains
-#: (4).xml:PlayerData[3].Name:39 maps/skirmishes/Tuscan Acropolis
-#: (4).xml:PlayerData[3].Name:40 maps/skirmishes/Watering Holes
-#: (4).xml:PlayerData[3].Name:39
+#: Oasis.xml:PlayerData[3].Name:27
 msgid "Player 4"
 msgstr "اللاعب 4"
 
@@ -1555,7 +1541,7 @@ msgid ""
 "Multiplayer map. Each player starts out on a small island with minimal resources situated off the coast of a large land mass.\n"
 "\n"
 "This is a WFG community-designed map by: SMST, NOXAS1, and Yodaspirine."
-msgstr "خريطة جماعيّة. يبدأ كلّ لاعب على جزيرة صغيرة فيها أدنى حدّ من الموارد وتقع قبالة ساحل لأرض كبيرة الكتلة.هذه خريطة صمّمها مجتمع WFG وهم: SMST، وNOXAS1 وYodaspirine."
+msgstr "خريطة جماعيّة. يبدأ كلّ لاعب على جزيرة صغيرة فيها أدنى حدّ من الموارد وتقع قبالة ساحل لأرض كبيرة الكتلة. هذه خريطة صمّمها مجتمع WFG وهم: SMST، وNOXAS1 وYodaspirine."
 
 #: maps/scenarios/Miletus.xml:PlayerData[0].Name:27
 #: maps/scenarios/Miletus.xml:Name:27
@@ -1581,9 +1567,19 @@ msgid ""
 "non-competitive multiplayer matches."
 msgstr "خريطة صغيرة فيها الكثير من الموارد وبعض المياه، وذلك لاختبار أسلوب اللعب في المبارزات الجماعية غير المتنافسة."
 
+#: maps/scenarios/Napata Reconstruction.xml:Name:40
+msgid "Napata Reconstruction"
+msgstr ""
+
+#: maps/scenarios/Napata Reconstruction.xml:Description:40
+msgid ""
+"This map displays a reconstruction of the ancient city Napata. "
+"[color=\"red\"]Note:[/color] The map is not intended to be playable."
+msgstr ""
+
 #: maps/scenarios/Necropolis.xml:Description:39
 msgid ""
-"4 players duke it out over the vast Nile Delta. Each city starts out nestled atop a large acropolis, but resources are scarce, forcing each player to expand their resource operations into the surrounding lands.\n"
+"Four players duke it out over the vast Nile Delta. Each city starts out nestled atop a large plateau, but resources are scarce, forcing each player to expand their resource operations into the surrounding lands.\n"
 "\n"
 "Scouts say the nearby branches of the Nile River are shallow and fordable in multiple locations, so should only serve as a minor barrier between enemy factions."
 msgstr ""
@@ -1720,12 +1716,12 @@ msgid "Sandbox - The Athenians"
 msgstr ""
 
 #: maps/scenarios/Sandbox - Britons.xml:Description:39 maps/scenarios/Sandbox
-#: - Gauls.xml:Description:39
+#: - Gauls.xml:Description:40
 msgid "Play around with the Gallic faction in an idyllic sandbox setting."
 msgstr ""
 
 #: maps/scenarios/Sandbox - Britons.xml:PlayerData[3].Name:39
-#: maps/scenarios/Sandbox - Gauls.xml:PlayerData[3].Name:39
+#: maps/scenarios/Sandbox - Gauls.xml:PlayerData[4].Name:40
 msgid "Roman Interlopers"
 msgstr ""
 
@@ -1751,7 +1747,7 @@ msgstr "لصوص"
 msgid "Sandbox - The Carthaginians"
 msgstr ""
 
-#: maps/scenarios/Sandbox - Gauls.xml:Name:39
+#: maps/scenarios/Sandbox - Gauls.xml:Name:40
 msgid "Sandbox - The Gauls"
 msgstr ""
 
@@ -1761,6 +1757,22 @@ msgstr ""
 
 #: maps/scenarios/Sandbox - Iberians.xml:Name:39
 msgid "Sandbox - The Iberians"
+msgstr ""
+
+#: maps/scenarios/Sandbox - Kushites.xml:Description:40
+msgid "Play the Kushites faction in a non-threatening sandbox scenario."
+msgstr ""
+
+#: maps/scenarios/Sandbox - Kushites.xml:PlayerData[1].Name:40
+msgid "Kushites"
+msgstr ""
+
+#: maps/scenarios/Sandbox - Kushites.xml:PlayerData[2].Name:40
+msgid "Egyptians"
+msgstr ""
+
+#: maps/scenarios/Sandbox - Kushites.xml:Name:40
+msgid "Sandbox - The Kushites"
 msgstr ""
 
 #: maps/scenarios/Sandbox - Macedonians.xml:Description:39
@@ -1776,20 +1788,20 @@ msgstr ""
 msgid "Sandbox - The Macedonians"
 msgstr ""
 
-#: maps/scenarios/Sandbox - Mauryans.xml:Description:39
+#: maps/scenarios/Sandbox - Mauryas.xml:Description:39
 msgid "Mauryan Indian faction showcase map."
 msgstr ""
 
-#: maps/scenarios/Sandbox - Mauryans.xml:PlayerData[0].Name:39
+#: maps/scenarios/Sandbox - Mauryas.xml:PlayerData[0].Name:39
 msgid "Mauryan Indians"
 msgstr ""
 
-#: maps/scenarios/Sandbox - Mauryans.xml:PlayerData[1].Name:39
+#: maps/scenarios/Sandbox - Mauryas.xml:PlayerData[1].Name:39
 msgid "Enemy"
 msgstr "عدو"
 
-#: maps/scenarios/Sandbox - Mauryans.xml:Name:39
-msgid "Sandbox - The Mauryans"
+#: maps/scenarios/Sandbox - Mauryas.xml:Name:39
+msgid "Sandbox - The Mauryas"
 msgstr ""
 
 #: maps/scenarios/Sandbox - Persians.xml:Description:39
@@ -2057,8 +2069,8 @@ msgid "We Are Legion"
 msgstr "نحن الفيلق"
 
 #: maps/scenarios/We are Legion.xml:Description:27
-msgid "A quick battle demo map using Roman legionnaires."
-msgstr "خريطة معركة للتجريب السريع باستخدام الفيلق الرومانى"
+msgid "A quick battle demo map using Roman legionaries."
+msgstr ""
 
 #: maps/scenarios/_default.xml:Name:28
 msgid "Unnamed map"
@@ -2092,12 +2104,34 @@ msgstr ""
 msgid "Base Temperate Map"
 msgstr ""
 
+#: maps/scenarios/test-foundation.xml:Description:40
+msgid ""
+"This map is designed to help artists and modders find the adequate "
+"foundation for a specific building. This map is not meant to be playable."
+msgstr ""
+
+#: maps/scenarios/test-foundation.xml:Name:40
+msgid "Foundation Testing Map"
+msgstr ""
+
+#: maps/scenarios/unit_motion_integration_test.xml:Description:40
+msgid ""
+"This map is designed to test some basic unit movement cases. It will involve"
+" unitAI, unitMotion and the relevant pathfinders and thus acts as an "
+"integrated test map. Look for things such as stuck units, wrong animations, "
+"and weird pathing."
+msgstr ""
+
+#: maps/scenarios/unit_motion_integration_test.xml:Name:40
+msgid "Unit Motion Integration Test"
+msgstr ""
+
 #: maps/skirmishes/Acropolis Bay (2).xml:Description:39
 msgid ""
-"Each player starts the match atop a large flat plateau, otherwise known as an acropolis.\n"
+"Each player starts the match atop a large flat plateau.\n"
 "\n"
-"To the East lies a large bay with fishing opportunities. To the West is a rugged hinterland with an unclaimed acropolis commanding the valley below."
-msgstr "يبدأ كلّ لاعب المبارزة فوق هضبة مسطّحة كبيرة، والمعروفة بِأكروبول.\n\nعلى الجانب الشّرقيّ ثمّة خليج كبير يوفّر فرص للصّيد. وعلى الجانب الغربيّ مناطق نائية وعرة فيها هضبة مهجولة الهويّة تشرف على الوادي أسفلها."
+"To the East lies a large bay with fishing opportunities. To the West is a rugged hinterland with an unclaimed plateau commanding the valley below."
+msgstr ""
 
 #: maps/skirmishes/Acropolis Bay (2).xml:Name:39
 msgid "Acropolis Bay (2)"
@@ -2124,6 +2158,17 @@ msgstr ""
 msgid "Alpine Valleys (2)"
 msgstr "وديان الألب (2)"
 
+#: maps/skirmishes/Atlas_Valleys_(8).xml:Description:40
+msgid ""
+"Skirmish high in the Atlas mountains, where snowcapped mountains loom over "
+"desert oases. A wild landscape awaits; every player will experience "
+"different advantages and challenges based on their location."
+msgstr ""
+
+#: maps/skirmishes/Atlas_Valleys_(8).xml:Name:40
+msgid "Atlas Valleys (8)"
+msgstr ""
+
 #: maps/skirmishes/Bactria (2).xml:Description:39
 msgid ""
 "The arid and mineral-rich lands of Bactria (modern-day Afghanistan) at the foot of the Hindu Kush mountains.\n"
@@ -2141,10 +2186,10 @@ msgstr ""
 
 #: maps/skirmishes/Barcania (3).xml:Description:27
 msgid ""
-"A wild and wooded isle, full of forests, gold, and mystery...  mountains, "
-"seas, and thick forests make for a very dynamic and fast-paced 3-player map "
-"with lots of potential for skirmishing and guerilla warfare as well as tough"
-" defensive fighting or aggressive maneuvers."
+"A wild and wooded isle, full of forests, gold, and mystery. Mountains, seas,"
+" and thick forests make for a very dynamic and fast-paced 3-player map with "
+"lots of potential for skirmishing and guerilla warfare as well as tough "
+"defensive fighting or aggressive maneuvers."
 msgstr ""
 
 #: maps/skirmishes/Belgian Bog (2).xml:Description:39
@@ -2157,6 +2202,24 @@ msgstr "اثنين من اللاعبين يتقابلون فى مستنقع كب
 #: maps/skirmishes/Belgian Bog (2).xml:Name:39
 msgid "Belgian Bog (2)"
 msgstr "المستنقع البلجيكيّ (2)"
+
+#: maps/skirmishes/Butana Steppe (2).xml:Description:40
+msgid ""
+"South of the Sahara, East of the Nile, lies a semi-arid region today known "
+"as the Butana Steppe."
+msgstr ""
+
+#: maps/skirmishes/Butana Steppe (2).xml:PlayerData[0].Name:40
+msgid "West Player"
+msgstr ""
+
+#: maps/skirmishes/Butana Steppe (2).xml:PlayerData[1].Name:40
+msgid "East Player"
+msgstr ""
+
+#: maps/skirmishes/Butana Steppe (2).xml:Name:40
+msgid "Butana Steppe (2)"
+msgstr ""
 
 #: maps/skirmishes/Caspian Sea (2v2).xml:Description:39
 msgid ""
@@ -2254,6 +2317,59 @@ msgstr ""
 msgid "Dueling Cliffs (3v3)"
 msgstr ""
 
+#: maps/skirmishes/Egypt (3v3).xml:Name:40
+msgid "Egypt (3v3)"
+msgstr ""
+
+#: maps/skirmishes/Egypt (3v3).xml:PlayerData[0].Name:40
+msgid "Alexandria"
+msgstr ""
+
+#: maps/skirmishes/Egypt (3v3).xml:PlayerData[1].Name:40
+msgid "Theben"
+msgstr ""
+
+#: maps/skirmishes/Egypt (3v3).xml:PlayerData[2].Name:40
+msgid "Siwa"
+msgstr ""
+
+#: maps/skirmishes/Egypt (3v3).xml:PlayerData[3].Name:40
+msgid "Sinai"
+msgstr ""
+
+#: maps/skirmishes/Egypt (3v3).xml:PlayerData[4].Name:40
+msgid "Memphis"
+msgstr ""
+
+#: maps/skirmishes/Egypt (3v3).xml:PlayerData[5].Name:40
+msgid "Cyrene"
+msgstr ""
+
+#: maps/skirmishes/Egypt (3v3).xml:Description:40
+msgid ""
+"Fight for the remains of ancient Egypt!\n"
+"\n"
+"Players start with full grown cities and small armies, each having distinct advantages and drawbacks. Take care, there are 7 mighty forts and marauding bandids!\n"
+"\n"
+"It is the last century before 0 A.D. Egypt is internally divided between hellenistic (Alexandria, represented by Seleucids) and traditional influences (Memphis, represented by Ptolemies). Thebes in the southern clime of river Nile has already been taken over by the Kush. In the north western Al-Dschabal al-Achdar, where the mediterranean city of Cyrene is located the Romans are preparing their invasion. From the eastern desert at-Tih and mount Sinai enemies (represented by Persians) are pushing forward and the oasis Siwa. Charga (represented by Carthage) in the south western desert are trying to get a share of the pie as well.\n"
+"Locations:\n"
+"- Alexandria: library, harbor\n"
+"- Memphis: Necropolis, pyramids, Apis shrine\n"
+"- Thebes: temple district, Valley of the Kings \n"
+"- Cyrene: mediterranean Macchie, olive groves\n"
+"- Fayyum: crocodile shrine, nile dam\n"
+"- Eastern desert: mount Sinai, deep Wadi, Red Sea reefs\n"
+"- Western desert: Oasis Charga and Siwa, Qattara Depression\n"
+msgstr ""
+
+#: maps/skirmishes/Farmland (2).xml:Description:40
+msgid "Farmland in Eastern Europe."
+msgstr ""
+
+#: maps/skirmishes/Farmland (2).xml:Name:40
+msgid "Farmland (2)"
+msgstr ""
+
 #: maps/skirmishes/Forest Battle (4).xml:Description:40
 msgid ""
 "A forest battle map where all players fight for supremacy and control over "
@@ -2291,7 +2407,7 @@ msgstr "نهر غامبيا (3)"
 #: maps/skirmishes/Golden Island (2).xml:Description:40
 msgid ""
 "A ring of land borders a resource-rich island in the Mediterranean. Players "
-"can access the center via a narrow strip of land or via boat."
+"can access the center via a narrow strip of shallow water or via boat."
 msgstr ""
 
 #: maps/skirmishes/Golden Island (2).xml:Name:40
@@ -2312,7 +2428,7 @@ msgstr "واحات الذهب (2)"
 #: maps/skirmishes/Greek Acropolis (2).xml:Description:39
 #: maps/skirmishes/Greek Acropolis Night (2).xml:Description:39
 msgid ""
-"Two factions find themselves perched safely atop large rocky plateaus, or acropolises.\n"
+"Two factions find themselves perched safely atop large rocky plateaus.\n"
 "\n"
 "Scout the lands to find free treasures and to secure new resources."
 msgstr ""
@@ -2323,7 +2439,7 @@ msgstr ""
 
 #: maps/skirmishes/Greek Acropolis (4).xml:Description:39
 msgid ""
-"Three factions find themselves perched safely atop large rocky plateaus, or acropolises, whereas the fourth one is separated from their foes by a river branch.\n"
+"Three factions find themselves perched safely atop large rocky plateaus, whereas the fourth one is separated from their foes by a river branch.\n"
 "\n"
 "Scout the lands to find free treasures and to secure new resources.."
 msgstr ""
@@ -2438,6 +2554,30 @@ msgstr ""
 msgid "Northern Island (2)"
 msgstr "الجزر الشمالية (2)"
 
+#: maps/skirmishes/Obedska_Bog_(4).xml:Description:40
+#: maps/skirmishes/Obedska_Bog_Night_(4).xml:Description:40
+msgid ""
+"A lazy river meanders through these Serbian wetlands. Stone is scarce, but many lumps of bog iron sit waiting to be found.\n"
+"\n"
+"*This map makes heavy use of grass actors which may adversely affect performance."
+msgstr ""
+
+#: maps/skirmishes/Obedska_Bog_(4).xml:Name:40
+msgid "Obedska Bog (4)"
+msgstr ""
+
+#: maps/skirmishes/Obedska_Bog_Night_(4).xml:Name:40
+msgid "Obedska Bog Night (4)"
+msgstr ""
+
+#: maps/skirmishes/Oceanside (2).xml:Description:40
+msgid "A Lush temperate biome along an ocean. "
+msgstr ""
+
+#: maps/skirmishes/Oceanside (2).xml:Name:40
+msgid "Oceanside (2)"
+msgstr ""
+
 #: maps/skirmishes/Persian Highlands (4).xml:Description:39
 msgid ""
 "A dry central basin rich in minerals surrounded by rocky hills and "
@@ -2481,6 +2621,19 @@ msgstr ""
 msgid "Sahel (4)"
 msgstr "الساحل (4)"
 
+#: maps/skirmishes/Sahyadri_Buttes_(5).xml:Description:40
+msgid ""
+"The diverse rainforests nestled in the Sahyadri mountain range of the west coast of India. It goes without saying, wood is abundant.\n"
+"\n"
+"Iberian players do not get full circuit walls, but 5 strategically placed wall towers.\n"
+"\n"
+"WARNING: This map uses a lot of floral actors on account of being a rainforest. Expect a drop in framerate, this is taxing on most mid range computers."
+msgstr ""
+
+#: maps/skirmishes/Sahyadri_Buttes_(5).xml:Name:40
+msgid "Sahyadri Buttes (5)"
+msgstr ""
+
 #: maps/skirmishes/Savanna River.xml:Description:39
 msgid "A large savanna is bisected by a narrow jungle stream."
 msgstr ""
@@ -2506,17 +2659,6 @@ msgstr ""
 #: maps/skirmishes/Sicilia_Nomad.xml:Name:35
 msgid "Sicilia Nomad (2)"
 msgstr "سيسيليا البدوي(2)"
-
-#: maps/skirmishes/Siwa Oasis (2).xml:Description:40
-msgid ""
-"A dual oasis map with nearly all of the wood and animal resources concentrated in the middle of the map. Farmlands ring the oases sucking up what little moisture can be had.\n"
-"\n"
-"Stone and Metal can only be found in the rocky hinterlands. Treasures, if enabled, can be found scattered in the nearby deserts."
-msgstr ""
-
-#: maps/skirmishes/Siwa Oasis (2).xml:Name:40
-msgid "Siwa Oasis (2)"
-msgstr "واحة سيوة (2)"
 
 #: maps/skirmishes/Skirmish Demo.xml:Description:39
 msgid "A demo Skirmish map."
@@ -2552,11 +2694,19 @@ msgstr "واحة محاطة بالجبال والصحارى. ارض للزراع
 msgid "Team Oasis (2v2)"
 msgstr "سيوه فِرق (2 ضد 2)"
 
+#: maps/skirmishes/Temperate Roadway (2).xml:Description:40
+msgid "Temperate zone map with plentiful resources. Map Size: Small"
+msgstr ""
+
+#: maps/skirmishes/Temperate Roadway (2).xml:Name:40
+msgid "Temperate Roadway (2)"
+msgstr ""
+
 #: maps/skirmishes/Thessalian Plains (4).xml:Description:39
 msgid ""
 "The rolling Thessalian plain is traversed with narrow streams, easily "
 "forded. Wide-open spaces allow for massive expansion, while each player "
-"starts the match safe atop a large acropolis."
+"starts the match safe atop a large plateau."
 msgstr ""
 
 #: maps/skirmishes/Thessalian Plains (4).xml:Name:39
@@ -2565,7 +2715,7 @@ msgstr "سهول ثيساليا (4)"
 
 #: maps/skirmishes/Tuscan Acropolis (4).xml:Description:40
 msgid ""
-"Four factions find themselves perched safely atop large rocky plateaus, or acropolises.\n"
+"Four factions find themselves perched safely atop large rocky plateaus.\n"
 "\n"
 "Scout the lands to find free treasures and to secure new resources."
 msgstr ""
@@ -2583,6 +2733,26 @@ msgstr "خريطة استوائيّة كبيرة فيها بحرين على شر
 #: maps/skirmishes/Two Seas (6).xml:Name:40
 msgid "Two Seas (6)"
 msgstr "بحران (6)"
+
+#: maps/skirmishes/Vesuvius_(6).xml:Description:40
+msgid ""
+"Skirmish as ash lightly falls around this recently erupted volcano. the "
+"scorched landscape offers little food, though the blasted forests are still "
+"laden with useful wood. "
+msgstr ""
+
+#: maps/skirmishes/Vesuvius_(6).xml:Name:40
+msgid "Vesuvius (6)"
+msgstr ""
+
+#: maps/skirmishes/Via Augusta (4).xml:Description:40
+msgid ""
+"All Roads Lead To Rome. Via Julia Augusta a Roman road built in 13 BCE."
+msgstr ""
+
+#: maps/skirmishes/Via Augusta (4).xml:Name:40
+msgid "Via Augusta"
+msgstr ""
 
 #: maps/skirmishes/Watering Holes (4).xml:Description:39
 msgid ""
@@ -2607,3 +2777,196 @@ msgstr ""
 #: maps/skirmishes/Zagros Mountains (2).xml:Name:39
 msgid "Zagros Mountains (2)"
 msgstr "سلسلة جبال زاغروس (2)"
+
+#: maps/random/rmbiome/fields_of_meroe/dry.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"The vitalizing waters of the Nile sustain life along its banks, while the "
+"long dry season scorches the land."
+msgstr ""
+
+#: maps/random/rmbiome/fields_of_meroe/dry.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Dry Season"
+msgstr ""
+
+#: maps/random/rmbiome/fields_of_meroe/rainy.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Revelling in the much awaited rain, the baked land transforms into a lush "
+"haven for both man and beast."
+msgstr ""
+
+#: maps/random/rmbiome/fields_of_meroe/rainy.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Rainy Season"
+msgstr ""
+
+#: maps/random/rmbiome/generic/alpine.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"A region in the high snowy mountains. Biting winds sweep through the "
+"abundant conifer forests, making even the more resilient deer and mountain "
+"goats shiver."
+msgstr ""
+
+#: maps/random/rmbiome/generic/alpine.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Alpine"
+msgstr ""
+
+#: maps/random/rmbiome/generic/autumn.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Autumn at its peak. The landscape is a dazzling dash of colors irrevocably "
+"intertwined. The native beech and oak trees of this temperate zone display a"
+" multi-colored foliage while the evergreen pines look on with indifference "
+"at the approaching winter."
+msgstr ""
+
+#: maps/random/rmbiome/generic/autumn.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Autumn"
+msgstr ""
+
+#: maps/random/rmbiome/generic/desert.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"A semi-desert area that boasts numerous clumps of date palms and tamarix "
+"trees. Herds of camels roam the wild and the occasional gazelle jumps up in "
+"fright at being disturbed."
+msgstr ""
+
+#: maps/random/rmbiome/generic/desert.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Desert"
+msgstr ""
+
+#: maps/random/rmbiome/generic/mediterranean.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Start in a region blessed with the Mediterranean climate, a warm and "
+"inviting land. The cypresses are in a perpetual struggle with the dominant "
+"fan palms while deer graze in their shadows, blissfully unaware."
+msgstr ""
+
+#: maps/random/rmbiome/generic/mediterranean.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Mediterranean"
+msgstr "البحر الأبيض المتوسّط"
+
+#: maps/random/rmbiome/generic/savanna.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"The savanna, a dry climate in which only the hardy Baobab trees thrive. "
+"Solitary gazelles graze the sparse grass, while herds of zebras, wildebeest,"
+" giraffes or elephants roam the wild in search of food."
+msgstr ""
+
+#: maps/random/rmbiome/generic/savanna.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Savanna"
+msgstr ""
+
+#: maps/random/rmbiome/generic/snowy.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Settle in the cold regions of the North, the native habitat of the wooly "
+"muskox. Here you can pine away to your content and also hunt the occasional "
+"walrus or two."
+msgstr ""
+
+#: maps/random/rmbiome/generic/snowy.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Snowy"
+msgstr ""
+
+#: maps/random/rmbiome/generic/temperate.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Lush grasslands carpet the land, in places giving way to magnificent and "
+"diverse broadleaf forests. Poplars, pines, beeches and oaks all vie for "
+"supremacy but this root-war is a neverending struggle. Numerous apple trees "
+"dot the land, deer and sheep gorge themselves on this years fallen fruit."
+msgstr ""
+
+#: maps/random/rmbiome/generic/temperate.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Temperate"
+msgstr ""
+
+#: maps/random/rmbiome/generic/tropic.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Explore the mysterious tropics. An extremely green, but also extremely humid"
+" environment awaits. The tall Toona trees look on disapprovingly at this "
+"invasion of their privacy and ferocious tigers are determined to defend "
+"their territory at all costs."
+msgstr ""
+
+#: maps/random/rmbiome/generic/tropic.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Tropic"
+msgstr ""
+
+#: maps/random/rmbiome/gulf_of_bothnia/frozen_lake.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Solidifying it's grip, the harsh cold has succeeded in freezing up the gulf."
+" The thick ice formed is capable of withstanding any weight."
+msgstr ""
+
+#: maps/random/rmbiome/gulf_of_bothnia/frozen_lake.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Frozen Lake"
+msgstr ""
+
+#: maps/random/rmbiome/gulf_of_bothnia/late_spring.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"A late spring breeze ripples through the conifer forests of the Gulf of "
+"Bothnia. Herds of deer dot the landscape and playful rabbits frolick in the "
+"undergrowth."
+msgstr ""
+
+#: maps/random/rmbiome/gulf_of_bothnia/late_spring.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Late Spring"
+msgstr ""
+
+#: maps/random/rmbiome/gulf_of_bothnia/winter.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Winter has set in, carpeting the land with its first snow. The still "
+"unfrozen gulf offers great fishing opportunities."
+msgstr ""
+
+#: maps/random/rmbiome/gulf_of_bothnia/winter.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Winter"
+msgstr ""
+
+#: maps/random/rmbiome/persian_highlands/spring.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"Spring in the highlands, yet the heat has already begun making itself felt. "
+"The short-lived green grasses are on the retreat, paving the way for "
+"scorching summer."
+msgstr ""
+
+#: maps/random/rmbiome/persian_highlands/spring.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Spring"
+msgstr ""
+
+#: maps/random/rmbiome/persian_highlands/summer.jsonDescription.Description
+msgctxt "biome definition"
+msgid ""
+"An arid, hostile land. The blistering heat has baked the ground to a sickly "
+"brown and the remaining trees struggle for survival."
+msgstr ""
+
+#: maps/random/rmbiome/persian_highlands/summer.jsonDescription.Title
+msgctxt "biome definition"
+msgid "Summer"
+msgstr ""

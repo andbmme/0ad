@@ -6,9 +6,10 @@
   </Armour>
   <Attack>
     <Melee>
-      <Hack>5.5</Hack>
-      <Pierce>0</Pierce>
-      <MaxRange>2.0</MaxRange>
+      <Damage>
+        <Hack>5.5</Hack>
+        <Pierce>0</Pierce>
+      </Damage>
       <RepeatTime>750</RepeatTime>
       <PreferredClasses datatype="tokens">Siege</PreferredClasses>
     </Melee>
@@ -20,7 +21,7 @@
     </Resources>
   </Cost>
   <Identity>
-    <VisibleClasses datatype="tokens">Sword</VisibleClasses>
+    <VisibleClasses datatype="tokens">Swordsman</VisibleClasses>
     <GenericName>Swordsman</GenericName>
   </Identity>
   <Loot>
@@ -28,8 +29,5 @@
   </Loot>
   <UnitMotion>
     <WalkSpeed op="mul">1.05</WalkSpeed>
-    <Run>
-      <Speed op="mul">1.05</Speed>
-    </Run>
   </UnitMotion>
 </Entity>

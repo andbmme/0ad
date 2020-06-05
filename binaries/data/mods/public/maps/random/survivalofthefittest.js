@@ -1,5 +1,6 @@
-RMS.LoadLibrary("rmgen");
-RMS.LoadLibrary("rmbiome");
+Engine.LoadLibrary("rmgen");
+Engine.LoadLibrary("rmgen-common");
+Engine.LoadLibrary("rmbiome");
 
 setSelectedBiome();
 
@@ -30,7 +31,7 @@ const aWaypointFlag = "actor|props/special/common/waypoint_flag.xml";
 const pForest1 = [tForestFloor2 + TERRAIN_SEPARATOR + oTree1, tForestFloor2 + TERRAIN_SEPARATOR + oTree2, tForestFloor2];
 const pForest2 = [tForestFloor1 + TERRAIN_SEPARATOR + oTree4, tForestFloor1 + TERRAIN_SEPARATOR + oTree5, tForestFloor1];
 
-const oTreasureSeeker = "skirmish/units/default_support_female_citizen";
+const oTreasureSeeker = "nonbuilder|undeletable|skirmish/units/default_support_female_citizen";
 
 const triggerPointAttacker = "trigger/trigger_point_A";
 const triggerPointTreasures = [
@@ -39,112 +40,102 @@ const triggerPointTreasures = [
 	"trigger/trigger_point_D"
 ];
 
-InitMap();
+const heightLand = 3;
+const heightHill = 30;
+
+var g_Map = new RandomMap(heightHill, tMainTerrain);
 
 var numPlayers = getNumPlayers();
-var mapSize = getMapSize();
-var mapArea = getMapArea();
-var mapCenter = getMapCenter();
+var mapSize = g_Map.getSize();
+var mapCenter = g_Map.getCenter();
 
-var clPlayer = createTileClass();
-var clHill = createTileClass();
-var clForest = createTileClass();
-var clDirt = createTileClass();
-var clBaseResource = createTileClass();
-var clLand = createTileClass();
-var clWomen = createTileClass();
+var clPlayer = g_Map.createTileClass();
+var clHill = g_Map.createTileClass();
+var clForest = g_Map.createTileClass();
+var clDirt = g_Map.createTileClass();
+var clBaseResource = g_Map.createTileClass();
+var clLand = g_Map.createTileClass();
+var clWomen = g_Map.createTileClass();
 
-initTerrain(tMainTerrain);
-
-// Create the main treasure area in the middle of the map
+g_Map.log("Creating central area");
 createArea(
-	new ClumpPlacer(mapArea * scaleByMapSize(0.065, 0.09), 0.7, 0.1, 10, mapCenter.x, mapCenter.y),
+	new ClumpPlacer(diskArea(fractionToTiles(0.15)), 0.7, 0.1, Infinity, mapCenter),
 	[
-		new LayeredPainter([tMainTerrain, tMainTerrain], [3]),
-		new SmoothElevationPainter(ELEVATION_SET, 3, 3),
-		paintClass(clLand)
+		new TerrainPainter(tMainTerrain),
+		new SmoothElevationPainter(ELEVATION_SET, heightLand, 3),
+		new TileClassPainter(clLand)
 	]);
-RMS.SetProgress(10);
+Engine.SetProgress(10);
 
-var [playerIDs, playerX, playerZ, playerAngle, startAngle] = radialPlayerPlacement(0.3);
-var [halfwayX, halfwayZ] = distributePointsOnCircle(numPlayers, startAngle, fractionToTiles(0.375), mapCenter.x, mapCenter.y);
-var [attackerX, attackerZ] = distributePointsOnCircle(numPlayers, startAngle, fractionToTiles(0.45), mapCenter.x, mapCenter.y);
-var [passageX, passageZ] = distributePointsOnCircle(numPlayers, startAngle + Math.PI / numPlayers, fractionToTiles(0.5), mapCenter.x, mapCenter.y);
+var [playerIDs, playerPosition, playerAngle, startAngle] = playerPlacementCircle(fractionToTiles(0.3));
+var halfway = distributePointsOnCircle(numPlayers, startAngle, fractionToTiles(0.375), mapCenter)[0].map(v => v.round());
+var attacker = distributePointsOnCircle(numPlayers, startAngle, fractionToTiles(0.45), mapCenter)[0].map(v => v.round());
+var passage = distributePointsOnCircle(numPlayers, startAngle + Math.PI / numPlayers, fractionToTiles(0.5), mapCenter)[0];
 
-log("Creating player bases and attacker points...");
+g_Map.log("Creating player bases, passages, treasure seeker woman and attacker points");
 for (let  i = 0; i < numPlayers; ++i)
 {
-	let fx = fractionToTiles(playerX[i]);
-	let fz = fractionToTiles(playerZ[i]);
-
-	placeStartingEntities(fx, fz, playerIDs[i], getStartingEntities(playerIDs[i] - 1).filter(ent =>
+	placeStartingEntities(playerPosition[i], playerIDs[i], getStartingEntities(playerIDs[i]).filter(ent =>
 		ent.Template.indexOf("civil_centre") != -1 || ent.Template.indexOf("infantry") != -1));
 
-	placeDefaultDecoratives(fx, fz, aGrassShort, clBaseResource, scaleByMapSize(15, 25));
+	placePlayerBaseDecoratives({
+		"playerPosition": playerPosition[i],
+		"template": aGrassShort,
+		"BaseResourceClass": clBaseResource
+	});
 
-	log("Creating passage separating players...");
+	// Passage between player and neighbor
 	createArea(
-		new PathPlacer(mapCenter.x, mapCenter.y, passageX[i], passageZ[i], scaleByMapSize(14, 24), 0.4, scaleByMapSize(3, 9), 0.2, 0.05),
+		new PathPlacer(mapCenter, passage[i], scaleByMapSize(14, 24), 0.4, scaleByMapSize(3, 9), 0.2, 0.05),
 		[
-			new LayeredPainter([tMainTerrain, tMainTerrain], [1]),
-			new SmoothElevationPainter(ELEVATION_SET, 3, 4)
+			new TerrainPainter(tMainTerrain),
+			new SmoothElevationPainter(ELEVATION_SET, heightLand, 4)
 		]);
 
-	log("Placing treasure seeker woman...");
-	let femaleLocation = getTIPIADBON([fx, fz], [mapCenter.x, mapCenter.y], [-3 , 3.5], 1, 3);
-	placeObject(femaleLocation[0], femaleLocation[1], oTreasureSeeker, playerIDs[i], playerAngle[i] + Math.PI);
-	addToClass(Math.floor(femaleLocation[0]), Math.floor(femaleLocation[1]), clWomen);
+	// Treasure seeker woman
+	let femaleLocation = findLocationInDirectionBasedOnHeight(playerPosition[i], mapCenter, -3 , 3.5, 3).round();
+	clWomen.add(femaleLocation);
+	g_Map.placeEntityPassable(oTreasureSeeker, playerIDs[i], femaleLocation, playerAngle[i] + Math.PI);
 
-	log("Placing attacker spawn point....");
-	placeObject(attackerX[i], attackerZ[i], aWaypointFlag, 0, Math.PI / 2);
-	placeObject(attackerX[i], attackerZ[i], triggerPointAttacker, playerIDs[i], Math.PI / 2);
+	// Attacker spawn point
+	g_Map.placeEntityAnywhere(aWaypointFlag, 0, attacker[i], Math.PI / 2);
+	g_Map.placeEntityPassable(triggerPointAttacker, playerIDs[i], attacker[i], Math.PI / 2);
 
-	log("Preventing mountains in the area between player and attackers...");
-	addCivicCenterAreaToClass(Math.round(fx), Math.round(fz), clPlayer);
-	addToClass(Math.round(attackerX[i]), Math.round(attackerZ[i]), clPlayer);
-	addToClass(Math.round(halfwayX[i]), Math.round(halfwayZ[i]), clPlayer);
+	// Preventing mountains in the area between player and attackers at player
+	addCivicCenterAreaToClass(playerPosition[i], clPlayer);
+	clPlayer.add(attacker[i]);
+	clPlayer.add(halfway[i]);
 }
-RMS.SetProgress(20);
+Engine.SetProgress(20);
 
-paintTerrainBasedOnHeight(3.12, 29, 1, tCliff);
-paintTileClassBasedOnHeight(3.12, 29, 1, clHill);
+paintTerrainBasedOnHeight(heightLand + 0.12, heightHill - 1, Elevation_IncludeMin_ExcludeMax, tCliff);
+paintTileClassBasedOnHeight(heightLand + 0.12, heightHill - 1, Elevation_IncludeMin_ExcludeMax, clHill);
+Engine.SetProgress(30);
+
+var landConstraint = new StaticConstraint(stayClasses(clLand, 5));
 
 for (let triggerPointTreasure of triggerPointTreasures)
 	createObjectGroupsDeprecated(
 		new SimpleGroup([new SimpleObject(triggerPointTreasure, 1, 1, 0, 0)], true, clWomen),
 		0,
-		[avoidClasses(clForest, 5, clPlayer, 5, clHill, 5), stayClasses(clLand, 5)],
-		scaleByMapSize(40, 140), 100
-	);
-RMS.SetProgress(25);
+		[avoidClasses(clPlayer, 5, clHill, 5), landConstraint],
+		scaleByMapSize(40, 140),
+		100);
+Engine.SetProgress(35);
 
-createBumps(stayClasses(clLand, 5));
+createBumps(landConstraint);
+Engine.SetProgress(40);
 
-var [forestTrees, stragglerTrees] = getTreeCounts(...rBiomeTreeCount(1));
-createForests(
-	[tMainTerrain, tForestFloor1, tForestFloor2, pForest1, pForest2],
-	[avoidClasses(clPlayer, 20, clForest, 5, clHill, 0, clBaseResource,2, clWomen, 5), stayClasses(clLand, 4)],
-	clForest,
-	forestTrees);
-RMS.SetProgress(30);
-
+var hillConstraint = new AndConstraint([avoidClasses(clHill, 5), new StaticConstraint(avoidClasses(clPlayer, 20, clBaseResource, 3, clWomen, 5))]);
 if (randBool())
-	createHills(
-		[tMainTerrain, tCliff, tHill],
-		[avoidClasses(clPlayer, 20, clHill, 5, clBaseResource, 3, clWomen, 5), stayClasses(clLand, 5)],
-		clHill,
-		scaleByMapSize(10, 60) * numPlayers);
+	createHills([tMainTerrain, tCliff, tHill], [hillConstraint, landConstraint], clHill, scaleByMapSize(10, 60) * numPlayers);
 else
-	createMountains(
-		tCliff,
-		[avoidClasses(clPlayer, 20, clHill, 5, clBaseResource, 3, clWomen, 5), stayClasses(clLand, 5)],
-		clHill,
-		scaleByMapSize(10, 60) * numPlayers);
-RMS.SetProgress(40);
+	createMountains(tCliff, [hillConstraint, landConstraint], clHill, scaleByMapSize(10, 60) * numPlayers);
+Engine.SetProgress(45);
 
 createHills(
 	[tCliff, tCliff, tHill],
-	avoidClasses(clPlayer, 20, clHill, 5, clBaseResource, 3, clWomen, 5, clLand, 5),
+	[hillConstraint, avoidClasses(clLand, 5)],
 	clHill,
 	scaleByMapSize(15, 90) * numPlayers,
 	undefined,
@@ -152,36 +143,46 @@ createHills(
 	undefined,
 	undefined,
 	55);
+Engine.SetProgress(50);
 
-RMS.SetProgress(50);
+var [forestTrees, stragglerTrees] = getTreeCounts(...rBiomeTreeCount(1));
+createForests(
+	[tMainTerrain, tForestFloor1, tForestFloor2, pForest1, pForest2],
+	[avoidClasses(clForest, 5), new StaticConstraint([avoidClasses(clPlayer, 20, clHill, 0, clBaseResource, 2, clWomen, 5), stayClasses(clLand, 4)])],
+	clForest,
+	forestTrees);
 
-log("Creating dirt patches...");
+Engine.SetProgress(60);
+
+g_Map.log("Creating dirt patches");
 createLayeredPatches(
 	[scaleByMapSize(3, 6), scaleByMapSize(5, 10), scaleByMapSize(8, 21)],
 	[[tMainTerrain, tTier1Terrain], [tTier1Terrain, tTier2Terrain], [tTier2Terrain, tTier3Terrain]],
 	[1, 1],
-	[avoidClasses(clForest, 0, clHill, 0, clDirt, 5, clPlayer, 12, clWomen, 5), stayClasses(clLand, 5)],
+	[avoidClasses(clForest, 0, clHill, 0, clDirt, 5, clPlayer, 12, clWomen, 5), landConstraint],
 	scaleByMapSize(15, 45),
 	clDirt);
+Engine.SetProgress(70);
 
-log("Creating grass patches...");
+g_Map.log("Creating grass patches");
 createPatches(
 	[scaleByMapSize(2, 4), scaleByMapSize(3, 7), scaleByMapSize(5, 15)],
 	tTier4Terrain,
-	[avoidClasses(clForest, 0, clHill, 0, clDirt, 5, clPlayer, 12, clWomen, 5), stayClasses(clLand, 5)],
+	[avoidClasses(clForest, 0, clHill, 0, clDirt, 5, clPlayer, 12, clWomen, 5), landConstraint],
 	scaleByMapSize(15, 45),
 	clDirt);
+Engine.SetProgress(80);
 
 var planetm = 1;
-if (currentBiome() == "tropic")
+if (currentBiome() == "generic/tropic")
 	planetm = 8;
 
 createDecoration(
 	[
 		[new SimpleObject(aRockMedium, 1, 3, 0, 1)],
 		[new SimpleObject(aRockLarge, 1, 2, 0, 1), new SimpleObject(aRockMedium, 1, 3, 0, 2)],
-		[new SimpleObject(aGrassShort, 1, 2, 0, 1, -PI/8, PI/8)],
-		[new SimpleObject(aGrass, 2,4, 0, 1.8, -PI/8, PI/8), new SimpleObject(aGrassShort, 3,6, 1.2, 2.5, -PI/8, PI/8)],
+		[new SimpleObject(aGrassShort, 1, 2, 0, 1)],
+		[new SimpleObject(aGrass, 2,4, 0, 1.8), new SimpleObject(aGrassShort, 3, 6, 1.2, 2.5)],
 		[new SimpleObject(aBushMedium, 1, 2, 0, 2), new SimpleObject(aBushSmall, 2, 4, 0, 2)]
 	],
 	[
@@ -191,8 +192,8 @@ createDecoration(
 		planetm * scaleByMapSize(13, 200),
 		planetm * scaleByMapSize(13, 200)
 	],
-	[avoidClasses(clForest, 0, clPlayer, 0, clHill, 0), stayClasses(clLand, 5)]
-);
+	[avoidClasses(clForest, 0, clPlayer, 0, clHill, 0), landConstraint]);
+Engine.SetProgress(90);
 
 createStragglerTrees(
 	[oTree1, oTree2, oTree4, oTree3],
@@ -200,4 +201,6 @@ createStragglerTrees(
 	clForest,
 	stragglerTrees);
 
-ExportMap();
+Engine.SetProgress(95);
+
+g_Map.ExportMap();

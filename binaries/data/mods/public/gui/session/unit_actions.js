@@ -11,6 +11,8 @@ var g_TargetMarker = {
  */
 var g_PatrolTargets = ["Unit"];
 
+const g_DisabledTags = { "color": "255 140 0" };
+
 /**
  * List of different actions units can execute,
  * this is mostly used to determine which actions can be executed
@@ -65,6 +67,15 @@ var g_UnitActions =
 		"getActionInfo": function(entState, targetState)
 		{
 			return { "possible": true };
+		},
+		"hotkeyActionCheck": function(target, selection)
+		{
+			if (!someUnitAI(selection) ||
+			    !Engine.HotkeyIsPressed("session.move") ||
+			    !getActionInfo("move", target, selection).possible)
+				return false;
+
+			return { "type": "move" };
 		},
 		"actionCheck": function(target, selection)
 		{
@@ -342,7 +353,7 @@ var g_UnitActions =
 			});
 
 			Engine.GuiInterfaceCall("PlaySound", {
-				"name": "order_repair",
+				"name": action.foundation ? "order_build" : "order_repair",
 				"entity": selection[0]
 			});
 
@@ -355,18 +366,23 @@ var g_UnitActions =
 			    !playerCheck(entState, targetState, ["Player", "Ally"]))
 				return false;
 
-			return { "possible": true };
+			return {
+				"possible": true,
+				"foundation": targetState.foundation
+			};
 		},
 		"preSelectedActionCheck": function(target, selection)
 		{
 			if (preSelectedAction != ACTION_REPAIR)
 				return false;
 
-			if (getActionInfo("repair", target, selection).possible)
+			let actionInfo = getActionInfo("repair", target, selection);
+			if (actionInfo.possible)
 				return {
 					"type": "repair",
 					"cursor": "action-repair",
-					"target": target
+					"target": target,
+					"foundation": actionInfo.foundation
 				};
 
 			return {
@@ -377,25 +393,29 @@ var g_UnitActions =
 		},
 		"hotkeyActionCheck": function(target, selection)
 		{
+			let actionInfo = getActionInfo("repair", target, selection);
 			if (!Engine.HotkeyIsPressed("session.repair") ||
-			    !getActionInfo("repair", target, selection).possible)
+			    !actionInfo.possible)
 				return false;
 
 			return {
 				"type": "repair",
 				"cursor": "action-repair",
-				"target": target
+				"target": target,
+				"foundation": actionInfo.foundation
 			};
 		},
 		"actionCheck": function(target, selection)
 		{
-			if (!getActionInfo("repair", target, selection).possible)
+			let actionInfo = getActionInfo("repair", target, selection);
+			if (!actionInfo.possible)
 				return false;
 
 			return {
 				"type": "repair",
 				"cursor": "action-repair",
-				"target": target
+				"target": target,
+				"foundation": actionInfo.foundation
 			};
 		},
 		"specificness": 11,
@@ -508,6 +528,58 @@ var g_UnitActions =
 		"specificness": 2,
 	},
 
+	"cancel-setup-trade-route":
+	{
+		"execute":function(target, action, selection, queued)
+		{
+			Engine.PostNetworkCommand({
+				"type": "cancel-setup-trade-route",
+				"entities": selection,
+				"target": action.target,
+				"queued": queued
+			});
+
+			return true;
+		},
+		"getActionInfo": function(entState, targetState)
+		{
+			if (targetState.foundation || !entState.trader || !targetState.market ||
+			    playerCheck(entState, targetState, ["Enemy"]) ||
+			    !(targetState.market.land && hasClass(entState, "Organic") ||
+			      targetState.market.naval && hasClass(entState, "Ship")))
+				return false;
+
+			let tradingDetails = Engine.GuiInterfaceCall("GetTradingDetails", {
+				"trader": entState.id,
+				"target": targetState.id
+			});
+
+			if (!tradingDetails || !tradingDetails.type)
+				return false;
+
+			if (tradingDetails.type == "is first" && !tradingDetails.hasBothMarkets)
+				return {
+					"possible": true,
+					"tooltip": translate("This is the origin trade market.\nRight-click to cancel trade route.")
+				};
+			return false;
+		},
+		"actionCheck": function(target, selection)
+		{
+			let actionInfo = getActionInfo("cancel-setup-trade-route", target, selection);
+
+			if (!actionInfo.possible)
+				return false;
+			return {
+				"type": "cancel-setup-trade-route",
+				"cursor": "action-cancel-setup-trade-route",
+				"tooltip": actionInfo.tooltip,
+				"target": target
+			}
+		},
+		"specificness": 2,
+	},
+
 	"setup-trade-route":
 	{
 		"execute": function(target, action, selection, queued)
@@ -554,7 +626,7 @@ var g_UnitActions =
 						"gain": getTradingTooltip(tradingDetails.gain)
 					});
 				else
-					tooltip += translate("Right-click on another market to set it as a destination trade market.");
+					return false;
 				break;
 
 			case "is second":
@@ -569,14 +641,17 @@ var g_UnitActions =
 				break;
 
 			case "set second":
-				if (tradingDetails.gain.traderGain == 0) // markets too close
-					return false;
+				if (tradingDetails.gain.traderGain == 0)
+					return {
+						"possible": true,
+						"tooltip": setStringTags(translate("This market is too close to the origin market."), g_DisabledTags),
+						"disabled": true
+					};
 
 				tooltip = translate("Right-click to set as destination trade market.") + "\n" +
 					sprintf(translate("Gain: %(gain)s"), {
 						"gain": getTradingTooltip(tradingDetails.gain)
 					});
-
 				break;
 			}
 
@@ -588,6 +663,15 @@ var g_UnitActions =
 		"actionCheck": function(target, selection)
 		{
 			let actionInfo = getActionInfo("setup-trade-route", target, selection);
+
+			if (actionInfo.disabled)
+				return {
+					"type": "none",
+					"cursor": "action-setup-trade-route-disabled",
+					"target": null,
+					"tooltip": actionInfo.tooltip
+				};
+
 			if (!actionInfo.possible)
 				return false;
 
@@ -635,7 +719,7 @@ var g_UnitActions =
 				extraCount += entState.garrisonHolder.garrisonedEntitiesCount;
 
 			if (targetState.garrisonHolder.garrisonedEntitiesCount + extraCount >= targetState.garrisonHolder.capacity)
-				tooltip = "[color=\"orange\"]" + tooltip + "[/color]";
+				tooltip = coloredText(tooltip, "orange");
 
 			if (!MatchesClassList(entState.identity.classes, targetState.garrisonHolder.allowedClasses))
 				return false;
@@ -808,6 +892,7 @@ var g_UnitActions =
 		"getActionInfo": function(entState, targetState)
 		{
 			let tooltip;
+			let disabled = false;
 			// default to walking there (or attack-walking if hotkey pressed)
 			let data = { "command": "walk" };
 			let cursor = "";
@@ -847,7 +932,7 @@ var g_UnitActions =
 
 				if (targetState.garrisonHolder.garrisonedEntitiesCount >=
 				    targetState.garrisonHolder.capacity)
-					tooltip = "[color=\"orange\"]" + tooltip + "[/color]";
+					tooltip = coloredText(tooltip, "orange");
 			}
 			else if (targetState.resourceSupply)
 			{
@@ -857,16 +942,21 @@ var g_UnitActions =
 				else
 					cursor = "action-gather-" + resourceType.specific;
 
-				data.command = "gather";
+				data.command = "gather-near-position";
 				data.resourceType = resourceType;
 				data.resourceTemplate = targetState.template;
+				if (!targetState.speed)
+				{
+					data.command = "gather";
+					data.target = targetState.id;
+				}
 			}
 			else if (entState.market && targetState.market &&
 			         entState.id != targetState.id &&
 			         (!entState.market.naval || targetState.market.naval) &&
 			         !playerCheck(entState, targetState, ["Enemy"]))
 			{
-				// Find a trader (if any) that this building can produce.
+				// Find a trader (if any) that this structure can train.
 				let trader;
 				if (entState.production && entState.production.entities.length)
 					for (let i = 0; i < entState.production.entities.length; ++i)
@@ -880,19 +970,26 @@ var g_UnitActions =
 				};
 
 				let gain = Engine.GuiInterfaceCall("GetTradingRouteGain", traderData);
-				if (gain && gain.traderGain)
+				if (gain)
 				{
 					data.command = "trade";
 					data.target = traderData.secondMarket;
 					data.source = traderData.firstMarket;
 					cursor = "action-setup-trade-route";
 
-					tooltip = translate("Right-click to establish a default route for new traders.") + "\n" +
-						sprintf(
-							trader ?
-								translate("Gain: %(gain)s") :
-								translate("Expected gain: %(gain)s"),
-							{ "gain": getTradingTooltip(gain) });
+					if (gain.traderGain)
+						tooltip = translate("Right-click to establish a default route for new traders.") + "\n" +
+							sprintf(
+								trader ?
+									translate("Gain: %(gain)s") :
+									translate("Expected gain: %(gain)s"),
+								{ "gain": getTradingTooltip(gain) });
+					else
+					{
+						disabled = true;
+						tooltip = setStringTags(translate("This market is too close to the origin market."), g_DisabledTags);
+						cursor = "action-setup-trade-route-disabled";
+					}
 				}
 			}
 			else if ((targetState.needsRepair || targetState.foundation) && playerCheck(entState, targetState, ["Ally"]))
@@ -922,6 +1019,7 @@ var g_UnitActions =
 				"data": data,
 				"position": targetState.position,
 				"cursor": cursor,
+				"disabled": disabled,
 				"tooltip": tooltip
 			};
 
@@ -932,6 +1030,15 @@ var g_UnitActions =
 				return false;
 
 			let actionInfo = getActionInfo("set-rallypoint", target, selection);
+
+			if (actionInfo.disabled)
+				return {
+					"type": "none",
+					"cursor": actionInfo.cursor,
+					"target": null,
+					"tooltip": actionInfo.tooltip
+				};
+
 			if (!actionInfo.possible)
 				return false;
 
@@ -994,6 +1101,8 @@ var g_UnitActions =
 	},
 };
 
+var g_UnitActionsSortedKeys = Object.keys(g_UnitActions).sort((a, b) => g_UnitActions[a].specificness - g_UnitActions[b].specificness);
+
 /**
  * Info and actions for the entity commands
  * Currently displayed in the bottom of the central panel
@@ -1031,7 +1140,7 @@ var g_EntityCommands =
 				{
 					"tooltip":
 						colorizeHotkey("%(hotkey)s" + " ", "session.kill") +
-						translate("Destroy the selected units or buildings.") + "\n" +
+						translate("Destroy the selected units or structures.") + "\n" +
 						colorizeHotkey(
 							translate("Use %(hotkey)s to avoid the confirmation dialog."),
 							"session.noconfirmation"
@@ -1049,16 +1158,26 @@ var g_EntityCommands =
 		},
 		"execute": function(entStates)
 		{
-			if (!entStates.length || entStates.every(entState => isUndeletable(entState)))
+			let entityIDs = entStates.reduce(
+				(ids, entState) => {
+					if (!isUndeletable(entState))
+						ids.push(entState.id);
+					return ids;
+				},
+				[]);
+
+			if (!entityIDs.length)
 				return;
 
+			let deleteSelection = () => Engine.PostNetworkCommand({
+				"type": "delete-entities",
+				"entities": entityIDs
+			});
+
 			if (Engine.HotkeyIsPressed("session.noconfirmation"))
-				Engine.PostNetworkCommand({
-					"type": "delete-entities",
-					"entities": entStates.map(entState => entState.id)
-				});
+				deleteSelection();
 			else
-				openDeleteDialog(entStates.map(entState => entState.id));
+				(new DeleteSelectionConfirmation(deleteSelection)).display();
 		},
 	},
 
@@ -1084,12 +1203,12 @@ var g_EntityCommands =
 	"garrison": {
 		"getInfo": function(entStates)
 		{
-			if (entStates.every(entState => !entState.unitAI || entState.turretParent))
+			if (entStates.every(entState => !entState.unitAI || entState.turretParent || false))
 				return false;
 
 			return {
 				"tooltip": colorizeHotkey("%(hotkey)s" + " ", "session.garrison") +
-				           translate("Order the selected units to garrison in a building or unit."),
+				           translate("Order the selected units to garrison in a structure or unit."),
 				"icon": "garrison.png"
 			};
 		},
@@ -1130,7 +1249,7 @@ var g_EntityCommands =
 
 			return {
 				"tooltip": colorizeHotkey("%(hotkey)s" + " ", "session.repair") +
-				           translate("Order the selected units to repair a building or mechanical unit."),
+				           translate("Order the selected units to repair a structure, ship, or siege engine."),
 				"icon": "repair.png"
 			};
 		},
@@ -1185,7 +1304,7 @@ var g_EntityCommands =
 			return {
 				"tooltip": colorizeHotkey("%(hotkey)s" + " ", "session.backtowork") +
 				           translate("Back to Work"),
-				"icon": "production.png"
+				"icon": "back-to-work.png"
 			};
 		},
 		"execute": function()
@@ -1203,7 +1322,7 @@ var g_EntityCommands =
 
 			return {
 				"tooltip": colorizeHotkey("%(hotkey)s" + " ", "session.guard") +
-				           translate("Order the selected units to guard a building or unit."),
+				           translate("Order the selected units to guard a structure or unit."),
 				"icon": "add-guard.png"
 			};
 		},
@@ -1244,7 +1363,7 @@ var g_EntityCommands =
 		},
 		"execute": function()
 		{
-			toggleTrade();
+			g_TradeDialog.toggle();
 		},
 	},
 
@@ -1257,7 +1376,7 @@ var g_EntityCommands =
 			return {
 				"tooltip": colorizeHotkey("%(hotkey)s" + " ", "session.patrol") +
 				           translate("Patrol") + "\n" +
-				           translate("Attack all encountered enemy units while avoiding buildings."),
+				           translate("Attack all encountered enemy units while avoiding structures."),
 				"icon": "patrol.png"
 			};
 		},
@@ -1393,7 +1512,7 @@ function someUnitAI(entities)
 {
 	return entities.some(ent => {
 		let entState = GetEntityState(ent);
-		return entState && entState.unitAI;
+		return entState && entState.unitAI || false;
 	});
 }
 
@@ -1401,7 +1520,7 @@ function someRallyPoints(entities)
 {
 	return entities.some(ent => {
 		let entState = GetEntityState(ent);
-		return entState && entState.rallyPoint;
+		return entState && entState.rallyPoint || false;
 	});
 }
 
@@ -1426,7 +1545,8 @@ function someCanPatrol(entities)
  */
 function isUndeletable(entState)
 {
-	if (g_DevSettings.controlAll)
+	let playerState = g_SimState.players[entState.player];
+	if (playerState && playerState.controlsAll)
 		return false;
 
 	if (entState.resourceSupply && entState.resourceSupply.killBeforeGather)
@@ -1435,7 +1555,7 @@ function isUndeletable(entState)
 	if (entState.capturePoints && entState.capturePoints[entState.player] < entState.maxCapturePoints / 2)
 		return translate("You cannot destroy this entity as you own less than half the capture points");
 
-	if (!entState.canDelete)
+	if (!entState.identity.canDelete)
 		return translate("This entity is undeletable");
 
 	return false;
@@ -1506,12 +1626,14 @@ function getActionInfo(action, target, selection)
 	// Look at the first targeted entity
 	// (TODO: maybe we eventually want to look at more, and be more context-sensitive?
 	// e.g. prefer to attack an enemy unit, even if some friendly units are closer to the mouse)
-	let targetState = GetExtendedEntityState(target);
+	let targetState = GetEntityState(target);
+	if (!targetState)
+		return { "possible": false };
 
 	// Check if any entities in the selection can do some of the available actions with target
 	for (let entityID of selection)
 	{
-		let entState = GetExtendedEntityState(entityID);
+		let entState = GetEntityState(entityID);
 		if (!entState)
 			continue;
 

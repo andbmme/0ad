@@ -20,6 +20,11 @@ var brokenVector = {
 	TS_ASSERT_EQUALS(v2.y, 14);
 }
 
+// Test Vector2D isEqualTo
+{
+	TS_ASSERT(Vector2D.isEqualTo(new Vector2D(4, 5), new Vector2D(2, 2.5).mult(2)));
+}
+
 // Test Vector2D normalization
 {
 	let v3 = new Vector2D(0, 5).normalize();
@@ -74,6 +79,27 @@ var brokenVector = {
 	}
 }
 
+// Test Vector2D rotation further
+{
+	let epsilon = 0.00000001;
+
+	for (let i = 0; i <= 128; ++i)
+	{
+		let angle = i / 128 * Math.PI;
+		let vec1 = new Vector2D(Math.cos(angle), Math.sin(angle));
+		let vec2 = new Vector2D(1, 0).rotate(-angle);
+
+		TS_ASSERT_EQUALS_APPROX(vec1.x, vec2.x, epsilon);
+		TS_ASSERT_EQUALS_APPROX(vec1.y, vec2.y, epsilon);
+
+		let vec3 = new Vector2D(Math.sin(angle), Math.cos(angle));
+		let vec4 = new Vector2D(0, 1).rotate(angle);
+
+		TS_ASSERT_EQUALS_APPROX(vec3.x, vec4.x, epsilon);
+		TS_ASSERT_EQUALS_APPROX(vec3.y, vec4.y, epsilon);
+	}
+}
+
 // Test Vector2D rotation around a center
 {
 	let epsilon = 0.00000001;
@@ -124,6 +150,81 @@ var brokenVector = {
 	TS_ASSERT_EQUALS(v8.y, 0);
 }
 
+// Test Vector2D angleTo
+{
+	let v1 = new Vector2D(1, 1);
+	let v2 = new Vector2D(1, 3);
+	let v3 = new Vector2D(3, 1);
+	TS_ASSERT_EQUALS(v1.angleTo(v2), 0);
+	TS_ASSERT_EQUALS(v1.angleTo(v3), Math.PI / 2);
+	TS_ASSERT_EQUALS(v3.angleTo(v2), -Math.PI / 4);
+}
+
+// Test Vector2D min / max functions
+{
+	let v1 = new Vector2D(-1, 8);
+	let v2 = new Vector2D(-2, -1);
+
+	let min = Vector2D.min(v1, v2);
+	TS_ASSERT_EQUALS(min.x, -2);
+	TS_ASSERT_EQUALS(min.y, -1);
+
+	let max = Vector2D.max(v1, v2);
+	TS_ASSERT_EQUALS(max.x, -1);
+	TS_ASSERT_EQUALS(max.y, 8);
+}
+
+// Test Vector2D list functions
+{
+	let list = [
+		new Vector2D(),
+		new Vector2D(-1, 5),
+		new Vector2D(89, -123),
+		new Vector2D(55, 66),
+	];
+
+	let sum = Vector2D.sum(list);
+	TS_ASSERT_EQUALS(sum.x, 143);
+	TS_ASSERT_EQUALS(sum.y, -52);
+
+	let avg = Vector2D.average(list);
+	TS_ASSERT_EQUALS(avg.x, 35.75);
+	TS_ASSERT_EQUALS(avg.y, -13);
+}
+
+// Test Vector2D round
+{
+	let v1 = new Vector2D(-4.5, 8.2).round();
+	TS_ASSERT_EQUALS(v1.x, -4);
+	TS_ASSERT_EQUALS(v1.y, 8);
+
+	let v2 = new Vector2D(NaN, NaN).round();
+	TS_ASSERT(isNaN(v2.x));
+	TS_ASSERT(isNaN(v2.y));
+
+	let v3 = new Vector2D().round();
+	TS_ASSERT_EQUALS(v3.x, 0);
+	TS_ASSERT_EQUALS(v3.y, 0);
+}
+
+// Test Vector2D floor
+{
+	let v1 = new Vector2D(-4.5, 8.9).floor();
+	TS_ASSERT_EQUALS(v1.x, -5);
+	TS_ASSERT_EQUALS(v1.y, 8);
+
+	let v2 = new Vector2D().floor();
+	TS_ASSERT_EQUALS(v2.x, 0);
+	TS_ASSERT_EQUALS(v2.y, 0);
+}
+
+// Vector3D tests
+
+// Test Vector3D isEqualTo
+{
+	TS_ASSERT(Vector3D.isEqualTo(new Vector3D(2, 5, 14), new Vector3D(0, 5, 10).add(new Vector3D(2, 0, 4))));
+}
+
 // Test Vector3D distance and compareLength
 {
 	let v1 = new Vector3D(2, 5, 14);
@@ -159,4 +260,50 @@ var brokenVector = {
 	TS_ASSERT_EQUALS(v5.x, -3);
 	TS_ASSERT_EQUALS(v5.y, 6);
 	TS_ASSERT_EQUALS(v5.z, -3);
+}
+
+// Test Vector3D horizAngleTo
+{
+	let v1 = new Vector3D(1, 1, 1);
+	let v2 = new Vector3D(1, 2, 3);
+	let v3 = new Vector3D(3, 10, 1);
+	TS_ASSERT_EQUALS(v1.horizAngleTo(v2), 0);
+	TS_ASSERT_EQUALS(v1.horizAngleTo(v3), Math.PI / 2);
+	TS_ASSERT_EQUALS(v3.horizAngleTo(v2), -Math.PI / 4);
+}
+
+// Test Vector3D round
+{
+	let v1 = new Vector3D(-1.1, 2.2, 3.3).round();
+	TS_ASSERT_EQUALS(v1.x, -1);
+	TS_ASSERT_EQUALS(v1.y, 2);
+	TS_ASSERT_EQUALS(v1.z, 3);
+
+	let v2 = new Vector3D(NaN, NaN, NaN).round();
+	TS_ASSERT(isNaN(v2.x));
+	TS_ASSERT(isNaN(v2.y));
+	TS_ASSERT(isNaN(v2.z));
+
+	let v3 = new Vector3D().round();
+	TS_ASSERT_EQUALS(v3.x, 0);
+	TS_ASSERT_EQUALS(v3.y, 0);
+	TS_ASSERT_EQUALS(v3.z, 0);
+
+	let v4 = new Vector3D(71.8, 73.4, 73.89).round();
+	TS_ASSERT_EQUALS(v4.x, 72);
+	TS_ASSERT_EQUALS(v4.y, 73);
+	TS_ASSERT_EQUALS(v4.z, 74);
+}
+
+// Test Vector3D floor
+{
+	let v1 = new Vector3D(-1.1, 2.2, 3.9).floor();
+	TS_ASSERT_EQUALS(v1.x, -2);
+	TS_ASSERT_EQUALS(v1.y, 2);
+	TS_ASSERT_EQUALS(v1.z, 3);
+
+	let v3 = new Vector3D().floor();
+	TS_ASSERT_EQUALS(v3.x, 0);
+	TS_ASSERT_EQUALS(v3.y, 0);
+	TS_ASSERT_EQUALS(v3.z, 0);
 }

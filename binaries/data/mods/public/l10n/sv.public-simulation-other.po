@@ -1,24 +1,26 @@
 # Translation template for 0 A.D. — Empires Ascendant.
-# Copyright © 2014 Wildfire Games
+# Copyright (C) 2019 Wildfire Games
 # This file is distributed under the same license as the 0 A.D. — Empires Ascendant project.
 # 
 # Translators:
 # Jacob Carlsson <yejcob@gmail.com>, 2015
 # Jimmi Elofsson <jimmielofsson@gmail.com>, 2017
 # Jonatan Nyberg, 2016
-# Kristoffer Grundström <kristoffer.grundstrom1983@gmail.com>, 2015-2016
+# Jonatan Nyberg, 2020
+# Kristoffer Grundström <hamnisdude@gmail.com>, 2015-2016
 # pilino1234 <pilino1234@zoho.eu>, 2016
 # pilino1234 <pilino1234@zoho.eu>, 2015-2016
+# Mattias Münster <mattiasmun@gmail.com>, 2019
 # pilino1234 <pilino1234@zoho.eu>, 2016-2017
-# pilino1234 <pilino1234@zoho.eu>, 2017
+# pilino1234 <pilino1234@zoho.eu>, 2017-2019
 # Sam Johnsson <johnsson.sam@gmail.com>, 2015
 # Ted Svendsen <tad.hopp@gmail.com>, 2017
 msgid ""
 msgstr ""
 "Project-Id-Version: 0 A.D.\n"
-"POT-Creation-Date: 2017-09-11 09:05+0200\n"
-"PO-Revision-Date: 2017-09-11 15:01+0000\n"
-"Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
+"POT-Creation-Date: 2019-05-24 09:43+0200\n"
+"PO-Revision-Date: 2020-02-18 07:51+0000\n"
+"Last-Translator: Jonatan Nyberg\n"
 "Language-Team: Swedish (http://www.transifex.com/wildfire-games/0ad/language/sv/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -243,7 +245,7 @@ msgstr "%(_player_)s, du måste skicka mig en tribut av %(_amount_)s %(_resource
 #, javascript-format
 msgid ""
 "Unless you send me %(_amount_)s %(_resource_)s, an alliance won’t be formed,"
-" %(_player_)s,"
+" %(_player_)s."
 msgstr "Om du inte skickar mig %(_amount_)s %(_resource_)s så kommer en allians inte bildas, %(_player_)s."
 
 #: simulation/ai/petra/chatHelper.js:88
@@ -432,12 +434,12 @@ msgid ""
 "%(validTerritories)s"
 msgstr "%(name)s kan ej byggas i %(territoryType)s territorium. Tillåtna territorier: %(validTerritories)s"
 
-#: simulation/components/BuildRestrictions.js:253
+#: simulation/components/BuildRestrictions.js:228
 #, javascript-format
 msgid "%(name)s must be built on a valid shoreline"
 msgstr "%(name)s måste byggas vid giltig kustlinje"
 
-#: simulation/components/BuildRestrictions.js:281
+#: simulation/components/BuildRestrictions.js:256
 #, javascript-format
 msgid ""
 "%(name)s too close to a %(category)s, must be at least %(distance)s meter "
@@ -448,7 +450,7 @@ msgid_plural ""
 msgstr[0] "%(name)s för nära en %(category)s, måste vara minst %(distance)s meter ifrån"
 msgstr[1] "%(name)s för nära en %(category)s, måste vara minst %(distance)s meter ifrån"
 
-#: simulation/components/BuildRestrictions.js:302
+#: simulation/components/BuildRestrictions.js:277
 #, javascript-format
 msgid ""
 "%(name)s too far from a %(category)s, must be within %(distance)s meter"
@@ -459,28 +461,28 @@ msgstr[1] "%(name)s för långt ifrån %(category)s, måste vara inom %(distance
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:342
+#: simulation/components/BuildRestrictions.js:317
 msgctxt "Territory type list"
 msgid "own"
 msgstr "egen"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:344
+#: simulation/components/BuildRestrictions.js:319
 msgctxt "Territory type list"
 msgid "ally"
 msgstr "Allierad"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:346
+#: simulation/components/BuildRestrictions.js:321
 msgctxt "Territory type list"
 msgid "neutral"
 msgstr "neutral"
 
 #. Translation: Territory types being displayed as part of a list like "Valid
 #. territories: own, ally".
-#: simulation/components/BuildRestrictions.js:348
+#: simulation/components/BuildRestrictions.js:323
 msgctxt "Territory type list"
 msgid "enemy"
 msgstr "Fiende"
@@ -494,52 +496,52 @@ msgstr "Du kan attackera om %(time)s"
 msgid "You can attack now!"
 msgstr "Du kan attackera nu!"
 
-#: simulation/components/EndGameManager.js:173
+#: simulation/components/EndGameManager.js:171
 #, javascript-format
 msgid "%(lastPlayer)s has won (last player alive)."
 msgid_plural "%(players)s and %(lastPlayer)s have won (last players alive)."
 msgstr[0] "%(lastPlayer)s har vunnit (sista levande spelare)"
 msgstr[1] "%(players)s och %(lastPlayer)s har vunnit (sista levande spelare)"
 
-#: simulation/components/EndGameManager.js:181
+#: simulation/components/EndGameManager.js:179
 msgid "Last remaining player wins."
 msgstr "Sista spelaren kvar vinner."
 
-#: simulation/components/EntityLimits.js:166
+#: simulation/components/EntityLimits.js:165
 #, javascript-format
 msgid "%(category)s build limit of %(limit)s reached"
 msgstr "%(category)s maximalt antal %(limit)s nått"
 
-#: simulation/components/EntityLimits.js:168
+#: simulation/components/EntityLimits.js:167
 #, javascript-format
 msgid "%(category)s training limit of %(limit)s reached"
 msgstr "%(category)s maximalt träningsantal %(limit)s nått"
 
-#: simulation/components/EntityLimits.js:172
+#: simulation/components/EntityLimits.js:171
 #, javascript-format
 msgid "%(category)s limit of %(limit)s reached"
 msgstr "%(category)s begränsning av %(limit)s nått"
 
-#: simulation/components/Player.js:304
+#: simulation/components/Player.js:352
 #, javascript-format
 msgid "Insufficient resources - %(resourceAmount1)s %(resourceType1)s"
 msgstr "Otillräckliga resurser - %(resourceAmount1)s %(resourceType1)s"
 
-#: simulation/components/Player.js:306
+#: simulation/components/Player.js:354
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
 "%(resourceAmount2)s %(resourceType2)s"
 msgstr "Otillräckliga resurser - %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s"
 
-#: simulation/components/Player.js:308
+#: simulation/components/Player.js:356
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
 "%(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s"
 msgstr "Otillräckliga resurser - %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s"
 
-#: simulation/components/Player.js:310
+#: simulation/components/Player.js:358
 #, javascript-format
 msgid ""
 "Insufficient resources - %(resourceAmount1)s %(resourceType1)s, "
@@ -547,13 +549,13 @@ msgid ""
 "%(resourceType3)s, %(resourceAmount4)s %(resourceType4)s"
 msgstr "Otillräckliga resurser - %(resourceAmount1)s %(resourceType1)s, %(resourceAmount2)s %(resourceType2)s, %(resourceAmount3)s %(resourceType3)s, %(resourceAmount4)s %(resourceType4)s"
 
-#: simulation/components/ProductionQueue.js:401
+#: simulation/components/ProductionQueue.js:394
 msgid "The production queue is full."
 msgstr "Produktionskön är full"
 
-#: simulation/components/ProductionQueue.js:783
+#: simulation/components/ProductionQueue.js:769
 msgid "Can't find free space to spawn trained units"
-msgstr "Kan inte hitta ledigt utrymme att placera tränade enheter"
+msgstr "Kan inte hitta ledigt utrymme att placera tränade soldater"
 
 #: simulation/helpers/Cheat.js:53
 #, javascript-format
@@ -562,53 +564,53 @@ msgstr "%(player)s har blivit besegrad (fusk)."
 
 #: simulation/helpers/Cheat.js:62
 msgid "You need to select a building that trains units."
-msgstr "Du måste markera en byggnad som kan träna enheter."
+msgstr "Du måste markera en byggnad som kan träna soldater."
 
-#: simulation/helpers/Commands.js:133
+#: simulation/helpers/Commands.js:124
 msgid "(Cheat - control all units)"
 msgstr "(Fusk - kontrollera alla enheter)"
 
-#: simulation/helpers/Commands.js:148
+#: simulation/helpers/Commands.js:139
 msgid "(Cheat - reveal map)"
 msgstr "(Fusk - visa karta)"
 
-#: simulation/helpers/Commands.js:453
+#: simulation/helpers/Commands.js:466
 #, javascript-format
 msgid "%(player)s has resigned."
 msgstr "%(player)s has gett upp."
 
-#: simulation/helpers/Commands.js:595
+#: simulation/helpers/Commands.js:608
 msgid "(Cheat - promoted units)"
 msgstr "(Fusk - befordrade enheter)"
 
-#: simulation/helpers/Commands.js:709
+#: simulation/helpers/Commands.js:722
 msgid ""
 "Cannot upgrade as distance requirements are not verified or terrain is "
 "obstructed."
 msgstr "Kan inte uppgradera eftersom distanskrav inte kan verifieras eller terrängen är skymd."
 
-#: simulation/helpers/Commands.js:719
+#: simulation/helpers/Commands.js:732
 msgid "Cannot upgrade a garrisoned entity."
 msgstr "Kan inte uppgradera en garnisonerad enhet."
 
-#: simulation/helpers/Commands.js:765
+#: simulation/helpers/Commands.js:775
 #, javascript-format
 msgid "Attack against %(_player_)s requested."
 msgstr "Attack mot %(_player_)s begärs."
 
-#: simulation/helpers/Commands.js:801
+#: simulation/helpers/Commands.js:814
 msgid "There are no bribable units"
 msgstr "Det finns inga mutbara enheter"
 
-#: simulation/helpers/Commands.js:847
+#: simulation/helpers/Commands.js:860
 msgid "Unable to ungarrison unit(s)"
 msgstr "Kan inte ogarnisonera enhet(er)"
 
-#: simulation/helpers/Commands.js:861
+#: simulation/helpers/Commands.js:874
 msgid "Some unit(s) can't go back to work"
 msgstr "Några enhet(er) kan ej gå tillbaka till arbetet"
 
-#: simulation/helpers/Commands.js:1115
+#: simulation/helpers/Commands.js:1112
 msgid "The building's technology requirements are not met."
 msgstr "Byggnadens teknologikrav är inte uppfyllda"
 
@@ -703,28 +705,30 @@ msgid "Capture the Relic"
 msgstr "Erövra Reliken"
 
 #: simulation/data/settings/victory_conditions/conquest.jsonData.Description
-msgid "Defeat all opponents to win."
-msgstr "Besegra alla motståndare för att vinna."
+msgid ""
+"Defeat opponents by killing all their units and destroying all their "
+"structures."
+msgstr "Besegra motståndare genom att döda alla deras enheter och förstöra allas deras strukturer."
 
 #: simulation/data/settings/victory_conditions/conquest.jsonData.Title
 msgid "Conquest"
 msgstr "Erövring"
 
 #: simulation/data/settings/victory_conditions/conquest_structures.jsonData.Description
-msgid "Destroy all enemy structures to win."
-msgstr "Förstör alla fienders byggnader för att vinna."
+msgid "Defeat opponents by destroying all their structures."
+msgstr "Besegra motståndare genom att förstöra alla deras strukturer."
 
 #: simulation/data/settings/victory_conditions/conquest_structures.jsonData.Title
 msgid "Conquest Structures"
 msgstr "Erövring Strukturer"
 
 #: simulation/data/settings/victory_conditions/conquest_units.jsonData.Description
-msgid "Kill all enemy units to win."
-msgstr "Döda fiendens alla enheter för att vinna."
+msgid "Defeat opponents by killing all their units."
+msgstr "Besegra motståndare genom att döda alla deras enheter."
 
 #: simulation/data/settings/victory_conditions/conquest_units.jsonData.Title
 msgid "Conquest Units"
-msgstr "Erövring Enheter"
+msgstr "Erövring soldater"
 
 #: simulation/data/settings/victory_conditions/regicide.jsonData.Description
 msgid "Defeat opponents by killing their hero."
@@ -736,9 +740,11 @@ msgstr "Regicid"
 
 #: simulation/data/settings/victory_conditions/wonder.jsonData.Description
 msgid ""
-"Be the first to build or capture a wonder and keep it for a certain time to "
-"win the game."
-msgstr "Bli först med att bygga eller erövra ett under och hålla den under en viss tid för att vinna spelet."
+"Be the first to build or capture a Wonder and keep it for a certain time to "
+"win the game. The timer will be reset when the Wonder is destroyed or "
+"captured. If the allied victory mode is enabled, the timer will also be "
+"reset when the alliances of the owner change."
+msgstr "Var den första att bygga eller erövra ett under och behåll det för en viss tid för att vinna spelet. Timern kommer återställas om undret förstörs eller erövras. Om spelläget allierad vinst är aktiverad, kommer timern också att återställas när ägarens allianser förändras."
 
 #: simulation/data/settings/victory_conditions/wonder.jsonData.Title
 msgid "Wonder"
@@ -774,6 +780,48 @@ msgctxt "startingResources"
 msgid "Deathmatch"
 msgstr "Dödsmatch"
 
+#: simulation/data/settings/trigger_difficulties.jsonData[0].Tooltip
+msgid "Choose this difficulty if you are discovering 0 A.D."
+msgstr "Använd denna svårighetsgrad om du upptäcker 0 A.D."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[0].Title
+msgid "Very Easy"
+msgstr "Väldigt lätt"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[1].Tooltip
+msgid "Choose this difficulty if you do not like being knocked down."
+msgstr "Välj denna svårighetsgrad om du inte gillar att bli nedslagen."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[1].Title
+msgid "Easy"
+msgstr "Lätt"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[2].Tooltip
+msgid ""
+"Choose this difficulty if you have already a good experience with 0 A.D."
+msgstr "Använd denna svårighetsgrad om du redan har en del erfarenhet med 0 A.D."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[2].Title
+#: simulation/data/settings/map_sizes.jsonData[2].Name
+msgid "Medium"
+msgstr "Mellan"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[3].Tooltip
+msgid "Choose this difficulty if you want to be really challenged."
+msgstr "Använd denna svårighetsgrad om du verkligen vill utmanas."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[3].Title
+msgid "Hard"
+msgstr "Svår"
+
+#: simulation/data/settings/trigger_difficulties.jsonData[4].Tooltip
+msgid "Choose this difficulty if you do not mind being swept out."
+msgstr "Använd denna svårighetsgrad om du inte har något emot att bli utplånad."
+
+#: simulation/data/settings/trigger_difficulties.jsonData[4].Title
+msgid "Very Hard"
+msgstr "Mycket svår"
+
 #: simulation/data/settings/map_sizes.jsonData[0].Name
 msgid "Tiny"
 msgstr "Mycket liten"
@@ -791,10 +839,6 @@ msgid ""
 "Small maps are suitable for 1v1 matches, as players can reach the enemy "
 "quickly while still having some room to expand."
 msgstr "Små kartor är lämpliga för 1v1 matcher, eftersom spelare snabbt kan nå fienden medan de fortfarande har lite utrymme att expandera."
-
-#: simulation/data/settings/map_sizes.jsonData[2].Name
-msgid "Medium"
-msgstr "Mellan"
 
 #: simulation/data/settings/map_sizes.jsonData[2].Tooltip
 msgid ""
@@ -845,5 +889,5 @@ msgstr "Petra Bot"
 msgid ""
 "Petra is the default 0 A.D. AI bot. Please report issues to Wildfire Games (see the link in the main menu).\n"
 "\n"
-"The AI has a bonus/penalty on resource stockpiling (either gathering rate or trade gain) varying from -50% for Sandbox to +60% for Very Hard (Medium 0%). In addition, the Sandbox level does not expand nor attack."
-msgstr "Petra är standard 0 A.D. AI. Vänligen rapportera fel till Wildfire Games (se länken i huvudmenyn).\n\nAI har ett bonus/straff på resurslagring (antingen samlingstakt eller handelsvinst) \nsom varierar från -50% för Sandlåda till +60% för Mycket Svår (Mellan = 0%). Dessutom gör Sandlådanivån inga attacker eller expanderar."
+"The AI's resource gathering rate and trade gain depend on the difficulty level (Sandbox −58%, Very Easy −44%, Easy −25%, Medium ±0%, Hard +25%, Very Hard +56%). The easiest levels also have a slower research, training, and building rate. In addition, the Sandbox level does not expand nor attack."
+msgstr "Petra är standard 0 A.D. AI bot. Var god rapportera problem till Wildfire Games (se länken i huvudmenyn).\n\nAI: s insamlingsfrekvens och handelsvinst beror på svårighetsgraden (Sandlåda –58%, Väldigt lätt –44%, Lätt –25%, Mellan ±0%, Svår +25%, Mycket svår +56%). De enklaste nivåerna har också en långsammare forsknings, tränings och bygghastighet. Dessutom expanderar inte Sandbox-nivån eller angriper."

@@ -3,12 +3,12 @@
   <Identity>
     <Civ>rome</Civ>
     <Lang>latin</Lang>
-    <SpecificName>Eques Consularis</SpecificName>
+    <SpecificName>Eques Cōnsulāris</SpecificName>
     <GenericName>Consular Bodyguard</GenericName>
     <Icon>units/rome_champion_cavalry.png</Icon>
     <SelectionGroupName>units/rome_champion_cavalry</SelectionGroupName>
   </Identity>
   <VisualActor>
-    <Actor>units/romans/champion_unit_2.xml</Actor>
+    <Actor>units/romans/cavalry_swordsman_c_m.xml</Actor>
   </VisualActor>
 </Entity>

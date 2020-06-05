@@ -1,3 +1,21 @@
+const g_TileVertices = deepfreeze([
+	new Vector2D(0, 0),
+	new Vector2D(0, 1),
+	new Vector2D(1, 0),
+	new Vector2D(1, 1)
+]);
+
+const g_AdjacentCoordinates = deepfreeze([
+	new Vector2D(1, 0),
+	new Vector2D(1, 1),
+	new Vector2D(0, 1),
+	new Vector2D(-1, 1),
+	new Vector2D(-1, 0),
+	new Vector2D(-1, -1),
+	new Vector2D(0, -1),
+	new Vector2D(1, -1)
+]);
+
 function diskArea(radius)
 {
 	return Math.PI * Math.square(radius);
@@ -14,93 +32,95 @@ function getAngle(x1, z1, x2, z2)
 
 /**
  * Get pointCount points equidistantly located on a circle.
+ * @param {Vector2D} center
  */
-function distributePointsOnCircle(pointCount, startAngle, radius, centerX, centerZ)
+function distributePointsOnCircle(pointCount, startAngle, radius, center)
 {
-	let x = [];
-	let z = [];
+	return distributePointsOnCircularSegment(pointCount, 2 * Math.PI * (pointCount - 1) / pointCount, startAngle, radius, center);
+}
+
+/**
+ * Get pointCount points equidistantly located on a circular segment, including both endpoints.
+ */
+function distributePointsOnCircularSegment(pointCount, maxAngle, startAngle, radius, center)
+{
+	let points = [];
 	let angle = [];
+	pointCount = Math.round(pointCount);
 
 	for (let i = 0; i < pointCount; ++i)
 	{
-		angle[i] = startAngle + 2 * Math.PI * i / pointCount;
-		x[i] = centerX + radius * Math.cos(angle[i]);
-		z[i] = centerZ + radius * Math.sin(angle[i]);
+		angle[i] = startAngle + maxAngle * i / Math.max(1, pointCount - 1);
+		points[i] = Vector2D.add(center, new Vector2D(radius, 0).rotate(-angle[i]));
 	}
 
-	return [x, z, angle];
+	return [points, angle];
 }
 
 /**
- * Returns the distance of a point from a line.
+ * Returns the shortest distance from a point to a line.
+ * The sign of the return value determines the direction!
+ *
+ * @param {Vector2D} - lineStart, lineEnd, point
  */
-function distanceOfPointFromLine(line_x1, line_y1, line_x2, line_y2, point_x, point_y)
+function distanceOfPointFromLine(lineStart, lineEnd, point)
 {
-	let width_x = line_x1 - line_x2;
-	if (!width_x)
-		return Math.abs(point_x - line_x1);
-
-	let width_y = line_y1 - line_y2;
-	if (!width_y)
-		return Math.abs(point_y - line_y1);
-
-	let inclination = width_y / width_x;
-	let intercept = line_y1 - inclination * line_x1;
-
-	return Math.abs((point_y - point_x * inclination - intercept) / Math.sqrt(1 + Math.square(inclination)));
+	// Since the cross product is the area of the parallelogram with the vectors for sides and
+	// one of the two vectors having length one, that area equals the distance between the points.
+	return Vector2D.sub(lineStart, lineEnd).normalize().cross(Vector2D.sub(point, lineEnd));
 }
 
 /**
- * Determines whether two lines with the given width intersect.
+ * Returns whether the two lines of the given width going through the given Vector2D intersect.
  */
-function checkIfIntersect(line1_x1, line1_y1, line1_x2, line1_y2, line2_x1, line2_y1, line2_x2, line2_y2, width)
+function testLineIntersection(start1, end1, start2, end2, width)
 {
-	if (line1_x1 == line1_x2)
-	{
-		if (line2_x1 - line1_x1 < width || line2_x2 - line1_x2 < width)
-			return true;
-	}
-	else
-	{
-		let m = (line1_y1 - line1_y2) / (line1_x1 - line1_x2);
-		let b = line1_y1 - m * line1_x1;
-		let m2 = Math.sqrt(1 + Math.square(m));
+	let start1end1 = Vector2D.sub(start1, end1);
+	let start2end2 = Vector2D.sub(start2, end2);
+	let start1start2 = Vector2D.sub(start1, start2);
 
-		if (Math.abs((line2_y1 - line2_x1 * m - b) / m2) < width || Math.abs((line2_y2 - line2_x2 * m - b) / m2) < width)
-			return true;
-
-		if (line2_x1 == line2_x2)
-		{
-			if (line1_x1 - line2_x1 < width || line1_x2 - line2_x2 < width)
-				return true;
-		}
-		else
-		{
-			let m = (line2_y1 - line2_y2) / (line2_x1 - line2_x2);
-			let b = line2_y1 - m * line2_x1;
-			let m2 = Math.sqrt(1 + Math.square(m));
-			if (Math.abs((line1_y1 - line1_x1 * m - b) / m2) < width || Math.abs((line1_y2 - line1_x2 * m - b) / m2) < width)
-				return true;
-		}
-	}
-
-	let s = (line1_x1 - line1_x2) * (line2_y1 - line1_y1) - (line1_y1 - line1_y2) * (line2_x1 - line1_x1);
-	let p = (line1_x1 - line1_x2) * (line2_y2 - line1_y1) - (line1_y1 - line1_y2) * (line2_x2 - line1_x1);
-
-	if (s * p <= 0)
-	{
-		s = (line2_x1 - line2_x2) * (line1_y1 - line2_y1) - (line2_y1 - line2_y2) * (line1_x1 - line2_x1);
-		p = (line2_x1 - line2_x2) * (line1_y2 - line2_y1) - (line2_y1 - line2_y2) * (line1_x2 - line2_x1);
-
-		if (s * p <= 0)
-			return true;
-	}
-
-	return false;
+	return (
+		Math.abs(distanceOfPointFromLine(start1, end1, start2)) < width ||
+		Math.abs(distanceOfPointFromLine(start1, end1, end2)) < width ||
+		Math.abs(distanceOfPointFromLine(start2, end2, start1)) < width ||
+		Math.abs(distanceOfPointFromLine(start2, end2, end1)) < width ||
+		start1end1.cross(start1start2) * start1end1.cross(Vector2D.sub(start1, end2)) <= 0 &&
+		start2end2.cross(start1start2) * start2end2.cross(Vector2D.sub(start2, end1)) >= 0);
 }
 
 /**
- * Sorts the given (x, y) points so that the distance between neighboring points becomes minimal (similar to the traveling salesman problem).
+ * Returns the topleft and bottomright coordinate of the given two points.
+ */
+function getBoundingBox(points)
+{
+	let min = points[0].clone();
+	let max = points[0].clone();
+
+	for (let point of points)
+	{
+		min.set(Math.min(min.x, point.x), Math.min(min.y, point.y));
+		max.set(Math.max(max.x, point.x), Math.max(max.y, point.y));
+	}
+
+	return {
+		"min": min,
+		"max": max
+	};
+}
+
+function getPointsInBoundingBox(boundingBox)
+{
+	let points = [];
+	for (let x = boundingBox.min.x; x <= boundingBox.max.x; ++x)
+		for (let y = boundingBox.min.y; y <= boundingBox.max.y; ++y)
+			points.push(new Vector2D(x, y));
+	return points;
+}
+
+/**
+ * Get the order of the given points to get the shortest closed path (similar to the traveling salesman problem).
+ * @param {Vectro2D[]} points - Points the path should go through
+ * @returns {number[]} Ordered indices, same length as points
  */
 function sortPointsShortestCycle(points)
 {
@@ -115,20 +135,16 @@ function sortPointsShortestCycle(points)
 	}
 
 	// Just add the first 3 points
-	let pointsToAdd = clone(points);
+	let pointsToAdd = points.map(p => p.clone());
 	for (let i = 0; i < 3; ++i)
 	{
 		order.push(i);
-		pointsToAdd.shift(i);
+		pointsToAdd.shift();
 		if (i)
-			distances.push(Math.euclidDistance2D(points[order[i]].x, points[order[i]].y, points[order[i - 1]].x, points[order[i - 1]].y));
+			distances.push(points[order[i]].distanceTo(points[order[i - 1]]));
 	}
 
-	distances.push(Math.euclidDistance2D(
-		points[order[0]].x,
-		points[order[0]].y,
-		points[order[order.length - 1]].x,
-		points[order[order.length - 1]].y));
+	distances.push(points[order[0]].distanceTo(points[order[order.length - 1]]));
 
 	// Add remaining points so the path lengthens the least
 	let numPointsToAdd = pointsToAdd.length;
@@ -140,8 +156,9 @@ function sortPointsShortestCycle(points)
 		let minDist2 = 0;
 		for (let k = 0; k < order.length; ++k)
 		{
-			let dist1 = Math.euclidDistance2D(pointsToAdd[0].x, pointsToAdd[0].y, points[order[k]].x, points[order[k]].y);
-			let dist2 = Math.euclidDistance2D(pointsToAdd[0].x, pointsToAdd[0].y, points[order[(k + 1) % order.length]].x, points[order[(k + 1) % order.length]].y);
+			let dist1 = pointsToAdd[0].distanceTo(points[order[k]]);
+			let dist2 = pointsToAdd[0].distanceTo(points[order[(k + 1) % order.length]]);
+
 			let enlengthen = dist1 + dist2 - distances[k];
 			if (enlengthen < minEnlengthen)
 			{

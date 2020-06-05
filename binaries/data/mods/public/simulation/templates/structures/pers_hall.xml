@@ -6,8 +6,6 @@
   <Cost>
     <BuildTime>300</BuildTime>
     <Resources>
-      <food>0</food>
-      <wood>0</wood>
       <stone>250</stone>
       <metal>250</metal>
     </Resources>
@@ -25,13 +23,13 @@
   </Health>
   <Identity>
     <Civ>pers</Civ>
-    <GenericName>Persian Hall</GenericName>
-    <SpecificName>Duvarthi Visadahyu</SpecificName>
+    <Classes datatype="tokens">ConquestCritical</Classes>
+    <GenericName>Gate of All Nations</GenericName>
+    <SpecificName>Duvarθi Visadahyu</SpecificName>
     <Icon>structures/pers_hall.png</Icon>
-    <Tooltip>Train War Elephants and Kardakes mercenaries.</Tooltip>
+    <Tooltip>Train Champions.</Tooltip>
   </Identity>
   <Loot>
-    <wood>0</wood>
     <stone>50</stone>
     <metal>50</metal>
   </Loot>
@@ -50,7 +48,6 @@
     <SoundGroups>
       <select>interface/select/building/sel_broch.xml</select>
       <constructed>interface/complete/building/complete_broch.xml</constructed>
-      <death>attack/destruction/building_collapse_large.xml</death>
     </SoundGroups>
   </Sound>
   <TerritoryDecay disable=""/>
@@ -60,6 +57,6 @@
   </TerritoryInfluence>
   <VisualActor>
     <Actor>structures/persians/hall.xml</Actor>
-    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
+    <FoundationActor>structures/fndn_7x7.xml</FoundationActor>
   </VisualActor>
 </Entity>

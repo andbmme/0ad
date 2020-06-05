@@ -1,4 +1,4 @@
-/* Copyright (C) 2010 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ class TestSimulation2 : public CxxTest::TestSuite
 public:
 	void setUp()
 	{
-		g_VFS = CreateVfs(20 * MiB);
+		g_VFS = CreateVfs();
 		TS_ASSERT_OK(g_VFS->Mount(L"", DataDir()/"mods"/"_test.sim", VFS_MOUNT_MUST_EXIST));
 		TS_ASSERT_OK(g_VFS->Mount(L"cache", DataDir()/"_testcache"));
 		CXeromyces::Startup();
@@ -106,6 +106,10 @@ public:
 		TS_ASSERT(sim.QueryInterface(ent2, IID_Test2) == NULL);
 
 		sim.FlushDestroyedEntities(); // nothing in the queue
+
+		// Allow destroying INVALID_ENTITY which should do nothing.
+		sim.DestroyEntity(INVALID_ENTITY);
+		sim.FlushDestroyedEntities();
 
 		sim.DestroyEntity(ent2);
 		sim.FlushDestroyedEntities(); // already deleted

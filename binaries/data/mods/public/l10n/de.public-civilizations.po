@@ -1,12 +1,13 @@
 # Translation template for 0 A.D. — Empires Ascendant.
-# Copyright © 2014 Wildfire Games
+# Copyright (C) 2020 Wildfire Games
 # This file is distributed under the same license as the 0 A.D. — Empires Ascendant project.
 # 
 # Translators:
 # A L <De_Sade@web.de>, 2016
 # Aldicek <aldicek@ewt-net.de>, 2014
 # Alex Mayr <alxmy@gmx.net>, 2015
-# Wuzzy <almikes@aol.com>, 2016-2017
+# Alex Oneill <etkuschel@gmail.com>, 2020
+# Wuzzy <almikes@aol.com>, 2016-2018
 # Almin <GermannenMarkus@googlemail.com>, 2013
 # Ankomias, 2014
 # Artur Epp, 2014
@@ -15,17 +16,20 @@
 # chaosville <m.hammel@gmail.com>, 2013
 # cledge <christiankletsch@gmx.de>, 2014
 # David Lucks, 2015
-# endoriel <endoriel_tx@i130.de>, 2014
+# xtother90, 2019-2020
+# endoriel, 2014
 # Enrico <TheEyeGer@web.de>, 2013
 # Fabian Gref <fabian.gref@gmail.com>, 2017
 # Fesa <ventessa@gmail.com>, 2013
 # Hedaja <christian.pietzsch@gmail.com>, 2014
 # hunzel <nurmaguggen@hotmail.com>, 2014
 # Jakob Gahde <j5lx@fmail.co.uk>, 2014
+# JeHathor <jh.aom@hotmail.com>, 2018
 # ... ... <jon12@gmx.de>, 2017
 # jonnius <jonatan_zeidler@gmx.de>, 2014
 # santa41116, 2014
 # leper <leper@wildfiregames.com>, 2014-2016
+# Luis W. <windgans@protonmail.com>, 2019
 # Mansent, 2013
 # Marcel Haring, 2013-2014
 # mathias.n.graf <mathias.n.graf@gmail.com>, 2013
@@ -42,7 +46,7 @@
 # Sebastian Goebel <sashacrazyhuhn@web.de>, 2013
 # sshmedom <sshmedom@gmail.com>, 2014
 # Stefan Niedermann, 2014
-# Stefan Rohrbacher <stefan.rohrbacher@hotmail.com>, 2014
+# c859c7ae9b035eefe3392e2c59500e49, 2014
 # Tagaris <inactive+Tagaris@transifex.com>, 2014
 # Talani <malte.kreutzfeld@gmail.com>, 2014
 # Thelxinoe, 2014
@@ -51,7 +55,7 @@
 # tuxylord <s.balu@web.de>, 2014
 # wilhelm3 <isabusl@gmail.com>, 2014
 # Xaver, 2013
-# Xaver, 2014-2017
+# xtother90, 2014-2017
 # Xeramon <xeramon@live.de>, 2014
 # xtother90, 2013
 # YSelfTool <yselftool@gmail.com>, 2017
@@ -59,9 +63,9 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: 0 A.D.\n"
-"POT-Creation-Date: 2017-06-05 09:01+0200\n"
-"PO-Revision-Date: 2017-08-14 13:14+0000\n"
-"Last-Translator: Xaver\n"
+"POT-Creation-Date: 2020-01-17 08:08+0000\n"
+"PO-Revision-Date: 2020-03-10 10:48+0000\n"
+"Last-Translator: Alex Oneill <etkuschel@gmail.com>\n"
 "Language-Team: German (http://www.transifex.com/wildfire-games/0ad/language/de/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -111,8 +115,8 @@ msgid ""
 msgstr "Die Griechen waren erfolgreich in der Hellenisierung von verschiedenen eingeborenen Völkern. Während des Hellenistischen Zeitalters war Griechisch die Verkehrssprache der antiken Welt, die von Spanien bis Indien gesprochen wurde."
 
 #: simulation/data/civs/athen.jsonTeamBonuses[0].Description
-msgid "Ships construct 25% faster."
-msgstr "Schiffe werden 25% schneller gebaut."
+msgid "Allied Warships −25% construction time."
+msgstr "Verbündete Kriegsschiffe -25% Bauzeit."
 
 #: simulation/data/civs/athen.jsonTeamBonuses[0].Name
 msgid "Delian League"
@@ -361,8 +365,8 @@ msgid "Celtic religion and druidry inspired their warlike mindset. "
 msgstr "Die keltische Religion und das Druidentum inspirierten ihre kriegerische Mentalität."
 
 #: simulation/data/civs/brit.jsonTeamBonuses[0].Description
-msgid "-20% resources cost for allies healers."
-msgstr "-20% Rohstoffkosten für alle verbündeten Heiler."
+msgid "Allied Healers −20% resource costs."
+msgstr "Verbündete Heiler -20% Rohstoffkosten."
 
 #: simulation/data/civs/brit.jsonTeamBonuses[0].Name
 msgid "Druids"
@@ -434,11 +438,11 @@ msgid ""
 "The Britons took up the practice of either making permanent marks on their "
 "body in the form of tattoos or temporarily painted their bodies with woad "
 "paint. The effect was very frightening."
-msgstr "Die Britonen fingen an, Gesicht und Körper zu tätowieren oder blau zu bemalen. Dies wirkte in Schlachten abschreckend und angsteinflößend."
+msgstr "Die Britonen begannen, entweder permanente Zeichnungen auf ihrem Körper in Form von Tätowierungen zu machen oder ihre Körper vorübergehend mit Färberwaid zu bemalen. Der Effekt war furchteinflößend"
 
 #: simulation/data/civs/brit.jsonFactions[0].Technologies[1].Description
 msgid "Increases the height bonus of units garrisoned in a tower."
-msgstr "Verstärkt den Reichweitenbonus von Turmgarnisonen."
+msgstr "Erhöht den Reichweitenbonus von einquartierten Einheiten in Türmen."
 
 #: simulation/data/civs/brit.jsonFactions[0].Technologies[1].Name
 msgid "Turos Maros"
@@ -467,8 +471,8 @@ msgid ""
 "once captured. Roman policy was typically to have such men killed in public "
 "displays to celebrate. Karatakos was brought before the Emperor and Senate "
 "at his request to explain himself. What he said is not known for certainty, "
-"but Tacitus applies to him a famous speech..."
-msgstr "Caratacus ist die römische Form von Karatakos, seinem richtigen Namen, welcher auf seine vielen Münzen geprägt war. Unter diesem Namen ist er als großer Verteidiger gegen die römische Invasion 43 n.Chr. noch heute bekannt. Als Sohn von König Cunobelinus aus dem Stamm der Catuvellanuen kämpfte er neun Jahre mit wenig Erfolg gegen die Römer, floh aber letzten Endes zu den Stämmen in Wales, wo er entscheidend geschlagen wurde. Zum Schluss wandte er sich nach Nordbritanien, wo er an die Römer ausgeliefert wurde. Nach Rom gebracht, lebte Karatakos bei Kaiser Claudius und starb in Italien. Aus Überlieferungen geht hervor, dass er zum christlichen Glauben übergetreten sei, nachdem seine Frau dies auch Tat, aber diese Behauptungen sind nicht gesichert. Bemerkenswerter ist die Tatsache, dass er leben durfte nachdem er von Rom gefangen wurde. Grundsätzlich wurden solche Leute in öffentlichen Inszenierungen hingerichtet. Karatakos wurde auf eigenen Wunsch vor den Kaiser und den Senat gebracht, um sich zu erklären. Was gesagt wurde ist nicht genau bekannt, jedoch sagt Tacitus, dass es eine geniale Rede gewesen sei...."
+"but Tacitus applies to him a famous speech…"
+msgstr "Caratacus ist die römische Form von Karatakos, seinem richtigen Namen, welcher auf seine vielen Münzen geprägt war. Unter diesem Namen ist er als großer Verteidiger gegen die römische Invasion 43 n.Chr. noch heute bekannt. Als Sohn von König Cunobelinus aus dem Stamm der Catuvellanuen kämpfte er neun Jahre mit wenig Erfolg gegen die Römer, floh aber letzten Endes zu den Stämmen in Wales, wo er entscheidend geschlagen wurde. Zum Schluss wandte er sich nach Nordbritanien, wo er an die Römer ausgeliefert wurde. Nach Rom gebracht, lebte Karatakos bei Kaiser Claudius und starb in Italien. Aus Überlieferungen geht hervor, dass er zum christlichen Glauben übergetreten sei, nachdem seine Frau dies auch tat, aber diese Behauptungen sind nicht gesichert. Bemerkenswerter ist die Tatsache, dass er leben durfte, nachdem er von Rom gefangen wurde. Grundsätzlich wurden solche Leute in öffentlichen Inszenierungen hingerichtet. Karatakos wurde auf eigenen Wunsch vor dem Kaiser und den Senat gebracht, um sich zu erklären. Was gesagt wurde, ist nicht genau bekannt, jedoch sagt Tacitus, dass es eine geniale Rede gewesen sei ..."
 
 #: simulation/data/civs/brit.jsonFactions[0].Heroes[1].History
 msgid ""
@@ -478,7 +482,7 @@ msgid ""
 "as Camulodunum), modern day Colchester. The Roman defeat in the battle of "
 "Teutoburg Forest (Germania) allowed Kunobelinos to conquer a neighboring "
 "tribe, the Trinovantes, who were Roman allies and couldn't receive Roman "
-"aide. Kunobelinos seems to have been indifferent to the Romans. He traded "
+"aid. Kunobelinos seems to have been indifferent to the Romans. He traded "
 "with them freely, but had few qualms subjugating known Roman allies, and "
 "even sent his youngest son Adminius as a fosterling to be educated in Roman "
 "Gaul. This accounted for Adminius's friendships among the Romans. Adminius "
@@ -503,7 +507,7 @@ msgid ""
 "their British allies, and Kunobelinos was held up by the post-Roman Britons "
 "as one of their great heroes; a conqueror and uniter of petty kingdoms, "
 "something the post-Roman Britons or Romano-British sorely needed."
-msgstr "Kunobelinos (vielleicht besser bekannt in der lateinischen Form Cunobelin) war ein mächtiger Herrscher der Catuvellauni. Er wurde von den Römern als der König der Britonen bezeichnet. Sein Herrschaftsbereich lag im Bereich der Stadt Kamulodunon (auch bekannt als Camulodunum), dem heutigen Colchester. Roms Niederlage gegen die germanischen Stämme im Teutoburger Wald ermöglichte es Kunobelinos den mit Rom verbündeten Nachbarstamm der Trinovantes zu unterwerfen, die keine Hilfe von den Römern erhalten konnten. Kunobelinos' Treiben schien den Römern gleichgültig gewesen zu sein. Er durfte freien Handel mit ihnen betreiben, hatte gleichzeitig aber wenig Bedenken römische Verbündete zu unterwerfen und schickte sogar seinen jüngsten Sohn Adminius als Pflegekind zur Erziehung ins römische Gallien. Adminius schloß dadurch Freundschaften unter den Römern und erhielt schließlich von seinem Vater die Herrschaft über die Cantaci, die das Gebiet von Kent bewohnten. Dies war die Kernregion des römischen Einflusses und Handels in Britannien und Kunobelinos sah scharfsinnig voraus, dass die Freundschaft seines jüngsten Sohnes mit mächtigen römischen und gallo-römischen Politikern und Händlern für die Verwaltung der Region von Nutzen sein würde. Seine anderen Söhne hegten dagegen keine Liebe für die Römer. Als Kunobelinos an einer Krankheit starb, wurde er von seinem Sohn Togdumnos ersetzt, der zahlreiche römische Sympathisanten verhaftete, hinrichtete oder vertrieb. Darunter auch sein eigener Bruder Adminius und der abgesetzte König der Atrebates, Verica, die ihre Verbindungen ins Römische Reich nutzten, um Unterstützung bei der Wiedererlangung ihrer Herrschaft zu bekommen. Togdumnos starb im Kampf gegen die Römer, worauf ihm sein Bruder Karatakos folgte. Es ist eine Ironie der Geschichte, dass es Kunobelinos' dritter Sohn war, der die römische Vergeltungsmaßnahme initiierte. Kunobelinos war während seiner Herrschaft aber möglicherweise einer der größten britischen Könige. Er eroberte weite Teile des südlichen Großbritanniens (seine Münzen wurden bis in die Grenzbereiche des späteren Wales geprägt). Er begann seine Herrschaft über gerade einmal vier kleinere Stämme in einer Konföderation, die Catuvellauni, und wurde am Ende als König von Britannien gesehen. Seine Anerkennung war so groß, dass selbst Stämme aus Cambria seinen Söhnen gegen die Römer und ihre britischen Verbündeten zur Hilfe kamen, und Kunobelinos wurde von den Briten in nachrömischer Zeit als einer ihrer herausragendsten Helden verehrt; ein Eroberer und Einiger der kleinen Königreiche, etwas, das die Britonen oder Romano-Briten dieser Zeit bitter nötig hatten."
+msgstr "Kunobelinos (vielleicht besser bekannt in der latinisierten Form Cunobelin) war ein mächtiger Herrscher der Catuvellauni. Er wurde von den Römern als der König der Britonen bezeichnet. Sein Herrschaftsbereich lag im Bereich der Stadt Kamulodunon (bekannt als Camulodunum), dem heutigen Colchester. Roms Niederlage in der Schlacht im Teutoburger Wald (Germanien) ermöglichte es Kunobelinos, den mit Rom verbündeten Nachbarstamm der Trinovantes zu unterwerfen, die römische Verbündete waren und keine Hilfe von den Römern mehr erhalten konnten. Kunobelinos scheint den Römern egal gewesen zu sein. Er trieb freien Handel mit ihnen, hatte gleichzeitig aber wenig Bedenken römische Verbündete zu unterwerfen und schickte sogar seinen jüngsten Sohn Adminius als Pflegekind zur Erziehung ins römische Gallien. Dadurch hatte Adminius Freundschaften unter den Römern. Er erhielt schließlich von seinem Vater die Herrschaft über die Cantaci, die das Gebiet von Kent bewohnten. Dies war die Kernregion des römischen Einflusses und Handels in Britannien und Kunobelinos sah scharfsinnig voraus, dass die Freundschaft seines jüngsten Sohnes mit mächtigen römischen und gallo-römischen Politikern und Händlern für die Verwaltung der Region von Nutzen sein würde. Seine anderen Söhne hegten dagegen keine Sympathie für die Römer. Als Kunobelinos an einer Krankheit starb, wurde er von seinem Sohn Togdumnos ersetzt, der zahlreiche römische Sympathisanten verhaftete, hinrichtete oder vertrieb. Das schloss auch seinen Bruder Adminius und den abgesetzten König der Atrebaten, Verica, ein, die ihre Verbindungen ins Römische Reich nutzten, um Unterstützung bei der Wiedererlangung ihrer Herrschaft zu bekommen. Togdumnos starb in der Schlacht gegen die Römer, worauf ihm sein Bruder Karatakos folgte. Es ist ironisch, dass es Kunobelinos' dritter Sohn war, der die römische Vergeltungsmaßnahme initiierte. Kunobelinos war während seiner Herrschaft aber möglicherweise einer der größten britischen Könige. Er eroberte weite Teile des südlichen Großbritanniens (seine Münzen wurden bis in die Grenzbereiche des späteren Wales geprägt). Er begann seine Herrschaft mit gerade einmal vier kleineren Stämmen in einer Konföderation, die Catuvellauni, und wurde am Ende als König von Britannien gesehen. Seine Anerkennung war so groß, dass selbst Stämme aus Cambria seinen Söhnen gegen die Römer und ihre britischen Verbündeten zur Hilfe kamen, und Kunobelinos wurde von den Britonen in nachrömischer Zeit als einer ihrer großen Helden verehrt; ein Eroberer und Einiger kleiner Königreiche, etwas, das die Britonen oder Romano-Briten bitter nötig hatten."
 
 #: simulation/data/civs/brit.jsonFactions[0].Heroes[2].History
 msgid ""
@@ -606,8 +610,8 @@ msgid ""
 msgstr "Der iberischen Halbinsel nicht unähnlich, war Nordafrika als Pferdeland bekannt, in der Lage, jährlich bis zu 100.000 Reittiere zu produzieren. Außerdem war es Heimat des nordafrikanischen Waldelefanten."
 
 #: simulation/data/civs/cart.jsonTeamBonuses[0].Description
-msgid "10% bonus of trade profit for allies' international routes."
-msgstr "10% Bonus auf den Handelsprofit für Internationale Routen von Verbündeten."
+msgid "Allied Markets +10% international trade bonus."
+msgstr "+10% internationaler Handelsbonus für verbündete Märkte."
 
 #: simulation/data/civs/cart.jsonTeamBonuses[0].Name
 msgid "Trademasters"
@@ -813,8 +817,8 @@ msgid "Gauls"
 msgstr "Gallier"
 
 #: simulation/data/civs/gaul.jsonTeamBonuses[0].Description
-msgid "-10% research time for technologies of allies."
-msgstr "-10% Forschungsdauer für Technologien von Verbündeten."
+msgid "Allied Structures −20% technology research time."
+msgstr "-20% Forschungsdauer für verbündete Strukturen."
 
 #: simulation/data/civs/gaul.jsonTeamBonuses[0].Name
 msgid "Druidic Wisdom"
@@ -1013,10 +1017,8 @@ msgid ""
 msgstr "Wie Numidien in Nordafrika war die iberische Halbinsel als 'Pferdeland' bekannt und konnte jedes Jahr bis zu 100.000 neue Reittiere produzieren."
 
 #: simulation/data/civs/iber.jsonTeamBonuses[0].Description
-msgid ""
-"Citizen-soldier infantry skirmishers and cavalry skirmishers -20% cost for "
-"allies."
-msgstr "-20% Bürgersoldatenplänklerkosten für Verbündete."
+msgid "Allied Citizen Javelinists −10% resource costs."
+msgstr "Verbündete Zivilspeerwerfer erhalten -10% auf Ausbildungskosten"
 
 #: simulation/data/civs/iber.jsonTeamBonuses[0].Name
 msgid "Saripeko"
@@ -1024,11 +1026,11 @@ msgstr "Saripeko"
 
 #: simulation/data/civs/iber.jsonTeamBonuses[0].History
 msgid ""
-"The Iberians were long known to provide mercenary soldiers to other nations "
-"to serve as auxiliaries to their armies in foreign wars. Carthage is the "
-"most well known example, and we have evidence of them serving in such a "
-"capacity in Aquitania."
-msgstr "Die Iberer war lange Zeit dafür bekannt, ihre Soldaten anderen Nationen als Söldner bereitzustellen, um in deren Kriegen mitzukämpfen. Karthago ist das bekannteste Beispiel und es wurden auch Hinweise auf iberische Söldner in Aquitanien gefunden."
+"The Iberians were long known to provide mercenaries to other nations to "
+"serve as auxiliaries to their armies in foreign wars. Carthage is the most "
+"well known example, and we have evidence of them serving in such a capacity "
+"in Aquitania."
+msgstr "Die Iberer war lange dafür bekannt, anderen Nationen Söldner als Hilfstruppen in fremden Kriegen bereitzustellen. Karthago ist das bekannteste Beispiel und es gibt Belege, dass sie derartig in Aquitanien gedient haben."
 
 #: simulation/data/civs/iber.jsonAINames[0]
 #: simulation/data/civs/iber.jsonAINames[1]
@@ -1124,7 +1126,7 @@ msgid ""
 " a battle on the 23rd of August. Karos was wounded in an after battle small "
 "cavalry action the same evening and soon died thereafter, but he had carried"
 " off one of the most humiliating defeats that Rome ever suffered."
-msgstr "Karos war ein Häuptling des Belli Stamms, der östlich der Keltiberer siedelte (Numantines im Zentrum). Er führte die vereinigten Stämme der Zentralmeseta (zentrale Hochebene) und verbarg 20.000 Fuß- und 5.000 berittene Truppen entlang eines dicht bewaldeten Weges. Q. Fulvius Nobilior unterließ eine angemessene Aufklärung und führte seine Armee in eine lange Kolonne gestreckt in die Falle. Ca. 10.000 der 15.000 römischen Legionäre fielen dem massiven Hinterhalt zum Opfer, in den sie geraten waren. Das Datum war der 23. August 153 v.Chr., der Tag, an dem Rom das Fest zu Ehren des Gottes Vulcanus abhielt. Durch einen späteren Senatserlass wurde dieser Tag in der Folge als \"dies ater\", als \"finsterer Tag\", bekannt und Rom kämpfte nie wieder eine Schlacht am 23. August. Karos wurde nach der Schlacht während eines kleinen Kavalleriegefechts am selben Abend verwundet und starb kurz darauf, aber er hatte Rom eine der demütigendsten Niederlagen, die es je erlitten hatte, beigebracht."
+msgstr "Karos war ein Häuptling des Belli-Stamms, der östlich der Keltiberer siedelte (Numantines im Zentrum). Er führte die vereinigten Stämme der Zentralmeseta (zentrale Hochebene) und verbarg 20.000 Fuß- und 5.000 berittene Truppen entlang eines dicht bewaldeten Weges. Q. Fulvius Nobilior unterließ eine angemessene Aufklärung und führte seine Armee in eine lange Kolonne gestreckt in die Falle. Ca. 10.000 der 15.000 römischen Legionäre fielen dem gewaltigen Hinterhalt zum Opfer, in den sie geraten waren. Das Datum war der 23. August 153 v.Chr., der Tag, an dem Rom das Fest zu Ehren des Gottes Vulcanus abhielt. Durch einen späteren Senatserlass wurde dieser Tag in der Folge als „dies ater“, als „finsterer Tag“, bekannt und Rom kämpfte nie wieder eine Schlacht am 23. August. Karos wurde nach der Schlacht während eines kleinen Kavalleriegefechts am selben Abend verwundet und starb kurz darauf, aber er hatte Rom eine der demütigendsten Niederlagen, die es je erlitten hatte, beigebracht."
 
 #: simulation/data/civs/iber.jsonFactions[0].Heroes[2].History
 msgid ""
@@ -1174,6 +1176,209 @@ msgid ""
 "fought back."
 msgstr "Die Iberer waren ein Volk unbekannter Herkunft und Sprache mit einer langen Reit- und Metallverarbeitungstradition. Da sie eine relativ friedliche Kultur hatten, kämpften sie meist nur als Söldner in den Kriegen anderer Völker. Allerdings erwiesen sie sich als zähe Gegner, als Rom ihnen Land und Freiheit nehmen wollte, wobei sie wegweisende Guerillataktiken und brennende Wurfspeere bei der Verteidigung verwendeten."
 
+#: simulation/data/civs/kush.jsonName
+msgid "Kushites"
+msgstr "Kuschiten"
+
+#: simulation/data/civs/kush.jsonCivBonuses[0].Name
+msgid "The Pyramids of Meroe"
+msgstr "Die Pyramiden von Meroe"
+
+#: simulation/data/civs/kush.jsonCivBonuses[0].Description
+msgid ""
+"Building a Kushite pyramid increases Civic Center territory influence by "
+"+10% for each one built."
+msgstr "Der Bau einer Kuschitenpyramide erhöht den Territorialeinfluss von Verwaltungssitzen um +10% für jedes gebaute Exemplar."
+
+#: simulation/data/civs/kush.jsonCivBonuses[1].Name
+msgid "Mineral Deposits"
+msgstr "Minerallagerstätte"
+
+#: simulation/data/civs/kush.jsonCivBonuses[1].Description
+msgid ""
+"Kushite players receive a free extra Metal Mine somewhere in their home "
+"territory."
+msgstr "Kuschitische Spieler erhalten kostenlos eine zusätzliche Metallmine irgendwo in ihrem Heimatgebiet."
+
+#: simulation/data/civs/kush.jsonCivBonuses[2].Name
+#: simulation/data/civs/maur.jsonFactions[0].Technologies[0].Name
+msgid "Elephant Roundup"
+msgstr "Zusammentreiben von Elefanten"
+
+#: simulation/data/civs/kush.jsonCivBonuses[2].Description
+msgid ""
+"Can capture Gaia elephants and garrison them into a corral to reduce "
+"training costs for War Elephants."
+msgstr "Erlaubt das Einfangen von Elefanten, um sie in einem Pferch einquartieren und die Ausbildungskosten für Kriegselefanten zu senken."
+
+#: simulation/data/civs/kush.jsonTeamBonuses[0].Name
+msgid "Elephant Suppliers"
+msgstr "Elefantenlieferanten"
+
+#: simulation/data/civs/kush.jsonTeamBonuses[0].Description
+msgid "Allied Elephants −20% resource costs and training time."
+msgstr "Verbündete Elefanten −20% Rohstoffkosten und Ausbildungszeit."
+
+#: simulation/data/civs/kush.jsonAINames[0]
+msgid "Kashta"
+msgstr "Kaschta"
+
+#: simulation/data/civs/kush.jsonAINames[1]
+msgid "Alara"
+msgstr "Alara"
+
+#: simulation/data/civs/kush.jsonAINames[2]
+msgid "Pebatjma"
+msgstr "Pebatjma"
+
+#: simulation/data/civs/kush.jsonAINames[3]
+msgid "Shabaka"
+msgstr "Schabaka"
+
+#: simulation/data/civs/kush.jsonAINames[4]
+msgid "Shebitku"
+msgstr "Schebitko"
+
+#: simulation/data/civs/kush.jsonAINames[5]
+msgid "Qalhata"
+msgstr "Qalhata"
+
+#: simulation/data/civs/kush.jsonAINames[6]
+msgid "Takahatenamun"
+msgstr "Takahatenamun"
+
+#: simulation/data/civs/kush.jsonAINames[7]
+msgid "Tantamani"
+msgstr "Tanotamun"
+
+#: simulation/data/civs/kush.jsonAINames[8]
+msgid "Atlanersa"
+msgstr "Atlanersa"
+
+#: simulation/data/civs/kush.jsonAINames[9]
+msgid "Nasalsa"
+msgstr "Nasalsa"
+
+#: simulation/data/civs/kush.jsonAINames[10]
+msgid "Malewiebamani"
+msgstr "Malowijebamani"
+
+#: simulation/data/civs/kush.jsonAINames[11]
+msgid "Harsiotef"
+msgstr "Harsijotef"
+
+#: simulation/data/civs/kush.jsonAINames[12]
+msgid "Shanakdakhete"
+msgstr "Shanakdakheto"
+
+#: simulation/data/civs/kush.jsonAINames[13]
+msgid "Amanishakheto"
+msgstr "Amanischacheto"
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[0].Name
+msgid "Monumental Architecture"
+msgstr "Monumentale Architektur"
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[0].Description
+msgid ""
+"+50% HP and -50% build time for Civic Centers, Temples, Pyramids and "
+"Wonders."
+msgstr "+50% HP und -50%  Bauzeit für Zivile Zentren, Tempel, Pyramiden und Wunder."
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[1].Description
+msgid "Allow to train elite rank healers"
+msgstr "Ermöglicht die Ausbildung von Elite-Heilern"
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[1].Name
+msgid "High Priest of Amun"
+msgstr "Hohepriester des Amun"
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[1].History
+msgid ""
+"Have your priests instructed by the High Priest himself - may Amun bless "
+"him."
+msgstr "Lass deine Priester vom Hohepriester selbst unterweisen - möge Amun ihn segnen"
+
+#: simulation/data/civs/kush.jsonFactions[0].Heroes[0].Name
+msgid "Nastasen"
+msgstr "Nastasen"
+
+#: simulation/data/civs/kush.jsonFactions[0].Heroes[1].Name
+msgid "Arakamani"
+msgstr "Arakamani"
+
+#: simulation/data/civs/kush.jsonFactions[0].Heroes[2].Name
+msgid "Amanirenas"
+msgstr "Amanirenas"
+
+#: simulation/data/civs/kush.jsonFactions[0].Name
+msgid "Kushite Africans"
+msgstr "Kuschitische Afrikaner"
+
+#: simulation/data/civs/kush.jsonFactions[0].Description
+msgid ""
+"The great African kingdom that straddled the Nile River in Nubia, in the "
+"South of Egypt."
+msgstr "Das große afrikanische Königreich, welches sich über das Nilgebiet in Nubien im Süden Ägyptens erstreckte."
+
+#: simulation/data/civs/kush.jsonStructures[0].Name
+msgid "Temple of Amun"
+msgstr "Tempel von Amun"
+
+#: simulation/data/civs/kush.jsonStructures[0].Special
+msgid ""
+"The Kushites can upgrade individual Temples to Temples of Amun, which can "
+"train Napatan Temple Guard champions and heal units faster."
+msgstr "Die Kuschiten können einzelne Tempel zu Tempeln von Amun aufwerten, welche napatanische Tempelwachen-Gardisten ausbilden und Einheiten schneller heilen können."
+
+#: simulation/data/civs/kush.jsonStructures[0].History
+#: simulation/data/civs/kush.jsonStructures[1].History
+msgid "History."
+msgstr "Geschichte."
+
+#: simulation/data/civs/kush.jsonStructures[1].Name
+msgid "Temple of Apedemak"
+msgstr "Tempel von Apedemak"
+
+#: simulation/data/civs/kush.jsonStructures[1].Special
+msgid ""
+"The Kushites can upgrade individual Temples to Temples of Apedemak, which "
+"can train Meroe Temple Guard champions and heal units faster."
+msgstr "Die Kuschiten können einzelne Tempel zu Tempeln von Apedemak aufwerten, welche Meroe-Tempelwachen-Gardisten ausbilden und Einheiten schneller heilen können."
+
+#: simulation/data/civs/kush.jsonStructures[2].Name
+msgid "Kushite Pyramids"
+msgstr "Kuschitenpyramiden"
+
+#: simulation/data/civs/kush.jsonStructures[2].Special
+msgid ""
+"Building a Small Kushite Pyramid unlocks the Town Phase. Building a Large "
+"Kushite Pyramid unlocks the City Phase. And each pyramid built adds +10% "
+"territory effect to Civic Centers."
+msgstr "Der Bau einer kleinen Kuschitenpyramide schaltet die Stadtphase frei. Der Bau einer großen Kuschitenpyramide schaltet die Großstadtphase frei. Und jede gebaute Pyramide fügt +10% Territorialeinfluss für Verwaltungssitze hinzu."
+
+#: simulation/data/civs/kush.jsonStructures[2].History
+msgid "The Kushites built over 200 pyramids in Nubia."
+msgstr "Die Kuschiten bauten über 200 Pyramiden in Nubien."
+
+#: simulation/data/civs/kush.jsonHistory
+msgid ""
+"The Kingdom of Kush was an ancient African kingdom situated on the "
+"confluences of the Blue Nile, White Nile and River Atbara in what is now the"
+" Republic of Sudan. The Kushite era of rule in the region was established "
+"after the Bronze Age collapse of the New Kingdom of Egypt, and it was "
+"centered at Napata in its early phase. They invaded Egypt in the 8th century"
+" BC, and the Kushite emperors ruled as Pharaohs of the Twenty-fifth dynasty "
+"of Egypt for a century, until they were expelled by the Assyrians. Kushite "
+"culture was influenced heavily by the Egyptians, with Kushite pyramid "
+"building and monumental temple architecture still extent. The Kushites even "
+"worshipped many Egyptian gods, including Amun. During Classical antiquity, "
+"the Kushite imperial capital was at Meroe. In early Greek geography, the "
+"Meroitic kingdom was known as Aethiopia. The Kushite kingdom persisted until"
+" the 4th century AD, when it weakened and disintegrated due to internal "
+"rebellion, eventually succumbing to the rising power of Axum."
+msgstr "Das Reich von Kusch war ein altes afrikanisches Königreich, welches am Zusammenfluss des blauen Nils, des weißen Nils und des schwarzen Nils, dem Gebiet des heutigen Sudan, gelegen war. Die kuschitische Era in dieser Region begann nach der Bronzezeit mit dem Zusammenbruch des neuen Königreiches von Ägypten und hatte in früher Phase sein Zentrum in der Stadt Napata. Im 8 Jahrhundert v. Chr. fielen Sie in Ägypten ein. Dort regierten die kuschitischen Kaiser ein Jahrhundert lang als Pharaonen der fünfundzwanzigsten Dynastie, bis sie von den Assyrern wieder vertrieben wurden. Die Kultur der Kusch wurde stark von den Ägyptern beeinflusst aber durch eigene monumentale Bauwerke, wie Pyramiden oder Tempel, noch erweitert. Die Bewohner des Reiches Kusch verehrten sogar viele ägyptische Götter, einschließlich Amun. Während der klassischen Antike war ihre Reichshauptstadt Meroe, wobei in frühgriechischer Geschichte das merotische Königreich auch als Aethiopien bekannt war. Das kuschitische Reich bestand bis ins 4Jh. hinein, bis es, durch interne Rebellionen geschwächt, schließlich der wachsenden Macht von Axum erlag."
+
 #: simulation/data/civs/mace.jsonName
 #: simulation/data/civs/mace.jsonFactions[0].Name
 msgid "Macedonians"
@@ -1221,8 +1426,8 @@ msgid ""
 msgstr "Die Griechen waren äußerst erfolgreich bei der Hellenisierung von fremden Völkern. Während des hellenistischen Zeitalters war Griechisch die Verkehrssprache der antiken Welt, die von Spanien bis Indien gesprochen wurde."
 
 #: simulation/data/civs/mace.jsonTeamBonuses[0].Description
-msgid "+20% sell prices at market."
-msgstr "+20% Verkaufspreise auf dem Markt."
+msgid "Allies +20% barter sell prices."
+msgstr "Verbündete erzielen +20% auf den Verkaufspreis beim Tauschhandel"
 
 #: simulation/data/civs/mace.jsonTeamBonuses[0].Name
 msgid "Standardized Currency"
@@ -1420,18 +1625,6 @@ msgid ""
 "Hellenistic culture."
 msgstr "Alexander der Große gründete überall in seinem neuen Reich Bibliotheken. Diese wurden zu Zentren des Lernens für eine gänzlich neu geschaffene Kultur: die hellenistische Kultur."
 
-#: simulation/data/civs/mace.jsonStructures[2].Name
-msgid "Siege Workshop"
-msgstr "Belagerungswerkstatt"
-
-#: simulation/data/civs/mace.jsonStructures[2].Special
-msgid "Constructs and upgrades all Macedonian siege engines."
-msgstr "Baut und verbessert alle makedonischen Belagerungswaffen."
-
-#: simulation/data/civs/mace.jsonStructures[2].History
-msgid "The Macedonians were innovators in area of siegecraft."
-msgstr "Die Makedonier waren Innovatoren im Bereich der Belagerungsmaschinen."
-
 #: simulation/data/civs/mace.jsonHistory
 msgid ""
 "Macedonia was an ancient Greek kingdom, centered in the northeastern part of"
@@ -1442,14 +1635,14 @@ msgid ""
 msgstr "Makedonien war ein antikes griechisches Königreich, mittig im nordöstlichen Teil der griechischen Halbinsel. Unter der Herrschaft Alexanders des Großen eroberten makedonische Streitkräfte und ihre Verbündeten den Großteil der ihnen bekannten Welt, mit Ägypten, Persien und Teilen des indischen Subkontinents, wodurch die Vermischung der hellenischen und der östlichen Kulturen in den Jahren danach ermöglicht wurde."
 
 #: simulation/data/civs/maur.jsonName
-msgid "Mauryans"
+msgid "Mauryas"
 msgstr "Maurya-Inder"
 
 #: simulation/data/civs/maur.jsonCivBonuses[0].Description
 msgid ""
-"Mauryans have a +10% population cap bonus (i.e., 330 pop cap instead of the "
+"Mauryas have a +10% population cap bonus (e.g., 330 pop cap instead of the "
 "usual 300)."
-msgstr "Maurya-Inder haben einen Bevölkerungsbonus von +10% (z.B. eine Bevölkerungskapazität von 330 anstatt 300 Einheiten)."
+msgstr "Maurya-Inder haben Bonus von +10% auf ihr Bevölkerungslimit (z.B. eine Bevölkerungskapazität von 330 anstatt 300 Einheiten)."
 
 #: simulation/data/civs/maur.jsonCivBonuses[0].Name
 msgid "Emperor of Emperors."
@@ -1459,15 +1652,15 @@ msgstr "König der Könige."
 msgid ""
 "The Mauryan Empire encompassed dozens of formerly independent kingdoms over "
 "an area of 5 million square kilometers, with a population of close to 60 "
-"million people. The Mauryan regents held the title Emperor of Emperors and "
+"million people. The Mauryan rulers held the title Emperor of Emperors and "
 "commanded a standing army of 600,000 infantry, 9000 elephants, 8000 "
 "chariots, and 30,000 cavalry, making it arguably the largest army of its "
 "time."
 msgstr "Das Maurya-Reich umfasste dutzende früher unabhängige Königreiche auf einer Fläche von 5 Millionen km², mit einer Bevölkerung von fast 60 Millionen Menschen. Die Maurya-Herrscher hatten den Titel Kaiser der Kaiser und kommandierten eine stehende Armee von 600.000 Infanteristen, 9000 Elefanten, 8000 Streitwagen und 30.000 Kavalleristen, wohl die größte Armee dieser Zeit."
 
 #: simulation/data/civs/maur.jsonCivBonuses[1].Description
-msgid "The Mauryans enjoy access to 4 champions."
-msgstr "Die Maurya-Inder haben Zugriff auf 4 Gardeeinheiten."
+msgid "The Mauryas enjoy access to 4 champions."
+msgstr "Die Maurya-Inder genieße Zugriff auf 4 Gardeeinheiten."
 
 #: simulation/data/civs/maur.jsonCivBonuses[1].Name
 msgid "Kṣhatriya Warrior Caste."
@@ -1482,8 +1675,10 @@ msgid ""
 msgstr "Kshatriya oder Kashtriya bedeutet Krieger und ist eine der vier Kasten (Gesellschaftsordnung) des Hinduismus. Traditionell begründen die Kshatriya das Militär und die Führungselite des vedisch-hinduistischen Gesellschaftssystems, das in den Veden und dem Gesetzbuch des Manu beschrieben ist."
 
 #: simulation/data/civs/maur.jsonTeamBonuses[0].Description
-msgid "Allied temples and temple technologies -50% cost and research time."
-msgstr "Verbündete Tempel und Tempeltechnologien kosten 50% weniger  Resourcen und Zeit."
+msgid ""
+"Allied Temples −50% resource costs and building time; Temple technologies "
+"−50% resource costs and research time."
+msgstr "Verbündete Tempel −50% Rohstoffkosten und Bauzeit; Tempeltechnologien −50% Rohstoffkosten und Forschungszeit."
 
 #: simulation/data/civs/maur.jsonTeamBonuses[0].Name
 msgid "Ashoka's Religious Support"
@@ -1500,43 +1695,35 @@ msgid "Chandragupta Maurya"
 msgstr "Chandragupta Maurya"
 
 #: simulation/data/civs/maur.jsonAINames[1]
+msgid "Bindusara Maurya"
+msgstr "Bindusara"
+
+#: simulation/data/civs/maur.jsonAINames[2]
 #: simulation/data/civs/maur.jsonFactions[0].Heroes[1].Name
 msgid "Ashoka the Great"
 msgstr "Ashoka der Große"
 
-#: simulation/data/civs/maur.jsonAINames[2]
-msgid "Ashokavardhan Maurya"
-msgstr "Ashoka"
-
 #: simulation/data/civs/maur.jsonAINames[3]
-msgid "Acharya Bhadrabahu"
-msgstr "Acharya Bhadrabahu"
+msgid "Dasharatha Maurya"
+msgstr "Dasharatha Maurya"
 
 #: simulation/data/civs/maur.jsonAINames[4]
-msgid "Bindusara Maurya"
-msgstr "Bindusara"
-
-#: simulation/data/civs/maur.jsonAINames[5]
-msgid "Dasaratha Maurya"
-msgstr "Dasaratha"
-
-#: simulation/data/civs/maur.jsonAINames[6]
 msgid "Samprati Maurya"
 msgstr "Samprati"
 
-#: simulation/data/civs/maur.jsonAINames[7]
-msgid "Salisuka Maurya"
-msgstr "Salisuka Maurya"
+#: simulation/data/civs/maur.jsonAINames[5]
+msgid "Shalishuka Maurya"
+msgstr "Shalishuka Maurya"
 
-#: simulation/data/civs/maur.jsonAINames[8]
+#: simulation/data/civs/maur.jsonAINames[6]
 msgid "Devavarman Maurya"
 msgstr "Devadharama"
 
-#: simulation/data/civs/maur.jsonAINames[9]
-msgid "Satadhanvan Maurya"
-msgstr "Satadhanvan Maurya"
+#: simulation/data/civs/maur.jsonAINames[7]
+msgid "Shatadhanvan Maurya"
+msgstr "Shatadhanvan Maurya"
 
-#: simulation/data/civs/maur.jsonAINames[10]
+#: simulation/data/civs/maur.jsonAINames[8]
 msgid "Brihadratha Maurya"
 msgstr "Brihadratha"
 
@@ -1545,10 +1732,6 @@ msgid ""
 "Capture up to 5 Gaia elephants and garrison them in the Elephant Stables to "
 "gain up to a 25% bonus in cost and train time of elephant units."
 msgstr "Fange bis zu 5 Gaia-Elefanten und quartiere sie in den Elefantenställen ein, um bis zu 25% Bonus auf Kosten und Ausbildungszeit für Elefanten-Einheiten zu erlangen."
-
-#: simulation/data/civs/maur.jsonFactions[0].Technologies[0].Name
-msgid "Elephant Roundup"
-msgstr "Zusammentreiben von Elefanten"
 
 #: simulation/data/civs/maur.jsonFactions[0].Technologies[1].Description
 msgid "Greater range and faster train time for Mauryan infantry archers."
@@ -1660,8 +1843,8 @@ msgid ""
 msgstr "Die Perser konnten aufgrund der schieren Größe des Achämenidenreiches und der Art und Weise, wie es aufgebaut war, in Kriegszeiten eine große Menge an Infanterie ausheben. Allgemein war die persische Infanterie gut ausgebildet und kämpfte mit großer Hartnäckigkeit, allerdings war sie trotzdem eher schlecht im Kampf Mann gegen Mann. Außerdem war die persische Infanterie - mit Ausnahme der Eliteregimenter - keine stehende professionelle Streitmacht."
 
 #: simulation/data/civs/pers.jsonTeamBonuses[0].Description
-msgid "Higher income (+15%) from land trade routes for ally's traders."
-msgstr "Höheres Einkommen (+15%) von Handelsrouten über Land für Händler von Verbündeten."
+msgid "Allied Land Traders +15% trade gain."
+msgstr "Verbündete Händler am Land +15% Handelsertrag."
 
 #: simulation/data/civs/pers.jsonTeamBonuses[0].Name
 msgid "Royal Road"
@@ -1726,8 +1909,8 @@ msgid "Xsayarsa II"
 msgstr "Hšayāŗšā II."
 
 #: simulation/data/civs/pers.jsonFactions[0].Technologies[0].Description
-msgid "Phoenician triremes gain the unique ability to train cavalry units."
-msgstr "Phönizische Trieren erhalten die einzigartige Fähigkeit Kavallerieeinheiten auszubilden."
+msgid "Phoenician triremes gain the unique ability to train cavalry."
+msgstr "Phönizische Trieren erhalten die einzigartige Fähigkeit, Kavallerieeinheiten auszubilden."
 
 #: simulation/data/civs/pers.jsonFactions[0].Technologies[0].Name
 msgid "Naval Craftsmanship"
@@ -1794,7 +1977,7 @@ msgid ""
 "Empire. He was also renown as a benevolent conqueror. (OP - Kurush). "
 "Technically the second ruler of the Persians by that name, and so appears as"
 " Kurush II on his documents and coins. Kurush I was his grandfather."
-msgstr "Kyros der Große (regierte 559-530 v. Chr.), der Sohn einer medischen Prinzessin und dem Regenten von Anschan, mit Recht \"Vater des Reiches\" genannt, eroberte Medien, Lydien, Babylonien und Baktrien, womit er das persische Reich begründete. Er war bekannt als wohlwollender Eroberer. (Altpersisch - Kurush). Er war technisch gesehen der zweite Regent der Perser mit diesem Namen, und so erscheint er als Kurush II. auf seinen Dokumenten und Münzen. Kurush I. war sein Großvater."
+msgstr "Kyros der Große (regierte 559-530 v. Chr.), der Sohn einer medischen Prinzessin und dem Regenten von Anschan, mit Recht „Vater des Reiches“ genannt, eroberte Medien, Lydien, Babylonien und Baktrien, womit er das persische Reich begründete. Er war bekannt als wohlwollender Eroberer. (Altpersisch – Kurush). Er war technisch gesehen der zweite Regent der Perser mit diesem Namen, und so erscheint er als Kurush II. auf seinen Dokumenten und Münzen. Kurush I. war sein Großvater."
 
 #: simulation/data/civs/pers.jsonFactions[0].Heroes[0].Name
 msgid "Kurush II"
@@ -1806,7 +1989,7 @@ msgid ""
 "Parthia and Hyrcania; a great administrator as well as a decent general, "
 "Darius introduced the division of the empire into satrapies and conquered NW"
 " India, Thrace and Macedonia. He was called the 'Merchant of the Empire'."
-msgstr "Dareios (regierte 522-486 v. Chr.), der Sohn des Vishtaspa (Hystaspes), der Satrap von Parthien und Hyrkanien; Als großer Verwalter und annehmbarer General führte er die Teilung des Reiches in Satrapien ein und eroberte Nordwest-Indien, Thrakien und Makedonien. Er wurde der \"Händler des Reiches\" genannt."
+msgstr "Dareios (regierte 522-486 v. Chr.), der Sohn des Vishtaspa (Hystaspes), der Satrap von Parthien und Hyrkanien; Als großer Verwalter und annehmbarer General führte er die Teilung des Reiches in Satrapien ein und eroberte Nordwest-Indien, Thrakien und Makedonien. Er wurde der „Händler des Reiches“ genannt."
 
 #: simulation/data/civs/pers.jsonFactions[0].Heroes[2].History
 msgid ""
@@ -1824,7 +2007,7 @@ msgstr "Ställe"
 
 #: simulation/data/civs/pers.jsonStructures[0].Special
 msgid "Train Cavalry citizen-soldiers."
-msgstr "Trainiere Kavalleriebürgersoldaten."
+msgstr "Bilde Kavalleriebürgersoldaten aus."
 
 #: simulation/data/civs/pers.jsonStructures[0].History
 msgid "The Persian Empire's best soldiers were Eastern horsemen."
@@ -1866,15 +2049,16 @@ msgstr "Ptolemäer"
 
 #: simulation/data/civs/ptol.jsonCivBonuses[0].Description
 msgid ""
-"The Ptolemies receive the Mercenary Camp, a barracks that is constructed in "
-"neutral territory and trains mercenary soldiers."
-msgstr "Die Ptolemäer erhalten das Söldnerlager, eine Kaserne, die im neutralen Bereich erbaut wird und Söldner ausbildet."
+"The Ptolemies receive the Mercenary Camp, a Barracks that is constructed in "
+"neutral territory and trains mercenaries."
+msgstr "Die Ptolemäer erhalten das Söldnerlager, eine Kaserne, die im neutralem Territorium erbaut wird und Söldner ausbildet."
 
 #: simulation/data/civs/ptol.jsonCivBonuses[0].Name
 msgid "Mercenary Army"
 msgstr "Söldnerarmee"
 
 #: simulation/data/civs/ptol.jsonCivBonuses[0].History
+#: simulation/data/civs/ptol.jsonStructures[1].History
 msgid ""
 "The Greco-Macedonian Ptolemy Dynasty relied on large numbers of Greek and "
 "foreign mercenaries for the bulk of its military force, mainly because the "
@@ -1905,8 +2089,8 @@ msgid "Can capture gaia elephants and camels to reduce their training cost."
 msgstr "Erlaubt das Einfangen von Gaia-Elefanten und -Kamelen, um deren Ausbildungskosten zu senken."
 
 #: simulation/data/civs/ptol.jsonTeamBonuses[0].Description
-msgid "All allies automatically gain a slow trickle of food income."
-msgstr "Alle Verbündeten bekommen automatisch einen langsamen stetigen Zufluss an Nahrung."
+msgid "Allies +1.0 food trickle rate."
+msgstr "Verbündete erhalten +1.0 stetige Nahrungsrate"
 
 #: simulation/data/civs/ptol.jsonTeamBonuses[0].Name
 msgid "Breadbasket of the Mediterranean"
@@ -2058,20 +2242,8 @@ msgstr "Stratópedo Misthophóron"
 #: simulation/data/civs/ptol.jsonStructures[1].Special
 msgid ""
 "Must be constructed in neutral territory. Has no territory radius effect. "
-"Trains all 'mercenary' units."
-msgstr "Muss auf neutralem Boden errichtet werden. Hat keinen Effekt auf den Radius von Territorien. Bildet alle 'Söldner'-Einheiten aus."
-
-#: simulation/data/civs/ptol.jsonStructures[1].History
-msgid ""
-"The Greco-Macedonian Ptolemy Dynasty relied on large numbers of Greek and "
-"foreign mercenaries for the bulk of its military force, mainly because the "
-"loyalty of native Egyptian units was often suspect. Indeed, during one "
-"native uprising, Upper Egypt was lost to the Ptolemies for decades. "
-"Mercenaries were often battle-hardened and their loyalty can be bought, "
-"sometimes cheaply, sometimes not cheaply. This was of no matter, since Egypt"
-" under the Ptolemies was so prosperous as to be the richest of Alexander's "
-"successor states."
-msgstr "Die griechisch-makedonische Dynastie der Ptolemäer stützte sich auf eine große Anzahl von griechischen und ausländischen Söldnern für ihre Hauptstreitmacht, hauptsächlich wegen der oft zweifelhaften Loyalität der einheimischen ägyptischen Einheiten. Tatsächlich war Oberägypten wegen eines Aufstandes der Einheimischen für die Ptolemäer für Jahrzehnte verloren. Söldner waren oft kampferprobt und ihre Loyalität käuflich, manchmal für weniger, manchmal für mehr Geld. Das war aber unerheblich, da Ägypten unter den Ptolemäern so sehr florierte, dass es der reichste von allen Nachfolgestaaten Alexander des Großen war."
+"Trains mercenaries."
+msgstr "Muss auf neutralem Boden errichtet werden. Hat keinen Effekt auf den Radius von Territorien. Bildet Söldner aus."
 
 #: simulation/data/civs/ptol.jsonStructures[2].Name
 msgid "Lighthouse"
@@ -2138,8 +2310,8 @@ msgid ""
 msgstr "Die Römische Bürgerschaft wurde in der Antike hoch geschätzt. Römischen Bürgern wurden grundlegende Rechte und Privilegien geboten, die anderen, unterworfenen Völkern vorenthalten wurden. Man sagte, einem Römer zu schaden sei so wie Rom selbst zu schaden und das würde die gesamte Macht Roms gegen den Täter aufbringen."
 
 #: simulation/data/civs/rome.jsonTeamBonuses[0].Description
-msgid "-20% training time for allied infantry."
-msgstr "-20% Ausbildungszeit für verbündete Infanterie."
+msgid "Allied Citizen Infantry −10% training time."
+msgstr "Verbündete Zivilinfanterie erhält -10% auf Ausbildungszeit"
 
 #: simulation/data/civs/rome.jsonTeamBonuses[0].Name
 msgid "Conscription"
@@ -2348,8 +2520,8 @@ msgid ""
 msgstr "Die Kriegsführung der Seleukiden und deren Nachfolger entwickelte sich im Laufe des 3. und 2. Jahrhunderts. Kontakt mit expandierenden Ostvölkern, wie den Parthern, und andauernde Revolten periphärer Satrapien, wie Baktrien, zwangen die Seleukiden zu militärischen Reformen und Änderungen ihrer Kampftaktik, speziell im Kavalleriezweig. Der Krieg mit den Römern im Westen und Überfälle der Galater zwangen die Seleukiden auch, ihre Fußtruppen zu reformieren, um sie flexibler zu machen."
 
 #: simulation/data/civs/sele.jsonTeamBonuses[0].Description
-msgid "Allied Civic Centers are 20% cheaper."
-msgstr "Verbündete Verwaltungssitze sind 20% billiger."
+msgid "Allied Civil Centers −20% resource costs."
+msgstr "Verbündete Verwaltungssitze -20% Rohstoffkosten."
 
 #: simulation/data/civs/sele.jsonTeamBonuses[0].Name
 msgid "Syrian Tetrapolis"
@@ -2359,7 +2531,7 @@ msgstr "Syrische Tetrapolis"
 msgid ""
 "The political core of the Seleucid Empire consisted of four 'sister' cities:"
 " Antioch (the capital), Seleucia Pieria, Apamea, and Laodicea."
-msgstr "Der politische Kern des seleukidischen Reiches bestand aus 4 \"Schwester\"-Städten: Antiochien (die Hauptstadt), Seleukia Pieria, Apamea und Laodikeia."
+msgstr "Der politische Kern des seleukidischen Reiches bestand aus vier „Schwester“-Städten: Antiochien (die Hauptstadt), Seleukia Pieria, Apamea und Laodikeia."
 
 #: simulation/data/civs/sele.jsonAINames[0]
 msgid "Seleucus I Nicator"
@@ -2525,7 +2697,7 @@ msgid ""
 "were the most extensive in Asia after that of Alexander. The whole region "
 "from Phrygia to the Indus was subject to Seleucus. — Appian, 'The Syrian "
 "Wars'."
-msgstr "Immer auf der Lauer auf benachbarte Länder, stark bei der Armee und überzeugend im Konzil, eroberte er (Seleukos) Mesopotamien, Armenien, das \"seleukidische\" Kappadokien, Persis, Parthien, Baktrien, Arabien, Tabaristan, Sogdien, Arachosien, Hyrkanien und andere angrenzende Völker, die von Alexander unterjocht worden waren, bis hin zum Indus, so dass die Grenzen seines Reiches die weitesten in Asien waren nach denen von Alexander. Die ganze Region von Phrygien bis zum Indus war Eigentum von Seleukos. - Appianus, \"Die syrischen Kriege\"."
+msgstr "Immer auf der Lauer auf benachbarte Länder, stark bei der Armee und überzeugend im Konzil, eroberte er (Seleukos) Mesopotamien, Armenien, das „seleukidische“ Kappadokien, Persis, Parthien, Baktrien, Arabien, Tabaristan, Sogdien, Arachosien, Hyrkanien und andere angrenzende Völker, die von Alexander unterjocht worden waren, bis hin zum Indus, so dass die Grenzen seines Reiches die weitesten in Asien waren nach denen von Alexander. Die ganze Region von Phrygien bis zum Indus war Eigentum von Seleukos. – Appianus, „Die syrischen Kriege“."
 
 #: simulation/data/civs/sele.jsonFactions[0].Heroes[0].Name
 msgid "Seleukos A' Nikator"
@@ -2534,15 +2706,15 @@ msgstr "Seleukos A' Nikator"
 #: simulation/data/civs/sele.jsonFactions[0].Heroes[1].History
 msgid ""
 "Antiochus inherited a troubled kingdom upon the beginning of his reign. From"
-" the verge of collapse he managed to weld back together the empire Seleukus "
+" the verge of collapse he managed to weld back together the empire Seleucus "
 "I fought so hard to found. The rebellious eastern satraps of Bactria and "
-"Parthia were brought to heel , temporarily securing his eastern borders. He "
+"Parthia were brought to heel, temporarily securing his eastern borders. He "
 "then turned his attention to mother Greece, attempting to fulfill the dreams"
 " of his fathers by invading Greece under the pretext of liberation. The "
 "Achaean League and the Kingdom of Pergamon banded together with the Romans "
 "to defeat him at the Battle of Magnesia, forever burying the dream of "
 "reuniting Alexander's empire."
-msgstr "Antiochus erbte zu Beginn seiner Herrschaft ein krisengebeuteltes Königreich. Vom Rand des Unterganges schaffte er es, das Reich, das Seleukos I. so schwer begründet hatte, wieder zusammenzuschweißen. Die rebellierenden östlichen Satrapien von Baktrien und Parthien wurden gefügig gemacht, was kurzfristig die Ostgrenzen sicherte. Dann wandte er seine Aufmerksamkeit Griechenland zu, in einem Versuch, die Träume seines Vaters zu erfüllen, indem er dort unter dem Banner der Befreiung einmarschierte. Der Achaiische Bund und das Königreich Pergamon verbündeten sich mit Rom, um ihn in der Schlacht von Magnesia zu besiegen, womit der Traum, Alexanders Reich wieder zu vereinen, endgültig begraben war."
+msgstr "Antiochus erbte zu Beginn seiner Herrschaft ein krisengebeuteltes Königreich. Vom Rande des Unterganges schaffte er es, das Reich, für das Seleukos I. so hart gekämpft hatte, wieder zusammenzuschweißen. Die rebellischen östlichen Satrapien von Baktrien und Parthien wurden gefügig gemacht, was kurzfristig die Ostgrenzen sicherte. Dann wandte er seine Aufmerksamkeit Griechenland zu, in einem Versuch, die Träume seines Vaters zu erfüllen, indem er dort unter dem Banner der Befreiung einmarschierte. Der Achaiische Bund und das Königreich Pergamon verbündeten sich mit Rom, um ihn in der Schlacht von Magnesia zu besiegen, womit der Traum, Alexanders Reich wieder zu vereinen, endgültig begraben war."
 
 #: simulation/data/civs/sele.jsonFactions[0].Heroes[1].Name
 msgid "Antiokhos G' Megas"
@@ -2570,8 +2742,8 @@ msgid ""
 msgstr "Die makedonisch-griechische Dynastie, die den östlichen Teil von Alexanders ehemaligem Reich regierte."
 
 #: simulation/data/civs/sele.jsonStructures[1].Special
-msgid "Trains all cavalry units except Citizen-Militia Cavalry."
-msgstr "Bildet alle berittenen Einheiten außer der berittenen Bürgermiliz aus."
+msgid "Trains all cavalry except citizen-soldier cavalry."
+msgstr "Bilde alle Kavallerieeinheiten außer Bürgersoldatenkavallerie aus."
 
 #: simulation/data/civs/sele.jsonStructures[2].Name
 msgid "Military Colony"
@@ -2596,7 +2768,7 @@ msgid ""
 "manpower for the imperial Seleucid army. A side effect of this system was "
 "that it drained the Greek homeland of military-aged men, a contributing "
 "factor to Greece's eventual conquest by Rome."
-msgstr "Die seleukidischen Könige luden die Griechen, Makedonier, Galater (Gallier), Kreter und Thraker ohne Unterschied ein, sich in den weiten Gebieten des Reiches anzusiedeln. Sie siedelten in militärischen Kolonien, sogenannten Kleruchien (klēroukhia). Unter dieser Vereinbarung wurde den Siedlern ein Stück Land, oder Kleros, gegeben, und im Gegenzug mussten sie in der Armee des Großkönigs dienen, wenn die Pflicht rief. Dadurch entstand eine obere Mittelschicht von militärischen Siedlern, die ihre Existenz und Besitztümer den syrischen Königen schuldeten und dabei halfen, die verfügbare Mannstärke der imperialen seleukidischen Armee zu erhöhen. Ein Nebeneffekt dieses Systems war, dass das griechische Mutterland Männer im passenden Alter für das Militär verlor, was dazu beitrug, dass Griechenland im Endeffekt von Rom erobert wurde."
+msgstr "Die seleukidischen Könige luden die Griechen, Makedonier, Galater (Gallier), Kreter und Thraker ohne Wenig ausgeschrieben Unterschied ein, sich in den weiten Gebieten des Reiches anzusiedeln. Sie siedelten in militärischen Kolonien, sogenannten Kleruchien (klēroukhia). Unter dieser Vereinbarung wurde den Siedlern ein Stück Land, oder Kleros, gegeben, und im Gegenzug mussten sie in der Armee des Großkönigs dienen, wenn die Pflicht rief. Dadurch entstand eine obere Mittelschicht von militärischen Siedlern, die ihre Existenz und Besitztümer den syrischen Königen schuldeten und dabei halfen, die verfügbare Mannstärke der imperialen seleukidischen Armee zu erhöhen. Ein Nebeneffekt dieses Systems war, dass das griechische Mutterland Männer im passenden Alter für das Militär verlor, was dazu beitrug, dass Griechenland im Endeffekt von Rom erobert wurde."
 
 #: simulation/data/civs/sele.jsonHistory
 msgid ""
@@ -2638,10 +2810,8 @@ msgid ""
 msgstr "Unter der Verfassung des mythenhaften Gesetzgebers Lykurg wurde die Agoge etabliert. Sie war ein Erziehungssystem, bei dem Spartaner bereits ab dem 6. Lebensjahr ausgebildet wurden, um überlegene Krieger zur Verteidigung des spartanischen Staates zu werden."
 
 #: simulation/data/civs/spart.jsonTeamBonuses[0].Description
-msgid ""
-"Increases the health for citizen-soldier infantry spearmen by 10% for allies"
-" of Spartan players."
-msgstr "Erhöht die Gesundheit für Bürgersoldaten-Infanfantriespeerträgern um 10% für die Verbündeten spartanischer Spieler."
+msgid "Allied Citizen Infantry Spearmen +10% health."
+msgstr "Verbündete Bürgersoldateninfanteriespeerwerfer +10% Gesundheit."
 
 #: simulation/data/civs/spart.jsonTeamBonuses[0].Name
 msgid "Peloponnesian League"
@@ -2739,7 +2909,7 @@ msgstr "Päane waren Kampfhymnen, die die Hopliten sangen, während sie gegen di
 
 #: simulation/data/civs/spart.jsonFactions[0].Technologies[2].Description
 msgid "+25% health for spear infantry, but also +10% train time."
-msgstr "+25% Gesundheit für Speer-Infanterie, aber auch +10% Trainingszeit."
+msgstr "+25% Gesundheit für Speer-Infanterie, aber auch +10% Ausbildungszeit."
 
 #: simulation/data/civs/spart.jsonFactions[0].Technologies[2].Name
 msgid "The Agoge"

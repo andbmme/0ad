@@ -5,8 +5,9 @@
   </Auras>
   <Identity>
     <Civ>pers</Civ>
+    <Lang>persian</Lang>
     <GenericName>Cyrus II The Great</GenericName>
-    <SpecificName>Kurush II</SpecificName>
+    <SpecificName>Kuruš</SpecificName>
     <Icon>units/pers_hero_cyrus.png</Icon>
   </Identity>
   <ProductionQueue>
@@ -23,6 +24,6 @@
     </TechCostMultiplier>
   </ProductionQueue>
   <VisualActor>
-    <Actor>units/persians/hero_cyrus.xml</Actor>
+    <Actor>units/persians/hero_cavalry_spearman_cyrus_m.xml</Actor>
   </VisualActor>
 </Entity>

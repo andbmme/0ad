@@ -1,4 +1,4 @@
-//Number of rounds of firing per 2 seconds
+// Number of rounds of firing per 2 seconds.
 const roundCount = 10;
 const attackType = "Ranged";
 
@@ -36,18 +36,26 @@ BuildingAI.prototype.OnGarrisonedUnitsChanged = function(msg)
 
 	for (let ent of msg.added)
 	{
+		if (msg.visible[ent])
+			continue;
+
 		let cmpIdentity = Engine.QueryInterface(ent, IID_Identity);
 		if (!cmpIdentity)
 			continue;
+
 		if (MatchesClassList(cmpIdentity.GetClassesList(), classes))
 			++this.archersGarrisoned;
 	}
 
 	for (let ent of msg.removed)
 	{
+		if (msg.visible[ent])
+			continue;
+
 		let cmpIdentity = Engine.QueryInterface(ent, IID_Identity);
 		if (!cmpIdentity)
 			continue;
+
 		if (MatchesClassList(cmpIdentity.GetClassesList(), classes))
 			--this.archersGarrisoned;
 	}
@@ -131,7 +139,7 @@ BuildingAI.prototype.SetupRangeQuery = function()
 	var range = cmpAttack.GetRange(attackType);
 	this.enemyUnitsQuery = cmpRangeManager.CreateActiveParabolicQuery(
 			this.entity, range.min, range.max, range.elevationBonus,
-			enemies, IID_DamageReceiver, cmpRangeManager.GetEntityFlagMask("normal"));
+			enemies, IID_Resistance, cmpRangeManager.GetEntityFlagMask("normal"));
 
 	cmpRangeManager.EnableActiveQuery(this.enemyUnitsQuery);
 };

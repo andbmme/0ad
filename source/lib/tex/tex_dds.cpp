@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -51,7 +51,7 @@ class S3tcBlock
 {
 public:
 	S3tcBlock(size_t dxt, const u8* RESTRICT block)
-		: dxt(dxt)
+		: m_Dxt(dxt)
 	{
 		// (careful, 'dxt != 1' doesn't work - there's also DXT1a)
 		const u8* a_block = block;
@@ -71,23 +71,23 @@ public:
 			out[i] = (u8)c[c_selector][i];
 
 		// if no alpha, done
-		if(dxt == 1)
+		if(m_Dxt == 1)
 			return;
 
 		size_t a;
-		if(dxt == 3)
+		if(m_Dxt == 3)
 		{
 			// table of 4-bit alpha entries
 			a = access_bit_tbl(a_bits, pixel_idx, 4);
 			a |= a << 4; // expand to 8 bits (replicate high into low!)
 		}
-		else if(dxt == 5)
+		else if(m_Dxt == 5)
 		{
 			// pixel index -> alpha selector (3 bit) -> alpha
 			const size_t a_selector = access_bit_tbl(a_bits, pixel_idx, 3);
 			a = dxt5_a_tbl[a_selector];
 		}
-		// (dxt == DXT1A)
+		// (m_Dxt == DXT1A)
 		else
 			a = c[c_selector][A];
 		out[A] = (u8)(a & 0xFF);
@@ -214,7 +214,7 @@ private:
 	// table of 2-bit color selectors
 	u32 c_selectors;
 
-	size_t dxt;
+	size_t m_Dxt;
 };
 
 
@@ -283,7 +283,7 @@ static Status s3tc_decompress(Tex* t)
 	const size_t out_bpp = (dxt != 1)? 32 : 24;
 	const size_t out_size = t->img_size() * out_bpp / t->m_Bpp;
 	shared_ptr<u8> decompressedData;
-	AllocateAligned(decompressedData, out_size, pageSize);
+	AllocateAligned(decompressedData, out_size, g_PageSize);
 
 	const size_t s3tc_block_size = (dxt == 3 || dxt == 5)? 16 : 8;
 	S3tcDecompressInfo di = { dxt, s3tc_block_size, out_bpp/8, decompressedData.get() };
@@ -310,10 +310,10 @@ static Status s3tc_decompress(Tex* t)
 
 // DDS_PIXELFORMAT.dwFlags
 // we've seen some DXT3 files that don't have this set (which is nonsense;
-// any image lacking alpha should be stored as DXT1). it's authoritative
-// if fourcc is DXT1 (there's no other way to tell DXT1 and DXT1a apart)
-// and ignored otherwise.
+// any image lacking alpha should be stored as DXT1).
 #define DDPF_ALPHAPIXELS 0x00000001
+// DDPF_ALPHA is used instead of DDPF_ALPHAPIXELS for DXT1a.
+#define DDPF_ALPHA       0x00000002
 #define DDPF_FOURCC      0x00000004
 #define DDPF_RGB         0x00000040
 
@@ -326,7 +326,7 @@ struct DDS_PIXELFORMAT
 	u32 dwRBitMask;
 	u32 dwGBitMask;
 	u32 dwBBitMask;
-	u32 dwABitMask;                   // (DDPF_ALPHAPIXELS)
+	u32 dwABitMask;                   // (DDPF_ALPHA or DDPF_ALPHAPIXELS)
 };
 
 
@@ -435,7 +435,7 @@ static Status decode_pf(const DDS_PIXELFORMAT* pf, size_t& bpp, size_t& flags)
 		RETURN_STATUS_IF_ERR(tex_validate_plain_format(bpp, (int)flags));
 	}
 	// .. uncompressed 8bpp greyscale
-	else if(pf_flags & DDPF_ALPHAPIXELS)
+	else if(pf_flags & DDPF_ALPHA)
 	{
 		const size_t pf_bpp    = (size_t)read_le32(&pf->dwRGBBitCount);
 		const size_t pf_a_mask = (size_t)read_le32(&pf->dwABitMask);
@@ -460,7 +460,7 @@ static Status decode_pf(const DDS_PIXELFORMAT* pf, size_t& bpp, size_t& flags)
 		{
 		case FOURCC('D','X','T','1'):
 			bpp = 4;
-			if(pf_flags & DDPF_ALPHAPIXELS)
+			if(pf_flags & DDPF_ALPHA)
 				flags |= DXT1A | TEX_ALPHA;
 			else
 				flags |= 1;
@@ -541,7 +541,7 @@ static Status decode_sd(const DDS_HEADER* sd, size_t& w, size_t& h, size_t& bpp,
 		// some DDS tools mistakenly store the total size of all levels,
 		// so allow values close to that as well
 		const ssize_t totalSize = ssize_t(pitch*stored_h*1.333333f);
-		if(sd_pitch_or_size != pitch*stored_h && abs(ssize_t(sd_pitch_or_size)-totalSize) > 64)
+		if(sd_pitch_or_size != pitch*stored_h && std::abs(ssize_t(sd_pitch_or_size)-totalSize) > 64)
 			DEBUG_WARN_ERR(ERR::CORRUPTED);
 	}
 	// note: both flags set would be invalid; no need to check for that,

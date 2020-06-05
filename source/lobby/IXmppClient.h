@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -22,17 +22,18 @@
 
 class ScriptInterface;
 namespace StunClient {
-class StunEndpoint;
+	struct StunEndpoint;
 }
 
 class IXmppClient
 {
 public:
-	static IXmppClient* create(const std::string& sUsername, const std::string& sPassword, const std::string& sRoom, const std::string& sNick, const int historyRequestSize = 0, bool regOpt = false);
+	static IXmppClient* create(const ScriptInterface* scriptInterface, const std::string& sUsername, const std::string& sPassword, const std::string& sRoom, const std::string& sNick, const int historyRequestSize = 0, bool regOpt = false);
 	virtual ~IXmppClient() {}
 
 	virtual void connect() = 0;
 	virtual void disconnect() = 0;
+	virtual bool isConnected() = 0;
 	virtual void recv() = 0;
 	virtual void SendIqGetBoardList() = 0;
 	virtual void SendIqGetProfile(const std::string& player) = 0;
@@ -40,23 +41,27 @@ public:
 	virtual void SendIqRegisterGame(const ScriptInterface& scriptInterface, JS::HandleValue data) = 0;
 	virtual void SendIqUnregisterGame() = 0;
 	virtual void SendIqChangeStateGame(const std::string& nbp, const std::string& players) = 0;
+	virtual void SendIqLobbyAuth(const std::string& to, const std::string& token) = 0;
 	virtual void SetNick(const std::string& nick) = 0;
 	virtual void GetNick(std::string& nick) = 0;
 	virtual void kick(const std::string& nick, const std::string& reason) = 0;
 	virtual void ban(const std::string& nick, const std::string& reason) = 0;
 	virtual void SetPresence(const std::string& presence) = 0;
-	virtual void GetPresence(const std::string& nickname, std::string& presence) = 0;
-	virtual void GetRole(const std::string& nickname, std::string& role) = 0;
-	virtual void GetSubject(std::string& subject) = 0;
+	virtual const char* GetPresence(const std::string& nickname) = 0;
+	virtual const char* GetRole(const std::string& nickname) = 0;
+	virtual std::wstring GetRating(const std::string& nickname) = 0;
+	virtual const std::wstring& GetSubject() = 0;
 	virtual void GUIGetPlayerList(const ScriptInterface& scriptInterface, JS::MutableHandleValue ret) = 0;
-	virtual void ClearPresenceUpdates() = 0;
 	virtual void GUIGetGameList(const ScriptInterface& scriptInterface, JS::MutableHandleValue ret) = 0;
 	virtual void GUIGetBoardList(const ScriptInterface& scriptInterface, JS::MutableHandleValue ret) = 0;
 	virtual void GUIGetProfile(const ScriptInterface& scriptInterface, JS::MutableHandleValue ret) = 0;
-	virtual JS::Value GuiPollNewMessage(const ScriptInterface& scriptInterface) = 0;
+
+	virtual JS::Value GuiPollNewMessages(const ScriptInterface& scriptInterface) = 0;
 	virtual JS::Value GuiPollHistoricMessages(const ScriptInterface& scriptInterface) = 0;
+	virtual bool GuiPollHasPlayerListUpdate() = 0;
+
 	virtual void SendMUCMessage(const std::string& message) = 0;
-	virtual void SendStunEndpointToHost(StunClient::StunEndpoint* stunEndpoint, const std::string& hostJID) = 0;
+	virtual void SendStunEndpointToHost(const StunClient::StunEndpoint& stunEndpoint, const std::string& hostJID) = 0;
 };
 
 extern IXmppClient *g_XmppClient;

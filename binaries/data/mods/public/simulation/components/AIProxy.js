@@ -39,7 +39,7 @@ AIProxy.prototype.Init = function()
 
 AIProxy.prototype.Serialize = null; // we have no dynamic state to save
 
-AIProxy.prototype.Deserialize = function ()
+AIProxy.prototype.Deserialize = function()
 {
 	this.Init();
 };
@@ -113,6 +113,13 @@ AIProxy.prototype.OnCapturePointsChanged = function(msg)
 	this.changes.capturePoints = msg.capturePoints;
 };
 
+AIProxy.prototype.OnInvulnerabilityChanged = function(msg)
+{
+	if (!this.NotifyChange())
+		return;
+	this.changes.invulnerability = msg.invulnerability;
+};
+
 AIProxy.prototype.OnUnitIdleChanged = function(msg)
 {
 	if (!this.NotifyChange())
@@ -160,9 +167,9 @@ AIProxy.prototype.OnGarrisonedUnitsChanged = function(msg)
 	// Send a message telling a unit garrisoned or ungarrisoned.
 	// I won't check if the unit is still alive so it'll be up to the AI.
 	for (let ent of msg.added)
-		this.cmpAIInterface.PushEvent("Garrison", {"entity" : ent, "holder": this.entity});
+		this.cmpAIInterface.PushEvent("Garrison", { "entity": ent, "holder": this.entity });
 	for (let ent of msg.removed)
-		this.cmpAIInterface.PushEvent("UnGarrison", {"entity" : ent, "holder": this.entity});
+		this.cmpAIInterface.PushEvent("UnGarrison", { "entity": ent, "holder": this.entity });
 };
 
 AIProxy.prototype.OnResourceSupplyChanged = function(msg)
@@ -253,6 +260,10 @@ AIProxy.prototype.GetFullRepresentation = function()
 		ret.hitpoints = cmpHealth.GetHitpoints();
 	}
 
+	let cmpResistance = Engine.QueryInterface(this.entity, IID_Resistance);
+	if (cmpResistance)
+		ret.invulnerability = cmpResistance.IsInvulnerable();
+
 	let cmpOwnership = Engine.QueryInterface(this.entity, IID_Ownership);
 	if (cmpOwnership)
 	{
@@ -339,15 +350,14 @@ AIProxy.prototype.OnOwnershipChanged = function(msg)
 {
 	this.NotifyChange();
 
-	if (msg.from === -1)
+	if (msg.from == INVALID_PLAYER)
 	{
-		this.cmpAIInterface.PushEvent("Create", {"entity" : msg.entity});
+		this.cmpAIInterface.PushEvent("Create", { "entity": msg.entity });
 		return;
 	}
-	else if (msg.to === -1)
+	if (msg.to == INVALID_PLAYER)
 	{
-		this.cmpAIInterface.PushEvent("Destroy", {"entity" : msg.entity});
-		this.needsFullGet = true;
+		this.cmpAIInterface.PushEvent("Destroy", { "entity": msg.entity });
 		return;
 	}
 

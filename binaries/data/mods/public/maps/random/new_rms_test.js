@@ -1,32 +1,12 @@
-RMS.LoadLibrary("rmgen");
+Engine.LoadLibrary("rmgen");
+Engine.LoadLibrary("rmgen-common");
 
-InitMap();
+var g_Map = new RandomMap(0, "grass1_spring");
 
-var numPlayers = getNumPlayers();
-var mapSize = getMapSize();
+placePlayerBases({
+	"PlayerPlacement": playerPlacementCircle(fractionToTiles(0.39))
+});
 
-var clPlayer = createTileClass();
-var clPath = createTileClass();
-var clHill = createTileClass();
-var clForest = createTileClass();
-var clRock = createTileClass();
-var clFood = createTileClass();
-var clBaseResource = createTileClass();
+placePlayersNomad(g_Map.createTileClass());
 
-var [playerIDs, playerX, playerZ] = radialPlayerPlacement(0.39);
-
-for (var i=0; i < numPlayers; i++)
-{
-	var id = playerIDs[i];
-	log("Creating base for player " + id + "...");
-
-	// get the x and z in tiles
-	var fx = fractionToTiles(playerX[i]);
-	var fz = fractionToTiles(playerZ[i]);
-	var ix = round(fx);
-	var iz = round(fz);
-
-	placeCivDefaultEntities(fx, fz, id);
-}
-
-ExportMap();
+g_Map.ExportMap();

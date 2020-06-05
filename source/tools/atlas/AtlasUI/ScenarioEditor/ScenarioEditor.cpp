@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -514,7 +514,7 @@ ScenarioEditor::ScenarioEditor(wxWindow* parent)
 					menuHelp->Append(ID_##id, _(wxString(data[#id]["title"])), _(wxString(data[#id]["tooltip"]))); \
 					m_HelpData.insert(std::make_pair( \
 						ID_##id, \
-						HelpItem(wxString(data[#id]["title"]), wxString(data[#id]["tooltip"]), wxString(data[#id]["url"])) \
+						HelpItem(wxString::FromUTF8(data[#id]["title"]), wxString::FromUTF8(data[#id]["tooltip"]), wxString::FromUTF8(data[#id]["url"])) \
 					)); \
 				} while (0)
 			ADD_HELP_ITEM(Manual);
@@ -739,8 +739,8 @@ bool ScenarioEditor::OpenFile(const wxString& name, const wxString& filename)
 	SetOpenFilename(name);
 
 	{	// Wait for it to load, while the wxBusyInfo is telling the user that we're doing that
-		qPing qry;
-		qry.Post();
+		qPing pingQuery;
+		pingQuery.Post();
 	}
 
 	NotifyOnMapReload();
@@ -761,9 +761,9 @@ void ScenarioEditor::OnOpen(wxCommandEvent& WXUNUSED(event))
 	MapDialog dlg (NULL, MAPDIALOG_OPEN, m_Icon);
 	if (dlg.ShowModal() == wxID_OK)
 	{
-		wxString filename = dlg.GetFilename();
-		if (!OpenFile(filename, filename))
-			wxLogError(_("Map '%ls' does not exist"), filename.c_str());
+		wxString filePath = dlg.GetSelectedFilePath();
+		if (!OpenFile(filePath, filePath))
+			wxLogError(_("Map '%ls' does not exist"), filePath.c_str());
 	}
 
 	// TODO: Make this a non-undoable command
@@ -776,7 +776,7 @@ void ScenarioEditor::OnImportHeightmap(wxCommandEvent& WXUNUSED(event))
 
 	wxFileDialog dlg (NULL, wxFileSelectorPromptStr,
 		_T(""), _T(""),
-		_T("Valid Image files|*.png;*.jpg;*.bmp|All files (*.*)|*.*"),
+		_T("Valid image files (*.png, *.bmp)|*.png;*.bmp|All files (*.*)|*.*"),
 		wxFD_OPEN);
 	// Set default filter
 	dlg.SetFilterIndex(0);
@@ -846,16 +846,16 @@ void ScenarioEditor::OnSaveAs(wxCommandEvent& WXUNUSED(event))
 	MapDialog dlg(NULL, MAPDIALOG_SAVE, m_Icon);
 	if (dlg.ShowModal() == wxID_OK)
 	{
-		wxString filename(dlg.GetFilename());
-		wxBusyInfo busy(_("Saving ") + filename);
+		wxString filePath(dlg.GetSelectedFilePath());
+		wxBusyInfo busy(_("Saving ") + filePath);
 		wxBusyCursor busyc;
 
 		m_ToolManager.SetCurrentTool(_T(""));
 
-		std::wstring map(filename.wc_str());
+		std::wstring map(filePath.wc_str());
 		POST_MESSAGE(SaveMap, (map));
 
-		SetOpenFilename(filename);
+		SetOpenFilename(filePath);
 
 		// Wait for it to finish saving
 		qPing qry;
@@ -996,9 +996,14 @@ void ScenarioEditor::OnHelp(wxCommandEvent& event)
 
 void ScenarioEditor::OnMenuOpen(wxMenuEvent& event)
 {
+    // Ignore wxMSW system menu events, see https://trac.wildfiregames.com/ticket/5501
+    const wxMenu* menu = event.GetMenu();
+    if (!menu)
+        return;
+
     // This could be done far more elegantly if wxMenuItem had changeable id.
     wxMenu* pasteMenuItem = NULL;
-    event.GetMenu()->FindItem(ID_Paste, &pasteMenuItem);
+    menu->FindItem(ID_Paste, &pasteMenuItem);
 
     GetMenuBar()->Enable(ID_Paste, false);
 

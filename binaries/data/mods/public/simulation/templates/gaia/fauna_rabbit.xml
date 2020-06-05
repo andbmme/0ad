@@ -4,23 +4,19 @@
     <Square width="1.2" depth="2.0"/>
     <Height>1.0</Height>
   </Footprint>
-  <Identity>
-    <Civ>gaia</Civ>
-    <SpecificName>Rabbit</SpecificName>
-    <Icon>gaia/fauna_rabbit.png</Icon>
-  </Identity>
   <Health>
     <Max>10</Max>
   </Health>
+  <Identity>
+    <GenericName>Rabbit</GenericName>
+    <SpecificName>Oryctolagus cuniculus</SpecificName>
+    <Icon>gaia/fauna_rabbit.png</Icon>
+  </Identity>
   <Obstruction>
     <BlockMovement>false</BlockMovement>
   </Obstruction>
-  <Position>
-    <Anchor>pitch</Anchor>
-  </Position>
   <ResourceSupply>
     <Amount>50</Amount>
-    <Type>food.meat</Type>
   </ResourceSupply>
   <StatusBars>
     <HeightOffset>3.0</HeightOffset>

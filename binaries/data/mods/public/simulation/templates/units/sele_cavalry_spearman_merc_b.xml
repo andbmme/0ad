@@ -8,11 +8,11 @@
   </Cost>
   <Identity>
     <Civ>sele</Civ>
+    <VisibleClasses datatype="tokens">Mercenary</VisibleClasses>
     <Lang>greek</Lang>
     <SelectionGroupName>units/sele_cavalry_spearman_merc_b</SelectionGroupName>
     <GenericName>Companion Cavalry</GenericName>
     <SpecificName>Hippos Hetairike</SpecificName>
-    <VisibleClasses datatype="tokens">Mercenary</VisibleClasses>
     <RequiredTechnology>phase_town</RequiredTechnology>
     <Icon>units/mace_cavalry_spearman.png</Icon>
   </Identity>
@@ -20,6 +20,6 @@
     <Entity>units/sele_cavalry_spearman_merc_a</Entity>
   </Promotion>
   <VisualActor>
-    <Actor>units/macedonians/cavalry_spearman_b.xml</Actor>
+    <Actor>units/macedonians/cavalry_spearman_b_m.xml</Actor>
   </VisualActor>
 </Entity>

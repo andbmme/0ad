@@ -7,6 +7,72 @@ var g_Props = {
 };
 
 /**
+ * Prevent circular patterns around the CC by marking a random chain of circles there to be ignored by bluffs.
+ */
+function markPlayerAvoidanceArea(playerPosition, radius)
+{
+	for (let position of playerPosition)
+		createArea(
+			new ChainPlacer(3, 6, scaleByMapSize(25, 60), Infinity, position, radius),
+			new TileClassPainter(g_TileClasses.bluffIgnore),
+			undefined,
+			scaleByMapSize(7, 14));
+
+	createArea(
+		new MapBoundsPlacer(),
+		new TileClassPainter(g_TileClasses.bluffIgnore),
+		new NearTileClassConstraint(g_TileClasses.baseResource, 5));
+}
+
+/**
+ * Paints a ramp from the given positions to t
+ * Bluffs might surround playerbases either entirely or unfairly.
+ */
+function createBluffsPassages(playerPosition)
+{
+	g_Map.log("Creating passages towards the center");
+	for (let position of playerPosition)
+	{
+		let successful = true;
+		for (let tryCount = 0; tryCount < 80; ++tryCount)
+		{
+			let angle = position.angleTo(g_Map.getCenter()) + randFloat(-1, 1) * Math.PI / 2;
+			let start = Vector2D.add(position, new Vector2D(defaultPlayerBaseRadius() * 0.7, 0).rotate(angle).perpendicular()).round();
+			let end = Vector2D.add(position, new Vector2D(defaultPlayerBaseRadius() * randFloat(1.7, 2), 0).rotate(angle).perpendicular()).round();
+
+			if (g_TileClasses.forest.has(end) || !stayClasses(g_TileClasses.bluff, 12).allows(end))
+				continue;
+
+			if ((g_Map.getHeight(end.clone().floor()) - g_Map.getHeight(start.clone().floor())) / start.distanceTo(end) > 1.5)
+				continue;
+
+			let area = createPassage({
+				"start": start,
+				"end": end,
+				"startWidth": scaleByMapSize(10, 20),
+				"endWidth": scaleByMapSize(10, 14),
+				"smoothWidth": 3,
+				"terrain": g_Terrains.mainTerrain,
+				"tileClass": g_TileClasses.bluffsPassage
+			});
+
+			for (let point of area.getPoints())
+				g_Map.deleteTerrainEntity(point);
+
+			createArea(
+				new MapBoundsPlacer(),
+				new TerrainPainter(g_Terrains.cliff),
+				[
+					new StayAreasConstraint([area]),
+					new SlopeConstraint(2, Infinity)
+				]);
+
+			break;
+		}
+	}
+}
+
+/**
  * Create bluffs, i.e. a slope hill reachable from ground level.
  * Fill it with wood, mines, animals and decoratives.
  *
@@ -18,106 +84,101 @@ var g_Props = {
  */
 function addBluffs(constraint, size, deviation, fill, baseHeight)
 {
-	var constrastTerrain = g_Terrains.tier2Terrain;
+	g_Map.log("Creating bluffs");
 
-	if (currentBiome() == "tropic")
+	let elevation = 30;
+
+	// Percent of the length of the bluff determining the entrance area
+	let margin = 0.08;
+
+	let constrastTerrain = g_Terrains.tier2Terrain;
+
+	if (currentBiome() == "generic/tropic")
 		constrastTerrain = g_Terrains.dirt;
 
-	if (currentBiome() == "autumn")
+	if (currentBiome() == "generic/autumn")
 		constrastTerrain = g_Terrains.tier3Terrain;
 
-	var count = fill * 15;
-	var minSize = 5;
-	var maxSize = 7;
-	var elevation = 30;
-	var spread = 100;
-
-	for (var i = 0; i < count; ++i)
+	for (let i = 0; i < fill * 15; ++i)
 	{
-		var offset = getRandomDeviation(size, deviation);
+		let bluffDeviation = getRandomDeviation(size, deviation);
 
-		var rendered = createAreas(
-			new ChainPlacer(Math.floor(minSize * offset), Math.floor(maxSize * offset), Math.floor(spread * offset), 0.5),
-			[
-				new LayeredPainter([g_Terrains.cliff, g_Terrains.mainTerrain, constrastTerrain], [2, 3]),
-				new SmoothElevationPainter(ELEVATION_MODIFY, Math.floor(elevation * offset), 2),
-				paintClass(g_TileClasses.bluff)
-			],
+		// Pick a random bluff location and shape
+		let areasBluff = createAreas(
+			new ChainPlacer(5 * bluffDeviation, 7 * bluffDeviation, 100 * bluffDeviation, 0.5),
+			undefined,
 			constraint,
 			1);
 
-		// Find the bounding box of the bluff
-		if (rendered[0] === undefined)
+		if (!areasBluff.length)
 			continue;
-
-		var points = rendered[0].points;
-
-		var corners = findCorners(points);
-
-		// Seed an array the size of the bounding box
-		var bb = createBoundingBox(points, corners);
 
 		// Get a random starting position for the baseline and the endline
-		var angle = randIntInclusive(0, 3);
-		var opAngle = angle - 2;
-		if (angle < 2)
-			opAngle = angle + 2;
+		let angle = randIntInclusive(0, 3);
+		let opposingAngle = (angle + 2) % 4;
 
 		// Find the edges of the bluff
-		var baseLine;
-		var endLine;
+		let baseLine;
+		let endLine;
 
 		// If we can't access the bluff, try different angles
-		var retries = 0;
-		var bluffCat = 2;
-		while (bluffCat != 0 && retries < 5)
+		let retries = 0;
+		let bluffPassable = false;
+		while (!bluffPassable && retries++ < 4)
 		{
-			baseLine = findClearLine(bb, corners, angle, baseHeight);
-			endLine = findClearLine(bb, corners, opAngle, baseHeight);
+			baseLine = findClearLine(areasBluff[0], angle);
+			endLine = findClearLine(areasBluff[0], opposingAngle);
+			bluffPassable = isBluffPassable(areasBluff[0], baseLine, endLine);
 
-			bluffCat = unreachableBluff(bb, corners, baseLine, endLine);
-			++angle;
-			if (angle > 3)
-				angle = 0;
-
-			opAngle = angle - 2;
-			if (angle < 2)
-				opAngle = angle + 2;
-
-			++retries;
+			angle = (angle + 1) % 4;
+			opposingAngle = (angle + 2) % 4;
 		}
 
-		// Inaccessible, turn it into a plateau
-		if (bluffCat > 0)
-		{
-			removeBluff(points);
+		if (!bluffPassable)
 			continue;
-		}
 
-		// Create an entrance area by using a small margin
-		var margin = 0.08;
-		var ground = createTerrain(g_Terrains.mainTerrain);
-		var slopeLength = (1 - margin) * Math.euclidDistance2D(baseLine.midX, baseLine.midZ, endLine.midX, endLine.midZ);
+		// Paint bluff texture and elevation
+		createArea(
+			new MapBoundsPlacer(),
+			[
+				new LayeredPainter([g_Terrains.mainTerrain, constrastTerrain], [5]),
+				new SmoothElevationPainter(ELEVATION_MODIFY, elevation * bluffDeviation, 2),
+				new TileClassPainter(g_TileClasses.bluff)
+			],
+			new StayAreasConstraint(areasBluff));
+
+		let slopeLength = (1 - margin) * Vector2D.average([baseLine.start, baseLine.end]).distanceTo(Vector2D.average([endLine.start, endLine.end]));
 
 		// Adjust the height of each point in the bluff
-		for (var p = 0; p < points.length; ++p)
+		for (let point of areasBluff[0].getPoints())
 		{
-			var pt = points[p];
-			var dist = distanceOfPointFromLine(baseLine.x1, baseLine.z1, baseLine.x2, baseLine.z2, pt.x, pt.z);
-
-			var curHeight = g_Map.getHeight(pt.x, pt.z);
-			var newHeight = curHeight - curHeight * (dist / slopeLength) - 2;
-
-			newHeight = Math.max(newHeight, endLine.height);
-
-			if (newHeight <= endLine.height + 2 && g_Map.validT(pt.x, pt.z) && g_Map.getTexture(pt.x, pt.z).indexOf('cliff') > -1)
-				ground.place(pt.x, pt.z);
-
-			g_Map.setHeight(pt.x, pt.z, newHeight);
+			let dist = Math.abs(distanceOfPointFromLine(baseLine.start, baseLine.end, point));
+			g_Map.setHeight(point, Math.max(g_Map.getHeight(point) * (1 - dist / slopeLength) - 2, baseHeight));
 		}
 
-		// Smooth out the ground around the bluff
-		fadeToGround(bb, corners.minX, corners.minZ, endLine.height);
+		// Flatten all points adjacent to but not on the bluff
+		createArea(
+			new MapBoundsPlacer(),
+			[
+				new SmoothingPainter(1, 1, 1),
+				new TerrainPainter(g_Terrains.mainTerrain)
+			],
+			new AdjacentToAreaConstraint(areasBluff));
+
+		// Paint cliffs
+		createArea(
+			new MapBoundsPlacer(),
+			new TerrainPainter(g_Terrains.cliff),
+			[
+				new StayAreasConstraint(areasBluff),
+				new SlopeConstraint(2, Infinity)
+			]);
+
+		// Performance improvement
+		createArea(
+			new MapBoundsPlacer(),
+			new TileClassPainter(g_TileClasses.bluffIgnore),
+			new NearTileClassConstraint(g_TileClasses.bluff, 8));
 	}
 
 	addElements([
@@ -238,7 +299,7 @@ function addBluffs(constraint, size, deviation, fill, baseHeight)
 		}
 	]));
 
-	let savanna = currentBiome() == "savanna";
+	let savanna = currentBiome() == "generic/savanna";
 	addElements(shuffleArray([
 		{
 			"func": addStragglerTrees,
@@ -296,6 +357,8 @@ function addBluffs(constraint, size, deviation, fill, baseHeight)
  */
 function addDecoration(constraint, size, deviation, fill)
 {
+	g_Map.log("Creating decoration");
+
 	var offset = getRandomDeviation(size, deviation);
 	var decorations = [
 		[
@@ -319,7 +382,7 @@ function addDecoration(constraint, size, deviation, fill)
 	];
 
 	var baseCount = 1;
-	if (currentBiome() == "tropic")
+	if (currentBiome() == "generic/tropic")
 		baseCount = 8;
 
 	var counts = [
@@ -398,7 +461,7 @@ function addElevation(constraint, el)
 			[
 				new LayeredPainter(el.painter, [widths.concat(pSmooth)]),
 				new SmoothElevationPainter(elType, pElevation, pSmooth),
-				paintClass(el.class)
+				new TileClassPainter(el.class)
 			],
 			constraint,
 			1);
@@ -410,6 +473,8 @@ function addElevation(constraint, el)
  */
 function addHills(constraint, size, deviation, fill)
 {
+	g_Map.log("Creating hills");
+
 	addElevation(constraint, {
 		"class": g_TileClasses.hill,
 		"painter": [g_Terrains.mainTerrain, g_Terrains.mainTerrain],
@@ -424,6 +489,11 @@ function addHills(constraint, size, deviation, fill)
 		"maxElevation": 12,
 		"steepness": 1.5
 	});
+
+	createArea(
+		new MapBoundsPlacer(),
+		new TileClassPainter(g_TileClasses.bluffIgnore),
+		new NearTileClassConstraint(g_TileClasses.hill, 6));
 }
 
 /**
@@ -431,15 +501,17 @@ function addHills(constraint, size, deviation, fill)
  */
 function addLakes(constraint, size, deviation, fill)
 {
+	g_Map.log("Creating lakes");
+
 	var lakeTile = g_Terrains.water;
 
-	if (currentBiome() == "temperate" || currentBiome() == "tropic")
+	if (currentBiome() == "generic/temperate" || currentBiome() == "generic/tropic")
 		lakeTile = g_Terrains.dirt;
 
-	if (currentBiome() == "mediterranean")
+	if (currentBiome() == "generic/mediterranean")
 		lakeTile = g_Terrains.tier2Terrain;
 
-	if (currentBiome() == "autumn")
+	if (currentBiome() == "generic/autumn")
 		lakeTile = g_Terrains.shore;
 
 	addElevation(constraint, {
@@ -485,6 +557,8 @@ function addLakes(constraint, size, deviation, fill)
  */
 function addLayeredPatches(constraint, size, deviation, fill)
 {
+	g_Map.log("Creating layered patches");
+
 	var minRadius = 1;
 	var maxRadius = Math.floor(scaleByMapSize(3, 5));
 	var count = fill * scaleByMapSize(15, 45);
@@ -512,7 +586,7 @@ function addLayeredPatches(constraint, size, deviation, fill)
 						[g_Terrains.tier4Terrain]
 					],
 					[1, 1]),
-				paintClass(g_TileClasses.dirt)
+				new TileClassPainter(g_TileClasses.dirt)
 			],
 			constraint,
 			count * offset);
@@ -524,6 +598,8 @@ function addLayeredPatches(constraint, size, deviation, fill)
  */
 function addMountains(constraint, size, deviation, fill)
 {
+	g_Map.log("Creating mountains");
+
 	addElevation(constraint, {
 		"class": g_TileClasses.mountain,
 		"painter": [g_Terrains.cliff, g_Terrains.hill],
@@ -545,15 +621,17 @@ function addMountains(constraint, size, deviation, fill)
  */
 function addPlateaus(constraint, size, deviation, fill)
 {
+	g_Map.log("Creating plateaus");
+
 	var plateauTile = g_Terrains.dirt;
 
-	if (currentBiome() == "snowy")
+	if (currentBiome() == "generic/snowy")
 		plateauTile = g_Terrains.tier1Terrain;
 
-	if (currentBiome() == "alpine" || currentBiome() == "savanna")
+	if (currentBiome() == "generic/alpine" || currentBiome() == "generic/savanna")
 		plateauTile = g_Terrains.tier2Terrain;
 
-	if (currentBiome() == "autumn")
+	if (currentBiome() == "generic/autumn")
 		plateauTile = g_Terrains.tier4Terrain;
 
 	addElevation(constraint, {
@@ -579,7 +657,7 @@ function addPlateaus(constraint, size, deviation, fill)
 			[
 				new LayeredPainter([plateauTile, plateauTile], [3]),
 				new SmoothElevationPainter(ELEVATION_MODIFY, hillElevation, hillElevation - 2),
-				paintClass(g_TileClasses.hill)
+				new TileClassPainter(g_TileClasses.hill)
 			],
 			[
 				avoidClasses(g_TileClasses.hill, 7),
@@ -623,6 +701,8 @@ function addPlateaus(constraint, size, deviation, fill)
  */
 function addProps(constraint, size, deviation, fill)
 {
+	g_Map.log("Creating rare actors");
+
 	var offset = getRandomDeviation(size, deviation);
 
 	var props = [
@@ -665,30 +745,32 @@ function addValleys(constraint, size, deviation, fill, baseHeight)
 	if (baseHeight < 6)
 		return;
 
+	g_Map.log("Creating valleys");
+
 	let minElevation = Math.max(-baseHeight, 1 - baseHeight / (size * (deviation + 1)));
 
 	var valleySlope = g_Terrains.tier1Terrain;
 	var valleyFloor = g_Terrains.tier4Terrain;
 
-	if (currentBiome() == "desert")
+	if (currentBiome() == "generic/desert")
 	{
 		valleySlope = g_Terrains.tier3Terrain;
 		valleyFloor = g_Terrains.dirt;
 	}
 
-	if (currentBiome() == "mediterranean")
+	if (currentBiome() == "generic/mediterranean")
 	{
 		valleySlope = g_Terrains.tier2Terrain;
 		valleyFloor = g_Terrains.dirt;
 	}
 
-	if (currentBiome() == "alpine" || currentBiome() == "savanna")
+	if (currentBiome() == "generic/alpine" || currentBiome() == "generic/savanna")
 		valleyFloor = g_Terrains.tier2Terrain;
 
-	if (currentBiome() == "tropic")
+	if (currentBiome() == "generic/tropic")
 		valleySlope = g_Terrains.dirt;
 
-	if (currentBiome() == "autumn")
+	if (currentBiome() == "generic/autumn")
 		valleyFloor = g_Terrains.tier3Terrain;
 
 	addElevation(constraint, {
@@ -712,6 +794,8 @@ function addValleys(constraint, size, deviation, fill, baseHeight)
  */
 function addAnimals(constraint, size, deviation, fill)
 {
+	g_Map.log("Creating animals");
+
 	var groupOffset = getRandomDeviation(size, deviation);
 
 	var animals = [
@@ -730,6 +814,8 @@ function addAnimals(constraint, size, deviation, fill)
 
 function addBerries(constraint, size, deviation, fill)
 {
+	g_Map.log("Creating berries");
+
 	let groupOffset = getRandomDeviation(size, deviation);
 
 	createObjectGroupsDeprecated(
@@ -742,6 +828,8 @@ function addBerries(constraint, size, deviation, fill)
 
 function addFish(constraint, size, deviation, fill)
 {
+	g_Map.log("Creating fish");
+
 	var groupOffset = getRandomDeviation(size, deviation);
 
 	var fishes = [
@@ -760,8 +848,10 @@ function addFish(constraint, size, deviation, fill)
 
 function addForests(constraint, size, deviation, fill)
 {
-	if (currentBiome() == "savanna")
+	if (currentBiome() == "generic/savanna")
 		return;
+
+	g_Map.log("Creating forests");
 
 	let treeTypes = [
 		[
@@ -800,7 +890,7 @@ function addForests(constraint, size, deviation, fill)
 			new ChainPlacer(1, Math.floor(scaleByMapSize(3, 5) * offset), Math.floor(50 * offset), 0.5),
 			[
 				new LayeredPainter(forestType, [2]),
-				paintClass(g_TileClasses.forest)
+				new TileClassPainter(g_TileClasses.forest)
 			],
 			constraint,
 			10 * fill);
@@ -809,6 +899,8 @@ function addForests(constraint, size, deviation, fill)
 
 function addMetal(constraint, size, deviation, fill)
 {
+	g_Map.log("Creating metal mines");
+
 	var offset = getRandomDeviation(size, deviation);
 	createObjectGroupsDeprecated(
 		new SimpleGroup([new SimpleObject(g_Gaia.metalLarge, offset, offset, 0, 4 * offset)], true, g_TileClasses.metal),
@@ -820,6 +912,8 @@ function addMetal(constraint, size, deviation, fill)
 
 function addSmallMetal(constraint, size, mixes, amounts)
 {
+	g_Map.log("Creating small metal mines");
+
 	let deviation = getRandomDeviation(size, mixes);
 	createObjectGroupsDeprecated(
 		new SimpleGroup([new SimpleObject(g_Gaia.metalSmall, 2 * deviation, 5 * deviation, deviation, 3 * deviation)], true, g_TileClasses.metal),
@@ -834,6 +928,8 @@ function addSmallMetal(constraint, size, mixes, amounts)
  */
 function addStone(constraint, size, deviation, fill)
 {
+	g_Map.log("Creating stone mines");
+
 	var offset = getRandomDeviation(size, deviation);
 
 	var mines = [
@@ -860,8 +956,10 @@ function addStone(constraint, size, deviation, fill)
  */
 function addStragglerTrees(constraint, size, deviation, fill)
 {
+	g_Map.log("Creating straggler trees");
+
 	// Ensure minimum distribution on african biome
-	if (currentBiome() == "savanna")
+	if (currentBiome() == "generic/savanna")
 	{
 		fill = Math.max(fill, 2);
 		size = Math.max(size, 1);
@@ -883,7 +981,7 @@ function addStragglerTrees(constraint, size, deviation, fill)
 	var maxDist = 5 * offset;
 
 	// More trees for the african biome
-	if (currentBiome() == "savanna")
+	if (currentBiome() == "generic/savanna")
 	{
 		min = 3 * offset;
 		max = 5 * offset;
@@ -896,7 +994,7 @@ function addStragglerTrees(constraint, size, deviation, fill)
 		var treesMax = max;
 
 		// Don't clump fruit trees
-		if (i == 2 && (currentBiome() == "desert" || currentBiome() == "mediterranean"))
+		if (i == 2 && (currentBiome() == "generic/desert" || currentBiome() == "generic/mediterranean"))
 			treesMax = 1;
 
 		min = Math.min(min, treesMax);
@@ -906,48 +1004,41 @@ function addStragglerTrees(constraint, size, deviation, fill)
 	}
 }
 
-///////////
-// Terrain Helpers
-///////////
-
 /**
  * Determine if the endline of the bluff is within the tilemap.
- *
- * @returns {Number} 0 if the bluff is reachable, otherwise a positive number
  */
-function unreachableBluff(bb, corners, baseLine, endLine)
+function isBluffPassable(bluffArea, baseLine, endLine)
 {
-	// If we couldn't find a slope line
-	if (typeof baseLine.midX === "undefined" || typeof endLine.midX === "undefined")
-		return 1;
+	if (!baseLine ||
+	    !endLine ||
+	    !g_Map.validTilePassable(endLine.start) &&
+	    !g_Map.validTilePassable(endLine.end))
+		return false;
 
-	// If the end points aren't on the tilemap
-	if (!g_Map.validT(endLine.x1, endLine.z1) && !g_Map.validT(endLine.x2, endLine.z2))
-		return 2;
-
-	var minTilesInGroup = 1;
-	var insideBluff = false;
-	var outsideBluff = false;
+	let minTilesInGroup = 2;
+	let insideBluff = false;
+	let outsideBluff = false;
 
 	// If there aren't enough points in each row
-	for (var x = 0; x < bb.length; ++x)
+	let corners = getBoundingBox(bluffArea.getPoints());
+	for (let x = corners.min.x; x <= corners.max.x; ++x)
 	{
-		var count = 0;
-		for (var z = 0; z < bb[x].length; ++z)
+		let count = 0;
+		for (let y = corners.min.y; y <= corners.max.y; ++y)
 		{
-			if (!bb[x][z].isFeature)
+			let pos = new Vector2D(x, y);
+			if (!bluffArea.contains(pos))
 				continue;
 
-			var valid = g_Map.validT(x + corners.minX, z + corners.minZ);
-
+			let valid = g_Map.validTilePassable(pos);
 			if (valid)
 				++count;
 
-			if (!insideBluff && valid)
+			if (valid)
 				insideBluff = true;
 
 			if (outsideBluff && valid)
-				return 3;
+				return false;
 		}
 
 		// We're expecting the end of the bluff
@@ -955,28 +1046,28 @@ function unreachableBluff(bb, corners, baseLine, endLine)
 			outsideBluff = true;
 	}
 
-	var insideBluff = false;
-	var outsideBluff = false;
+	insideBluff = false;
+	outsideBluff = false;
 
 	// If there aren't enough points in each column
-	for (var z = 0; z < bb[0].length; ++z)
+	for (let y = corners.min.y; y <= corners.max.y; ++y)
 	{
-		var count = 0;
-		for (var x = 0; x < bb.length; ++x)
+		let count = 0;
+		for (let x = corners.min.x; x <= corners.max.x; ++x)
 		{
-			if (!bb[x][z].isFeature)
+			let pos = new Vector2D(x, y);
+			if (!bluffArea.contains(pos))
 				continue;
 
-			var valid = g_Map.validT(x + corners.minX, z + corners.minZ);
-
+			let valid = g_Map.validTilePassable(pos.add(corners.min));
 			if (valid)
 				++count;
 
-			if (!insideBluff && valid)
+			if (valid)
 				insideBluff = true;
 
 			if (outsideBluff && valid)
-				return 3;
+				return false;
 		}
 
 		// We're expecting the end of the bluff
@@ -984,216 +1075,70 @@ function unreachableBluff(bb, corners, baseLine, endLine)
 			outsideBluff = true;
 	}
 
-	// Bluff is reachable
-	return 0;
+	return true;
 }
 
 /**
- * Remove the bluff class and turn it into a plateau.
+ * Find a 45 degree line that does not intersect with the bluff.
  */
-function removeBluff(points)
+function findClearLine(bluffArea, angle)
 {
-	for (var i = 0; i < points.length; ++i)
-		addToClass(points[i].x, points[i].z, g_TileClasses.mountain);
-}
+	let corners = getBoundingBox(bluffArea.getPoints());
 
-/**
- * Create an array of points the fill a bounding box around a terrain feature.
- */
-function createBoundingBox(points, corners)
-{
-	var bb = [];
-	var width = corners.maxX - corners.minX + 1;
-	var length = corners.maxZ - corners.minZ + 1;
-	for (var w = 0; w < width; ++w)
-	{
-		bb[w] = [];
-		for (var l = 0; l < length; ++l)
-		{
-			var curHeight = g_Map.getHeight(w + corners.minX, l + corners.minZ);
-			bb[w][l] = {
-				"height": curHeight,
-				"isFeature": false
-			};
-		}
-	}
-
-	// Define the coordinates that represent the bluff
-	for (var p = 0; p < points.length; ++p)
-	{
-		var pt = points[p];
-		bb[pt.x - corners.minX][pt.z - corners.minZ].isFeature = true;
-	}
-
-	return bb;
-}
-
-/**
- * Flattens the ground touching a terrain feature.
- */
-function fadeToGround(bb, minX, minZ, elevation)
-{
-	var ground = createTerrain(g_Terrains.mainTerrain);
-	for (var x = 0; x < bb.length; ++x)
-		for (var z = 0; z < bb[x].length; ++z)
-		{
-			var pt = bb[x][z];
-			if (!pt.isFeature && nextToFeature(bb, x, z))
-			{
-				var newEl = smoothElevation(x + minX, z + minZ);
-				g_Map.setHeight(x + minX, z + minZ, newEl);
-				ground.place(x + minX, z + minZ);
-			}
-		}
-}
-
-/**
- * Find a 45 degree line in a bounding box that does not intersect any terrain feature.
- */
-function findClearLine(bb, corners, angle, baseHeight)
-{
 	// Angle - 0: northwest; 1: northeast; 2: southeast; 3: southwest
-	var z = corners.maxZ;
-	var xOffset = -1;
-	var zOffset = -1;
-
-	switch(angle)
+	let offset;
+	let y;
+	switch (angle)
 	{
+		case 0:
+			offset = new Vector2D(-1, -1);
+			y = corners.max.y;
+			break;
 		case 1:
-			xOffset = 1;
+			offset = new Vector2D(1, -1);
+			y = corners.max.y;
 			break;
 		case 2:
-			xOffset = 1;
-			zOffset = 1;
-			z = corners.minZ;
+			offset = new Vector2D(1, 1);
+			y = corners.min.y;
 			break;
 		case 3:
-			zOffset = 1;
-			z = corners.minZ;
+			offset = new Vector2D(-1, 1);
+			y = corners.min.y;
 			break;
+		default:
+			throw new Error("Unknown angle " + angle);
 	}
 
-	var clearLine = {};
-
-	for (var x = corners.minX; x <= corners.maxX; ++x)
+	let clearLine;
+	for (let x = corners.min.x; x <= corners.max.x; ++x)
 	{
-		var x2 = x;
-		var z2 = z;
+		let start = new Vector2D(x, y);
 
-		var clear = true;
+		let intersectsBluff = false;
+		let end = start.clone();
 
-		while (x2 >= corners.minX && x2 <= corners.maxX && z2 >= corners.minZ && z2 <= corners.maxZ)
+		while (end.x >= corners.min.x && end.x <= corners.max.x && end.y >= corners.min.y && end.y <= corners.max.y)
 		{
-			var bp = bb[x2 - corners.minX][z2 - corners.minZ];
-			if (bp.isFeature && g_Map.validT(x2, z2))
+			if (bluffArea.contains(end) && g_Map.validTilePassable(end))
 			{
-				clear = false;
+				intersectsBluff = true;
 				break;
 			}
-
-			x2 = x2 + xOffset;
-			z2 = z2 + zOffset;
+			end.add(offset);
 		}
 
-		if (clear)
-		{
-			var lastX = x2 - xOffset;
-			var lastZ = z2 - zOffset;
-			var midX = Math.floor((x + lastX) / 2);
-			var midZ = Math.floor((z + lastZ) / 2);
+		if (!intersectsBluff)
 			clearLine = {
-				"x1": x,
-				"z1": z,
-				"x2": lastX,
-				"z2": lastZ,
-				"midX": midX,
-				"midZ": midZ,
-				"height": baseHeight
+				"start": start,
+				"end": end.sub(offset)
 			};
-		}
 
-		if (clear && (angle == 1 || angle == 2))
-			break;
-
-		if (!clear && (angle == 0 || angle == 3))
+		if (intersectsBluff ? (angle == 0 || angle == 3) : (angle == 1 || angle == 2))
 			break;
 	}
 
 	return clearLine;
-}
-
-/**
- * Returns the corners of a bounding box.
- */
-function findCorners(points)
-{
-	// Find the bounding box of the terrain feature
-	var mapSize = getMapSize();
-	var minX = mapSize + 1;
-	var minZ = mapSize + 1;
-	var maxX = -1;
-	var maxZ = -1;
-
-	for (var p = 0; p < points.length; ++p)
-	{
-		var pt = points[p];
-
-		minX = Math.min(pt.x, minX);
-		minZ = Math.min(pt.z, minZ);
-
-		maxX = Math.max(pt.x, maxX);
-		maxZ = Math.max(pt.z, maxZ);
-	}
-
-	return {
-		"minX": minX,
-		"minZ": minZ,
-		"maxX": maxX,
-		"maxZ": maxZ
-	};
-}
-
-/**
- * Finds the average elevation around a point.
- */
-function smoothElevation(x, z)
-{
-	var min = g_Map.getHeight(x, z);
-
-	for (var xOffset = -1; xOffset <= 1; ++xOffset)
-		for (var zOffset = -1; zOffset <= 1; ++zOffset)
-		{
-			var thisX = x + xOffset;
-			var thisZ = z + zOffset;
-			if (!g_Map.validH(thisX, thisZ))
-				continue;
-
-			var height = g_Map.getHeight(thisX, thisZ);
-			if (height < min)
-				min = height;
-		}
-
-	return min;
-}
-
-/**
- * Determines if a point in a bounding box array is next to a terrain feature.
- */
-function nextToFeature(bb, x, z)
-{
-	for (var xOffset = -1; xOffset <= 1; ++xOffset)
-		for (var zOffset = -1; zOffset <= 1; ++zOffset)
-		{
-			var thisX = x + xOffset;
-			var thisZ = z + zOffset;
-			if (thisX < 0 || thisX >= bb.length || thisZ < 0 || thisZ >= bb[x].length || thisX == 0 && thisZ == 0)
-				continue;
-
-			if (bb[thisX][thisZ].isFeature)
-				return true;
-		}
-
-	return false;
 }
 
 /**
@@ -1202,65 +1147,4 @@ function nextToFeature(bb, x, z)
 function getRandomDeviation(base, deviation)
 {
 	return base + randFloat(-1, 1) * Math.min(base, deviation);
-}
-
-/**
- * Import a given digital elevation model.
- * Scale it to the mapsize and paint the textures specified by coordinate on it.
- *
- * @return the ratio of heightmap tiles per map size tiles
- */
-function paintHeightmap(mapName, func = undefined)
-{
-	/**
-	 * @property heightmap - An array with a square number of heights.
-	 * @property tilemap - The IDs of the palletmap to be painted for each heightmap tile.
-	 * @property pallet - The tile texture names used by the tilemap.
-	 */
-	let mapData = RMS.ReadJSONFile("maps/random/" + mapName + ".hmap");
-
-	let mapSize = getMapSize(); // Width of the map in terrain tiles
-	let hmSize = Math.sqrt(mapData.heightmap.length);
-	let scale = hmSize / (mapSize + 1); // There are mapSize + 1 vertices (each 1 tile is surrounded by 2x2 vertices)
-
-	for (let x = 0; x <= mapSize; ++x)
-		for (let y = 0; y <= mapSize; ++y)
-		{
-			let hmPoint = { "x": x * scale, "y": y * scale };
-			let hmTile = { "x": Math.floor(hmPoint.x), "y": Math.floor(hmPoint.y) };
-			let shift = { "x": 0, "y": 0 };
-
-			if (hmTile.x == 0)
-				shift.x = 1;
-			else if (hmTile.x == hmSize - 1)
-				shift.x = - 2;
-			else if (hmTile.x == hmSize - 2)
-				shift.x = - 1;
-
-			if (hmTile.y == 0)
-				shift.y = 1;
-			else if (hmTile.y == hmSize - 1)
-				shift.y = - 2;
-			else if (hmTile.y == hmSize - 2)
-				shift.y = - 1;
-
-			let neighbors = [];
-			for (let localXi = 0; localXi < 4; ++localXi)
-				for (let localYi = 0; localYi < 4; ++localYi)
-					neighbors.push(mapData.heightmap[(hmTile.x + localXi + shift.x - 1) * hmSize + (hmTile.y + localYi + shift.y - 1)]);
-
-			setHeight(x, y, bicubicInterpolation(hmPoint.x - hmTile.x - shift.x, hmPoint.y - hmTile.y - shift.y, ...neighbors) / scale);
-
-			if (x < mapSize && y < mapSize)
-			{
-				let i = hmTile.x * hmSize + hmTile.y;
-				let tile = mapData.pallet[mapData.tilemap[i]];
-				placeTerrain(x, y, tile);
-
-				if (func)
-					func(tile, x, y);
-			}
-		}
-
-	return scale;
 }

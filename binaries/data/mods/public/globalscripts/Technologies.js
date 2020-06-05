@@ -9,17 +9,13 @@
  * Returns modified property value modified by the applicable tech
  * modifications.
  *
- * @param currentTechModifications Object with mapping of property names to
- * modification arrays, retrieved from the intended player's TechnologyManager.
- * @param classes Array contianing the class list of the template.
- * @param propertyName String encoding the name of the value.
- * @param propertyValue Number storing the original value. Can also be
+ * @param currentTechModifications array of modificiations
+ * @param classes Array containing the class list of the template.
+ * @param originalValue Number storing the original value. Can also be
  * non-numberic, but then only "replace" techs can be supported.
  */
-function GetTechModifiedProperty(currentTechModifications, classes, propertyName, propertyValue)
+function GetTechModifiedProperty(modifications, classes, originalValue)
 {
-	let modifications = currentTechModifications[propertyName] || [];
-
 	let multiply = 1;
 	let add = 0;
 
@@ -34,81 +30,13 @@ function GetTechModifiedProperty(currentTechModifications, classes, propertyName
 		else if (modification.add)
 			add += modification.add;
 		else
-			warn("GetTechModifiedProperty: modification format not recognised (modifying " + propertyName + "): " + uneval(modification));
+			warn("GetTechModifiedProperty: modification format not recognised : " + uneval(modification));
 	}
 
 	// Note, some components pass non-numeric values (for which only the "replace" modification makes sense)
-	if (typeof propertyValue == "number")
-		return propertyValue * multiply + add;
-	return propertyValue;
-}
-
-/**
- * Derives modifications (to be applied to entities) from a given technology.
- * 
- * @param {Object} techTemplate - The technology template to derive the modifications from.
- * @return {Object} containing the relevant modifications.
- */
-function DeriveModificationsFromTech(techTemplate)
-{
-	if (!techTemplate.modifications)
-		return {};
-
-	let techMods = {};
-	let techAffects = [];
-	if (techTemplate.affects && techTemplate.affects.length)
-		for (let affected of techTemplate.affects)
-			techAffects.push(affected.split(/\s+/));
-	else
-		techAffects.push([]);
-
-	for (let mod of techTemplate.modifications)
-	{
-		let affects = techAffects.slice();
-		if (mod.affects)
-		{
-			let specAffects = mod.affects.split(/\s+/);
-			for (let a in affects)
-				affects[a] = affects[a].concat(specAffects);
-		}
-
-		let newModifier = { "affects": affects };
-		for (let idx in mod)
-			if (idx !== "value" && idx !== "affects")
-				newModifier[idx] = mod[idx];
-
-		if (!techMods[mod.value])
-			techMods[mod.value] = [];
-		techMods[mod.value].push(newModifier);
-	}
-	return techMods;
-}
-
-/**
- * Derives modifications (to be applied to entities) from a provided array
- * of technology template data.
- *
- * @param {array} techsDataArray
- * @return {object} containing the combined relevant modifications of all
- *                  the technologies.
- */
-function DeriveModificationsFromTechnologies(techsDataArray)
-{
-	let derivedModifiers = {};
-	for (let technology of techsDataArray)
-	{
-		if (!technology.reqs)
-			continue;
-
-		let modifiers = DeriveModificationsFromTech(technology);
-		for (let modPath in modifiers)
-		{
-			if (!derivedModifiers[modPath])
-				derivedModifiers[modPath] = [];
-			derivedModifiers[modPath] = derivedModifiers[modPath].concat(modifiers[modPath]);
-		}
-	}
-	return derivedModifiers;
+	if (typeof originalValue == "number")
+		return originalValue * multiply + add;
+	return originalValue;
 }
 
 /**
@@ -352,4 +280,35 @@ function InterpretTechRequirements(civ, operator, value)
 	}
 
 	return requirements;
+}
+
+/**
+ * Determine order of phases.
+ *
+ * @param {object} phases - The current available store of phases.
+ * @return {array} List of phases
+ */
+function UnravelPhases(phases)
+{
+	let phaseMap = {};
+	for (let phaseName in phases)
+	{
+		let phaseData = phases[phaseName];
+		if (!phaseData.reqs.length || !phaseData.reqs[0].techs || !phaseData.replaces)
+			continue;
+
+		let myPhase = phaseData.replaces[0];
+		let reqPhase = phaseData.reqs[0].techs[0];
+		if (phases[reqPhase] && phases[reqPhase].replaces)
+			reqPhase = phases[reqPhase].replaces[0];
+
+		phaseMap[myPhase] = reqPhase;
+		if (!phaseMap[reqPhase])
+			phaseMap[reqPhase] = undefined;
+	}
+
+	let phaseList = Object.keys(phaseMap);
+	phaseList.sort((a, b) => phaseList.indexOf(a) - phaseList.indexOf(phaseMap[b]));
+
+	return phaseList;
 }

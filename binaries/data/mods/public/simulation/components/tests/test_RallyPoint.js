@@ -1,7 +1,6 @@
 Engine.LoadHelperScript("Player.js");
 Engine.LoadComponentScript("interfaces/Formation.js");
 Engine.LoadComponentScript("interfaces/Health.js");
-Engine.LoadComponentScript("interfaces/RallyPoint.js");
 Engine.LoadComponentScript("RallyPoint.js");
 
 function initialRallyPointTest(test_function)
@@ -46,18 +45,18 @@ function initialRallyPointTest(test_function)
 initialRallyPointTest((cmpRallyPoint) => {});
 
 initialRallyPointTest((cmpRallyPoint) => {
-	cmpRallyPoint.Unset()
+	cmpRallyPoint.Unset();
 	return true;
 });
 
 initialRallyPointTest((cmpRallyPoint) => {
-	cmpRallyPoint.Reset()
+	cmpRallyPoint.Reset();
 	return true;
 });
 
 // Construction
 initialRallyPointTest((cmpRallyPoint) => {
-	cmpRallyPoint.OnOwnershipChanged({ "from": -1, "to": 1 });
+	cmpRallyPoint.OnOwnershipChanged({ "from": INVALID_PLAYER, "to": 1 });
 	return false;
 });
 
@@ -69,7 +68,7 @@ initialRallyPointTest((cmpRallyPoint) => {
 
 // Destruction
 initialRallyPointTest((cmpRallyPoint) => {
-	cmpRallyPoint.OnOwnershipChanged({ "from": 2, "to": -1 });
+	cmpRallyPoint.OnOwnershipChanged({ "from": 2, "to": INVALID_PLAYER });
 	return false;
 });
 

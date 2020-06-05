@@ -9,8 +9,7 @@
   </Footprint>
   <Guard disable=""/>
   <Identity>
-    <GenericName>Fauna</GenericName>
-    <Classes datatype="tokens">Animal Organic -ConquestCritical</Classes>
+    <Classes datatype="tokens">-ConquestCritical Animal</Classes>
     <Icon>gaia/fauna_generic.png</Icon>
     <Formations disable=""/>
   </Identity>
@@ -20,8 +19,15 @@
     <Color r="227" g="130" b="141"/>
   </Minimap>
   <ResourceGatherer disable=""/>
+  <Selectable>
+    <Overlay>
+      <Texture>
+        <MainTexture>128x256/ellipse.png</MainTexture>
+        <MainTextureMask>128x256/ellipse_mask.png</MainTextureMask>
+      </Texture>
+    </Overlay>
+  </Selectable>
   <UnitAI>
-    <AlertReactiveLevel>99</AlertReactiveLevel>
     <CanGuard>false</CanGuard>
     <CanPatrol>false</CanPatrol>
     <RoamDistance>8.0</RoamDistance>
@@ -33,9 +39,6 @@
   </UnitAI>
   <UnitMotion>
     <WalkSpeed op="mul">0.7</WalkSpeed>
-    <Run>
-      <Speed op="mul">0.7</Speed>
-    </Run>
   </UnitMotion>
   <Visibility>
     <RetainInFog>true</RetainInFog>
@@ -43,7 +46,4 @@
   <Vision>
     <Range>0</Range>
   </Vision>
-  <VisualActor>
-    <SilhouetteDisplay>false</SilhouetteDisplay>
-  </VisualActor>
 </Entity>

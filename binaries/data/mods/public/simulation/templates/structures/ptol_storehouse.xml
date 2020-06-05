@@ -15,13 +15,16 @@
   </Health>
   <Identity>
     <Civ>ptol</Civ>
-    <SpecificName>h-n-ḫt.w</SpecificName>
+    <SpecificName>Apothēkē</SpecificName>
   </Identity>
+  <Loot>
+    <wood>0</wood>
+  </Loot>
   <Obstruction>
     <Static width="17.0" depth="16.0"/>
   </Obstruction>
   <VisualActor>
     <Actor>structures/ptolemies/storehouse.xml</Actor>
-    <FoundationActor>structures/fndn_4x4.xml</FoundationActor>
+    <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
   </VisualActor>
 </Entity>

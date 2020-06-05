@@ -31,6 +31,9 @@
     <VisibleClasses datatype="tokens">-Village</VisibleClasses>
     <Tooltip>A temporary shelter for soldiers.</Tooltip>
   </Identity>
+  <Loot>
+    <wood>10</wood>
+  </Loot>
   <Obstruction>
     <Static width="8.0" depth="8.0"/>
   </Obstruction>
@@ -46,7 +49,6 @@
     <SoundGroups>
       <select>interface/select/building/sel_universal.xml</select>
       <constructed>interface/complete/building/complete_universal.xml</constructed>
-      <death>attack/destruction/building_collapse_large.xml</death>
     </SoundGroups>
   </Sound>
   <TerritoryDecay>

@@ -4,22 +4,23 @@
     <Max>10</Max>
   </Health>
   <Identity>
-    <Civ>gaia</Civ>
     <GenericName>Peacock</GenericName>
     <SpecificName>Pavo cristatus</SpecificName>
     <Icon>gaia/fauna_peacock.png</Icon>
   </Identity>
+  <Position>
+    <Anchor>upright</Anchor>
+  </Position>
   <ResourceSupply>
     <Amount>50</Amount>
-    <Type>food.meat</Type>
     <MaxGatherers>5</MaxGatherers>
   </ResourceSupply>
   <Sound>
     <SoundGroups>
-      <select>actor/fauna/animal/peacock_call.xml</select>
-      <order_walk>actor/fauna/animal/peacock_call.xml</order_walk>
+      <select>actor/fauna/animal/peacock_select.xml</select>
+      <order_walk>actor/fauna/animal/peacock_order.xml</order_walk>
       <death>actor/fauna/animal/peacock_call.xml</death>
-      <trained>actor/fauna/animal/peacock_call.xml</trained>
+      <trained>actor/fauna/animal/peacock_trained.xml</trained>
     </SoundGroups>
   </Sound>
   <UnitAI>
@@ -33,9 +34,6 @@
   </UnitAI>
   <UnitMotion>
     <WalkSpeed op="mul">0.3</WalkSpeed>
-    <Run>
-      <Speed op="mul">0.3</Speed>
-    </Run>
   </UnitMotion>
   <VisualActor>
     <Actor>fauna/peacock.xml</Actor>

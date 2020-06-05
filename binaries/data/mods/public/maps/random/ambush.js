@@ -1,31 +1,48 @@
-RMS.LoadLibrary("rmgen");
-RMS.LoadLibrary("rmgen2");
-RMS.LoadLibrary("rmbiome");
-
-InitMap();
+Engine.LoadLibrary("rmgen");
+Engine.LoadLibrary("rmgen-common");
+Engine.LoadLibrary("rmgen2");
+Engine.LoadLibrary("rmbiome");
 
 setSelectedBiome();
-initTileClasses();
 
-resetTerrain(g_Terrains.mainTerrain, g_TileClasses.land, getMapBaseHeight());
-RMS.SetProgress(10);
+var heightLand = 2;
 
-const pos = randomStartingPositionPattern(getTeamsArray());
-addBases(pos.setup, pos.distance, pos.separation, randFloat(0, 2 * Math.PI));
-RMS.SetProgress(20);
+var g_Map = new RandomMap(heightLand, g_Terrains.mainTerrain);
+var mapCenter = g_Map.getCenter();
+var mapSize = g_Map.getSize();
+
+initTileClasses(["bluffsPassage", "nomadArea"]);
+createArea(
+	new MapBoundsPlacer(),
+	new TileClassPainter(g_TileClasses.land));
+
+Engine.SetProgress(10);
+
+var playerIDs;
+var playerPosition;
+if (!isNomad())
+{
+	let pattern = g_MapSettings.TeamPlacement || pickRandom(Object.keys(g_PlayerbaseTypes));
+
+	[playerIDs, playerPosition] =
+		createBasesByPattern(
+			pattern,
+			g_PlayerbaseTypes[pattern].distance,
+			g_PlayerbaseTypes[pattern].groupedDistance,
+			randomAngle());
+
+	markPlayerAvoidanceArea(playerPosition, defaultPlayerBaseRadius());
+}
+Engine.SetProgress(20);
 
 addElements([
 	{
 		"func": addBluffs,
-		"baseHeight": getMapBaseHeight(),
-		"avoid": [
-			g_TileClasses.bluff, 12,
-			g_TileClasses.hill, 5,
-			g_TileClasses.player, 35
-		],
+		"baseHeight": heightLand,
+		"avoid": [g_TileClasses.bluffIgnore, 0],
 		"sizes": ["normal", "big", "huge"],
 		"mixes": ["same"],
-		"amounts": ["tons"]
+		"amounts": ["many"]
 	},
 	{
 		"func": addHills,
@@ -39,13 +56,17 @@ addElements([
 		"amounts": ["tons"]
 	}
 ]);
-RMS.SetProgress(30);
+Engine.SetProgress(30);
+
+if (!isNomad())
+	createBluffsPassages(playerPosition);
 
 addElements([
 	{
 		"func": addLayeredPatches,
 		"avoid": [
 			g_TileClasses.bluff, 2,
+			g_TileClasses.bluffsPassage, 4,
 			g_TileClasses.dirt, 5,
 			g_TileClasses.forest, 2,
 			g_TileClasses.mountain, 2,
@@ -60,6 +81,7 @@ addElements([
 		"func": addDecoration,
 		"avoid": [
 			g_TileClasses.bluff, 2,
+			g_TileClasses.bluffsPassage, 4,
 			g_TileClasses.forest, 2,
 			g_TileClasses.mountain, 2,
 			g_TileClasses.player, 12,
@@ -70,12 +92,13 @@ addElements([
 		"amounts": ["normal"]
 	}
 ]);
-RMS.SetProgress(50);
+Engine.SetProgress(50);
 
 addElements(shuffleArray([
 	{
 		"func": addMetal,
 		"avoid": [
+			g_TileClasses.bluffsPassage, 4,
 			g_TileClasses.berries, 5,
 			g_TileClasses.forest, 3,
 			g_TileClasses.mountain, 2,
@@ -92,6 +115,7 @@ addElements(shuffleArray([
 	{
 		"func": addStone,
 		"avoid": [
+			g_TileClasses.bluffsPassage, 4,
 			g_TileClasses.berries, 5,
 			g_TileClasses.forest, 3,
 			g_TileClasses.mountain, 2,
@@ -109,6 +133,7 @@ addElements(shuffleArray([
 	{
 		"func": addForests,
 		"avoid": [
+			g_TileClasses.bluffsPassage, 4,
 			g_TileClasses.forest, 6,
 			g_TileClasses.metal, 3,
 			g_TileClasses.mountain, 5,
@@ -125,6 +150,7 @@ addElements(shuffleArray([
 	{
 		"func": addForests,
 		"avoid": [
+			g_TileClasses.bluffsPassage, 4,
 			g_TileClasses.bluff, 10,
 			g_TileClasses.forest, 10,
 			g_TileClasses.metal, 3,
@@ -138,13 +164,14 @@ addElements(shuffleArray([
 		"amounts": ["normal"]
 	}
 ]));
-RMS.SetProgress(70);
+Engine.SetProgress(70);
 
 addElements(shuffleArray([
 	{
 		"func": addBerries,
 		"avoid": [
 			g_TileClasses.bluff, 5,
+			g_TileClasses.bluffsPassage, 4,
 			g_TileClasses.forest, 5,
 			g_TileClasses.metal, 10,
 			g_TileClasses.mountain, 2,
@@ -160,6 +187,7 @@ addElements(shuffleArray([
 		"func": addAnimals,
 		"avoid": [
 			g_TileClasses.bluff, 5,
+			g_TileClasses.bluffsPassage, 4,
 			g_TileClasses.forest, 2,
 			g_TileClasses.metal, 2,
 			g_TileClasses.mountain, 1,
@@ -169,13 +197,14 @@ addElements(shuffleArray([
 		],
 		"sizes": ["small"],
 		"mixes": ["similar"],
-		"amounts": ["normal", "many"]
+		"amounts": ["few"]
 	},
 	{
 		"func": addStragglerTrees,
 		"avoid": [
 			g_TileClasses.berries, 5,
 			g_TileClasses.bluff, 5,
+			g_TileClasses.bluffsPassage, 4,
 			g_TileClasses.forest, 7,
 			g_TileClasses.metal, 2,
 			g_TileClasses.mountain, 1,
@@ -188,6 +217,28 @@ addElements(shuffleArray([
 		"amounts": ["many"]
 	}
 ]));
-RMS.SetProgress(90);
+Engine.SetProgress(90);
 
-ExportMap();
+if (isNomad())
+{
+	g_Map.log("Preventing units to be spawned at the map border");
+	createArea(
+		new DiskPlacer(mapSize / 2 - scaleByMapSize(15, 35), mapCenter),
+		new TileClassPainter(g_TileClasses.nomadArea));
+
+	placePlayersNomad(
+		g_TileClasses.player,
+		[
+			stayClasses(g_TileClasses.nomadArea, 0),
+			avoidClasses(
+				g_TileClasses.bluff, 2,
+				g_TileClasses.water, 4,
+				g_TileClasses.forest, 1,
+				g_TileClasses.metal, 4,
+				g_TileClasses.rock, 4,
+				g_TileClasses.mountain, 4,
+				g_TileClasses.animals, 2)
+		]);
+}
+
+g_Map.ExportMap();

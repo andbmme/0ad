@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -20,12 +20,15 @@
 
 #include "NetFileTransfer.h"
 #include "NetHost.h"
-
 #include "lib/config2.h"
-#include "ps/ThreadUtil.h"
+#include "lib/types.h"
 #include "scriptinterface/ScriptTypes.h"
 
+#include <mutex>
+#include <string>
+#include <utility>
 #include <vector>
+#include <thread>
 
 class CNetServerSession;
 class CNetServerTurnManager;
@@ -71,6 +74,9 @@ enum NetServerSessionState
 	// to agree on the protocol version
 	NSS_HANDSHAKE,
 
+	// The client has handshook and we're waiting for its lobby authentication message
+	NSS_LOBBY_AUTHENTICATE,
+
 	// The client has handshook and we're waiting for its authentication message,
 	// to find its name and check its password etc
 	NSS_AUTHENTICATE,
@@ -104,7 +110,7 @@ public:
 	 * @param autostartPlayers if positive then StartGame will be called automatically
 	 * once this many players are connected (intended for the command-line testing mode).
 	 */
-	CNetServer(int autostartPlayers = -1);
+	CNetServer(bool useLobbyAuth = false, int autostartPlayers = -1);
 
 	~CNetServer();
 
@@ -126,7 +132,7 @@ public:
 	 * The changes will be asynchronously propagated to all clients.
 	 * @param attrs game attributes, in the script context of scriptInterface
 	 */
-	void UpdateGameAttributes(JS::MutableHandleValue attrs, ScriptInterface& scriptInterface);
+	void UpdateGameAttributes(JS::MutableHandleValue attrs, const ScriptInterface& scriptInterface);
 
 	/**
 	 * Set the turn length to a fixed value.
@@ -134,10 +140,15 @@ public:
 	 */
 	void SetTurnLength(u32 msecs);
 
+	bool UseLobbyAuth() const;
+
+	void OnLobbyAuth(const CStr& name, const CStr& token);
+
 	void SendHolePunchingMessage(const CStr& ip, u16 port);
 
 private:
 	CNetServerWorker* m_Worker;
+	const bool m_LobbyAuth;
 };
 
 /**
@@ -178,7 +189,7 @@ private:
 	friend class CNetServer;
 	friend class CNetFileReceiveTask_ServerRejoin;
 
-	CNetServerWorker(int autostartPlayers);
+	CNetServerWorker(bool useLobbyAuth, int autostartPlayers);
 	~CNetServerWorker();
 
 	/**
@@ -221,13 +232,15 @@ private:
 	/**
 	 * Get the script context used for game attributes.
 	 */
-	ScriptInterface& GetScriptInterface();
+	const ScriptInterface& GetScriptInterface();
 
 	/**
 	 * Set the turn length to a fixed value.
 	 * TODO: we should replace this with some adaptive lag-dependent computation.
 	 */
 	void SetTurnLength(u32 msecs);
+
+	void ProcessLobbyAuth(const CStr& name, const CStr& token);
 
 	void AddPlayer(const CStr& guid, const CStrW& name);
 	void RemovePlayer(const CStr& guid);
@@ -242,7 +255,9 @@ private:
 
 	static bool OnClientHandshake(void* context, CFsmEvent* event);
 	static bool OnAuthenticate(void* context, CFsmEvent* event);
-	static bool OnInGame(void* context, CFsmEvent* event);
+	static bool OnSimulationCommand(void* context, CFsmEvent* event);
+	static bool OnSyncCheck(void* context, CFsmEvent* event);
+	static bool OnEndCommandBatch(void* context, CFsmEvent* event);
 	static bool OnChat(void* context, CFsmEvent* event);
 	static bool OnReady(void* context, CFsmEvent* event);
 	static bool OnClearAllReady(void* context, CFsmEvent* event);
@@ -292,6 +307,11 @@ private:
 
 	int m_AutostartPlayers;
 
+	/**
+	 * Whether this match requires lobby authentication.
+	 */
+	const bool m_LobbyAuth;
+
 	ENetHost* m_Host;
 	std::vector<CNetServerSession*> m_Sessions;
 
@@ -340,23 +360,25 @@ private:
 	/**
 	 * Try to find a UPnP root on the network and setup port forwarding.
 	 */
-	static void* SetupUPnP(void*);
-	pthread_t m_UPnPThread;
+	static void SetupUPnP();
+	std::thread m_UPnPThread;
 #endif
 
-	static void* RunThread(void* data);
+	static void RunThread(CNetServerWorker* data);
 	void Run();
 	bool RunStep();
 
-	pthread_t m_WorkerThread;
-	CMutex m_WorkerMutex;
+	std::thread m_WorkerThread;
+	std::mutex m_WorkerMutex;
 
-	bool m_Shutdown; // protected by m_WorkerMutex
+	// protected by m_WorkerMutex
+	bool m_Shutdown;
 
-	// Queues for messages sent by the game thread:
-	std::vector<bool> m_StartGameQueue; // protected by m_WorkerMutex
-	std::vector<std::string> m_GameAttributesQueue; // protected by m_WorkerMutex
-	std::vector<u32> m_TurnLengthQueue; // protected by m_WorkerMutex
+	// Queues for messages sent by the game thread (protected by m_WorkerMutex):
+	std::vector<bool> m_StartGameQueue;
+	std::vector<std::string> m_GameAttributesQueue;
+	std::vector<std::pair<CStr, CStr>> m_LobbyAuthQueue;
+	std::vector<u32> m_TurnLengthQueue;
 };
 
 /// Global network server for the standard game

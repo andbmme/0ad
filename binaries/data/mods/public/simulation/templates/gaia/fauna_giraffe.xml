@@ -8,33 +8,18 @@
     <Max>150</Max>
   </Health>
   <Identity>
-    <Civ>gaia</Civ>
-    <SpecificName>Giraffe (Adult)</SpecificName>
+    <GenericName>Giraffe</GenericName>
+    <SpecificName>Giraffa camelopardalis</SpecificName>
     <Icon>gaia/fauna_giraffe.png</Icon>
   </Identity>
-  <Position>
-    <Anchor>pitch</Anchor>
-  </Position>
   <ResourceSupply>
     <Amount>350</Amount>
-    <Type>food.meat</Type>
   </ResourceSupply>
-  <Selectable>
-    <Overlay>
-      <Texture>
-        <MainTexture>circle/256x256.png</MainTexture>
-        <MainTextureMask>circle/256x256_mask.png</MainTextureMask>
-      </Texture>
-    </Overlay>
-  </Selectable>
   <StatusBars>
     <HeightOffset>8.0</HeightOffset>
   </StatusBars>
   <UnitMotion>
     <WalkSpeed op="mul">0.6</WalkSpeed>
-    <Run>
-      <Speed op="mul">0.6</Speed>
-    </Run>
   </UnitMotion>
   <VisualActor>
     <Actor>fauna/giraffe_adult.xml</Actor>

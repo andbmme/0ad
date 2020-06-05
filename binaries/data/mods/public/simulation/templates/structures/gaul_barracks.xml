@@ -2,6 +2,9 @@
 <Entity parent="template_structure_military_barracks">
   <Cost>
     <PopulationBonus>4</PopulationBonus>
+    <Resources>
+      <wood>300</wood>
+    </Resources>
   </Cost>
   <Footprint>
     <Square width="22.0" depth="22.0"/>
@@ -12,22 +15,16 @@
   </Health>
   <Identity>
     <Civ>gaul</Civ>
-    <SpecificName>Gwersyllty</SpecificName>
+    <SpecificName>Coriosedlon</SpecificName>
   </Identity>
+  <Loot>
+    <wood>60</wood>
+  </Loot>
   <Obstruction>
     <Static width="20.0" depth="20.0"/>
   </Obstruction>
-  <ProductionQueue>
-    <Entities datatype="tokens">
-      units/{civ}_champion_infantry_barracks
-      units/{civ}_champion_cavalry_barracks
-    </Entities>
-    <Technologies datatype="tokens">
-      unlock_champion_units
-    </Technologies>
-  </ProductionQueue>
   <VisualActor>
     <Actor>structures/celts/barracks.xml</Actor>
-    <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
+    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
   </VisualActor>
 </Entity>

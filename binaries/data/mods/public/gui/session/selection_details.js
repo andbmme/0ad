@@ -72,7 +72,6 @@ function displaySingle(entState)
 	let civEmblem = g_CivData[playerState.civ].Emblem;
 
 	let playerName = playerState.name;
-	let playerColor = playerState.color.r + " " + playerState.color.g + " " + playerState.color.b + " 128";
 
 	// Indicate disconnected players by prefixing their name
 	if (g_Players[entState.player].offline)
@@ -84,7 +83,7 @@ function displaySingle(entState)
 		Engine.GetGUIObjectByName("rankIcon").tooltip = sprintf(translate("%(rank)s Rank"), {
 			"rank": translateWithContext("Rank", entState.identity.rank)
 		});
-		Engine.GetGUIObjectByName("rankIcon").sprite = getRankIconSprite(entState);
+		Engine.GetGUIObjectByName("rankIcon").sprite = "stretched:session/icons/ranks/" + entState.identity.rank + ".png";
 		Engine.GetGUIObjectByName("rankIcon").hidden = false;
 	}
 	else
@@ -92,6 +91,30 @@ function displaySingle(entState)
 		Engine.GetGUIObjectByName("rankIcon").hidden = true;
 		Engine.GetGUIObjectByName("rankIcon").tooltip = "";
 	}
+
+	if (entState.statusEffects)
+	{
+		let statusEffectsSection = Engine.GetGUIObjectByName("statusEffectsIcons");
+		statusEffectsSection.hidden = false;
+		let statusIcons = statusEffectsSection.children;
+		let i = 0;
+		for (let effectName in entState.statusEffects)
+		{
+			let effect = entState.statusEffects[effectName];
+			statusIcons[i].hidden = false;
+			statusIcons[i].sprite = "stretched:session/icons/status_effects/" + (effect.Icon || "default") + ".png";
+			statusIcons[i].tooltip = getStatusEffectsTooltip(effect);
+			let size = statusIcons[i].size;
+			size.top = i * 18;
+			size.bottom = i * 18 + 16;
+			statusIcons[i].size = size;
+			i++;
+		}
+		for (; i < statusIcons.length; ++i)
+			statusIcons[i].hidden = true;
+	}
+	else
+		Engine.GetGUIObjectByName("statusEffectsIcons").hidden = true;
 
 	let showHealth = entState.hitpoints;
 	let showResource = entState.resourceSupply;
@@ -111,19 +134,6 @@ function displaySingle(entState)
 		let healthSize = unitHealthBar.size;
 		healthSize.rright = 100 * Math.max(0, Math.min(1, entState.hitpoints / entState.maxHitpoints));
 		unitHealthBar.size = healthSize;
-
-		if (entState.foundation && entState.visibility == "visible" && entState.foundation.numBuilders !== 0 && entState.buildTime)
-			Engine.GetGUIObjectByName("health").tooltip = sprintf(
-				translatePlural(
-					"This foundation will be completed in %(seconds)s second.",
-					"This foundation will be completed in %(seconds)s seconds.",
-					Math.ceil(entState.buildTime.timeRemaining)),
-				{
-					"seconds": Math.ceil(entState.buildTime.timeRemaining)
-				});
-		else
-			Engine.GetGUIObjectByName("health").tooltip = "";
-
 		Engine.GetGUIObjectByName("healthStats").caption = sprintf(translate("%(hitpoints)s / %(maxHitpoints)s"), {
 			"hitpoints": Math.ceil(entState.hitpoints),
 			"maxHitpoints": Math.ceil(entState.maxHitpoints)
@@ -151,7 +161,7 @@ function displaySingle(entState)
 			let size = 100 * Math.max(0, Math.min(1, entState.capturePoints[playerID] / entState.maxCapturePoints));
 			sizeObj.rright = startSize + size;
 			unitCaptureBar.size = sizeObj;
-			unitCaptureBar.sprite = "color: " + rgbToGuiColor(g_Players[playerID].color, 128);
+			unitCaptureBar.sprite = "color:" + g_DiplomacyColors.getPlayerColor(playerID, 128);
 			unitCaptureBar.hidden = false;
 			return startSize + size;
 		};
@@ -219,81 +229,70 @@ function displaySingle(entState)
 
 	}
 
+	let resourceCarryingIcon = Engine.GetGUIObjectByName("resourceCarryingIcon");
+	let resourceCarryingText = Engine.GetGUIObjectByName("resourceCarryingText");
+	resourceCarryingIcon.hidden = false;
+	resourceCarryingText.hidden = false;
+
 	// Resource carrying
 	if (entState.resourceCarrying && entState.resourceCarrying.length)
 	{
 		// We should only be carrying one resource type at once, so just display the first
 		let carried = entState.resourceCarrying[0];
-
-		Engine.GetGUIObjectByName("resourceCarryingIcon").hidden = false;
-		Engine.GetGUIObjectByName("resourceCarryingText").hidden = false;
-		Engine.GetGUIObjectByName("resourceCarryingIcon").sprite = "stretched:session/icons/resources/" + carried.type + ".png";
-		Engine.GetGUIObjectByName("resourceCarryingText").caption = sprintf(translate("%(amount)s / %(max)s"), { "amount": carried.amount, "max": carried.max });
-		Engine.GetGUIObjectByName("resourceCarryingIcon").tooltip = "";
+		resourceCarryingIcon.sprite = "stretched:session/icons/resources/" + carried.type + ".png";
+		resourceCarryingText.caption = sprintf(translate("%(amount)s / %(max)s"), { "amount": carried.amount, "max": carried.max });
+		resourceCarryingIcon.tooltip = "";
 	}
 	// Use the same indicators for traders
 	else if (entState.trader && entState.trader.goods.amount)
 	{
-		Engine.GetGUIObjectByName("resourceCarryingIcon").hidden = false;
-		Engine.GetGUIObjectByName("resourceCarryingText").hidden = false;
-		Engine.GetGUIObjectByName("resourceCarryingIcon").sprite = "stretched:session/icons/resources/" + entState.trader.goods.type + ".png";
+		resourceCarryingIcon.sprite = "stretched:session/icons/resources/" + entState.trader.goods.type + ".png";
 		let totalGain = entState.trader.goods.amount.traderGain;
 		if (entState.trader.goods.amount.market1Gain)
 			totalGain += entState.trader.goods.amount.market1Gain;
 		if (entState.trader.goods.amount.market2Gain)
 			totalGain += entState.trader.goods.amount.market2Gain;
-		Engine.GetGUIObjectByName("resourceCarryingText").caption = totalGain;
-		Engine.GetGUIObjectByName("resourceCarryingIcon").tooltip = sprintf(translate("Gain: %(gain)s"), {
+		resourceCarryingText.caption = totalGain;
+		resourceCarryingIcon.tooltip = sprintf(translate("Gain: %(gain)s"), {
 			"gain": getTradingTooltip(entState.trader.goods.amount)
 		});
 	}
 	// And for number of workers
-	else if (entState.foundation && entState.visibility == "visible")
+	else if (entState.foundation)
 	{
-		Engine.GetGUIObjectByName("resourceCarryingIcon").hidden = false;
-		Engine.GetGUIObjectByName("resourceCarryingText").hidden = false;
-		Engine.GetGUIObjectByName("resourceCarryingIcon").sprite = "stretched:session/icons/repair.png";
-		Engine.GetGUIObjectByName("resourceCarryingText").caption = entState.foundation.numBuilders + "    ";
-		if (entState.foundation.numBuilders !== 0 && entState.buildTime)
-			Engine.GetGUIObjectByName("resourceCarryingIcon").tooltip = sprintf(
-				translatePlural(
-					"Number of builders.\nTasking another to this foundation would speed construction up by %(speedup)s second.",
-					"Number of builders.\nTasking another to this foundation would speed construction up by %(speedup)s seconds.",
-					Math.ceil(entState.buildTime.timeSpeedup)),
-				{
-					"speedup": Math.ceil(entState.buildTime.timeSpeedup)
-				});
-		else
-			Engine.GetGUIObjectByName("resourceCarryingIcon").tooltip = translate("Number of builders.");
+		resourceCarryingIcon.sprite = "stretched:session/icons/repair.png";
+		resourceCarryingIcon.tooltip = getBuildTimeTooltip(entState);
+		resourceCarryingText.caption = entState.foundation.numBuilders ?
+			Engine.FormatMillisecondsIntoDateStringGMT(entState.foundation.buildTime.timeRemaining * 1000, translateWithContext("countdown format", "m:ss")) : "";
 	}
-	else if (entState.repairable && entState.repairable.numBuilders > 0 && entState.visibility == "visible")
+	else if (entState.resourceSupply && (!entState.resourceSupply.killBeforeGather || !entState.hitpoints))
 	{
-		Engine.GetGUIObjectByName("resourceCarryingIcon").hidden = false;
-		Engine.GetGUIObjectByName("resourceCarryingText").hidden = false;
-		Engine.GetGUIObjectByName("resourceCarryingIcon").sprite = "stretched:session/icons/repair.png";
-		Engine.GetGUIObjectByName("resourceCarryingText").caption = entState.repairable.numBuilders + "    ";
-		Engine.GetGUIObjectByName("resourceCarryingIcon").tooltip = translate("Number of builders.");
-	}
-	else if (entState.resourceSupply && (!entState.resourceSupply.killBeforeGather || !entState.hitpoints) && entState.visibility == "visible")
-	{
-		Engine.GetGUIObjectByName("resourceCarryingIcon").hidden = false;
-		Engine.GetGUIObjectByName("resourceCarryingText").hidden = false;
-		Engine.GetGUIObjectByName("resourceCarryingIcon").sprite = "stretched:session/icons/repair.png";
-		Engine.GetGUIObjectByName("resourceCarryingText").caption = sprintf(translate("%(amount)s / %(max)s"), {
+		resourceCarryingIcon.sprite = "stretched:session/icons/repair.png";
+		resourceCarryingText.caption = sprintf(translate("%(amount)s / %(max)s"), {
 			"amount": entState.resourceSupply.numGatherers,
 			"max": entState.resourceSupply.maxGatherers
-		}) + "    ";
+		});
 		Engine.GetGUIObjectByName("resourceCarryingIcon").tooltip = translate("Current/max gatherers");
+	}
+	else if (entState.repairable && entState.needsRepair)
+	{
+		resourceCarryingIcon.sprite = "stretched:session/icons/repair.png";
+		resourceCarryingIcon.tooltip = getRepairTimeTooltip(entState);
+		resourceCarryingText.caption = entState.repairable.numBuilders ?
+			Engine.FormatMillisecondsIntoDateStringGMT(entState.repairable.buildTime.timeRemaining * 1000, translateWithContext("countdown format", "m:ss")) : "";
 	}
 	else
 	{
-		Engine.GetGUIObjectByName("resourceCarryingIcon").hidden = true;
-		Engine.GetGUIObjectByName("resourceCarryingText").hidden = true;
+		resourceCarryingIcon.hidden = true;
+		resourceCarryingText.hidden = true;
 	}
 
 	Engine.GetGUIObjectByName("specific").caption = specificName;
 	Engine.GetGUIObjectByName("player").caption = playerName;
-	Engine.GetGUIObjectByName("playerColorBackground").sprite = "color: " + playerColor;
+
+	Engine.GetGUIObjectByName("playerColorBackground").sprite =
+		"color:" + g_DiplomacyColors.getPlayerColor(entState.player, 128);
+
 	Engine.GetGUIObjectByName("generic").caption = genericName == specificName ? "" :
 		sprintf(translate("(%(genericName)s)"), {
 			"genericName": genericName
@@ -305,6 +304,10 @@ function displaySingle(entState)
 
 	// TODO: we should require all entities to have icons
 	Engine.GetGUIObjectByName("icon").sprite = template.icon ? ("stretched:session/portraits/" + template.icon) : "BackgroundBlack";
+	if (template.icon)
+		Engine.GetGUIObjectByName("iconBorder").onPressRight = () => {
+			showTemplateDetails(entState.template);
+		};
 
 	Engine.GetGUIObjectByName("attackAndArmorStats").tooltip = [
 		getAttackTooltip,
@@ -312,8 +315,6 @@ function displaySingle(entState)
 		getHealerTooltip,
 		getArmorTooltip,
 		getGatherTooltip,
-		getRepairRateTooltip,
-		getBuildRateTooltip,
 		getSpeedTooltip,
 		getGarrisonTooltip,
 		getProjectilesTooltip,
@@ -329,7 +330,8 @@ function displaySingle(entState)
 	iconTooltips = iconTooltips.concat([
 		getVisibleEntityClassesFormatted,
 		getAurasTooltip,
-		getEntityTooltip
+		getEntityTooltip,
+		showTemplateViewerOnRightClickTooltip
 	].map(func => func(template)));
 
 	Engine.GetGUIObjectByName("iconBorder").tooltip = iconTooltips.filter(tip => tip).join("\n");
@@ -364,12 +366,13 @@ function displayMultiple(entStates)
 		}
 
 		let carrying = calculateCarriedResources(
-			entState.resourceCarrying,
+			entState.resourceCarrying || null,
 			entState.trader && entState.trader.goods
 		);
 
-		for (let type in entState.loot)
-			totalLoot[type] = (totalLoot[type] || 0) + entState.loot[type];
+		if (entState.loot)
+			for (let type in entState.loot)
+				totalLoot[type] = (totalLoot[type] || 0) + entState.loot[type];
 
 		for (let type in carrying)
 		{
@@ -404,7 +407,7 @@ function displayMultiple(entStates)
 			let size = 100 * Math.max(0, Math.min(1, capturePoints[pID] / maxCapturePoints));
 			sizeObj.rbottom = startSize + size;
 			unitCaptureBar.size = sizeObj;
-			unitCaptureBar.sprite = "color: " + rgbToGuiColor(g_Players[pID].color, 128);
+			unitCaptureBar.sprite = "color:" + g_DiplomacyColors.getPlayerColor(pID, 128);
 			unitCaptureBar.hidden = false;
 			return startSize + size;
 		};
@@ -463,7 +466,7 @@ function updateSelectionDetails()
 
 	for (let sel of g_Selection.toList())
 	{
-		let entState = GetExtendedEntityState(sel);
+		let entState = GetEntityState(sel);
 		if (!entState)
 			continue;
 		entStates.push(entState);
@@ -496,20 +499,6 @@ function updateSelectionDetails()
 	// Show health bar for garrisoned units if the garrison panel is visible
 	if (Engine.GetGUIObjectByName("unitGarrisonPanel") && !Engine.GetGUIObjectByName("unitGarrisonPanel").hidden)
 		updateGarrisonHealthBar(entStates[0], g_Selection.toList());
-}
-
-function getRankIconSprite(entState)
-{
-	if (entState.identity.rank == "Elite")
-		return "stretched:session/icons/rank3.png";
-
-	if (entState.identity.rank == "Advanced")
-		return "stretched:session/icons/rank2.png";
-
-	if (entState.identity.classes.indexOf("CitizenSoldier") != -1)
-		return "stretched:session/icons/rank1.png";
-
-	return "";
 }
 
 function tradingGainString(gain, owner)

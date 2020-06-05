@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2018 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -26,10 +26,13 @@
 #include "ps/CStr.h"
 #include "scriptinterface/ScriptVal.h"
 
-#define PS_PROTOCOL_MAGIC				0x5073013f		// 'P', 's', 0x01, '?'
-#define PS_PROTOCOL_MAGIC_RESPONSE		0x50630121		// 'P', 'c', 0x01, '!'
-#define PS_PROTOCOL_VERSION				0x01010015		// Arbitrary protocol
-#define PS_DEFAULT_PORT					0x5073			// 'P', 's'
+#define PS_PROTOCOL_MAGIC                         0x5073013f	// 'P', 's', 0x01, '?'
+#define PS_PROTOCOL_MAGIC_RESPONSE                0x50630121	// 'P', 'c', 0x01, '!'
+#define PS_PROTOCOL_VERSION                       0x01010015	// Arbitrary protocol
+#define PS_DEFAULT_PORT                           0x5073		// 'P', 's'
+
+// Set when lobby authentication is required. Used in the SrvHandshakeResponseMessage.
+#define PS_NETWORK_FLAG_REQUIRE_LOBBYAUTH         0x1
 
 // Defines the list of message types. The order of the list must not change.
 // The message types having a negative value are used internally and not sent
@@ -118,6 +121,7 @@ END_NMT_CLASS()
 
 START_NMT_CLASS_(Authenticate, NMT_AUTHENTICATE)
 	NMT_FIELD(CStrW, m_Name)
+	// TODO: The password should not be printed to logfiles
 	NMT_FIELD(CStrW, m_Password)
 	NMT_FIELD_INT(m_IsLocalClient, u8, 1)
 END_NMT_CLASS()

@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -18,11 +18,14 @@
 #ifndef INCLUDED_JSI_CONFIGDB
 #define INCLUDED_JSI_CONFIGDB
 
-#include "scriptinterface/ScriptInterface.h"
 #include "ps/ConfigDB.h"
+#include "scriptinterface/ScriptInterface.h"
+
+#include <string>
 
 namespace JSI_ConfigDB
 {
+	bool IsProtectedConfigName(const std::string& name);
 	bool GetConfigNamespace(const std::wstring& cfgNsString, EConfigNamespace& cfgNs);
 	bool HasChanges(ScriptInterface::CxPrivate* pCxPrivate, const std::wstring& cfgNsString);
 	bool SetChanges(ScriptInterface::CxPrivate* pCxPrivate, const std::wstring& cfgNsString, bool value);
@@ -31,9 +34,10 @@ namespace JSI_ConfigDB
 	bool RemoveValue(ScriptInterface::CxPrivate* pCxPrivate, const std::wstring& cfgNsString, const std::string& name);
 	bool WriteFile(ScriptInterface::CxPrivate* pCxPrivate, const std::wstring& cfgNsString, const Path& path);
 	bool WriteValueToFile(ScriptInterface::CxPrivate* pCxPrivate, const std::wstring& cfgNsString, const std::string& name, const std::string& value, const Path& path);
+	void CreateAndWriteValueToFile(ScriptInterface::CxPrivate* pCxPrivate, const std::wstring& cfgNsString, const std::string& name, const std::string& value, const Path& path);
 	bool Reload(ScriptInterface::CxPrivate* pCxPrivate, const std::wstring& cfgNsString);
 	bool SetFile(ScriptInterface::CxPrivate* pCxPrivate, const std::wstring& cfgNsString, const Path& path);
 	void RegisterScriptFunctions(const ScriptInterface& scriptInterface);
 }
 
-#endif
+#endif // INCLUDED_JSI_CONFIGDB

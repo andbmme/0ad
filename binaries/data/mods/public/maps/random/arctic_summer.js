@@ -1,4 +1,5 @@
-RMS.LoadLibrary("rmgen");
+Engine.LoadLibrary("rmgen");
+Engine.LoadLibrary("rmgen-common");
 
 setFogThickness(0.46);
 setFogFactor(0.5);
@@ -32,122 +33,67 @@ var oFish = "gaia/fauna_fish";
 var oStoneLarge = "gaia/geology_stonemine_alpine_quarry";
 var oStoneSmall = "gaia/geology_stone_alpine_a";
 var oMetalLarge = "gaia/geology_metal_alpine_slabs";
-var oWoodTreasure = "gaia/special_treasure_wood";
+var oWoodTreasure = "gaia/treasure/wood";
 
 var aRockLarge = "actor|geology/stone_granite_med.xml";
 var aRockMedium = "actor|geology/stone_granite_med.xml";
 
 const pForest = [tForestFloor + TERRAIN_SEPARATOR + oBush, tForestFloor + TERRAIN_SEPARATOR + oBush2, tForestFloor];
 
-InitMap();
+var heightSeaGround = -5;
+var heightLand = 2;
+
+var g_Map = new RandomMap(heightLand, tPrimary);
 
 const numPlayers = getNumPlayers();
 
-var clPlayer = createTileClass();
-var clHill = createTileClass();
-var clForest = createTileClass();
-var clWater = createTileClass();
-var clDirt = createTileClass();
-var clRock = createTileClass();
-var clMetal = createTileClass();
-var clFood = createTileClass();
-var clBaseResource = createTileClass();
+var clPlayer = g_Map.createTileClass();
+var clHill = g_Map.createTileClass();
+var clForest = g_Map.createTileClass();
+var clWater = g_Map.createTileClass();
+var clDirt = g_Map.createTileClass();
+var clRock = g_Map.createTileClass();
+var clMetal = g_Map.createTileClass();
+var clFood = g_Map.createTileClass();
+var clBaseResource = g_Map.createTileClass();
 
-var [playerIDs, playerX, playerZ] = radialPlayerPlacement();
-
-for (let i = 0; i < numPlayers; i++)
-{
-	log("Creating base for player " + playerIDs[i]);
-	let radius = scaleByMapSize(15, 25);
-
-	// Get the x and z in tiles
-	let fx = fractionToTiles(playerX[i]);
-	let fz = fractionToTiles(playerZ[i]);
-	let ix = Math.round(fx);
-	let iz = Math.round(fz);
-
-	addCivicCenterAreaToClass(ix, iz, clPlayer);
-
-	// Create the city patch
-	let cityRadius = radius / 3;
-	createArea(
-		new ClumpPlacer(PI * cityRadius * cityRadius, 0.6, 0.3, 10, ix, iz),
-		new LayeredPainter([tPrimary, tSecondary], [1]),
-		null);
-
-	placeCivDefaultEntities(fx, fz, playerIDs[i]);
-
-	placeDefaultChicken(fx, fz, clBaseResource, undefined, oRabbit);
-
-	// Create berry bushes
-	let bbAngle = randFloat(0, 2 * PI);
-	let bbDist = 12;
-	createObjectGroup(
-		new SimpleGroup(
-			[new SimpleObject(oBerryBush, 5, 5, 0, 3)],
-			true,
-			clBaseResource,
-			Math.round(fx + bbDist * Math.cos(bbAngle)),
-			Math.round(fz + bbDist * Math.sin(bbAngle))),
-		0);
-
-	// Create metal mine
-	let mAngle = bbAngle + randFloat(PI / 3, PI);
-	let mDist = 12;
-	createObjectGroup(
-		new SimpleGroup(
-			[new SimpleObject(oMetalLarge, 1, 1, 0, 0)],
-			true,
-			clBaseResource,
-			Math.round(fx + mDist * Math.cos(mAngle)),
-			Math.round(fz + mDist * Math.sin(mAngle))),
-		0);
-
-	// Create stone mines
-	mAngle += randFloat(PI/8, PI/4);
-	createObjectGroup(
-		new SimpleGroup(
-			[new SimpleObject(oStoneLarge, 1, 1, 0, 2)],
-			true,
-			clBaseResource,
-			Math.round(fx + mDist * Math.cos(mAngle)),
-			Math.round(fz + mDist * Math.sin(mAngle))),
-		0);
-
-	// Create wood treasure
-	mAngle += randFloat(PI/4, PI/6);
-	createObjectGroup(
-		new SimpleGroup(
-			[new SimpleObject(oWoodTreasure, 10, 10, 0, 3)],
-			true,
-			clBaseResource,
-			Math.round(fx + bbDist * Math.cos(mAngle)),
-			Math.round(fz + bbDist * Math.sin(mAngle)),
-			avoidClasses(clBaseResource, 4)),
-		0);
-
-	// Create starting trees
-	for (let i = 0; i < 10; ++i)
-	{
-		let tAngle = mAngle + randFloat(PI/3, PI/4);
-		let tDist = randFloat(10, 12);
-		if (createObjectGroup(
-			new SimpleGroup(
-				[new SimpleObject(oBush, 20, 20, 0, 3)],
-				false,
-				clBaseResource,
-				Math.round(fx + tDist * Math.cos(tAngle)),
-				Math.round(fz + tDist * Math.sin(tAngle))),
-			0,
-			avoidClasses(clBaseResource, 4)))
-		{
-			break;
-		}
+placePlayerBases({
+	"PlayerPlacement": playerPlacementCircle(fractionToTiles(0.35)),
+	"PlayerTileClass": clPlayer,
+	"BaseResourceClass": clBaseResource,
+	"CityPatch": {
+		"outerTerrain": tPrimary,
+		"innerTerrain": tSecondary
+	},
+	"Chicken": {
+		"template": oRabbit
+	},
+	"Berries": {
+		"template": oBerryBush
+	},
+	"Mines": {
+		"types": [
+			{ "template": oMetalLarge },
+			{ "template": oStoneLarge }
+		]
+	},
+	"Treasures": {
+		"types": [
+			{
+				"template": oWoodTreasure,
+				"count": 10
+			}
+		]
+	},
+	"Trees": {
+		"template": oBush,
+		"count": 20,
+		"maxDistGroup": 3
 	}
-}
-RMS.SetProgress(20);
+	// No decoratives
+});
+Engine.SetProgress(20);
 
-log("Creating hills...");
 createHills(
 	[tPrimary, tCliff, tHill],
 	avoidClasses(
@@ -158,26 +104,25 @@ createHills(
 	clHill,
 	scaleByMapSize(1, 240));
 
-RMS.SetProgress(30);
+Engine.SetProgress(30);
 
-log("Creating lakes...");
+g_Map.log("Creating lakes");
 createAreas(
 	new ChainPlacer(
 		1,
 		Math.floor(scaleByMapSize(4, 8)),
 		Math.floor(scaleByMapSize(40, 180)),
-		1),
+		Infinity),
 	[
-		new LayeredPainter([tShore, tWater, tWater], [1, 3]),
-		new SmoothElevationPainter(ELEVATION_SET, -5, 5),
-		paintClass(clWater)
+		new LayeredPainter([tShore, tWater], [1]),
+		new SmoothElevationPainter(ELEVATION_SET, heightSeaGround, 5),
+		new TileClassPainter(clWater)
 	],
 	avoidClasses(clPlayer, 15),
 	scaleByMapSize(1, 20));
 
-RMS.SetProgress(45);
+Engine.SetProgress(45);
 
-log("Creating bumps...");
 createBumps(avoidClasses(clPlayer, 6, clWater, 2), scaleByMapSize(30, 300), 1, 8, 4, 0, 3);
 
 paintTerrainBasedOnHeight(4, 15, 0, tCliff);
@@ -193,9 +138,9 @@ createForests(
 		clWater, 2),
 	clForest,
 	forestTrees);
-RMS.SetProgress(60);
+Engine.SetProgress(60);
 
-log("Creating dirt patches...");
+g_Map.log("Creating dirt patches");
 createLayeredPatches(
 	[scaleByMapSize(3, 6), scaleByMapSize(5, 10), scaleByMapSize(8, 21)],
 	[[tDirt,tHalfSnow], [tHalfSnow,tSnowLimited]],
@@ -209,7 +154,7 @@ createLayeredPatches(
 	scaleByMapSize(15, 45),
 	clDirt);
 
-log("Creating shrubs...");
+g_Map.log("Creating shrubs");
 createPatches(
 	[scaleByMapSize(2, 4), scaleByMapSize(3, 7), scaleByMapSize(5, 15)],
 	tSecondary,
@@ -222,7 +167,7 @@ createPatches(
 	scaleByMapSize(15, 45),
 	clDirt);
 
-log("Creating grass patches...");
+g_Map.log("Creating grass patches");
 createPatches(
 	[scaleByMapSize(2, 4), scaleByMapSize(3, 7), scaleByMapSize(5, 15)],
 	tSecondary,
@@ -234,12 +179,12 @@ createPatches(
 		clPlayer, 12),
 	scaleByMapSize(15, 45),
 	clDirt);
-RMS.SetProgress(65);
+Engine.SetProgress(65);
 
-log("Creating stone mines...");
+g_Map.log("Creating stone mines");
 createMines(
 	[
-		[new SimpleObject(oStoneSmall, 0, 2, 0, 4), new SimpleObject(oStoneLarge, 1, 1, 0, 4)],
+		[new SimpleObject(oStoneSmall, 0, 2, 0, 4, 0, 2 * Math.PI, 1), new SimpleObject(oStoneLarge, 1, 1, 0, 4, 0, 2 * Math.PI, 4)],
 		[new SimpleObject(oStoneSmall, 2, 5, 1, 3)]
 	],
 	avoidClasses(
@@ -250,7 +195,7 @@ createMines(
 		clHill, 1),
 	clRock);
 
-log("Creating metal mines...");
+g_Map.log("Creating metal mines");
 createMines(
 	[
 		[new SimpleObject(oMetalLarge, 1, 1, 0, 4)]
@@ -263,7 +208,7 @@ createMines(
 		clRock, 5,
 		clHill, 1),
 	clMetal);
-RMS.SetProgress(70);
+Engine.SetProgress(70);
 
 createDecoration(
 	[
@@ -284,7 +229,7 @@ createDecoration(
 		clForest, 0,
 		clPlayer, 0,
 		clHill, 0));
-RMS.SetProgress(75);
+Engine.SetProgress(75);
 
 createFood(
 	[
@@ -348,7 +293,7 @@ createFood(
 	],
 	clFood);
 
-RMS.SetProgress(85);
+Engine.SetProgress(85);
 
 createStragglerTrees(
 	[oBush, oBush2],
@@ -362,16 +307,18 @@ createStragglerTrees(
 	clForest,
 	stragglerTrees);
 
+placePlayersNomad(clPlayer, avoidClasses(clForest, 1, clWater, 4, clMetal, 4, clRock, 4, clHill, 4, clFood, 2));
+
 setSkySet("sunset 1");
-setSunRotation(randFloat(0, 2 * PI));
+setSunRotation(randomAngle());
 setSunColor(0.8, 0.7, 0.6);
 setTerrainAmbientColor(0.7, 0.6, 0.7);
 setUnitsAmbientColor(0.6, 0.5, 0.6);
-setSunElevation(randFloat(PI/12, PI/7));
+setSunElevation(Math.PI * randFloat(1/12, 1/7));
 setWaterColor(0, 0.047, 0.286);
 setWaterTint(0.462, 0.756, 0.866);
 setWaterMurkiness(0.92);
 setWaterWaviness(1);
 setWaterType("clap");
 
-ExportMap();
+g_Map.ExportMap();

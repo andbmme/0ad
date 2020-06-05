@@ -1,4 +1,4 @@
-/* Copyright (C) 2011 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -28,10 +28,10 @@
 #ifndef ALLOCATOR_ADAPTERS
 #define ALLOCATOR_ADAPTERS
 
-#include <memory>
-
 #include "lib/sysdep/rtl.h"
 #include "lib/sysdep/vm.h"
+
+#include <memory>
 
 // NB: STL allocators are parameterized on the object type and indicate
 // the number of elements to [de]allocate. however, these adapters are
@@ -78,7 +78,7 @@ struct Allocator_VM
 	}
 };
 
-template<size_t commitSize = largePageSize, vm::PageType pageType = vm::kDefault, int prot = PROT_READ|PROT_WRITE>
+template<size_t commitSize = g_LargePageSize, vm::PageType pageType = vm::kDefault, int prot = PROT_READ|PROT_WRITE>
 struct Allocator_AddressSpace
 {
 	void* allocate(size_t size)
@@ -114,9 +114,6 @@ public:
 	{
 		typedef ProxyAllocator<U, Allocator> other;
 	};
-
-	// (required to be declared by boost::unordered_map, but should never be called)
-	explicit NOTHROW_DEFINE ProxyAllocator();
 
 	explicit NOTHROW_DEFINE ProxyAllocator(Allocator& allocator)
 		: allocator(&allocator)

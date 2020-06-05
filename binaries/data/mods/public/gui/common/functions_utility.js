@@ -4,37 +4,44 @@
  * And store the timestamp of last interaction for each notification.
  */
 var g_SoundNotifications = {
-	"nick": { "soundfile": "audio/interface/ui/chat_alert.ogg", "threshold": 3000 }
+	"nick": { "soundfile": "audio/interface/ui/chat_alert.ogg", "threshold": 3000 },
+	"gamesetup.join": { "soundfile": "audio/interface/ui/gamesetup_join.ogg", "threshold": 0 }
 };
 
-// Get list of XML files in pathname with recursion, excepting those starting with _
-function getXMLFileList(pathname)
+/**
+ * These events are fired when the user has closed the options page.
+ * The handlers are provided a Set storing which config values have changed.
+ * TODO: This should become a GUI event sent by the engine.
+ */
+var g_ConfigChangeHandlers = new Set();
+
+function registerConfigChangeHandler(handler)
 {
-	var files = Engine.BuildDirEntList(pathname, "*.xml", true);
-
-	var result = [];
-
-	// Get only subpath from filename and discard extension
-	for (var i = 0; i < files.length; ++i)
-	{
-		var file = files[i];
-		file = file.substring(pathname.length, file.length - 4);
-
-		// Split path into directories so we can check for beginning _ character
-		var tokens = file.split("/");
-
-		if (tokens[tokens.length - 1][0] != "_")
-			result.push(file);
-	}
-
-	return result;
+	g_ConfigChangeHandlers.add(handler);
 }
 
-function getJSONFileList(pathname)
+/**
+ * @param changes - a Set of config names
+ */
+function fireConfigChangeHandlers(changes)
 {
-	// Remove the path and extension from each name, since we just want the filename
-	return Engine.BuildDirEntList(pathname, "*.json", false).map(
-		filename => filename.substring(pathname.length, filename.length - 5));
+	for (let handler of g_ConfigChangeHandlers)
+		handler(changes);
+}
+
+/**
+ * Returns translated history and gameplay data of all civs, optionally including a mock gaia civ.
+ */
+function loadCivData(selectableOnly, gaia)
+{
+	let civData = loadCivFiles(selectableOnly);
+
+	translateObjectKeys(civData, ["Name", "Description", "History", "Special"]);
+
+	if (gaia)
+		civData.gaia = { "Code": "gaia", "Name": translate("Gaia") };
+
+	return deepfreeze(civData);
 }
 
 // A sorting function for arrays of objects with 'name' properties, ignoring case
@@ -52,23 +59,14 @@ function sortNameIgnoreCase(x, y)
 
 /**
  * Escape tag start and escape characters, so users cannot use special formatting.
- * Also limit string length to 256 characters (not counting escape characters).
  */
-function escapeText(text, limitLength = true)
+function escapeText(text)
 {
-	if (!text)
-		return text;
-
-	if (limitLength)
-		text = text.substr(0, 255);
-
 	return text.replace(/\\/g, "\\\\").replace(/\[/g, "\\[");
 }
 
 function unescapeText(text)
 {
-	if (!text)
-		return text;
 	return text.replace(/\\\\/g, "\\").replace(/\\\[/g, "\[");
 }
 
@@ -88,12 +86,22 @@ function playerDataToStringifiedTeamList(playerData)
 		delete teamList[team].Team;
 	}
 
-	return escapeText(JSON.stringify(teamList), false);
+	return escapeText(JSON.stringify(teamList));
 }
 
 function stringifiedTeamListToPlayerData(stringifiedTeamList)
 {
-	let teamList = JSON.parse(unescapeText(stringifiedTeamList));
+	let teamList = {};
+	try
+	{
+		teamList = JSON.parse(unescapeText(stringifiedTeamList));
+	}
+	catch (e)
+	{
+		// Ignore invalid input from remote users
+		return [];
+	}
+
 	let playerData = [];
 
 	for (let team in teamList)
@@ -104,22 +112,6 @@ function stringifiedTeamListToPlayerData(stringifiedTeamList)
 		}
 
 	return playerData;
-}
-
-function translateMapTitle(mapTitle)
-{
-	return mapTitle == "random" ? translateWithContext("map selection", "Random") : translate(mapTitle);
-}
-
-/**
- * Convert time in milliseconds to [hh:]mm:ss string representation.
- * @param time Time period in milliseconds (integer)
- * @return String representing time period
- */
-function timeToString(time)
-{
-	return Engine.FormatMillisecondsIntoDateStringGMT(time, time < 1000 * 60 * 60 ?
-		translate("mm:ss") : translate("HH:mm:ss"));
 }
 
 function removeDupes(array)
@@ -169,7 +161,7 @@ function tryAutoComplete(text, autoCompleteList)
 	return text;
 }
 
-function autoCompleteNick(guiObject, playernames)
+function autoCompleteText(guiObject, words)
 {
 	let text = guiObject.caption;
 	if (!text.length)
@@ -177,23 +169,10 @@ function autoCompleteNick(guiObject, playernames)
 
 	let bufferPosition = guiObject.buffer_position;
 	let textTillBufferPosition = text.substring(0, bufferPosition);
-	let newText = tryAutoComplete(textTillBufferPosition, playernames);
+	let newText = tryAutoComplete(textTillBufferPosition, words);
 
 	guiObject.caption = newText + text.substring(bufferPosition);
 	guiObject.buffer_position = bufferPosition + (newText.length - textTillBufferPosition.length);
-}
-
-function clearChatMessages()
-{
-	g_ChatMessages.length = 0;
-	Engine.GetGUIObjectByName("chatText").caption = "";
-
-	try {
-		for (let timer of g_ChatTimers)
-			clearTimeout(timer);
-		g_ChatTimers.length = 0;
-	} catch (e) {
-	}
 }
 
 /**
@@ -242,4 +221,12 @@ function hideRemaining(parentName, start = 0)
 
 	for (let i = start; i < objects.length; ++i)
 		objects[i].hidden = true;
+}
+
+function getBuildString()
+{
+	return sprintf(translate("Build: %(buildDate)s (%(revision)s)"), {
+		"buildDate": Engine.GetBuildDate(),
+		"revision": Engine.GetBuildRevision()
+	});
 }

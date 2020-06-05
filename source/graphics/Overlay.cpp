@@ -1,4 +1,4 @@
-/* Copyright (C) 2011 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -19,7 +19,10 @@
 
 #include "Overlay.h"
 
+#include "graphics/TextureManager.h"
 #include "ps/CStr.h"
+#include "renderer/Renderer.h"
+#include "renderer/TexturedLineRData.h"
 
 SOverlayTexturedLine::LineCapType SOverlayTexturedLine::StrToLineCapType(const std::wstring& str)
 {
@@ -37,3 +40,30 @@ SOverlayTexturedLine::LineCapType SOverlayTexturedLine::StrToLineCapType(const s
 	}
 }
 
+void SOverlayTexturedLine::CreateOverlayTexture(const SOverlayDescriptor* overlayDescriptor)
+{
+	CTextureProperties texturePropsBase(overlayDescriptor->m_LineTexture.c_str());
+	texturePropsBase.SetWrap(GL_CLAMP_TO_BORDER, GL_CLAMP_TO_EDGE);
+	texturePropsBase.SetMaxAnisotropy(4.f);
+
+	CTextureProperties texturePropsMask(overlayDescriptor->m_LineTextureMask.c_str());
+	texturePropsMask.SetWrap(GL_CLAMP_TO_BORDER, GL_CLAMP_TO_EDGE);
+	texturePropsMask.SetMaxAnisotropy(4.f);
+
+	m_AlwaysVisible = false;
+	m_Closed = true;
+	m_Thickness = overlayDescriptor->m_LineThickness;
+	m_TextureBase = g_Renderer.GetTextureManager().CreateTexture(texturePropsBase);
+	m_TextureMask = g_Renderer.GetTextureManager().CreateTexture(texturePropsMask);
+
+	ENSURE(m_TextureBase);
+}
+
+bool SOverlayTexturedLine::IsVisibleInFrustum(const CFrustum& frustum) const
+{
+	// If we don't have render data, we don't have actual bounds and we need
+	// to calculate them on a prerendering stage.
+	if (!m_RenderData)
+		return true;
+	return m_RenderData->IsVisibleInFrustum(frustum);
+}

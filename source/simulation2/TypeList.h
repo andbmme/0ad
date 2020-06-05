@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -45,7 +45,7 @@ MESSAGE(OwnershipChanged)
 MESSAGE(PositionChanged)
 MESSAGE(InterpolatedPositionChanged)
 MESSAGE(TerritoryPositionChanged)
-MESSAGE(MotionChanged)
+MESSAGE(MotionUpdate)
 MESSAGE(RangeUpdate)
 MESSAGE(TerrainChanged)
 MESSAGE(VisibilityChanged)
@@ -79,6 +79,9 @@ COMPONENT(AIInterfaceScripted)
 INTERFACE(AIManager)
 COMPONENT(AIManager)
 
+INTERFACE(Attack)
+COMPONENT(AttackScripted)
+
 INTERFACE(CinemaManager)
 COMPONENT(CinemaManager)
 
@@ -97,6 +100,9 @@ COMPONENT(FoggingScripted)
 // see VisualActor's Init method for a description of how you can avoid it.
 INTERFACE(Footprint)
 COMPONENT(Footprint)
+
+INTERFACE(GarrisonHolder)
+COMPONENT(GarrisonHolderScripted)
 
 INTERFACE(GuiInterface)
 COMPONENT(GuiInterfaceScripted)
@@ -144,11 +150,17 @@ COMPONENT(Position) // must be before VisualActor
 INTERFACE(ProjectileManager)
 COMPONENT(ProjectileManager)
 
+INTERFACE(RallyPoint)
+COMPONENT(RallyPointScripted)
+
 INTERFACE(RallyPointRenderer)
 COMPONENT(RallyPointRenderer)
 
 INTERFACE(RangeManager)
 COMPONENT(RangeManager)
+
+INTERFACE(RangeOverlayRenderer)
+COMPONENT(RangeOverlayRenderer)
 
 INTERFACE(Selectable)
 COMPONENT(Selectable)
@@ -156,14 +168,14 @@ COMPONENT(Selectable)
 INTERFACE(Settlement)
 COMPONENT(SettlementScripted)
 
+INTERFACE(Sound)
+COMPONENT(SoundScripted)
+
 INTERFACE(SoundManager)
 COMPONENT(SoundManager)
 
 INTERFACE(ValueModificationManager)
 COMPONENT(ValueModificationManagerScripted)
-
-INTERFACE(DataTemplateManager)
-COMPONENT(DataTemplateManagerScripted)
 
 INTERFACE(Terrain)
 COMPONENT(Terrain)

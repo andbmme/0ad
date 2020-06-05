@@ -4,28 +4,12 @@
 		<action on="Press">closeOpenDialogs();</action>
 	</object>
 
-	<object hotkey="chat">
-		<action on="Press">openChat();</action>
-	</object>
-
-	<object hotkey="teamchat">
-		<action on="Press">openChat(g_IsObserver ? "/observers" : "/allies");</action>
-	</object>
-
-	<object hotkey="privatechat">
-		<action on="Press">openChat(g_LastChatAddressee);</action>
-	</object>
-
 	<object hotkey="session.gui.toggle">
-		<action on="Press">g_ShowGUI = !g_ShowGUI;</action>
+		<action on="Press">toggleGUI();</action>
 	</object>
 
-	<object hotkey="session.gui.menu.toggle">
-		<action on="Press">toggleMenu();</action>
-	</object>
-
-	<object hotkey="session.gui.barter.toggle">
-		<action on="Press">toggleTrade();</action>
+	<object hotkey="session.gui.tutorial.toggle">
+		<action on="Press">toggleTutorial();</action>
 	</object>
 
 	<object hotkey="silhouettes">
@@ -39,32 +23,28 @@
 		</action>
 	</object>
 
-	<object hotkey="pause">
-		<action on="Press">togglePause();</action>
-	</object>
-
 	<object hotkey="quicksave">
-		<action on="Press">Engine.QuickSave();</action>
+		<action on="Press">if (!g_IsNetworked) Engine.QuickSave(getSavedGameData());</action>
 	</object>
 
 	<object hotkey="quickload">
-		<action on="Press">Engine.QuickLoad();</action>
+		<action on="Press">if (!g_IsNetworked) Engine.QuickLoad();</action>
 	</object>
 
 	<object hotkey="session.kill">
-		<action on="Press">performCommand(g_Selection.toList().map(ent => GetExtendedEntityState(ent)), "delete");</action>
+		<action on="KeyDown">performCommand(g_Selection.toList().map(ent => GetEntityState(ent)), "delete");</action>
 	</object>
 
 	<object hotkey="session.unload">
-		<action on="Press">unloadAll();</action>
+		<action on="KeyDown">unloadAll();</action>
 	</object>
 
 	<object hotkey="session.stop">
-		<action on="Press">stopUnits(g_Selection.toList());</action>
+		<action on="KeyDown">stopUnits(g_Selection.toList());</action>
 	</object>
 
 	<object hotkey="session.backtowork">
-		<action on="Press">backToWork();</action>
+		<action on="KeyDown">backToWork();</action>
 	</object>
 
 	<object hotkey="session.batchtrain">
@@ -72,33 +52,17 @@
 		<action on="Release">updateSelectionDetails();</action>
 	</object>
 
-	<object hotkey="session.massbarter">
-		<action on="Press">
-			updateSelectionDetails();
-			updateBarterButtons();
-		</action>
-
-		<action on="Release">
-			updateSelectionDetails();
-			updateBarterButtons();
-		</action>
-	</object>
-
 	<!-- Find idle warrior - TODO: Potentially move this to own UI button? -->
 	<object hotkey="selection.idlewarrior">
-		<action on="Press">findIdleUnit(g_MilitaryTypes);</action>
+		<action on="KeyDown">findIdleUnit(g_MilitaryTypes);</action>
+	</object>
+
+	<object hotkey="selection.idleunit">
+		<action on="KeyDown">findIdleUnit(["!Domestic"]);</action>
 	</object>
 
 	<object hotkey="selection.cancel">
-		<action on="Press">clearSelection();</action>
-	</object>
-
-	<object hotkey="session.toggleaurarange">
-		<action on="Press">toggleRangeOverlay("Aura");</action>
-	</object>
-
-	<object hotkey="session.togglehealrange">
-		<action on="Press">toggleRangeOverlay("Heal");</action>
+		<action on="KeyDown">clearSelection();</action>
 	</object>
 
 	<object hotkey="session.showstatusbars">
@@ -107,5 +71,4 @@
 			recalculateStatusBarDisplay();
 		</action>
 	</object>
-
 </object>

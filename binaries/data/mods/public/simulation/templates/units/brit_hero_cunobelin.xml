@@ -5,10 +5,10 @@
   </Auras>
   <Identity>
     <Civ>brit</Civ>
-    <SpecificName>Cunobelin</SpecificName>
-    <Icon>units/celt_hero_cynvelin.png</Icon>
+    <GenericName>Cunobeline</GenericName>
+    <SpecificName>Cunobelinos</SpecificName>
   </Identity>
   <VisualActor>
-    <Actor>units/celts/cunobelin_horse.xml</Actor>
+    <Actor>units/britons/hero_cavalry_swordsman_cunobelin_m.xml</Actor>
   </VisualActor>
 </Entity>

@@ -1,21 +1,8 @@
-/**
- * Returns starting position in tile coordinates for the given player.
- */
-function getPlayerTileCoordinates(playerIdx, teamIdx, fractionX, fractionZ)
-{
-	let playerAngle = startAngle + (playerIdx+1) * TWO_PI / teams[teamIdx].length;
+Engine.LoadLibrary("rmgen");
+Engine.LoadLibrary("rmgen-common");
+Engine.LoadLibrary("rmgen2");
+Engine.LoadLibrary("rmbiome");
 
-	let fx = fractionToTiles(fractionX + 0.05 * cos(playerAngle));
-	let fz = fractionToTiles(fractionZ + 0.05 * sin(playerAngle));
-
-	return [playerAngle, fx, fz, round(fx), round(fz)];
-}
-
-RMS.LoadLibrary("rmgen");
-RMS.LoadLibrary("rmbiome");
-RMS.LoadLibrary("heightmap");
-
-const g_InitialMines = 1;
 const g_InitialMineDistance = 14;
 const g_InitialTrees = 50;
 
@@ -46,8 +33,8 @@ const oStoneLarge = g_Gaia.stoneLarge;
 const oStoneSmall = g_Gaia.stoneSmall;
 const oMetalLarge = g_Gaia.metalLarge;
 const oWhale = "gaia/fauna_whale_humpback";
-const oShipwreck = "other/special_treasure_shipwreck";
-const oShipDebris = "other/special_treasure_shipwreck_debris";
+const oShipwreck = "gaia/treasure/shipwreck";
+const oShipDebris = "gaia/treasure/shipwreck_debris";
 const oObelisk = "other/obelisk";
 
 const aGrass = g_Decoratives.grass;
@@ -58,305 +45,213 @@ const aRockMedium = g_Decoratives.rockMedium;
 const pForest1 = [tForestFloor2 + TERRAIN_SEPARATOR + oTree1, tForestFloor2 + TERRAIN_SEPARATOR + oTree2, tForestFloor2];
 const pForest2 = [tForestFloor1 + TERRAIN_SEPARATOR + oTree4, tForestFloor1 + TERRAIN_SEPARATOR + oTree5, tForestFloor1];
 
-InitMap();
+const heightSeaGround = -10;
+const heightLand = 3;
+const heightHill = 18;
+
+var g_Map = new RandomMap(heightSeaGround, tWater);
 
 const numPlayers = getNumPlayers();
-const mapSize = getMapSize();
+const mapSize = g_Map.getSize();
+const mapCenter = g_Map.getCenter();
 
-const clPlayer = createTileClass();
-const clHill = createTileClass();
-const clForest = createTileClass();
-const clDirt = createTileClass();
-const clRock = createTileClass();
-const clMetal = createTileClass();
-const clFood = createTileClass();
-const clBaseResource = createTileClass();
-const clLand = createTileClass();
+const clPlayer = g_Map.createTileClass();
+const clHill = g_Map.createTileClass();
+const clForest = g_Map.createTileClass();
+const clDirt = g_Map.createTileClass();
+const clRock = g_Map.createTileClass();
+const clMetal = g_Map.createTileClass();
+const clFood = g_Map.createTileClass();
+const clBaseResource = g_Map.createTileClass();
+const clLand = g_Map.createTileClass();
 
-const shoreRadius = 6;
-const landHeight = 3;
+var startAngle = randomAngle();
 
-initTerrain(tWater);
-
-var startAngle = randFloat(0, 2 * Math.PI);
-
-// Group players by team
-var teams = [];
-for (let i = 0; i < numPlayers; ++i)
-{
-	let team = getPlayerTeam(i);
-	if (team == -1)
-		continue;
-
-	if (!teams[team])
-		teams[team] = [];
-
-	teams[team].push(i+1);
-}
-
-// Players without a team get a custom index
-for (let i = 0; i < numPlayers; ++i)
-{
-	let team = getPlayerTeam(i);
-	if (team != -1)
-		continue;
-
-	let unusedIndex = teams.findIndex(team => !team);
-
-	if (unusedIndex != -1)
-		teams[unusedIndex] = [i+1];
-	else
-		teams.push([i+1]);
-}
-
-// Get number of used team IDs
+var teams = getTeamsArray();
 var numTeams = teams.filter(team => team).length;
+var teamPosition = distributePointsOnCircle(numTeams, startAngle, fractionToTiles(0.3), mapCenter)[0];
+var teamRadius = fractionToTiles(0.05);
 
 var teamNo = 0;
+
+g_Map.log("Creating player islands and bases");
+
 for (let i = 0; i < teams.length; ++i)
 {
-	if (!teams[i])
+	if (!teams[i] || isNomad())
 		continue;
 
 	++teamNo;
-	let teamAngle = startAngle + teamNo*TWO_PI/numTeams;
-	let fractionX = 0.5 + 0.3 * cos(teamAngle);
-	let fractionZ = 0.5 + 0.3 * sin(teamAngle);
-	let teamX = fractionToTiles(fractionX);
-	let teamZ = fractionToTiles(fractionZ);
 
-	log("Creating island and starting entities for team " + i);
+	let [playerPosition, playerAngle] = distributePointsOnCircle(teams[i].length, startAngle + 2 * Math.PI / teams[i].length, teamRadius, teamPosition[i]);
+	playerPosition.forEach(position => position.round());
+
 	for (let p = 0; p < teams[i].length; ++p)
 	{
-		let [playerAngle, fx, fz, ix, iz] = getPlayerTileCoordinates(p, i, fractionX, fractionZ);
-
-		addCivicCenterAreaToClass(ix, iz, clPlayer);
+		addCivicCenterAreaToClass(playerPosition[p], clPlayer);
 
 		createArea(
-			new ChainPlacer(2, Math.floor(scaleByMapSize(5, 11)), Math.floor(scaleByMapSize(60, 250)), 1, ix, iz, 0, [Math.floor(mapSize * 0.01)]),
+			new ChainPlacer(2, Math.floor(scaleByMapSize(5, 11)), Math.floor(scaleByMapSize(60, 250)), Infinity, playerPosition[p], Infinity, [defaultPlayerBaseRadius() * 3/4]),
 			[
-				new LayeredPainter([tMainTerrain, tMainTerrain, tMainTerrain], [1, shoreRadius]),
-				new SmoothElevationPainter(ELEVATION_SET, landHeight, shoreRadius),
-				paintClass(clLand)
-			],
-			null);
+				new TerrainPainter(tMainTerrain),
+				new SmoothElevationPainter(ELEVATION_SET, heightLand, 2),
+				new TileClassPainter(clLand)
+			]);
 
-		placeCivDefaultEntities(fx, fz, teams[i][p], { "iberWall": false });
+		placeCivDefaultStartingEntities(playerPosition[p], teams[i][p], false);
 	}
 
-	log("Create initial mines for team " + i);
+	let mineAngle = randFloat(-1, 1) * Math.PI / teams[i].length;
+	let mines = [
+		{ "template": oMetalLarge, "angle": mineAngle },
+		{ "template": oStoneLarge, "angle": mineAngle + Math.PI / 4 }
+	];
+
+	// Mines
 	for (let p = 0; p < teams[i].length; ++p)
-	{
-		let [playerAngle, fx, fz, ix, iz] = getPlayerTileCoordinates(p, i, fractionX, fractionZ);
-		let mAngle = randFloat(playerAngle - PI / teams[i].length, playerAngle + PI / teams[i].length);
-
-		// Metal
-		let mX = round(fx + g_InitialMineDistance * cos(mAngle));
-		let mZ = round(fz + g_InitialMineDistance * sin(mAngle));
-		let group = new SimpleGroup(
-			[new SimpleObject(oMetalLarge, g_InitialMines, g_InitialMines, 0, 4)],
-			true, clBaseResource, mX, mZ
-		);
-		createObjectGroup(group, 0, [avoidClasses(clBaseResource, 2, clPlayer, 4), stayClasses(clLand, 2)]);
-
-		// Stone
-		let sX = round(fx + g_InitialMineDistance * cos(mAngle + PI/4));
-		let sZ = round(fz + g_InitialMineDistance * sin(mAngle + PI/4));
-		group = new SimpleGroup(
-			[new SimpleObject(oStoneLarge, g_InitialMines, g_InitialMines, 0, 4)],
-			true, clBaseResource, sX, sZ
-		);
-		createObjectGroup(group, 0, [avoidClasses(clBaseResource, 2, clPlayer, 4), stayClasses(clLand, 2)]);
-	}
-
-	log("Place initial trees and animals for team " + i);
-	for (let p = 0; p < teams[i].length; ++p)
-	{
-		let [playerAngle, fx, fz, ix, iz] = getPlayerTileCoordinates(p, i, fractionX, fractionZ);
-
-		placeDefaultChicken(fx, fz, clBaseResource, [stayClasses(clLand, 5)]);
-
-		// create initial berry bushes
-		let bbAngle = randFloat(PI, PI*1.5);
-		let bbDist = 10;
-		let bbX = round(fx + bbDist * cos(bbAngle));
-		let bbZ = round(fz + bbDist * sin(bbAngle));
-		let group = new SimpleGroup(
-			[new SimpleObject(oFruitBush, 5, 5, 0, 3)],
-			true, clBaseResource, bbX, bbZ
-		);
-		createObjectGroup(group, 0, [avoidClasses(clBaseResource, 4, clPlayer, 4), stayClasses(clLand, 5)]);
-
-		// create initial trees
-		let tries = 10;
-		let tDist = 16;
-		for (let x = 0; x < tries; ++x)
+		for (let mine of mines)
 		{
-			let tAngle = randFloat(playerAngle - TWO_PI/teams[i].length,
-			                       playerAngle + TWO_PI/teams[i].length);
-
-			let tX = round(fx + tDist * cos(tAngle));
-			let tZ = round(fz + tDist * sin(tAngle));
-
-			group = new SimpleGroup(
-				[new SimpleObject(oTree2, g_InitialTrees, g_InitialTrees, 0, 7)],
-				true, clBaseResource, tX, tZ
-			);
-			if (createObjectGroup(group, 0, [avoidClasses(clBaseResource, 4, clPlayer, 4), stayClasses(clLand, 4)]))
-				break;
+			let position = Vector2D.add(playerPosition[p], new Vector2D(g_InitialMineDistance, 0).rotate(-playerAngle[p] - mine.angle));
+			createObjectGroup(
+				new SimpleGroup([new SimpleObject(mine.template, 1, 1, 0, 4)], true, clBaseResource, position),
+				0,
+				[avoidClasses(clBaseResource, 4, clPlayer, 4), stayClasses(clLand, 5)]);
 		}
 
-		// create huntable animals
-		group = new SimpleGroup(
-			[new SimpleObject(oMainHuntableAnimal, 2 * numPlayers / numTeams, 2 * numPlayers / numTeams, 0, floor(mapSize * 0.2))],
-			true, clBaseResource, teamX, teamZ
-		);
-		createObjectGroup(group, 0, [avoidClasses(clBaseResource, 2, clHill, 1, clPlayer, 10), stayClasses(clLand, 5)]);
-		group = new SimpleGroup(
-			[new SimpleObject(oSecondaryHuntableAnimal, 4 * numPlayers / numTeams, 4 * numPlayers / numTeams, 0, floor(mapSize * 0.2))],
-			true, clBaseResource, teamX, teamZ
-		);
-		createObjectGroup(group, 0, [avoidClasses(clBaseResource, 2, clHill, 1, clPlayer, 10), stayClasses(clLand, 5)]);
-	}
-}
-
-RMS.SetProgress(40);
-
-log("Creating expansion islands...");
-var landAreas = [];
-var playerConstraint = new AvoidTileClassConstraint(clPlayer, Math.floor(scaleByMapSize(12, 16)));
-var landConstraint = new AvoidTileClassConstraint(clLand, Math.floor(scaleByMapSize(12, 16)));
-
-for (let x = 0; x < mapSize; ++x)
-	for (let z = 0; z < mapSize; ++z)
-		if (playerConstraint.allows(x, z) && landConstraint.allows(x, z))
-			landAreas.push([x, z]);
-
-log("Creating big islands...");
-let numIslands = scaleByMapSize(4, 14);
-for (let i = 0; i < numIslands; ++i)
-{
-	let landAreaLen = landAreas.length;
-	if (!landAreaLen)
-		break;
-
-	let chosenPoint = pickRandom(landAreas);
-
-	let newIsland = createAreas(
-		new ChainPlacer(Math.floor(scaleByMapSize(4, 8)), Math.floor(scaleByMapSize(8, 14)), Math.floor(scaleByMapSize(25, 60)), 0.07, chosenPoint[0], chosenPoint[1], scaleByMapSize(30, 70)),
-		[
-			new LayeredPainter([tMainTerrain, tMainTerrain], [2]),
-			new SmoothElevationPainter(ELEVATION_SET, landHeight, 6),
-			paintClass(clLand)
-		],
-		avoidClasses(clLand, 3, clPlayer, 3),
-		1, 1
-	);
-
-	if (!newIsland || !newIsland.length)
-		continue;
-
-	let n = 0;
-	for (let j = 0; j < landAreaLen; ++j)
+	// Trees
+	for (let p = 0; p < teams[i].length; ++p)
 	{
-		let x = landAreas[j][0];
-		let z = landAreas[j][1];
-
-		if (playerConstraint.allows(x, z) && landConstraint.allows(x, z))
-			landAreas[n++] = landAreas[j];
+		let tries = 10;
+		for (let x = 0; x < tries; ++x)
+		{
+			let tAngle = playerAngle[p] + randFloat(-1, 1) * 2 * Math.PI / teams[i].length;
+			let treePosition = Vector2D.add(playerPosition[p], new Vector2D(16, 0).rotate(-tAngle)).round();
+			if (createObjectGroup(
+				new SimpleGroup([new SimpleObject(oTree2, g_InitialTrees, g_InitialTrees, 0, 7)], true, clBaseResource, treePosition),
+				0,
+				[avoidClasses(clBaseResource, 4, clPlayer, 4), stayClasses(clLand, 4)]))
+				break;
+		}
 	}
-	landAreas.length = n;
-}
 
-playerConstraint = new AvoidTileClassConstraint(clPlayer, floor(scaleByMapSize(9, 12)));
-landConstraint = new AvoidTileClassConstraint(clLand, floor(scaleByMapSize(9, 12)));
+	for (let p = 0; p < teams[i].length; ++p)
+		placePlayerBaseBerries({
+			"template": oFruitBush,
+			"playerID": teams[i][p],
+			"playerPosition": playerPosition[p],
+			"BaseResourceClass": clBaseResource,
+			"baseResourceConstraint": new AndConstraint([avoidClasses(clPlayer, 4), stayClasses(clLand, 5)])
+		});
 
-log("Creating small islands...");
-numIslands = scaleByMapSize(6, 18) * scaleByMapSize(1, 3);
-for (let i = 0; i < numIslands; ++i)
-{
-	let landAreaLen = landAreas.length;
-	if (!landAreaLen)
-		break;
+	for (let p = 0; p < teams[i].length; ++p)
+		placePlayerBaseChicken({
+			"playerID": teams[i][p],
+			"playerPosition": playerPosition[p],
+			"BaseResourceClass": clBaseResource,
+			"baseResourceConstraint": new AndConstraint([avoidClasses(clPlayer, 4), stayClasses(clLand, 5)])
+		});
 
-	let chosenPoint = pickRandom(landAreas);
-	let newIsland = createAreas(
-		new ChainPlacer(Math.floor(scaleByMapSize(4, 7)), Math.floor(scaleByMapSize(7, 10)), Math.floor(scaleByMapSize(16, 40)), 0.07, chosenPoint[0], chosenPoint[1], scaleByMapSize(22, 40)),
-		[
-			new LayeredPainter([tMainTerrain, tMainTerrain], [2]),
-			new SmoothElevationPainter(ELEVATION_SET, landHeight, 6),
-			paintClass(clLand)
-		],
-		avoidClasses(clLand, 3, clPlayer, 3),
-		1,
-		1);
-
-	if (newIsland === undefined)
-		continue;
-
-	let temp = [];
-	for (let j = 0; j < landAreaLen; ++j)
+	// Huntable animals
+	for (let p = 0; p < teams[i].length; ++p)
 	{
-		let x = landAreas[j][0];
-		let z = landAreas[j][1];
+		createObjectGroup(
+			new SimpleGroup([new SimpleObject(oMainHuntableAnimal, 2 * numPlayers / numTeams, 2 * numPlayers / numTeams, 0, Math.floor(fractionToTiles(0.2)))], true, clBaseResource, teamPosition[i]),
+			0,
+			[avoidClasses(clBaseResource, 2, clPlayer, 10), stayClasses(clLand, 5)]);
 
-		if (playerConstraint.allows(x, z) && landConstraint.allows(x, z))
-			temp.push([x, z]);
+		createObjectGroup(
+			new SimpleGroup(
+				[new SimpleObject(oSecondaryHuntableAnimal, 4 * numPlayers / numTeams, 4 * numPlayers / numTeams, 0, Math.floor(fractionToTiles(0.2)))],
+				true, clBaseResource, teamPosition[i]),
+			0,
+			[avoidClasses(clBaseResource, 2, clPlayer, 10), stayClasses(clLand, 5)]);
 	}
-	landAreas = temp;
 }
 
-RMS.SetProgress(70);
+Engine.SetProgress(40);
 
-log("Smoothing heightmap...");
-for (let i = 0; i < 5; ++i)
-	globalSmoothHeightmap();
+g_Map.log("Creating big islands");
+createAreas(
+	new ChainPlacer(
+		Math.floor(scaleByMapSize(4, 8) * (isNomad() ? 2 : 1)),
+		Math.floor(scaleByMapSize(8, 16) * (isNomad() ? 2 : 1)),
+		Math.floor(scaleByMapSize(25, 60)),
+		0.07,
+		undefined,
+		scaleByMapSize(30, 70)),
+	[
+		new TerrainPainter(tMainTerrain),
+		new SmoothElevationPainter(ELEVATION_SET, heightLand, 6),
+		new TileClassPainter(clLand)
+	],
+	avoidClasses(clLand, 3, clPlayer, 3),
+	scaleByMapSize(4, 14) * (isNomad() ? 2 : 1),
+	1);
+
+g_Map.log("Creating small islands");
+createAreas(
+	new ChainPlacer(Math.floor(scaleByMapSize(4, 7)), Math.floor(scaleByMapSize(7, 10)), Math.floor(scaleByMapSize(16, 40)), 0.07, undefined, scaleByMapSize(22, 40)),
+	[
+		new LayeredPainter([tMainTerrain, tMainTerrain], [2]),
+		new SmoothElevationPainter(ELEVATION_SET, heightLand, 6),
+		new TileClassPainter(clLand)
+	],
+	avoidClasses(clLand, 3, clPlayer, 3),
+	scaleByMapSize(6, 55),
+	1);
+
+Engine.SetProgress(70);
+
+g_Map.log("Smoothing heightmap");
+createArea(
+	new MapBoundsPlacer(),
+	new SmoothingPainter(1, 0.8, 5));
 
 // repaint clLand to compensate for smoothing
 unPaintTileClassBasedOnHeight(-10, 10, 3, clLand);
 paintTileClassBasedOnHeight(0, 5, 3, clLand);
 
-RMS.SetProgress(85);
+Engine.SetProgress(85);
 
 createBumps(avoidClasses(clPlayer, 20));
 
 createMines(
-[
-	[new SimpleObject(oMetalLarge, 1, 1, 3, (numPlayers * 2) + 1)]
-],
-[avoidClasses(clForest, 1, clPlayer, 40, clRock, 20, clHill, 5), stayClasses(clLand, 4)],
-clMetal
-);
+	[
+		[new SimpleObject(oMetalLarge, 1, 1, 0, 4)]
+	],
+	[avoidClasses(clForest, 1, clPlayer, 40, clRock, 20), stayClasses(clLand, 4)],
+	clMetal);
 
 createMines(
-[
-	[new SimpleObject(oStoneLarge, 1, 1, 3, (numPlayers * 2) + 1)], [new SimpleObject(oStoneSmall, 2, 2, 2, (numPlayers * 2) + 1)]
-],
-[avoidClasses(clForest, 1, clPlayer, 40, clMetal, 20, clHill, 5), stayClasses(clLand, 4)],
-clRock
-);
+	[
+		[new SimpleObject(oStoneSmall, 0, 2, 0, 4, 0, 2 * Math.PI, 1), new SimpleObject(oStoneLarge, 1, 1, 0, 4, 0, 2 * Math.PI, 4)]
+	],
+	[avoidClasses(clForest, 1, clPlayer, 40, clMetal, 20), stayClasses(clLand, 4)],
+	clRock);
 
 var [forestTrees, stragglerTrees] = getTreeCounts(...rBiomeTreeCount(1));
 createForests(
  [tMainTerrain, tForestFloor1, tForestFloor2, pForest1, pForest2],
- [avoidClasses(clPlayer, 10, clForest, 20, clHill, 10, clBaseResource, 5, clRock, 6, clMetal, 6), stayClasses(clLand, 3)],
+ [avoidClasses(clPlayer, 10, clForest, 20, clBaseResource, 5, clRock, 6, clMetal, 6), stayClasses(clLand, 3)],
  clForest,
  forestTrees);
 
-log("Creating hills...");
+g_Map.log("Creating hills");
 createAreas(
 	new ChainPlacer(1, Math.floor(scaleByMapSize(4, 6)), Math.floor(scaleByMapSize(16, 40)), 0.5),
 	[
 		new LayeredPainter([tCliff, tHill], [2]),
-		new SmoothElevationPainter(ELEVATION_SET, 18, 2),
-		paintClass(clHill)
+		new SmoothElevationPainter(ELEVATION_SET, heightHill, 2),
+		new TileClassPainter(clHill)
 	],
 	[avoidClasses(clBaseResource, 20, clHill, 15, clRock, 6, clMetal, 6), stayClasses(clLand, 0)],
 	scaleByMapSize(4, 13)
 );
 
-for (let i = 0; i < 3; ++i)
-	globalSmoothHeightmap();
+g_Map.log("Smoothing heightmap");
+createArea(
+	new MapBoundsPlacer(),
+	new SmoothingPainter(1, 0.8, 3));
 
 createStragglerTrees(
 	[oTree1, oTree2, oTree4, oTree3],
@@ -384,9 +279,9 @@ createFood(
 	[avoidClasses(clForest, 0, clPlayer, 15, clHill, 1, clFood, 4, clRock, 6, clMetal, 6), stayClasses(clLand, 2)],
 	clFood);
 
-if (currentBiome() == "desert")
+if (currentBiome() == "generic/desert")
 {
-	log("Creating obelisks");
+	g_Map.log("Creating obelisks");
 	let group = new SimpleGroup(
 		[new SimpleObject(oObelisk, 1, 1, 0, 1)],
 		true
@@ -398,19 +293,19 @@ if (currentBiome() == "desert")
 	);
 }
 
-log("Creating dirt patches...");
-let numb = currentBiome() == "savanna" ? 3 : 1;
+g_Map.log("Creating dirt patches");
+let numb = currentBiome() == "generic/savanna" ? 3 : 1;
 for (let size of [scaleByMapSize(3, 6), scaleByMapSize(5, 10), scaleByMapSize(8, 21)])
 	createAreas(
 		new ChainPlacer(1, Math.floor(scaleByMapSize(3, 5)), size, 0.5),
 		[
 			new LayeredPainter([[tMainTerrain, tTier1Terrain], [tTier1Terrain, tTier2Terrain], [tTier2Terrain, tTier3Terrain]], [1, 1]),
-			paintClass(clDirt)
+			new TileClassPainter(clDirt)
 		],
 		[avoidClasses(clForest, 0, clHill, 0, clDirt, 5, clPlayer, 0), stayClasses(clLand, 4)],
 		numb*scaleByMapSize(15, 45));
 
-log("Creating grass patches...");
+g_Map.log("Creating grass patches");
 for (let size of [scaleByMapSize(2, 4), scaleByMapSize(3, 7), scaleByMapSize(5, 15)])
 	createAreas(
 		new ChainPlacer(1, Math.floor(scaleByMapSize(3, 5)), size, 0.5),
@@ -418,7 +313,7 @@ for (let size of [scaleByMapSize(2, 4), scaleByMapSize(3, 7), scaleByMapSize(5, 
 		[avoidClasses(clForest, 0, clHill, 0, clDirt, 5, clPlayer, 0), stayClasses(clLand, 4)],
 		numb * scaleByMapSize(15, 45));
 
-log("Creating small decorative rocks...");
+g_Map.log("Creating small decorative rocks");
 let group = new SimpleGroup(
 	[new SimpleObject(aRockMedium, 1, 3, 0, 1)],
 	true
@@ -429,7 +324,7 @@ createObjectGroupsDeprecated(
 	scaleByMapSize(16, 262), 50
 );
 
-log("Creating large decorative rocks...");
+g_Map.log("Creating large decorative rocks");
 group = new SimpleGroup(
 	[new SimpleObject(aRockLarge, 1, 2, 0, 1), new SimpleObject(aRockMedium, 1, 3, 0, 2)],
 	true
@@ -440,7 +335,7 @@ createObjectGroupsDeprecated(
 	scaleByMapSize(8, 131), 50
 );
 
-log("Creating fish...");
+g_Map.log("Creating fish");
 group = new SimpleGroup(
 	[new SimpleObject(oFish, 2, 3, 0, 2)],
 	true, clFood
@@ -450,7 +345,7 @@ createObjectGroupsDeprecated(group, 0,
 	25 * numPlayers, 60
 );
 
-log("Creating Whales...");
+g_Map.log("Creating Whales");
 group = new SimpleGroup(
 	[new SimpleObject(oWhale, 1, 1, 0, 3)],
 	true, clFood
@@ -460,7 +355,7 @@ createObjectGroupsDeprecated(group, 0,
 	scaleByMapSize(5, 20), 100
 );
 
-log("Creating shipwrecks...");
+g_Map.log("Creating shipwrecks");
 group = new SimpleGroup(
 	[new SimpleObject(oShipwreck, 1, 1, 0, 1)],
 	true, clFood
@@ -470,7 +365,7 @@ createObjectGroupsDeprecated(group, 0,
 	scaleByMapSize(12, 16), 100
 );
 
-log("Creating shipwreck debris...");
+g_Map.log("Creating shipwreck debris");
 group = new SimpleGroup(
 	[new SimpleObject(oShipDebris, 1, 1, 0, 1)],
 	true, clFood
@@ -480,21 +375,21 @@ createObjectGroupsDeprecated(group, 0,
 	scaleByMapSize(10, 20), 100
 );
 
-log("Creating small grass tufts...");
-let planetm = currentBiome() == "tropic" ? 8 : 1;
+g_Map.log("Creating small grass tufts");
+let planetm = currentBiome() == "generic/tropic" ? 8 : 1;
 group = new SimpleGroup(
-	[new SimpleObject(aGrassShort, 1, 2, 0, 1, -PI / 8, PI / 8)]
+	[new SimpleObject(aGrassShort, 1, 2, 0, 1, -Math.PI / 8, Math.PI / 8)]
 );
 createObjectGroupsDeprecated(group, 0,
 	[avoidClasses(clHill, 2, clPlayer, 2, clDirt, 0), stayClasses(clLand, 3)],
 	planetm * scaleByMapSize(13, 200)
 );
 
-RMS.SetProgress(95);
+Engine.SetProgress(95);
 
-log("Creating large grass tufts...");
+g_Map.log("Creating large grass tufts");
 group = new SimpleGroup(
-	[new SimpleObject(aGrass, 2, 4, 0, 1.8, -PI / 8, PI / 8), new SimpleObject(aGrassShort, 3, 6, 1.2,2.5, -PI / 8, PI / 8)]
+	[new SimpleObject(aGrass, 2, 4, 0, 1.8, -Math.PI / 8, Math.PI / 8), new SimpleObject(aGrassShort, 3, 6, 1.2,2.5, -Math.PI / 8, Math.PI / 8)]
 );
 createObjectGroupsDeprecated(group, 0,
 	[avoidClasses(clHill, 2, clPlayer, 2, clDirt, 1, clForest, 0), stayClasses(clLand, 5)],
@@ -502,13 +397,15 @@ createObjectGroupsDeprecated(group, 0,
 );
 
 paintTerrainBasedOnHeight(1, 2, 0, tShore);
-paintTerrainBasedOnHeight(getMapBaseHeight(), 1, 3, tWater);
+paintTerrainBasedOnHeight(heightSeaGround, 1, 3, tWater);
+
+placePlayersNomad(clPlayer, [stayClasses(clLand, 4), avoidClasses(clHill, 2, clForest, 1, clMetal, 4, clRock, 4, clFood, 2)]);
 
 setSkySet(pickRandom(["cloudless", "cumulus", "overcast"]));
-setSunRotation(randFloat(0, TWO_PI));
-setSunElevation(randFloat(PI/5, PI/3));
+setSunRotation(randomAngle());
+setSunElevation(randFloat(1/5, 1/3) * Math.PI);
 setWaterWaviness(2);
 
-RMS.SetProgress(100);
+Engine.SetProgress(100);
 
-ExportMap();
+g_Map.ExportMap();

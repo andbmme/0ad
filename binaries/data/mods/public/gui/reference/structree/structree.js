@@ -15,9 +15,6 @@ var g_TrainList = {};
  */
 function init(data = {})
 {
-	if (data.callback)
-		g_CallbackSet = true;
-
 	let civList = Object.keys(g_CivData).map(civ => ({
 		"name": g_CivData[civ].Name,
 		"code": civ,
@@ -40,6 +37,19 @@ function init(data = {})
 	civSelection.list = civList.map(c => c.name);
 	civSelection.list_data = civList.map(c => c.code);
 	civSelection.selected = data.civ ? civSelection.list_data.indexOf(data.civ) : 0;
+
+	Engine.GetGUIObjectByName("civinfo").tooltip = colorizeHotkey(translate("%(hotkey)s: Switch to Civilization Overview."), "civinfo");
+	Engine.GetGUIObjectByName("close").tooltip = colorizeHotkey(translate("%(hotkey)s: Close Structure Tree."), "cancel");
+}
+
+function switchToCivInfoPage()
+{
+	Engine.PopGuiPage({ "civ": g_SelectedCiv, "nextPage": "page_civinfo.xml" });
+}
+
+function closePage()
+{
+	Engine.PopGuiPage({ "civ": g_SelectedCiv, "page": "page_structree.xml" });
 }
 
 /**
@@ -66,11 +76,11 @@ function selectCiv(civCode)
 
 	for (let u of templateLists.units.keys())
 		if (!g_ParsedData.units[u])
-			g_ParsedData.units[u] = loadUnit(u);
+			g_ParsedData.units[u] = loadEntityTemplate(u);
 
 	for (let s of templateLists.structures.keys())
 		if (!g_ParsedData.structures[s])
-			g_ParsedData.structures[s] = loadStructure(s);
+			g_ParsedData.structures[s] = loadEntityTemplate(s);
 
 	// Load technologies
 	g_ParsedData.techs[civCode] = {};
@@ -81,7 +91,7 @@ function selectCiv(civCode)
 			g_ParsedData.techs[civCode][techcode] = loadTechnology(techcode);
 
 	// Establish phase order
-	g_ParsedData.phaseList = unravelPhases(g_ParsedData.techs[civCode]);
+	g_ParsedData.phaseList = UnravelPhases(g_ParsedData.phases);
 
 	// Load any required generic phases that aren't already loaded
 	for (let phasecode of g_ParsedData.phaseList)
@@ -95,14 +105,14 @@ function selectCiv(civCode)
 		structInfo.phase = getPhaseOfTemplate(structInfo);
 		let structPhaseIdx = g_ParsedData.phaseList.indexOf(structInfo.phase);
 
-		// If this building is shared with another civ,
-		// it may have already gone through the grouping process already
-		if (!Array.isArray(structInfo.production.technology))
+		// If this structure is shared with another civ,
+		// it may have already gone through the grouping process already.
+		if (!Array.isArray(structInfo.production.techs))
 			continue;
 
 		// Sort techs by phase
 		let newProdTech = {};
-		for (let prod of structInfo.production.technology)
+		for (let prod of structInfo.production.techs)
 		{
 			let phase = getPhaseOfTechnology(prod);
 			if (phase === false)
@@ -135,7 +145,7 @@ function selectCiv(civCode)
 		}
 
 		g_ParsedData.structures[structCode].production = {
-			"technology": newProdTech,
+			"techs": newProdTech,
 			"units": newProdUnits
 		};
 
@@ -170,7 +180,7 @@ function selectCiv(civCode)
 	for (let unitCode of templateLists.units.keys())
 	{
 		let unitTemplate = g_ParsedData.units[unitCode];
-		if ((!unitTemplate.production || !Object.keys(unitTemplate.production).length) && !unitTemplate.upgrades)
+		if (!unitTemplate.production.units.length && !unitTemplate.production.techs.length && !unitTemplate.upgrades)
 			continue;
 
 		trainerList.push(unitCode);

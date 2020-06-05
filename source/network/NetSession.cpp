@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -23,6 +23,7 @@
 #include "NetStats.h"
 #include "lib/external_libraries/enet.h"
 #include "ps/CLogger.h"
+#include "ps/ConfigDB.h"
 #include "ps/Profile.h"
 #include "scriptinterface/ScriptInterface.h"
 
@@ -32,8 +33,27 @@ const u32 MAXIMUM_HOST_TIMEOUT = std::numeric_limits<u32>::max();
 
 static const int CHANNEL_COUNT = 1;
 
+// Only disable long timeouts after a packet from the remote enet peer has been processed.
+// Otherwise a long timeout can still be in progress when disabling it here.
+void SetEnetLongTimeout(ENetPeer* peer, bool isLocalClient, bool enabled)
+{
+#if (ENET_VERSION >= ENET_VERSION_CREATE(1, 3, 4))
+	if (!peer || isLocalClient)
+		return;
+
+	if (enabled)
+	{
+		u32 timeout;
+		CFG_GET_VAL("network.gamestarttimeout", timeout);
+		enet_peer_timeout(peer, 0, timeout, timeout);
+	}
+	else
+		enet_peer_timeout(peer, 0, 0, 0);
+#endif
+}
+
 CNetClientSession::CNetClientSession(CNetClient& client) :
-	m_Client(client), m_FileTransferer(this), m_Host(NULL), m_Server(NULL), m_Stats(NULL)
+	m_Client(client), m_FileTransferer(this), m_Host(nullptr), m_Server(nullptr), m_Stats(nullptr), m_IsLocalClient(false)
 {
 }
 
@@ -80,6 +100,7 @@ bool CNetClientSession::Connect(const CStr& server, const u16 port, const bool i
 
 	m_Host = host;
 	m_Server = peer;
+	m_IsLocalClient = isLocalClient;
 
 	// Prevent the local client of the host from timing out too quickly.
 #if (ENET_VERSION >= ENET_VERSION_CREATE(1, 3, 4))
@@ -94,12 +115,15 @@ bool CNetClientSession::Connect(const CStr& server, const u16 port, const bool i
 	return true;
 }
 
-void CNetClientSession::Disconnect(u32 reason)
+void CNetClientSession::Disconnect(NetDisconnectReason reason)
 {
+	if (reason == NDR_UNKNOWN)
+		LOGWARNING("Disconnecting from the server without communicating the disconnect reason!");
+
 	ENSURE(m_Host && m_Server);
 
 	// TODO: ought to do reliable async disconnects, probably
-	enet_peer_disconnect_now(m_Server, reason);
+	enet_peer_disconnect_now(m_Server, static_cast<enet_uint32>(reason));
 	enet_host_destroy(m_Host);
 
 	m_Host = NULL;
@@ -200,10 +224,13 @@ u32 CNetClientSession::GetMeanRTT() const
 	return m_Server->roundTripTime;
 }
 
-
+void CNetClientSession::SetLongTimeout(bool enabled)
+{
+	SetEnetLongTimeout(m_Server, m_IsLocalClient, enabled);
+}
 
 CNetServerSession::CNetServerSession(CNetServerWorker& server, ENetPeer* peer) :
-	m_Server(server), m_FileTransferer(this), m_Peer(peer)
+	m_Server(server), m_FileTransferer(this), m_Peer(peer), m_IsLocalClient(false), m_HostID(0), m_GUID(), m_UserName()
 {
 }
 
@@ -228,16 +255,22 @@ u32 CNetServerSession::GetMeanRTT() const
 	return m_Peer->roundTripTime;
 }
 
-void CNetServerSession::Disconnect(u32 reason)
+void CNetServerSession::Disconnect(NetDisconnectReason reason)
 {
+	if (reason == NDR_UNKNOWN)
+		LOGWARNING("Disconnecting client without communicating the disconnect reason!");
+
 	Update((uint)NMT_CONNECTION_LOST, NULL);
 
-	enet_peer_disconnect(m_Peer, reason);
+	enet_peer_disconnect(m_Peer, static_cast<enet_uint32>(reason));
 }
 
-void CNetServerSession::DisconnectNow(u32 reason)
+void CNetServerSession::DisconnectNow(NetDisconnectReason reason)
 {
-	enet_peer_disconnect_now(m_Peer, reason);
+	if (reason == NDR_UNKNOWN)
+		LOGWARNING("Disconnecting client without communicating the disconnect reason!");
+
+	enet_peer_disconnect_now(m_Peer, static_cast<enet_uint32>(reason));
 }
 
 bool CNetServerSession::SendMessage(const CNetMessage* message)
@@ -261,4 +294,9 @@ void CNetServerSession::SetLocalClient(bool isLocalClient)
 #if (ENET_VERSION >= ENET_VERSION_CREATE(1, 3, 4))
 	enet_peer_timeout(m_Peer, 0, MAXIMUM_HOST_TIMEOUT, MAXIMUM_HOST_TIMEOUT);
 #endif
+}
+
+void CNetServerSession::SetLongTimeout(bool enabled)
+{
+	SetEnetLongTimeout(m_Peer, m_IsLocalClient, enabled);
 }

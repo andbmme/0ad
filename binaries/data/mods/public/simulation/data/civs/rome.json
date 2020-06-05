@@ -7,7 +7,8 @@
 	"Music":[
 			{"File":"Juno_Protect_You.ogg", "Type":"peace"},
 			{"File":"Mediterranean_Waves.ogg", "Type":"peace"},
-			{"File":"Elysian_Fields.ogg", "Type":"peace"}
+			{"File":"Elysian_Fields.ogg", "Type":"peace"},
+			{"File":"The_Governor.ogg", "Type":"peace"}
 		],
 	"Factions":
 	[
@@ -66,7 +67,7 @@
 		{
 			"Name": "Conscription",
 			"History": "Many Roman soldiers were conscripted into service. While volunteers were preferred, the Roman state did maintain an annual military draft. During an emergency the draft and the terms of service were enlarged. The importance of military service in Republican Rome was so great it was a prerequisite for a political career. Members of the Senate were called Conscript Fathers because of this, reflected in how the ordo equester was said to have been \"conscripted\" into the Senate.",
-			"Description": "-20% training time for allied infantry."
+			"Description": "Allied Citizen Infantry −10% training time."
 		}
 	],
 	"Structures":
@@ -89,6 +90,11 @@
 			"Phase": "",
 			"Special": "Can be built in neutral and enemy territory to strangle enemy towns."
 		}
+	],
+	"WallSets":
+	[
+		"structures/rome_wallset_stone",
+		"structures/rome_wallset_siege"
 	],
 	"StartEntities":
 	[
@@ -120,10 +126,11 @@
 		"special/formations/column_open",
 		"special/formations/line_open",
 		"special/formations/flank",
+		"special/formations/battle_line",
 		"special/formations/skirmish",
 		"special/formations/wedge",
-		"special/formations/battle_line",
-		"special/formations/testudo"
+		"special/formations/testudo",
+		"special/formations/anti_cavalry"
 	],
 	"AINames":
 	[

@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit_champion_infantry_swordsman">
   <Identity>
-    <Civ>gaia</Civ>
+    <VisibleClasses datatype="tokens">Mercenary</VisibleClasses>
     <GenericName>Samnite Swordsman</GenericName>
     <SpecificName>Samnite Swordsman</SpecificName>
-    <VisibleClasses datatype="tokens">Mercenary</VisibleClasses>
     <Icon>units/samnite_swordsman.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/carthaginians/samnite_swordsman.xml</Actor>
+    <Actor>units/carthaginians/infantry_swordsman_b.xml</Actor>
   </VisualActor>
 </Entity>

@@ -3,17 +3,17 @@
   <Builder>
     <Entities datatype="tokens">
       structures/spart_syssiton
-      structures/spart_theatron
+      structures/spart_theater
       structures/spart_royal_stoa
       -structures/{civ}_wallset_stone
     </Entities>
   </Builder>
   <Cost>
     <Resources>
-      <food op="add">-10.0</food>
-      <metal op="add">+20.0</metal>
+      <food op="add">-10</food>
+      <metal op="add">20</metal>
     </Resources>
-    <BuildTime op="add">+5</BuildTime>
+    <BuildTime op="add">5</BuildTime>
   </Cost>
   <Identity>
     <Civ>spart</Civ>
@@ -24,12 +24,8 @@
     <Icon>units/spart_champion_infantry_sword.png</Icon>
     <RequiredTechnology>phase_town</RequiredTechnology>
   </Identity>
-  <Loot>
-    <food op="mul">2.0</food>
-    <metal op="mul">2.0</metal>
-  </Loot>
   <Promotion disable=""/>
   <VisualActor>
-    <Actor>units/spartans/champion_infantry_sword.xml</Actor>
+    <Actor>units/spartans/infantry_swordsman_c.xml</Actor>
   </VisualActor>
 </Entity>

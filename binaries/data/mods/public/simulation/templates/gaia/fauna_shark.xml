@@ -9,9 +9,8 @@
     <Unhealable>true</Unhealable>
   </Health>
   <Identity>
-    <Civ>gaia</Civ>
-    <SpecificName>Great White</SpecificName>
-    <GenericName>Shark</GenericName>
+    <GenericName>Great White Shark</GenericName>
+    <SpecificName>Carcharodon carcharias</SpecificName>
     <Classes datatype="tokens">SeaCreature</Classes>
     <Icon>gaia/fauna_fish.png</Icon>
   </Identity>
@@ -22,6 +21,7 @@
   </Obstruction>
   <Position>
     <Altitude>-1</Altitude>
+    <Anchor>upright</Anchor>
     <Floating>true</Floating>
     <FloatDepth>0.0</FloatDepth>
     <TurnRate>5.0</TurnRate>
@@ -29,8 +29,8 @@
   <Selectable>
     <Overlay>
       <Texture>
-        <MainTexture>circle/256x256.png</MainTexture>
-        <MainTextureMask>circle/256x256_mask.png</MainTextureMask>
+        <MainTexture>128x256/ellipse.png</MainTexture>
+        <MainTextureMask>128x256/ellipse_mask.png</MainTextureMask>
       </Texture>
     </Overlay>
   </Selectable>
@@ -46,9 +46,6 @@
   <UnitMotion>
     <PassabilityClass>ship-small</PassabilityClass>
     <WalkSpeed op="mul">0.6</WalkSpeed>
-    <Run>
-      <Speed op="mul">0.6</Speed>
-    </Run>
   </UnitMotion>
   <Visibility>
     <RetainInFog>false</RetainInFog>

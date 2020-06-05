@@ -1,4 +1,4 @@
-/* Copyright (C) 2015 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -19,15 +19,15 @@
 
 #include "MaterialManager.h"
 
+#include "graphics/PreprocessorWrapper.h"
 #include "lib/ogl.h"
 #include "maths/MathUtil.h"
 #include "maths/Vector4D.h"
 #include "ps/CLogger.h"
 #include "ps/ConfigDB.h"
 #include "ps/Filesystem.h"
-#include "ps/PreprocessorWrapper.h"
 #include "ps/XML/Xeromyces.h"
-#include "renderer/Renderer.h"
+#include "renderer/RenderingOptions.h"
 
 #include <sstream>
 
@@ -35,7 +35,7 @@ CMaterialManager::CMaterialManager()
 {
 	qualityLevel = 5.0;
 	CFG_GET_VAL("materialmgr.quality", qualityLevel);
-	qualityLevel = clamp(qualityLevel, 0.0f, 10.0f);
+	qualityLevel = Clamp(qualityLevel, 0.0f, 10.0f);
 
 	if (VfsDirectoryExists(L"art/materials/") && !CXeromyces::AddValidator(g_VFS, "material", "art/materials/material.rng"))
 		LOGERROR("CMaterialManager: failed to load grammar file 'art/materials/material.rng'");
@@ -78,16 +78,12 @@ CMaterial CMaterialManager::LoadMaterial(const VfsPath& pathname)
 	#undef AT
 	#undef EL
 
+	CPreprocessorWrapper preprocessor;
+	preprocessor.AddDefine("CFG_FORCE_ALPHATEST", g_RenderingOptions.GetForceAlphaTest() ? "1" : "0");
 	CMaterial material;
+	material.AddStaticUniform("qualityLevel", CVector4D(qualityLevel, 0, 0, 0));
 
 	XMBElement root = xeroFile.GetRoot();
-
-	CPreprocessorWrapper preprocessor;
-	preprocessor.AddDefine("CFG_FORCE_ALPHATEST", g_Renderer.m_Options.m_ForceAlphaTest ? "1" : "0");
-
-	CVector4D vec(qualityLevel,0,0,0);
-	material.AddStaticUniform("qualityLevel", vec);
-
 	XERO_ITER_EL(root, node)
 	{
 		int token = node.GetNodeName();

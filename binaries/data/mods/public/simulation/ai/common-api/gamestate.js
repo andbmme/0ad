@@ -9,68 +9,58 @@ m.GameState = function() {
 	this.ai = null; // must be updated by the AIs.
 };
 
-m.GameState.prototype.init = function(SharedScript, state, player) {
+m.GameState.prototype.init = function(SharedScript, state, player)
+{
 	this.sharedScript = SharedScript;
 	this.EntCollecNames = SharedScript._entityCollectionsName;
 	this.timeElapsed = SharedScript.timeElapsed;
 	this.circularMap = SharedScript.circularMap;
 	this.templates = SharedScript._templates;
-	this.techTemplates = SharedScript._techTemplates;
 	this.entities = SharedScript.entities;
 	this.player = player;
 	this.playerData = SharedScript.playersData[this.player];
-	this.gameType = SharedScript.gameType;
+	this.victoryConditions = SharedScript.victoryConditions;
 	this.alliedVictory = SharedScript.alliedVictory;
 	this.ceasefireActive = SharedScript.ceasefireActive;
 	this.ceasefireTimeRemaining = SharedScript.ceasefireTimeRemaining;
 
 	// get the list of possible phases for this civ:
-	// we assume all of them are researchable from the civil centre
-	this.phases = [{ name: "phase_village" }, { name: "phase_town" }, { name: "phase_city" }];
+	// we assume all of them are researchable from the civil center
+	this.phases = [];
 	let cctemplate = this.getTemplate(this.applyCiv("structures/{civ}_civil_centre"));
 	if (!cctemplate)
 		return;
 	let civ = this.getPlayerCiv();
-	let techs = cctemplate.researchableTechs(civ);
-	for (let phase of this.phases)
+	let techs = cctemplate.researchableTechs(this, civ);
+
+	let phaseData = {};
+	let phaseMap = {};
+	for (let techName of techs)
 	{
-		phase.requirements = [];
-		let k = techs.indexOf(phase.name);
-		if (k !== -1)
-		{
-			let reqs = DeriveTechnologyRequirements(this.getTemplate(techs[k])._template, civ);
-			if (reqs)
-			{
-				phase.requirements = reqs;
-				continue;
-			}
-		}
-		for (let tech of techs)
-		{
-			let template = this.getTemplate(tech)._template;
-			if (template.replaces && template.replaces.indexOf(phase.name) != -1)
-			{
-				let reqs = DeriveTechnologyRequirements(template, civ);
-				if (reqs)
-				{
-					phase.name = tech;
-					phase.requirements = reqs;
-					break;
-				}
-			}
-		}
-	}
-	// Then check if this mod has an additionnal phase
-	for (let tech of techs)
-	{
-		let template = this.getTemplate(tech)._template;
-		if (!template.supersedes || template.supersedes != this.phases[2].name)
+		if (!techName.startsWith("phase"))
 			continue;
-		let reqs = DeriveTechnologyRequirements(template, civ);
-		if (reqs)
-			this.phases.push({ "name": tech, "requirements": reqs });
-		break;
+		let techData = this.getTemplate(techName);
+
+		if (techData._definesPair)
+		{
+			// Randomly pick a non-disabled choice from the phase-pair.
+			techName = pickRandom([techData._template.top, techData._template.bottom].filter(tech => !this.playerData.disabledTechnologies[tech])) || techData._template.top;
+
+			let supersedes = techData._template.supersedes;
+			techData = clone(this.getTemplate(techName));
+			if (supersedes)
+				techData._template.supersedes = supersedes;
+		}
+
+		phaseData[techName] = GetTechnologyBasicDataHelper(techData._template, civ);
+		if (phaseData[techName].replaces)
+			phaseMap[phaseData[techName].replaces[0]] = techName;
 	}
+
+	this.phases = UnravelPhases(phaseData).map(phaseName => ({
+		"name": phaseMap[phaseName] || phaseName,
+		"requirements": phaseMap[phaseName] ? phaseData[phaseMap[phaseName]].reqs : []
+	}));
 };
 
 m.GameState.prototype.update = function(SharedScript)
@@ -133,9 +123,9 @@ m.GameState.prototype.getBarterPrices = function()
 	return this.playerData.barterPrices;
 };
 
-m.GameState.prototype.getGameType = function()
+m.GameState.prototype.getVictoryConditions = function()
 {
-	return this.gameType;
+	return this.victoryConditions;
 };
 
 m.GameState.prototype.getAlliedVictory = function()
@@ -150,8 +140,8 @@ m.GameState.prototype.isCeasefireActive = function()
 
 m.GameState.prototype.getTemplate = function(type)
 {
-	if (this.techTemplates[type] !== undefined)
-		return new m.Technology(this.techTemplates, type);
+	if (TechnologyTemplates.Has(type))
+		return new m.Technology(type);
 
 	if (this.templates[type] === undefined)
 		this.sharedScript.GetTemplate(type);
@@ -219,14 +209,14 @@ m.GameState.prototype.getPhaseEntityRequirements = function(i)
 
 m.GameState.prototype.isResearched = function(template)
 {
-	return this.playerData.researchedTechs[template] !== undefined;
+	return this.playerData.researchedTechs.has(template);
 };
 
 /** true if started or queued */
 m.GameState.prototype.isResearching = function(template)
 {
-	return this.playerData.researchStarted[template] !== undefined ||
-	       this.playerData.researchQueued[template] !== undefined;
+	return this.playerData.researchStarted.has(template) ||
+	       this.playerData.researchQueued.has(template);
 };
 
 /** this is an "in-absolute" check that doesn't check if we have a building to research from. */
@@ -240,9 +230,9 @@ m.GameState.prototype.canResearch = function(techTemplateName, noRequirementChec
 		return false;
 
 	// researching or already researched: NOO.
-	if (this.playerData.researchQueued[techTemplateName] ||
-	    this.playerData.researchStarted[techTemplateName] ||
-	    this.playerData.researchedTechs[techTemplateName])
+	if (this.playerData.researchQueued.has(techTemplateName) ||
+	    this.playerData.researchStarted.has(techTemplateName) ||
+	    this.playerData.researchedTechs.has(techTemplateName))
 		return false;
 
 	if (noRequirementCheck)
@@ -252,9 +242,9 @@ m.GameState.prototype.canResearch = function(techTemplateName, noRequirementChec
 	if (template.pair())
 	{
 		let other = template.pairedWith();
-		if (this.playerData.researchQueued[other] ||
-		    this.playerData.researchStarted[other] ||
-		    this.playerData.researchedTechs[other])
+		if (this.playerData.researchQueued.has(other) ||
+		    this.playerData.researchStarted.has(other) ||
+		    this.playerData.researchedTechs.has(other))
 			return false;
 	}
 
@@ -296,7 +286,7 @@ m.GameState.prototype.checkTechRequirements = function(reqs)
 			switch (type)
 			{
 			case "techs":
-				return req[type].every(tech => !!this.playerData.researchedTechs[tech]);
+				return req[type].every(tech => this.playerData.researchedTechs.has(tech));
 
 			case "entities":
 				return req[type].every(doesEntitySpecPass, this);
@@ -386,6 +376,17 @@ m.GameState.prototype.isPlayerMutualAlly = function(id)
 m.GameState.prototype.isPlayerEnemy = function(id)
 {
 	return this.playerData.isEnemy[id];
+};
+
+/** Return the number of players currently enemies, not including gaia */
+m.GameState.prototype.getNumPlayerEnemies = function()
+{
+	let num = 0;
+	for (let i = 1; i < this.playerData.isEnemy.length; ++i)
+		if (this.playerData.isEnemy[i] &&
+		    this.sharedScript.playersData[i].state != "defeated")
+			++num;
+	return num;
 };
 
 m.GameState.prototype.getEnemies = function()
@@ -508,9 +509,12 @@ m.GameState.prototype.getExclusiveAllyEntities = function()
 	return this.entities.filter(m.Filters.byOwners(this.getExclusiveAllies()));
 };
 
-m.GameState.prototype.getAllyStructures = function()
+m.GameState.prototype.getAllyStructures = function(allyID)
 {
-	return this.updatingCollection("diplo-ally-structures", m.Filters.byOwners(this.getAllies()), this.getStructures());
+	if (allyID == undefined)
+		return this.updatingCollection("diplo-ally-structures", m.Filters.byOwners(this.getAllies()), this.getStructures());
+
+	return this.updatingGlobalCollection("player-" + allyID + "-structures", m.Filters.byOwner(allyID), this.getStructures());
 };
 
 m.GameState.prototype.getNeutralStructures = function()
@@ -542,8 +546,8 @@ m.GameState.prototype.getEnemyUnits = function(enemyID)
 /** if maintain is true, this will be stored. Otherwise it's one-shot. */
 m.GameState.prototype.getOwnEntitiesByMetadata = function(key, value, maintain)
 {
-	if (maintain === true)
-		return this.updatingCollection(key + "-" + value, m.Filters.byMetadata(this.player, key, value),this.getOwnEntities());
+	if (maintain)
+		return this.updatingCollection(key + "-" + value, m.Filters.byMetadata(this.player, key, value), this.getOwnEntities());
 	return this.getOwnEntities().filter(m.Filters.byMetadata(this.player, key, value));
 };
 
@@ -555,7 +559,7 @@ m.GameState.prototype.getOwnEntitiesByRole = function(role, maintain)
 m.GameState.prototype.getOwnEntitiesByType = function(type, maintain)
 {
 	let filter = m.Filters.byType(type);
-	if (maintain === true)
+	if (maintain)
 		return this.updatingCollection("type-" + type, filter, this.getOwnEntities());
 	return this.getOwnEntities().filter(filter);
 };
@@ -583,7 +587,7 @@ m.GameState.prototype.getOwnTrainingFacilities = function()
 
 m.GameState.prototype.getOwnResearchFacilities = function()
 {
-	return this.updatingGlobalCollection("player-" + this.player + "-research-facilities", m.Filters.byResearchAvailable(this.playerData.civ), this.getOwnEntities());
+	return this.updatingGlobalCollection("player-" + this.player + "-research-facilities", m.Filters.byResearchAvailable(this, this.playerData.civ), this.getOwnEntities());
 };
 
 
@@ -623,7 +627,7 @@ m.GameState.prototype.countFoundationsByType = function(type, maintain)
 {
 	let foundationType = "foundation|" + type;
 
-	if (maintain === true)
+	if (maintain)
 		return this.updatingCollection("foundation-type-" + type, m.Filters.byType(foundationType), this.getOwnFoundations()).length;
 
 	let count = 0;
@@ -729,7 +733,7 @@ m.GameState.prototype.findTrainableUnits = function(classes, anticlasses)
 		if (category && limits[category] && current[category] >= limits[category])
 			continue;
 
-		ret.push( [trainable, template] );
+		ret.push([trainable, template]);
 	}
 	return ret;
 };
@@ -745,7 +749,7 @@ m.GameState.prototype.findAvailableTech = function()
 	let civ = this.playerData.civ;
 	for (let ent of this.getOwnEntities().values())
 	{
-		let searchable = ent.researchableTechs(civ);
+		let searchable = ent.researchableTechs(this, civ);
 		if (!searchable)
 			continue;
 		for (let tech of searchable)
@@ -761,15 +765,15 @@ m.GameState.prototype.findAvailableTech = function()
 		{
 			let techs = template.getPairedTechs();
 			if (this.canResearch(techs[0]._templateName))
-				ret.push([techs[0]._templateName, techs[0]] );
+				ret.push([techs[0]._templateName, techs[0]]);
 			if (this.canResearch(techs[1]._templateName))
-				ret.push([techs[1]._templateName, techs[1]] );
+				ret.push([techs[1]._templateName, techs[1]]);
 		}
 		else if (this.canResearch(tech))
 		{
 			// Phases are treated separately
 			if (this.phases.every(phase => template._templateName != phase.name))
-				ret.push( [tech, template] );
+				ret.push([tech, template]);
 		}
 	}
 	return ret;
@@ -807,9 +811,10 @@ m.GameState.prototype.findTrainers = function(template)
  */
 m.GameState.prototype.findBuilder = function(template)
 {
+	let civ = this.getPlayerCiv();
 	for (let ent of this.getOwnUnits().values())
 	{
-		let buildable = ent.buildableEntities();
+		let buildable = ent.buildableEntities(civ);
 		if (buildable && buildable.indexOf(template) !== -1)
 			return ent;
 	}
@@ -823,11 +828,15 @@ m.GameState.prototype.hasResearchers = function(templateName, noRequirementCheck
 	if (!this.canResearch(templateName, noRequirementCheck))
 		return false;
 
+	let template = this.getTemplate(templateName);
+	if (template.autoResearch)
+		return true;
+
 	let civ = this.playerData.civ;
 
 	for (let ent of this.getOwnResearchFacilities().values())
 	{
-		let techs = ent.researchableTechs(civ);
+		let techs = ent.researchableTechs(this, civ);
 		for (let tech of techs)
 		{
 			let temp = this.getTemplate(tech);
@@ -856,7 +865,7 @@ m.GameState.prototype.findResearchers = function(templateName, noRequirementChec
 	let civ = this.playerData.civ;
 
 	return this.getOwnResearchFacilities().filter(function(ent) {
-		let techs = ent.researchableTechs(civ);
+		let techs = ent.researchableTechs(self, civ);
 		for (let tech of techs)
 		{
 			let thisTemp = self.getTemplate(tech);

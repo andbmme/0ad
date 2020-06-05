@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -59,14 +59,16 @@ extern GameLoopState* g_AtlasGameLoop;
  **/
 CGame *g_Game=NULL;
 
+const CStr CGame::EventNameSimulationUpdate = "SimulationUpdate";
+
 /**
  * Constructor
  *
  **/
-CGame::CGame(bool disableGraphics, bool replayLog):
+CGame::CGame(bool replayLog):
 	m_World(new CWorld(this)),
 	m_Simulation2(new CSimulation2(&m_World->GetUnitManager(), g_ScriptRuntime, m_World->GetTerrain())),
-	m_GameView(disableGraphics ? NULL : new CGameView(this)),
+	m_GameView(CRenderer::IsInitialised() ? new CGameView(this) : nullptr),
 	m_GameStarted(false),
 	m_Paused(false),
 	m_SimRate(1.0f),
@@ -101,6 +103,9 @@ CGame::~CGame()
 	// Again, the in-game call tree is going to be different to the main menu one.
 	if (CProfileManager::IsInitialised())
 		g_Profiler.StructuralReset();
+
+	if (m_ReplayLogger && m_GameStarted)
+		m_ReplayLogger->SaveMetadata(*m_Simulation2);
 
 	delete m_TurnManager;
 	delete m_GameView;
@@ -173,7 +178,6 @@ bool CGame::StartVisualReplay(const OsPath& replayPath)
 	debug_printf("Starting to replay %s\n", replayPath.string8().c_str());
 
 	m_IsVisualReplay = true;
-	ScriptInterface& scriptInterface = m_Simulation2->GetScriptInterface();
 
 	SetTurnManager(new CReplayTurnManager(*m_Simulation2, GetReplayLogger()));
 
@@ -186,6 +190,7 @@ bool CGame::StartVisualReplay(const OsPath& replayPath)
 	std::string line;
 	std::getline(*m_ReplayStream, line);
 
+	const ScriptInterface& scriptInterface = m_Simulation2->GetScriptInterface();
 	JSContext* cx = scriptInterface.GetContext();
 	JSAutoRequest rq(cx);
 
@@ -203,7 +208,7 @@ bool CGame::StartVisualReplay(const OsPath& replayPath)
  **/
 void CGame::RegisterInit(const JS::HandleValue attribs, const std::string& savedState)
 {
-	ScriptInterface& scriptInterface = m_Simulation2->GetScriptInterface();
+	const ScriptInterface& scriptInterface = m_Simulation2->GetScriptInterface();
 	JSContext* cx = scriptInterface.GetContext();
 	JSAutoRequest rq(cx);
 
@@ -301,10 +306,7 @@ PSRETURN CGame::ReallyStartGame()
 		if (!g_AtlasGameLoop->running)
 			m_Simulation2->PreInitGame();
 
-		JS::RootedValue settings(cx);
-		JS::RootedValue tmpInitAttributes(cx, m_Simulation2->GetInitAttributes());
-		m_Simulation2->GetScriptInterface().GetProperty(tmpInitAttributes, "settings", &settings);
-		m_Simulation2->InitGame(settings);
+		m_Simulation2->InitGame();
 	}
 
 	// We need to do an initial Interpolate call to set up all the models etc,
@@ -323,7 +325,7 @@ PSRETURN CGame::ReallyStartGame()
 		g_NetClient->LoadFinished();
 
 	// Call the reallyStartGame GUI function, but only if it exists
-	if (g_GUI && g_GUI->HasPages())
+	if (g_GUI && g_GUI->GetPageCount())
 	{
 		JS::RootedValue global(cx, g_GUI->GetActiveGUI()->GetGlobalObject());
 		if (g_GUI->GetActiveGUI()->GetScriptInterface()->HasProperty(global, "reallyStartGame"))
@@ -336,7 +338,6 @@ PSRETURN CGame::ReallyStartGame()
 	if (CProfileManager::IsInitialised())
 		g_Profiler.StructuralReset();
 
-	// Mark terrain as modified so the minimap can repaint (is there a cleaner way of handling this?)
 	g_GameRestarted = true;
 
 	return 0;
@@ -402,7 +403,7 @@ void CGame::Update(const double deltaRealTime, bool doInterpolate)
 		{
 			{
 				PROFILE3("gui sim update");
-				g_GUI->SendEventToAll("SimulationUpdate");
+				g_GUI->SendEventToAll(EventNameSimulationUpdate);
 			}
 
 			GetView()->GetLOSTexture().MakeDirty();
@@ -413,12 +414,7 @@ void CGame::Update(const double deltaRealTime, bool doInterpolate)
 	}
 
 	if (doInterpolate)
-	{
 		m_TurnManager->Interpolate(deltaSimTime, deltaRealTime);
-
-		if ( g_SoundManager )
-			g_SoundManager->IdleTask();
-	}
 }
 
 void CGame::Interpolate(float simFrameLength, float realFrameLength)
@@ -449,7 +445,7 @@ void CGame::CachePlayerColors()
 		if (!cmpPlayer)
 			m_PlayerColors[i] = BrokenColor;
 		else
-			m_PlayerColors[i] = cmpPlayer->GetColor();
+			m_PlayerColors[i] = cmpPlayer->GetDisplayedColor();
 	}
 }
 

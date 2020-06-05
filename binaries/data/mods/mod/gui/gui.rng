@@ -175,6 +175,23 @@
         </attribute>
       </optional>
       <optional>
+        <attribute name="auto_scroll">
+          <ref name="bool"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute name="axis_color">
+          <ref name="ccolor"/>
+        </attribute>
+      </optional>
+      <optional>
+        <attribute name="axis_width">
+          <data type="decimal">
+            <param name="minInclusive">0</param>
+          </data>
+        </attribute>
+      </optional>
+      <optional>
         <attribute name="buffer_zone">
           <data type="decimal"/>
         </attribute>
@@ -210,6 +227,11 @@
         </attribute>
       </optional>
       <optional>
+        <attribute name="minimum_visible_items">
+          <data type="nonNegativeInteger"/>
+        </attribute>
+      </optional>
+      <optional>
         <attribute name="enabled">
           <ref name="bool"/>
         </attribute>
@@ -218,12 +240,15 @@
         <attribute name="font"/>
       </optional>
       <optional>
+        <attribute name="format_x"/>
+      </optional>
+      <optional>
+        <attribute name="format_y"/>
+      </optional>
+      <optional>
         <attribute name="fov_wedge_color">
           <ref name="ccolor"/>
         </attribute>
-      </optional>
-      <optional>
-        <attribute name="heading_height"/>
       </optional>
       <optional>
         <attribute name="hotkey"/>
@@ -465,6 +490,7 @@
             <ref name="include"/>
             <ref name="item"/>
             <ref name="repeat"/>
+            <ref name="script"/>
             <ref name="translatableAttribute"/>
           </choice>
         </zeroOrMore>
@@ -844,11 +870,6 @@
     <element name="effect">
       <optional>
         <attribute name="add_color">
-          <ref name="ccolor"/>
-        </attribute>
-      </optional>
-      <optional>
-        <attribute name="multiply_color">
           <ref name="ccolor"/>
         </attribute>
       </optional>

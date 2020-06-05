@@ -8,12 +8,9 @@
 // TODO: Type errors if v not instanceof Vector classes
 // TODO: Possibly implement in C++
 
-function Vector2D(x, y)
+function Vector2D(x = 0, y = 0)
 {
-	if (arguments.length == 2)
-		this.set(x, y);
-	else
-		this.set(0, 0);
+	this.set(x, y);
 }
 
 Vector2D.prototype.clone = function()
@@ -30,6 +27,13 @@ Vector2D.prototype.set = function(x, y)
 {
 	this.x = x;
 	this.y = y;
+	return this;
+};
+
+Vector2D.prototype.setFrom = function(v)
+{
+	this.x = v.x;
+	this.y = v.y;
 	return this;
 };
 
@@ -80,7 +84,7 @@ Vector2D.prototype.rotate = function(angle)
 
 	return this.set(
 		this.x * cos + this.y * sin,
-		this.y * cos - this.x * sin);
+		-this.x * sin + this.y * cos);
 };
 
 /**
@@ -91,12 +95,30 @@ Vector2D.prototype.rotateAround = function(angle, center)
 	return this.sub(center).rotate(angle).add(center);
 };
 
+/**
+ * Convert to integer coordinates.
+ */
+Vector2D.prototype.round = function()
+{
+	return this.set(Math.round(this.x), Math.round(this.y));
+};
+
+Vector2D.prototype.floor = function()
+{
+	return this.set(Math.floor(this.x), Math.floor(this.y));
+};
+
+Vector2D.prototype.toFixed = function(digits)
+{
+	return this.set(this.x.toFixed(digits), this.y.toFixed(digits));
+};
+
 // Numeric 2D info functions (non-mutating)
 //
 // These methods serve to get numeric info on the vector, they don't modify the vector
 
 /**
- * Return the vector that forms a right angle with this one.
+ * Returns a vector that forms a right angle with this one.
  */
 Vector2D.prototype.perpendicular = function()
 {
@@ -115,8 +137,8 @@ Vector2D.prototype.dot = function(v)
 
 /**
  * Computes the non-zero coordinate of the cross product of the two vectors.
- * Geometrically, the cross of the vectors is the 3D vector perpendicular to the two 2D vectors.
- * This returned length of that vector equals the area of the parallelogram that the vectors span.
+ * Geometrically, the cross of the vectors is a 3D vector perpendicular to the two 2D vectors.
+ * The returned number corresponds to the area of the parallelogram with the vectors for sides.
  */
 Vector2D.prototype.cross = function(v)
 {
@@ -134,7 +156,7 @@ Vector2D.prototype.length = function()
 };
 
 /**
- * Compare this length to the length of v,
+ * Compare this length to the length of v.
  * @return 0 if the lengths are equal
  * @return 1 if this is longer than v
  * @return -1 if this is shorter than v
@@ -153,6 +175,15 @@ Vector2D.prototype.distanceToSquared = function(v)
 Vector2D.prototype.distanceTo = function(v)
 {
 	return Math.euclidDistance2D(this.x, this.y, v.x, v.y);
+};
+
+/**
+ * Returns the angle going from this position to v.
+ * Angles are between -PI and PI. E.g., north is 0, east is PI/2.
+ */
+Vector2D.prototype.angleTo = function(v)
+{
+	return Math.atan2(v.x - this.x, v.y - this.y);
 };
 
 // Static 2D functions
@@ -175,6 +206,11 @@ Vector2D.sub = function(v1, v2)
 	return new Vector2D(v1.x - v2.x, v1.y - v2.y);
 };
 
+Vector2D.isEqualTo = function(v1, v2)
+{
+	return v1.x == v2.x && v1.y == v2.y;
+};
+
 Vector2D.mult = function(v, f)
 {
 	return new Vector2D(v.x * f, v.y * f);
@@ -185,16 +221,35 @@ Vector2D.div = function(v, f)
 	return new Vector2D(v.x / f, v.y / f);
 };
 
-Vector2D.avg = function(vectorList)
+Vector2D.min = function(v1, v2)
+{
+	return new Vector2D(Math.min(v1.x, v2.x), Math.min(v1.y, v2.y));
+};
+
+Vector2D.max = function(v1, v2)
+{
+	return new Vector2D(Math.max(v1.x, v2.x), Math.max(v1.y, v2.y));
+};
+
+Vector2D.average = function(vectorList)
 {
 	return Vector2D.sum(vectorList).div(vectorList.length);
 };
 
 Vector2D.sum = function(vectorList)
 {
-	var sum = new Vector2D();
-	vectorList.forEach(v => sum.add(v));
+	// Do not use for...of nor array functions for performance
+	let sum = new Vector2D();
+
+	for (let i = 0; i < vectorList.length; ++i)
+		sum.add(vectorList[i]);
+
 	return sum;
+};
+
+Vector2D.dot = function(v1, v2)
+{
+	return v1.x * v2.x + v1.y * v2.y;
 };
 
 /////////////////////////////////////////////////////////////////////
@@ -204,12 +259,9 @@ Vector2D.sum = function(vectorList)
 //
 /////////////////////////////////////////////////////////////////////
 
-function Vector3D(x, y, z)
+function Vector3D(x = 0, y = 0, z = 0)
 {
-	if (arguments.length == 3)
-		this.set(x, y, z);
-	else
-		this.set(0, 0, 0);
+	this.set(x, y, z);
 }
 
 Vector3D.prototype.clone = function()
@@ -269,6 +321,24 @@ Vector3D.prototype.normalize = function()
 		return this;
 
 	return this.div(magnitude);
+};
+
+/**
+ * Convert to integer coordinates.
+ */
+Vector3D.prototype.round = function()
+{
+	return this.set(Math.round(this.x), Math.round(this.y), Math.round(this.z));
+};
+
+Vector3D.prototype.floor = function()
+{
+	return this.set(Math.floor(this.x), Math.floor(this.y), Math.floor(this.z));
+};
+
+Vector3D.prototype.toFixed = function(digits)
+{
+	return this.set(this.x.toFixed(digits), this.y.toFixed(digits), this.z.toFixed(digits));
 };
 
 // Numeric 3D info functions (non-mutating)
@@ -334,6 +404,14 @@ Vector3D.prototype.horizDistanceTo = function(v)
 	return Math.sqrt(this.horizDistanceToSquared(v));
 };
 
+/**
+ * Returns the angle going from this position to v.
+ */
+Vector3D.prototype.horizAngleTo = function(v)
+{
+	return Math.atan2(v.x - this.x, v.z - this.z);
+};
+
 // Static 3D functions
 //
 // Static functions that return a new vector object.
@@ -349,6 +427,11 @@ Vector3D.sub = function(v1, v2)
 	return new Vector3D(v1.x - v2.x, v1.y - v2.y, v1.z - v2.z);
 };
 
+Vector3D.isEqualTo = function(v1, v2)
+{
+	return v1.x == v2.x && v1.y == v2.y && v1.z == v2.z;
+};
+
 Vector3D.mult = function(v, f)
 {
 	return new Vector3D(v.x * f, v.y * f, v.z * f);
@@ -358,8 +441,3 @@ Vector3D.div = function(v, f)
 {
 	return new Vector3D(v.x / f, v.y / f, v.z / f);
 };
-
-
-// make the prototypes easily accessible to C++
-const Vector2Dprototype = Vector2D.prototype;
-const Vector3Dprototype = Vector3D.prototype;

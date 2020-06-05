@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -51,6 +51,7 @@ that of Atlas depending on commandline parameters.
 #include "ps/Globals.h"
 #include "ps/Hotkey.h"
 #include "ps/Loader.h"
+#include "ps/ModInstaller.h"
 #include "ps/Profile.h"
 #include "ps/Profiler2.h"
 #include "ps/Pyrogenesis.h"
@@ -78,6 +79,7 @@ that of Atlas depending on commandline parameters.
 #include "scriptinterface/ScriptEngine.h"
 #include "simulation2/Simulation2.h"
 #include "simulation2/system/TurnManager.h"
+#include "soundmanager/ISoundManager.h"
 
 #if OS_UNIX
 #include <unistd.h> // geteuid
@@ -88,10 +90,29 @@ that of Atlas depending on commandline parameters.
 #define getpid _getpid // Use the non-deprecated function name
 #endif
 
-extern bool g_GameRestarted;
+extern CmdLineArgs g_args;
 extern CStrW g_UniqueLogPostfix;
 
-void kill_mainloop();
+// Marks terrain as modified so the minimap can repaint (is there a cleaner way of handling this?)
+bool g_GameRestarted = false;
+
+// Determines the lifetime of the mainloop
+enum ShutdownType
+{
+	// The application shall continue the main loop.
+	None,
+
+	// The process shall terminate as soon as possible.
+	Quit,
+
+	// The engine should be restarted in the same process, for instance to activate different mods.
+	Restart,
+
+	// Atlas should be started in the same process.
+	RestartAsAtlas
+};
+
+static ShutdownType g_Shutdown = ShutdownType::None;
 
 // to avoid redundant and/or recursive resizing, we save the new
 // size after VIDEORESIZE messages and only update the video mode
@@ -102,6 +123,26 @@ static int g_ResizedW;
 static int g_ResizedH;
 
 static std::chrono::high_resolution_clock::time_point lastFrameTime;
+
+bool IsQuitRequested()
+{
+	return g_Shutdown == ShutdownType::Quit;
+}
+
+void QuitEngine()
+{
+	g_Shutdown = ShutdownType::Quit;
+}
+
+void RestartEngine()
+{
+	g_Shutdown = ShutdownType::Restart;
+}
+
+void StartAtlas()
+{
+	g_Shutdown = ShutdownType::RestartAsAtlas;
+}
 
 // main app message handler
 static InReaction MainInputHandler(const SDL_Event_* ev)
@@ -127,14 +168,14 @@ static InReaction MainInputHandler(const SDL_Event_* ev)
 		break;
 
 	case SDL_QUIT:
-		kill_mainloop();
+		QuitEngine();
 		break;
 
-	case SDL_HOTKEYDOWN:
+	case SDL_HOTKEYPRESS:
 		std::string hotkey = static_cast<const char*>(ev->ev.user.data1);
 		if (hotkey == "exit")
 		{
-			kill_mainloop();
+			QuitEngine();
 			return IN_HANDLED;
 		}
 		else if (hotkey == "screenshot")
@@ -275,9 +316,6 @@ static void RendererIncrementalLoad()
 	while (more && timer_Time() - startTime < maxTime);
 }
 
-
-static bool quit = false;	// break out of main loop
-
 static void Frame()
 {
 	g_Profiler2.RecordFrameStart();
@@ -304,8 +342,7 @@ static void Frame()
 #endif
 	ENSURE(realTimeSinceLastFrame > 0.0f);
 
-	// decide if update/render is necessary
-	bool need_render = !g_app_minimized;
+	// Decide if update is necessary
 	bool need_update = true;
 
 	// If we are not running a multiplayer game, disable updates when the game is
@@ -332,7 +369,7 @@ static void Frame()
 	// if the user quit by closing the window, the GL context will be broken and
 	// may crash when we call Render() on some drivers, so leave this loop
 	// before rendering
-	if (quit)
+	if (g_Shutdown != ShutdownType::None)
 		return;
 
 	// respond to pumped resize events
@@ -369,16 +406,23 @@ static void Frame()
 	g_UserReporter.Update();
 
 	g_Console->Update(realTimeSinceLastFrame);
-
 	ogl_WarnIfError();
-	if (need_render)
+
+	if (g_SoundManager)
+		g_SoundManager->IdleTask();
+
+	if (ShouldRender())
 	{
 		Render();
 
-		PROFILE3("swap buffers");
-		SDL_GL_SwapWindow(g_VideoMode.GetWindow());
+		{
+			PROFILE3("swap buffers");
+			SDL_GL_SwapWindow(g_VideoMode.GetWindow());
+			ogl_WarnIfError();
+		}
+
+		g_Renderer.OnSwapBuffers();
 	}
-	ogl_WarnIfError();
 
 	g_Profiler.Frame();
 
@@ -402,9 +446,8 @@ static void NonVisualFrame()
 	g_Profiler.Frame();
 
 	if (g_Game->IsGameFinished())
-		kill_mainloop();
+		QuitEngine();
 }
-
 
 static void MainControllerInit()
 {
@@ -414,40 +457,10 @@ static void MainControllerInit()
 	in_add_handler(MainInputHandler);
 }
 
-
-
 static void MainControllerShutdown()
 {
 	in_reset_handlers();
 }
-
-
-// stop the main loop and trigger orderly shutdown. called from several
-// places: the event handler (SDL_QUIT and hotkey) and JS exitProgram.
-void kill_mainloop()
-{
-	quit = true;
-}
-
-
-static bool restart_in_atlas = false;
-// called by game code to indicate main() should restart in Atlas mode
-// instead of terminating
-void restart_mainloop_in_atlas()
-{
-	quit = true;
-	restart_in_atlas = true;
-}
-
-static bool restart = false;
-// trigger an orderly shutdown and restart the game.
-void restart_engine()
-{
-	quit = true;
-	restart = true;
-}
-
-extern CmdLineArgs g_args;
 
 // moved into a helper function to ensure args is destroyed before
 // exit(), which may result in a memory leak.
@@ -494,6 +507,28 @@ static void RunGameOrAtlas(int argc, const char* argv[])
 		}
 	}
 
+	std::vector<OsPath> modsToInstall;
+	for (const CStr& arg : args.GetArgsWithoutName())
+	{
+		const OsPath modPath(arg);
+		if (!CModInstaller::IsDefaultModExtension(modPath.Extension()))
+		{
+			debug_printf("Skipping file '%s' which does not have a mod file extension.\n", modPath.string8().c_str());
+			continue;
+		}
+		if (!FileExists(modPath))
+		{
+			debug_printf("ERROR: The mod file '%s' does not exist!\n", modPath.string8().c_str());
+			continue;
+		}
+		if (DirectoryExists(modPath))
+		{
+			debug_printf("ERROR: The mod file '%s' is a directory!\n", modPath.string8().c_str());
+			continue;
+		}
+		modsToInstall.emplace_back(std::move(modPath));
+	}
+
 	// We need to initialize SpiderMonkey and libxml2 in the main thread before
 	// any thread uses them. So initialize them here before we might run Atlas.
 	ScriptEngine scriptEngine;
@@ -515,7 +550,7 @@ static void RunGameOrAtlas(int argc, const char* argv[])
 		}
 
 		Paths paths(args);
-		g_VFS = CreateVfs(20 * MiB);
+		g_VFS = CreateVfs();
 		g_VFS->Mount(L"cache/", paths.Cache(), VFS_MOUNT_ARCHIVABLE);
 		MountMods(paths, GetMods(args, INIT_MODS));
 
@@ -525,7 +560,9 @@ static void RunGameOrAtlas(int argc, const char* argv[])
 			replay.Replay(
 				args.Has("serializationtest"),
 				args.Has("rejointest") ? args.Get("rejointest").ToInt() : -1,
-				args.Has("ooslog"));
+				args.Has("ooslog"),
+				!args.Has("hashtest-full") || args.Get("hashtest-full") == "true",
+				args.Has("hashtest-quick") && args.Get("hashtest-quick") == "true");
 		}
 
 		g_VFS.reset();
@@ -567,8 +604,8 @@ static void RunGameOrAtlas(int argc, const char* argv[])
 	int flags = INIT_MODS;
 	do
 	{
-		restart = false;
-		quit = false;
+		g_Shutdown = ShutdownType::None;
+
 		if (!Init(args, flags))
 		{
 			flags &= ~INIT_MODS;
@@ -576,26 +613,43 @@ static void RunGameOrAtlas(int argc, const char* argv[])
 			continue;
 		}
 
+		std::vector<CStr> installedMods;
+		if (!modsToInstall.empty())
+		{
+			Paths paths(args);
+			CModInstaller installer(paths.UserData() / "mods", paths.Cache());
+
+			// Install the mods without deleting the pyromod files
+			for (const OsPath& modPath : modsToInstall)
+				installer.Install(modPath, g_ScriptRuntime, true);
+
+			installedMods = installer.GetInstalledMods();
+		}
+
 		if (isNonVisual)
 		{
 			InitNonVisual(args);
-			while (!quit)
+			while (g_Shutdown == ShutdownType::None)
 				NonVisualFrame();
 		}
 		else
 		{
-			InitGraphics(args, 0);
+			InitGraphics(args, 0, installedMods);
 			MainControllerInit();
-			while (!quit)
+			while (g_Shutdown == ShutdownType::None)
 				Frame();
 		}
+
+		// Do not install mods again in case of restart (typically from the mod selector)
+		modsToInstall.clear();
 
 		Shutdown(0);
 		MainControllerShutdown();
 		flags &= ~INIT_MODS;
-	} while (restart);
 
-	if (restart_in_atlas)
+	} while (g_Shutdown == ShutdownType::Restart);
+
+	if (g_Shutdown == ShutdownType::RestartAsAtlas)
 		ATLAS_RunIfOnCmdLine(args, true);
 
 	CXeromyces::Terminate();

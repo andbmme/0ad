@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -587,8 +587,8 @@ void PlayerSettingsControl::CreateWidgets()
 	for (size_t i = 0; i < civData.size(); ++i)
 	{
 		AtObj civ = AtlasObject::LoadFromJSON(civData[i]);
-		civNames.Add(wxString(civ["Name"]));
-		civCodes.Add(wxString(civ["Code"]));
+		civNames.Add(wxString::FromUTF8(civ["Name"]));
+		civCodes.Add(wxString::FromUTF8(civ["Code"]));
 	}
 
 	// Load AI data
@@ -598,7 +598,7 @@ void PlayerSettingsControl::CreateWidgets()
 	AtObj aiData = AtlasObject::LoadFromJSON(*qryAI.data);
 	for (AtIter a = aiData["AIData"]["item"]; a.defined(); ++a)
 	{
-		ais.Add(new AIData(wxString(a["id"]), wxString(a["data"]["name"])));
+		ais.Add(new AIData(wxString::FromUTF8(a["id"]), wxString::FromUTF8(a["data"]["name"])));
 	}
 
 	// Create player pages
@@ -629,7 +629,6 @@ void PlayerSettingsControl::CreateWidgets()
 			aiChoice->Append(ais[j]->GetName(), new wxStringClientData(ais[j]->GetID()));
 		aiChoice->SetSelection(0);
 
-		// Only increment AtIters if they are defined
 		if (playerDefs.defined())
 			++playerDefs;
 	}
@@ -696,21 +695,17 @@ void PlayerSettingsControl::ReadFromEngine()
 		wxString name(_("Unknown"));
 		bool defined = player["Name"].defined();
 		if (defined)
-			name = wxString(player["Name"]);
+			name = wxString::FromUTF8(player["Name"]);
 		else if (playerDefs["Name"].defined())
-			name = wxString(playerDefs["Name"]);
+			name = wxString::FromUTF8(playerDefs["Name"]);
 
 		controls.name->SetValue(name);
 		wxDynamicCast(FindWindowById(ID_DefaultName, controls.page), DefaultCheckbox)->SetValue(defined);
 
 		// civ
 		wxChoice* choice = controls.civ;
-		wxString civCode;
 		defined = player["Civ"].defined();
-		if (defined)
-			civCode = wxString(player["Civ"]);
-		else
-			civCode = wxString(playerDefs["Civ"]);
+		wxString civCode = wxString::FromUTF8(defined ? player["Civ"] : playerDefs["Civ"]);
 
 		for (size_t j = 0; j < choice->GetCount(); ++j)
 		{
@@ -734,12 +729,8 @@ void PlayerSettingsControl::ReadFromEngine()
 		wxDynamicCast(FindWindowById(ID_DefaultColor, controls.page), DefaultCheckbox)->SetValue(defined);
 
 		// player type
-		wxString aiID;
 		defined = player["AI"].defined();
-		if (defined)
-			aiID = wxString(player["AI"]);
-		else
-			aiID = wxString(playerDefs["AI"]);
+		wxString aiID = wxString::FromUTF8(defined ? player["AI"] : playerDefs["AI"]);
 
 		choice = controls.ai;
 		if (!aiID.empty())
@@ -763,28 +754,28 @@ void PlayerSettingsControl::ReadFromEngine()
 		AtObj resObj = *player["Resources"];
 		defined = resObj.defined() && resObj["food"].defined();
 		if (defined)
-			controls.food->SetValue(wxString(resObj["food"]));
+			controls.food->SetValue((*resObj["food"]).getInt());
 		else
 			controls.food->SetValue(0);
 		wxDynamicCast(FindWindowById(ID_DefaultFood, controls.page), DefaultCheckbox)->SetValue(defined);
 
 		defined = resObj.defined() && resObj["wood"].defined();
 		if (defined)
-			controls.wood->SetValue(wxString(resObj["wood"]));
+			controls.wood->SetValue((*resObj["wood"]).getInt());
 		else
 			controls.wood->SetValue(0);
 		wxDynamicCast(FindWindowById(ID_DefaultWood, controls.page), DefaultCheckbox)->SetValue(defined);
 
 		defined = resObj.defined() && resObj["metal"].defined();
 		if (defined)
-			controls.metal->SetValue(wxString(resObj["metal"]));
+			controls.metal->SetValue((*resObj["metal"]).getInt());
 		else
 			controls.metal->SetValue(0);
 		wxDynamicCast(FindWindowById(ID_DefaultMetal, controls.page), DefaultCheckbox)->SetValue(defined);
 
 		defined = resObj.defined() && resObj["stone"].defined();
 		if (defined)
-			controls.stone->SetValue(wxString(resObj["stone"]));
+			controls.stone->SetValue((*resObj["stone"]).getInt());
 		else
 			controls.stone->SetValue(0);
 		wxDynamicCast(FindWindowById(ID_DefaultStone, controls.page), DefaultCheckbox)->SetValue(defined);
@@ -792,7 +783,7 @@ void PlayerSettingsControl::ReadFromEngine()
 		// population limit
 		defined = player["PopulationLimit"].defined();
 		if (defined)
-			controls.pop->SetValue(wxString(player["PopulationLimit"]));
+			controls.pop->SetValue((*player["PopulationLimit"]).getInt());
 		else
 			controls.pop->SetValue(0);
 		wxDynamicCast(FindWindowById(ID_DefaultPop, controls.page), DefaultCheckbox)->SetValue(defined);
@@ -826,9 +817,9 @@ void PlayerSettingsControl::ReadFromEngine()
 		else
 			controls.page->SetCamera(sCameraInfo(), false);
 
-		// Only increment AtIters if they are defined
 		if (player.defined())
 			++player;
+
 		if (playerDefs.defined())
 			++playerDefs;
 	}
@@ -843,9 +834,13 @@ AtObj PlayerSettingsControl::UpdateSettingsObject()
 {
 	// Update player data in the map settings
 	AtObj players;
-	players.set("@array", L"");
+	players.set("@array", "");
 
 	wxASSERT(m_NumPlayers <= MAX_NUM_PLAYERS);
+
+	AtIter playerDefs = m_PlayerDefaults["item"];
+	if (playerDefs.defined())
+		++playerDefs;	// Skip gaia
 
 	for (size_t i = 0; i < m_NumPlayers; ++i)
 	{
@@ -856,7 +851,7 @@ AtObj PlayerSettingsControl::UpdateSettingsObject()
 		// name
 		wxTextCtrl* text = controls.name;
 		if (text->IsEnabled())
-			player.set("Name", text->GetValue());
+			player.set("Name", text->GetValue().utf8_str());
 
 		// civ
 		wxChoice* choice = controls.civ;
@@ -865,6 +860,8 @@ AtObj PlayerSettingsControl::UpdateSettingsObject()
 			wxStringClientData* str = dynamic_cast<wxStringClientData*>(choice->GetClientObject(choice->GetSelection()));
 			player.set("Civ", str->GetData());
 		}
+		else
+			player.set("Civ", playerDefs["Civ"]);
 
 		// color
 		if (controls.color->IsEnabled())
@@ -888,7 +885,7 @@ AtObj PlayerSettingsControl::UpdateSettingsObject()
 				player.set("AI", str->GetData());
 			}
 			else // human
-				player.set("AI", _T(""));
+				player.set("AI", _(""));
 		}
 
 		// resources
@@ -933,6 +930,9 @@ AtObj PlayerSettingsControl::UpdateSettingsObject()
 		player.set("StartingCamera", camObj);
 
 		players.add("item", player);
+
+		if (playerDefs.defined())
+			++playerDefs;
 	}
 
 	m_MapSettings.set("PlayerData", players);

@@ -5,6 +5,10 @@
 
 #include "precompiled.h"
 
+#ifdef _MSC_VER
+# pragma warning(disable:4456) // hides previous local declaration
+#endif
+
 /**
  *  Copyright (C) 2011 by Morten S. Mikkelsen
  *

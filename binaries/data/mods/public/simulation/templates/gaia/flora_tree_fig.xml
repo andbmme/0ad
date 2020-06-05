@@ -5,7 +5,6 @@
   </Footprint>
   <Identity>
     <SpecificName>Fig</SpecificName>
-    <Tooltip>Gather figs for Food.</Tooltip>
   </Identity>
   <Obstruction>
     <Static width="5.0" depth="5.0"/>
@@ -13,14 +12,6 @@
   <ResourceSupply>
     <Amount>500</Amount>
   </ResourceSupply>
-  <Selectable>
-    <Overlay>
-      <Texture>
-        <MainTexture>circle/256x256.png</MainTexture>
-        <MainTextureMask>circle/256x256_mask.png</MainTextureMask>
-      </Texture>
-    </Overlay>
-  </Selectable>
   <VisualActor>
     <Actor>flora/trees/fig.xml</Actor>
   </VisualActor>

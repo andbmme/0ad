@@ -1,4 +1,4 @@
-/* Copyright (C) 2013 Wildfire Games.
+/* Copyright (C) 2018 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -19,8 +19,9 @@
 
 #include "CacheLoader.h"
 
-#include "ps/CLogger.h"
 #include "maths/MD5.h"
+#include "ps/CLogger.h"
+#include "ps/Util.h"
 
 #include <iomanip>
 
@@ -109,7 +110,7 @@ bool CCacheLoader::CanUseArchiveCache(const VfsPath& sourcePath, const VfsPath& 
 	return true;
 }
 
-VfsPath CCacheLoader::ArchiveCachePath(const VfsPath& sourcePath)
+VfsPath CCacheLoader::ArchiveCachePath(const VfsPath& sourcePath) const
 {
 	return sourcePath.ChangeExtension(sourcePath.Extension().string() + L".cached" + m_FileExtension);
 }
@@ -134,19 +135,18 @@ VfsPath CCacheLoader::LooseCachePath(const VfsPath& sourcePath, const MD5& initi
 	hash.Update((const u8*)&version, sizeof(version));
 	// these are local cached files, so we don't care about endianness etc
 
-	// Use a short prefix of the full hash (we don't need high collision-resistance),
-	// converted to hex
 	u8 digest[MD5::DIGESTSIZE];
 	hash.Final(digest);
-	std::wstringstream digestPrefix;
-	digestPrefix << std::hex;
-	for (size_t i = 0; i < 8; ++i)
-		digestPrefix << std::setfill(L'0') << std::setw(2) << (int)digest[i];
 
 	// Get the mod path
 	OsPath path;
 	m_VFS->GetRealPath(sourcePath, path);
 
-	// Construct the final path
-	return VfsPath("cache") / path_name_only(path.BeforeCommon(sourcePath).Parent().string().c_str()) / sourcePath.ChangeExtension(sourcePath.Extension().string() + L"." + digestPrefix.str() + m_FileExtension);
+	return VfsPath("cache") /
+		path_name_only(path.BeforeCommon(sourcePath).Parent().string().c_str()) /
+			sourcePath.ChangeExtension(sourcePath.Extension().string() +
+			L"." +
+			// Use a short prefix of the full hash (we don't need high collision-resistance)
+			wstring_from_utf8(Hexify(digest, 8)) +
+			m_FileExtension);
 }

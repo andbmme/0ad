@@ -1,4 +1,4 @@
-/* Copyright (C) 2016 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -31,7 +31,7 @@
 CArchiveBuilder::CArchiveBuilder(const OsPath& mod, const OsPath& tempdir) :
 	m_TempDir(tempdir), m_NumBaseMods(0)
 {
-	m_VFS = CreateVfs(20*MiB);
+	m_VFS = CreateVfs();
 
 	DeleteDirectory(m_TempDir/"_archivecache"); // clean up in case the last run failed
 
@@ -165,6 +165,8 @@ void CArchiveBuilder::Build(const OsPath& archive, bool compress)
 			writer->AddFile(cachedRealPath, cachedPath);
 		}
 	}
+
+	debug_printf("Finished packaging \"%s\".", archive.string8().c_str());
 }
 
 Status CArchiveBuilder::CollectFileCB(const VfsPath& pathname, const CFileInfo& UNUSED(fileInfo), const uintptr_t cbData)

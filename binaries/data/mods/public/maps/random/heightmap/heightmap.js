@@ -14,80 +14,111 @@
 /**
  * Get the height range of a heightmap
  * @param {array} [heightmap=g_Map.height] - The reliefmap the minimum and maximum height should be determined for
- * @return {object} [height] - Height range with 2 floats in properties "min" and "max"
+ * @return {object} Height range with 2 floats in properties "min" and "max"
  */
 function getMinAndMaxHeight(heightmap = g_Map.height)
 {
-	let height = {};
-	height.min = Infinity;
-	height.max = - Infinity;
+	let height = {
+		"min": Infinity,
+		"max": -Infinity
+	};
+
 	for (let x = 0; x < heightmap.length; ++x)
-	{
 		for (let y = 0; y < heightmap[x].length; ++y)
 		{
-			if (heightmap[x][y] < height.min)
-				height.min = heightmap[x][y];
-			else if (heightmap[x][y] > height.max)
-				height.max = heightmap[x][y];
+			height.min = Math.min(height.min, heightmap[x][y]);
+			height.max = Math.max(height.max, heightmap[x][y]);
 		}
-	}
+
 	return height;
 }
 
 /**
  * Rescales a heightmap so its minimum and maximum height is as the arguments told preserving it's global shape
- * @param {float} [minHeight=MIN_HEIGHT] - Minimum height that should be used for the resulting heightmap
- * @param {float} [maxHeight=MAX_HEIGHT] - Maximum height that should be used for the resulting heightmap
+ * @param {Number} [minHeight=MIN_HEIGHT] - Minimum height that should be used for the resulting heightmap
+ * @param {Number} [maxHeight=MAX_HEIGHT] - Maximum height that should be used for the resulting heightmap
  * @param {array} [heightmap=g_Map.height] - A reliefmap
  * @todo Add preserveCostline to leave a certain height untoucht and scale below and above that seperately
  */
 function rescaleHeightmap(minHeight = MIN_HEIGHT, maxHeight = MAX_HEIGHT, heightmap = g_Map.height)
 {
 	let oldHeightRange = getMinAndMaxHeight(heightmap);
-	let max_x = heightmap.length;
-	let max_y = heightmap[0].length;
-	for (let x = 0; x < max_x; ++x)
-		for (let y = 0; y < max_y; ++y)
+	for (let x = 0; x < heightmap.length; ++x)
+		for (let y = 0; y < heightmap[x].length; ++y)
 			heightmap[x][y] = minHeight + (heightmap[x][y] - oldHeightRange.min) / (oldHeightRange.max - oldHeightRange.min) * (maxHeight - minHeight);
+	return heightmap;
+}
+
+/**
+ * Translates the heightmap by the given vector, i.e. moves the heights in that direction.
+ *
+ * @param {Vector2D} offset - A vector indicating direction and distance.
+ * @param {Number} [defaultHeight] - The elevation to be set for vertices that don't have a corresponding location on the source heightmap.
+ * @param {Array} [heightmap=g_Map.height] - A reliefmap
+ */
+function translateHeightmap(offset, defaultHeight = undefined, heightmap = g_Map.height)
+{
+	if (defaultHeight === undefined)
+		defaultHeight = getMinAndMaxHeight(heightmap).min;
+	offset.round();
+
+	let sourceHeightmap = clone(heightmap);
+	for (let x = 0; x < heightmap.length; ++x)
+		for (let y = 0; y < heightmap[x].length; ++y)
+			heightmap[x][y] =
+				sourceHeightmap[x + offset.x] !== undefined &&
+				sourceHeightmap[x + offset.x][y + offset.y] !== undefined ?
+					sourceHeightmap[x + offset.x][y + offset.y] :
+					defaultHeight;
+
+	return heightmap;
 }
 
 /**
  * Get start location with the largest minimum distance between players
- * @param {array} [heightRange] - The height range start locations are allowed
+ * @param {object} [heightRange] - The height range start locations are allowed
  * @param {integer} [maxTries=1000] - How often random player distributions are rolled to be compared
- * @param {float} [minDistToBorder=20] - How far start locations have to be away from the map border
+ * @param {Number} [minDistToBorder=20] - How far start locations have to be away from the map border
  * @param {integer} [numberOfPlayers=g_MapSettings.PlayerData.length] - How many start locations should be placed
  * @param {array} [heightmap=g_Map.height] - The reliefmap for the start locations to be placed on
  * @param {boolean} [isCircular=g_MapSettings.CircularMap] - If the map is circular or rectangular
- * @return {array} [finalStartLoc] - Array of 2D points in the format { "x": float, "y": float}
+ * @return {Vector2D[]}
  */
 function getStartLocationsByHeightmap(heightRange, maxTries = 1000, minDistToBorder = 20, numberOfPlayers = g_MapSettings.PlayerData.length - 1, heightmap = g_Map.height, isCircular = g_MapSettings.CircularMap)
 {
 	let validStartLoc = [];
-	let r = 0.5 * (heightmap.length - 1); // Map center x/y as well as radius
-	for (let x = minDistToBorder; x < heightmap.length - minDistToBorder; ++x)
-		for (let y = minDistToBorder; y < heightmap[0].length - minDistToBorder; ++y)
-			if (heightmap[x][y] > heightRange.min && heightmap[x][y] < heightRange.max) // Is in height range
-				if (!isCircular || r - Math.euclidDistance2D(x, y, r, r) >= minDistToBorder) // Is far enough away from map border
-					validStartLoc.push({ "x": x, "y": y });
+	let mapCenter = g_Map.getCenter();
+	let mapSize = g_Map.getSize();
+
+	let heightConstraint = new HeightConstraint(heightRange.min, heightRange.max);
+
+	for (let x = minDistToBorder; x < mapSize - minDistToBorder; ++x)
+		for (let y = minDistToBorder; y < mapSize - minDistToBorder; ++y)
+		{
+			let position = new Vector2D(x, y);
+			if (heightConstraint.allows(position) && (!isCircular || position.distanceTo(mapCenter)) < mapSize / 2 - minDistToBorder)
+				validStartLoc.push(position);
+		}
 
 	let maxMinDist = 0;
 	let finalStartLoc;
+
 	for (let tries = 0; tries < maxTries; ++tries)
 	{
 		let startLoc = [];
 		let minDist = Infinity;
+
 		for (let p = 0; p < numberOfPlayers; ++p)
 			startLoc.push(pickRandom(validStartLoc));
+
 		for (let p1 = 0; p1 < numberOfPlayers - 1; ++p1)
-		{
 			for (let p2 = p1 + 1; p2 < numberOfPlayers; ++p2)
 			{
-				let dist = Math.euclidDistance2D(startLoc[p1].x, startLoc[p1].y, startLoc[p2].x, startLoc[p2].y);
+				let dist = startLoc[p1].distanceTo(startLoc[p2]);
 				if (dist < minDist)
 					minDist = dist;
 			}
-		}
+
 		if (minDist > maxMinDist)
 		{
 			maxMinDist = minDist;
@@ -99,93 +130,21 @@ function getStartLocationsByHeightmap(heightRange, maxTries = 1000, minDistToBor
 }
 
 /**
- * Meant to place e.g. resource spots within a height range
- *
- * @param {array} heightRange - The height range in which to place the entities (An associative array with keys "min" and "max" each containing a float)
- * @param {array} avoidPoints - An array of 2D points (arrays of length 2), points that will be avoided in the given minDistance e.g. start locations
- * @param {number} minDistance - How many tile widths the entities to place have to be away from each other, start locations and the map border
- * @param {array} entityList - Entity/actor strings to be placed with placeObject()
- * @param {array} [heightmap=g_Map.height] - The reliefmap the entities should be distributed on
- * @param {number} [playerID=0] - Index of the player the entities should be placed for. Gaia is 0.
- * @param {number} [maxTries=1000] - How often random player distributions are rolled to be compared
- * @param {boolean} [isCircular=g_MapSettings.CircularMap] - If the map is circular or rectangular
- * @return {array} [placements] Array of points where entities were placed
- */
-function distributeEntitiesByHeight(heightRange, avoidPoints, minDistance, entityList,
-	playerID = 0, maxTries = 1000, heightmap = g_Map.height, isCircular = g_MapSettings.CircularMap)
-{
-	let validPoints = [];
-	let r = 0.5 * (heightmap.length - 1); // Map center x/y as well as radius
-	for (let x = minDistance; x < heightmap.length - minDistance; ++x)
-	{
-		for (let y = minDistance; y < heightmap[0].length - minDistance; ++y)
-		{
-			if (heightmap[x][y] < heightRange.min || heightmap[x][y] > heightRange.max)
-				continue; // Out of height range
-			let checkpoint = { "x" : x + 0.5, "y" : y + 0.5 };
-			if (isCircular && r - Math.euclidDistance2D(checkpoint.x, checkpoint.y, r, r) < minDistance)
-				continue; // Too close to map border
-			// Avoid points by minDistance, else add to validPoints
-			if (avoidPoints.every(ap => Math.euclidDistance2D(checkpoint.x, checkpoint.y, ap.x, ap.y) > minDistance))
-				validPoints.push(checkpoint);
-		}
-	}
-
-	let placements = [];
-	if (!validPoints.length)
-	{
-		log("No placement points found for the given arguments (entityList=" + uneval(entityList) + "):\n" + new Error().stack);
-		return placements;
-	}
-
-	for (let tries = 0; tries < maxTries; ++tries)
-	{
-		let checkPointIndex = randIntExclusive(0, validPoints.length);
-		let checkPoint = validPoints[checkPointIndex];
-		if (placements.every(p => Math.euclidDistance2D(p.x, p.y, checkPoint.x, checkPoint.y) > minDistance))
-		{
-			placeObject(checkPoint.x, checkPoint.y, pickRandom(entityList), playerID, randFloat(0, 2*PI));
-			placements.push(checkPoint);
-		}
-
-		validPoints.splice(checkPointIndex);
-		if (!validPoints.length)
-			break; // No more valid points left
-	}
-
-	if (!placements.length)
-		log("Nothing was placed:\n" + new Error().stack);
-
-	return placements;
-}
-
-/**
- * Sets a given heightmap to entirely random values within a given range
- * @param {float} [minHeight=MIN_HEIGHT] - Lower limit of the random height to be rolled
- * @param {float} [maxHeight=MAX_HEIGHT] - Upper limit of the random height to be rolled
- * @param {array} [heightmap=g_Map.height] - The reliefmap that should be randomized
- */
-function setRandomHeightmap(minHeight = MIN_HEIGHT, maxHeight = MAX_HEIGHT, heightmap = g_Map.height)
-{
-	for (let x = 0; x < heightmap.length; ++x)
-		for (let y = 0; y < heightmap[0].length; ++y)
-			heightmap[x][y] = randFloat(minHeight, maxHeight);
-}
-
-/**
  * Sets the heightmap to a relatively realistic shape
  * The function doubles the size of the initial heightmap (if given, else a random 2x2 one) until it's big enough, then the extend is cut off
  * @note min/maxHeight will not necessarily be present in the heightmap
  * @note On circular maps the edges (given by initialHeightmap) may not be in the playable map area
  * @note The impact of the initial heightmap depends on its size and target map size
- * @param {float} [minHeight=MIN_HEIGHT] - Lower limit of the random height to be rolled
- * @param {float} [maxHeight=MAX_HEIGHT] - Upper limit of the random height to be rolled
+ * @param {Number} [minHeight=MIN_HEIGHT] - Lower limit of the random height to be rolled
+ * @param {Number} [maxHeight=MAX_HEIGHT] - Upper limit of the random height to be rolled
  * @param {array} [initialHeightmap] - Optional, Small (e.g. 3x3) heightmap describing the global shape of the map e.g. an island [[MIN_HEIGHT, MIN_HEIGHT, MIN_HEIGHT], [MIN_HEIGHT, MAX_HEIGHT, MIN_HEIGHT], [MIN_HEIGHT, MIN_HEIGHT, MIN_HEIGHT]]
- * @param {float} [smoothness=0.5] - Float between 0 (rough, more local structures) to 1 (smoother, only larger scale structures)
+ * @param {Number} [smoothness=0.5] - Float between 0 (rough, more local structures) to 1 (smoother, only larger scale structures)
  * @param {array} [heightmap=g_Map.height] - The reliefmap that will be set by this function
  */
 function setBaseTerrainDiamondSquare(minHeight = MIN_HEIGHT, maxHeight = MAX_HEIGHT, initialHeightmap = undefined, smoothness = 0.5, heightmap = g_Map.height)
 {
+	g_Map.log("Generating map using the diamond-square algorithm");
+
 	initialHeightmap = (initialHeightmap || [[randFloat(minHeight / 2, maxHeight / 2), randFloat(minHeight / 2, maxHeight / 2)], [randFloat(minHeight / 2, maxHeight / 2), randFloat(minHeight / 2, maxHeight / 2)]]);
 	let heightRange = maxHeight - minHeight;
 	if (heightRange <= 0)
@@ -256,86 +215,12 @@ function setBaseTerrainDiamondSquare(minHeight = MIN_HEIGHT, maxHeight = MAX_HEI
 	}
 
 	// Cut initialHeightmap to fit target width
-	let shift = [floor((newHeightmap.length - heightmap.length) / 2), floor((newHeightmap[0].length - heightmap[0].length) / 2)];
+	let shift = [Math.floor((newHeightmap.length - heightmap.length) / 2), Math.floor((newHeightmap[0].length - heightmap[0].length) / 2)];
 	for (let x = 0; x < heightmap.length; ++x)
 		for (let y = 0; y < heightmap[0].length; ++y)
 			heightmap[x][y] = newHeightmap[x + shift[0]][y + shift[1]];
-}
 
-/**
- * Smoothens the entire map
- * @param {float} [strength=0.8] - How strong the smooth effect should be: 0 means no effect at all, 1 means quite strong, higher values might cause interferences, better apply it multiple times
- * @param {array} [heightmap=g_Map.height] - The heightmap to be smoothed
- * @param {array} [smoothMap=[[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]]] - Array of offsets discribing the neighborhood tiles to smooth the height of a tile to
- */
-function globalSmoothHeightmap(strength = 0.8, heightmap = g_Map.height, smoothMap = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]])
-{
-	let referenceHeightmap = clone(heightmap);
-	let max_x = heightmap.length;
-	let max_y = heightmap[0].length;
-	for (let x = 0; x < max_x; ++x)
-	{
-		for (let y = 0; y < max_y; ++y)
-		{
-			for (let i = 0; i < smoothMap.length; ++i)
-			{
-				let mapX = x + smoothMap[i][0];
-				let mapY = y + smoothMap[i][1];
-				if (mapX >= 0 && mapX < max_x && mapY >= 0 && mapY < max_y)
-					heightmap[x][y] += strength / smoothMap.length * (referenceHeightmap[mapX][mapY] - referenceHeightmap[x][y]);
-			}
-		}
-	}
-}
-
-/**
- * Pushes a rectangular area towards a given height smoothing it into the original terrain
- * @note The window function to determine the smooth is not exactly a gaussian to ensure smooth edges
- * @param {object} [center] - The x and y coordinates of the center point (rounded in this function)
- * @param {float} [dx] - Distance from the center in x direction the rectangle ends (half width, rounded in this function)
- * @param {float} [dy] - Distance from the center in y direction the rectangle ends (half depth, rounded in this function)
- * @param {float} [targetHeight] - Height the center of the rectangle will be pushed to
- * @param {float} [strength=1] - How strong the height is pushed: 0 means not at all, 1 means the center will be pushed to the target height
- * @param {array} [heightmap=g_Map.height] - The heightmap to be manipulated
- * @todo Make the window function an argument and maybe add some
- */
-function rectangularSmoothToHeight(center, dx, dy, targetHeight, strength = 0.8, heightmap = g_Map.height)
-{
-	let x = round(center.x);
-	let y = round(center.y);
-	dx = round(dx);
-	dy = round(dy);
-
-	let heightmapWin = [];
-	for (let wx = 0; wx < 2 * dx + 1; ++wx)
-	{
-		heightmapWin.push([]);
-		for (let wy = 0; wy < 2 * dy + 1; ++wy)
-		{
-			let actualX = x - dx + wx;
-			let actualY = y - dy + wy;
-			if (actualX >= 0 && actualX < heightmap.length - 1 && actualY >= 0 && actualY < heightmap[0].length - 1) // Is in map
-				heightmapWin[wx].push(heightmap[actualX][actualY]);
-			else
-				heightmapWin[wx].push(targetHeight);
-		}
-	}
-	for (let wx = 0; wx < 2 * dx + 1; ++wx)
-	{
-		for (let wy = 0; wy < 2 * dy + 1; ++wy)
-		{
-			let actualX = x - dx + wx;
-			let actualY = y - dy + wy;
-			if (actualX >= 0 && actualX < heightmap.length - 1 && actualY >= 0 && actualY < heightmap[0].length - 1) // Is in map
-			{
-				// Window function polynomial 2nd degree
-				let scaleX = 1 - (wx / dx - 1) * (wx / dx - 1);
-				let scaleY = 1 - (wy / dy - 1) * (wy / dy - 1);
-
-				heightmap[actualX][actualY] = heightmapWin[wx][wy] + strength * scaleX * scaleY * (targetHeight - heightmapWin[wx][wy]);
-			}
-		}
-	}
+	return heightmap;
 }
 
 /**
@@ -356,25 +241,23 @@ function getPointsByHeight(heightRange, avoidPoints = [], avoidClass = undefined
 	let r = 0.5 * (heightmap.length - 1); // Map center x/y as well as radius
 	let avoidMap;
 
-	if (avoidClass !== undefined)
-		avoidMap = g_Map.tileClasses[avoidClass].inclusionCount;
+	if (avoidClass)
+		avoidMap = avoidClass.inclusionCount;
 
 	for (let x = minDistance; x < heightmap.length - minDistance; ++x)
-	{
-		for (let y = minDistance; y < heightmap[0].length - minDistance; ++y)
+		for (let y = minDistance; y < heightmap[x].length - minDistance; ++y)
 		{
-			if (avoidClass !== undefined && // Avoid adjecting tiles in avoidClass
-				(avoidMap[max(x - 1, 0)][y] > 0 ||
-				avoidMap[x][max(y - 1, 0)] > 0 ||
-				avoidMap[min(x + 1, avoidMap.length - 1)][y] > 0 ||
-				avoidMap[x][min(y + 1, avoidMap[0].length - 1)] > 0))
+			if (avoidClass &&
+				(avoidMap[Math.max(x - 1, 0)][y] > 0 ||
+				avoidMap[x][Math.max(y - 1, 0)] > 0 ||
+				avoidMap[Math.min(x + 1, avoidMap.length - 1)][y] > 0 ||
+				avoidMap[x][Math.min(y + 1, avoidMap[0].length - 1)] > 0))
 				continue;
 
 			if (heightmap[x][y] > heightRange.min && heightmap[x][y] < heightRange.max && // Has correct height
 				(!isCircular || r - Math.euclidDistance2D(x, y, r, r) >= minDistance)) // Enough distance to the map border
 				validVertices.push({ "x": x, "y": y , "dist": minDistance});
 		}
-	}
 
 	for (let tries = 0; tries < maxTries; ++tries)
 	{
@@ -384,8 +267,6 @@ function getPointsByHeight(heightRange, avoidPoints = [], avoidClass = undefined
 			points.push(point);
 			placements.push(point);
 		}
-		if (tries != 0 && tries % 100 == 0) // Time Check
-			log(points.length + " points found after " + tries + " tries after " + ((Date.now() - genStartTime) / 1000) + "s");
 	}
 
 	return points;
@@ -514,7 +395,7 @@ function splashErodeMap(strength = 1, heightmap = g_Map.height)
 			{
 				drain.push(0);
 				if (slopes[i] > 0)
-					drain[i] += min(strength * slopes[i] / sumSlopes, slopes[i]);
+					drain[i] += Math.min(strength * slopes[i] / sumSlopes, slopes[i]);
 			}
 
 			let sumDrain = 0;
@@ -529,4 +410,5 @@ function splashErodeMap(strength = 1, heightmap = g_Map.height)
 			heightmap[x][prev_y] += drain[3];
 		}
 	}
+	return heightmap;
 }

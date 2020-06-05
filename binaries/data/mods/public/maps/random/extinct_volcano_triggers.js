@@ -9,12 +9,6 @@ var debugLog = false;
 var debugWaterRise = false;
 
 /**
- * Time in minutes when the water level starts to rise.
- * Allow players to build up the economy and military for some time.
- */
-var waterRiseStartTime = [22, 26];
-
-/**
  * Duration in minutes for which the notification will be shown that states that the water will rise soon.
  */
 var waterRiseNotificationDuration = 1;
@@ -71,7 +65,7 @@ var waterWarningTexts = [
 /**
  * Units to be garrisoned in the wooden towers.
  */
-var garrisonedUnits = "units/rome_legionnaire_marian";
+var garrisonedUnits = "units/rome_champion_infantry_swordsman_02";
 
 Trigger.prototype.RaisingWaterNotification = function()
 {
@@ -86,8 +80,7 @@ Trigger.prototype.DebugLog = function(txt)
 	if (!debugLog)
 		return;
 
-	let time = Math.round(Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer).GetTime() / 60 / 1000);
-	print("DEBUG [" + time + "] " + txt + "\n");
+	print("DEBUG [" + Math.round(TriggerHelper.GetMinutes()) + "] " + txt + "\n");
 };
 
 Trigger.prototype.GarrisonWoodenTowers = function()
@@ -128,7 +121,7 @@ Trigger.prototype.RaiseWaterLevelStep = function()
 	let cmpTemplateManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_TemplateManager);
 	let cmpRangeManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_RangeManager);
 
-	for (let ent of [...cmpRangeManager.GetEntitiesByPlayer(0), ...cmpRangeManager.GetNonGaiaEntities()])
+	for (let ent of cmpRangeManager.GetGaiaAndNonGaiaEntities())
 	{
 		let cmpPosition = Engine.QueryInterface(ent, IID_Position);
 		if (!cmpPosition || !cmpPosition.IsInWorld())
@@ -189,9 +182,8 @@ Trigger.prototype.RaiseWaterLevelStep = function()
 	this.DebugLog("Converted to actors: " + uneval(actorTemplates));
 };
 
-
 {
-	let waterRiseTime = debugWaterRise ? 0 : randFloat(...waterRiseStartTime);
+	let waterRiseTime = debugWaterRise ? 0 : (InitAttributes.settings.SeaLevelRiseTime || 0);
 	let cmpTrigger = Engine.QueryInterface(SYSTEM_ENTITY, IID_Trigger);
 	cmpTrigger.GarrisonWoodenTowers();
 	cmpTrigger.DoAfterDelay((waterRiseTime - waterRiseNotificationDuration) * 60 * 1000, "RaisingWaterNotification", {});

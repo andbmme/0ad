@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -26,11 +26,17 @@
 #include "ps/Game.h"
 #include "ps/Replay.h"
 #include "ps/World.h"
+#include "scriptinterface/ScriptInterface.h"
 #include "simulation2/system/TurnManager.h"
 #include "simulation2/Simulation2.h"
 #include "soundmanager/SoundManager.h"
 
 extern void EndGame();
+
+bool JSI_Game::IsGameStarted(ScriptInterface::CxPrivate* UNUSED(pCxPrivate))
+{
+	return g_Game;
+}
 
 void JSI_Game::StartGame(ScriptInterface::CxPrivate* pCxPrivate, JS::HandleValue attribs, int playerID)
 {
@@ -38,7 +44,7 @@ void JSI_Game::StartGame(ScriptInterface::CxPrivate* pCxPrivate, JS::HandleValue
 	ENSURE(!g_NetClient);
 	ENSURE(!g_Game);
 
-	g_Game = new CGame();
+	g_Game = new CGame(true);
 
 	// Convert from GUI script context to sim script context
 	CSimulation2* sim = g_Game->GetSimulation2();
@@ -95,7 +101,9 @@ bool JSI_Game::IsPaused(ScriptInterface::CxPrivate* pCxPrivate)
 {
 	if (!g_Game)
 	{
-		JS_ReportError(pCxPrivate->pScriptInterface->GetContext(), "Game is not started");
+		JSContext* cx = pCxPrivate->pScriptInterface->GetContext();
+		JSAutoRequest rq(cx);
+		JS_ReportError(cx, "Game is not started");
 		return false;
 	}
 
@@ -106,7 +114,9 @@ void JSI_Game::SetPaused(ScriptInterface::CxPrivate* pCxPrivate, bool pause, boo
 {
 	if (!g_Game)
 	{
-		JS_ReportError(pCxPrivate->pScriptInterface->GetContext(), "Game is not started");
+		JSContext* cx = pCxPrivate->pScriptInterface->GetContext();
+		JSAutoRequest rq(cx);
+		JS_ReportError(cx, "Game is not started");
 		return;
 	}
 
@@ -161,6 +171,7 @@ void JSI_Game::DumpTerrainMipmap(ScriptInterface::CxPrivate* UNUSED(pCxPrivate))
 
 void JSI_Game::RegisterScriptFunctions(const ScriptInterface& scriptInterface)
 {
+	scriptInterface.RegisterFunction<bool, &IsGameStarted>("IsGameStarted");
 	scriptInterface.RegisterFunction<void, JS::HandleValue, int, &StartGame>("StartGame");
 	scriptInterface.RegisterFunction<void, &Script_EndGame>("EndGame");
 	scriptInterface.RegisterFunction<int, &GetPlayerID>("GetPlayerID");

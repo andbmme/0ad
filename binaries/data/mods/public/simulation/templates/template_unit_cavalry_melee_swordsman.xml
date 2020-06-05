@@ -6,10 +6,11 @@
   </Armour>
   <Attack>
     <Melee>
-      <Hack>6.5</Hack>
-      <Pierce>0</Pierce>
-      <Crush>0.0</Crush>
-      <MaxRange>6.0</MaxRange>
+      <Damage>
+        <Hack>6.5</Hack>
+        <Pierce>0</Pierce>
+        <Crush>0.0</Crush>
+      </Damage>
       <PreferredClasses datatype="tokens">Siege</PreferredClasses>
     </Melee>
   </Attack>
@@ -20,7 +21,7 @@
     </Resources>
   </Cost>
   <Identity>
-    <VisibleClasses datatype="tokens">Sword</VisibleClasses>
+    <VisibleClasses datatype="tokens">Swordsman</VisibleClasses>
     <GenericName>Cavalry Swordsman</GenericName>
   </Identity>
   <Loot>
@@ -28,9 +29,6 @@
     <metal>5</metal>
   </Loot>
   <UnitMotion>
-    <WalkSpeed op="mul">1.15</WalkSpeed>
-    <Run>
-      <Speed op="mul">1.15</Speed>
-    </Run>
+    <WalkSpeed op="mul">1.2</WalkSpeed>
   </UnitMotion>
 </Entity>

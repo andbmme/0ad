@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -17,20 +17,16 @@
 
 #include "precompiled.h"
 
-#include "ps/scripting/JSInterface_SavedGame.h"
+#include "JSInterface_SavedGame.h"
 
 #include "network/NetClient.h"
 #include "network/NetServer.h"
 #include "ps/CLogger.h"
 #include "ps/Game.h"
 #include "ps/SavedGame.h"
+#include "scriptinterface/ScriptInterface.h"
 #include "simulation2/Simulation2.h"
 #include "simulation2/system/TurnManager.h"
-
-JS::Value JSI_SavedGame::GetEngineInfo(ScriptInterface::CxPrivate* pCxPrivate)
-{
-	return SavedGames::GetEngineInfo(*(pCxPrivate->pScriptInterface));
-}
 
 JS::Value JSI_SavedGame::GetSavedGames(ScriptInterface::CxPrivate* pCxPrivate)
 {
@@ -56,14 +52,24 @@ void JSI_SavedGame::SaveGamePrefix(ScriptInterface::CxPrivate* pCxPrivate, const
 		LOGERROR("Failed to save game");
 }
 
-void JSI_SavedGame::QuickSave(ScriptInterface::CxPrivate* UNUSED(pCxPrivate))
+void JSI_SavedGame::QuickSave(ScriptInterface::CxPrivate* UNUSED(pCxPrivate), JS::HandleValue GUIMetadata)
 {
-	g_Game->GetTurnManager()->QuickSave();
+	if (g_NetServer || g_NetClient)
+		LOGERROR("Can't store quicksave during multiplayer!");
+	else if (g_Game)
+		g_Game->GetTurnManager()->QuickSave(GUIMetadata);
+	else
+		LOGERROR("Can't store quicksave if game is not running!");
 }
 
 void JSI_SavedGame::QuickLoad(ScriptInterface::CxPrivate* UNUSED(pCxPrivate))
 {
-	g_Game->GetTurnManager()->QuickLoad();
+	if (g_NetServer || g_NetClient)
+		LOGERROR("Can't load quicksave during multiplayer!");
+	else if (g_Game)
+		g_Game->GetTurnManager()->QuickLoad();
+	else
+		LOGERROR("Can't load quicksave if game is not running!");
 }
 
 JS::Value JSI_SavedGame::StartSavedGame(ScriptInterface::CxPrivate* pCxPrivate, const std::wstring& name)
@@ -87,7 +93,7 @@ JS::Value JSI_SavedGame::StartSavedGame(ScriptInterface::CxPrivate* pCxPrivate, 
 	if (err < 0)
 		return JS::UndefinedValue();
 
-	g_Game = new CGame();
+	g_Game = new CGame(true);
 
 	{
 		CSimulation2* sim = g_Game->GetSimulation2();
@@ -111,12 +117,11 @@ JS::Value JSI_SavedGame::StartSavedGame(ScriptInterface::CxPrivate* pCxPrivate, 
 
 void JSI_SavedGame::RegisterScriptFunctions(const ScriptInterface& scriptInterface)
 {
-	scriptInterface.RegisterFunction<JS::Value, &GetEngineInfo>("GetEngineInfo");
 	scriptInterface.RegisterFunction<JS::Value, &GetSavedGames>("GetSavedGames");
 	scriptInterface.RegisterFunction<bool, std::wstring, &DeleteSavedGame>("DeleteSavedGame");
 	scriptInterface.RegisterFunction<void, std::wstring, std::wstring, JS::HandleValue, &SaveGame>("SaveGame");
 	scriptInterface.RegisterFunction<void, std::wstring, std::wstring, JS::HandleValue, &SaveGamePrefix>("SaveGamePrefix");
-	scriptInterface.RegisterFunction<void, &QuickSave>("QuickSave");
+	scriptInterface.RegisterFunction<void, JS::HandleValue, &QuickSave>("QuickSave");
 	scriptInterface.RegisterFunction<void, &QuickLoad>("QuickLoad");
 	scriptInterface.RegisterFunction<JS::Value, std::wstring, &StartSavedGame>("StartSavedGame");
 }

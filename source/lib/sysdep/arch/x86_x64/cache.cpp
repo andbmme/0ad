@@ -1,4 +1,4 @@
-/* Copyright (C) 2011 Wildfire Games.
+/* Copyright (C) 2018 Wildfire Games.
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -42,17 +42,17 @@ static void AddCache(const x86_x64::Cache& cache)
 {
 	ENSURE(cache.Validate());
 
-	if(cache.type == x86_x64::Cache::kData || cache.type == x86_x64::Cache::kUnified)
-		caches[L1D + cache.level-1] = cache;
-	if(cache.type == x86_x64::Cache::kInstruction || cache.type == x86_x64::Cache::kUnified)
-		caches[L1I + cache.level-1] = cache;
+	if(cache.m_Type == x86_x64::Cache::kData || cache.m_Type == x86_x64::Cache::kUnified)
+		caches[L1D + cache.m_Level-1] = cache;
+	if(cache.m_Type == x86_x64::Cache::kInstruction || cache.m_Type == x86_x64::Cache::kUnified)
+		caches[L1I + cache.m_Level-1] = cache;
 }
 
 
 static void AddTLB(const x86_x64::Cache& tlb)
 {
 	ENSURE(tlb.Validate());
-	ENSURE(tlb.level == 1 || tlb.level == 2);	// see maxTLBs
+	ENSURE(tlb.m_Level == 1 || tlb.m_Level == 2);	// see maxTLBs
 
 	ENSURE(numTLBs < maxTLBs);
 	caches[TLB+numTLBs++] = tlb;
@@ -77,10 +77,10 @@ static x86_x64::Cache L1Cache(u32 reg, x86_x64::Cache::Type type)
 	const size_t totalSize     = bits(reg, 24, 31)*KiB;
 	if(lineSize != 0 && associativity != 0 && totalSize != 0)
 	{
-		cache.numEntries    = totalSize / lineSize;
-		cache.entrySize     = lineSize;
-		cache.associativity = associativity;
-		cache.sharedBy      = 1;
+		cache.m_NumEntries = totalSize / lineSize;
+		cache.m_EntrySize = lineSize;
+		cache.m_Associativity = associativity;
+		cache.m_SharedBy = 1;
 	}
 	return cache;
 }
@@ -89,7 +89,8 @@ static x86_x64::Cache L1Cache(u32 reg, x86_x64::Cache::Type type)
 static const size_t associativityTable[16] =
 {
 	0, 1, 2, 0, 4, 0, 8, 0,
-	16, 0, 32, 48, 64, 96, 128, x86_x64::Cache::fullyAssociative
+	// TODO: The second '16' does not obey to the specifications and is only a workaround. For a correct implementation please look here: https://community.amd.com/thread/244207
+	16, 16, 32, 48, 64, 96, 128, x86_x64::Cache::fullyAssociative
 };
 
 static x86_x64::Cache L2Cache(u32 reg, x86_x64::Cache::Type type)
@@ -102,10 +103,10 @@ static x86_x64::Cache L2Cache(u32 reg, x86_x64::Cache::Type type)
 	const size_t totalSize        = bits(reg, 16, 31)*KiB;
 	if(lineSize != 0 && idxAssociativity != 0 && totalSize != 0)
 	{
-		cache.numEntries    = totalSize / lineSize;
-		cache.entrySize     = lineSize;
-		cache.associativity = associativityTable[idxAssociativity];
-		cache.sharedBy      = 1;
+		cache.m_NumEntries = totalSize / lineSize;
+		cache.m_EntrySize = lineSize;
+		cache.m_Associativity = associativityTable[idxAssociativity];
+		cache.m_SharedBy = 1;
 	}
 	return cache;
 }
@@ -122,10 +123,10 @@ static x86_x64::Cache L3Cache(u32 reg, x86_x64::Cache::Type type)
 	// NB: some Athlon 64 X2 models have no L3 cache
 	if(lineSize != 0 && idxAssociativity != 0 && totalSize != 0)
 	{
-		cache.numEntries    = totalSize / lineSize;
-		cache.entrySize     = lineSize;
-		cache.associativity = associativityTable[idxAssociativity];
-		cache.sharedBy      = 1;
+		cache.m_NumEntries = totalSize / lineSize;
+		cache.m_EntrySize = lineSize;
+		cache.m_Associativity = associativityTable[idxAssociativity];
+		cache.m_SharedBy = 1;
 	}
 	return cache;
 }
@@ -139,10 +140,10 @@ static x86_x64::Cache TLB1(u32 reg, size_t bitOffset, size_t pageSize, x86_x64::
 	const size_t associativity = bits(reg, bitOffset+8, bitOffset+15);	// 0 = reserved
 	if(numEntries != 0 && associativity != 0)
 	{
-		cache.numEntries    = numEntries;
-		cache.entrySize     = pageSize;
-		cache.associativity = associativity;
-		cache.sharedBy      = 1;
+		cache.m_NumEntries = numEntries;
+		cache.m_EntrySize = pageSize;
+		cache.m_Associativity = associativity;
+		cache.m_SharedBy = 1;
 	}
 	return cache;
 }
@@ -156,10 +157,10 @@ static x86_x64::Cache TLB2(u32 reg, size_t bitOffset, size_t pageSize, x86_x64::
 	const size_t idxAssociativity = bits(reg, bitOffset+12, bitOffset+15);	// 0 = disabled
 	if(numEntries != 0 && idxAssociativity != 0)
 	{
-		cache.numEntries    = numEntries;
-		cache.entrySize     = pageSize;
-		cache.associativity = associativityTable[idxAssociativity];
-		cache.sharedBy      = 1;
+		cache.m_NumEntries = numEntries;
+		cache.m_EntrySize = pageSize;
+		cache.m_Associativity = associativityTable[idxAssociativity];
+		cache.m_SharedBy = 1;
 	}
 	return cache;
 }
@@ -233,10 +234,10 @@ static bool DetectCache()
 
 		x86_x64::Cache cache;
 		cache.Initialize(level, type);
-		cache.entrySize     = (size_t)bits(regs.ebx,  0, 11)+1;	// (yes, this also uses +1 encoding)
-		cache.associativity = (size_t)bits(regs.ebx, 22, 31)+1;
-		cache.sharedBy      = (size_t)bits(regs.eax, 14, 25)+1;
-		cache.numEntries    = cache.associativity * partitions * sets;
+		cache.m_EntrySize = static_cast<size_t>(bits(regs.ebx, 0, 11) + 1); // (yes, this also uses +1 encoding)
+		cache.m_Associativity = static_cast<size_t>(bits(regs.ebx, 22, 31) + 1);
+		cache.m_SharedBy = static_cast<size_t>(bits(regs.eax, 14, 25) + 1);
+		cache.m_NumEntries = cache.m_Associativity * partitions * sets;
 
 		AddCache(cache);
 	}
@@ -596,10 +597,10 @@ static void DetectCacheAndTLB(size_t& descriptorFlags)
 
 		x86_x64::Cache cache;
 		cache.Initialize(characteristics->Level(), characteristics->Type());
-		cache.numEntries    = characteristics->NumEntries();
-		cache.entrySize     = characteristics->EntrySize();
-		cache.associativity = characteristics->associativity;
-		cache.sharedBy      = 1;	// (safe default)
+		cache.m_NumEntries = characteristics->NumEntries();
+		cache.m_EntrySize = characteristics->EntrySize();
+		cache.m_Associativity = characteristics->associativity;
+		cache.m_SharedBy = 1;	// (safe default)
 		if(characteristics->IsTLB())
 			AddTLB(cache);
 		else
@@ -632,12 +633,12 @@ static Status DetectCacheAndTLB()
 	// sanity checks
 	for(size_t idxLevel = 0; idxLevel < x86_x64::Cache::maxLevels; idxLevel++)
 	{
-		ENSURE(caches[L1D+idxLevel].type == x86_x64::Cache::kData || caches[L1D+idxLevel].type == x86_x64::Cache::kUnified);
-		ENSURE(caches[L1D+idxLevel].level == idxLevel+1);
+		ENSURE(caches[L1D+idxLevel].m_Type == x86_x64::Cache::kData || caches[L1D+idxLevel].m_Type == x86_x64::Cache::kUnified);
+		ENSURE(caches[L1D+idxLevel].m_Level == idxLevel+1);
 		ENSURE(caches[L1D+idxLevel].Validate() == true);
 
-		ENSURE(caches[L1I+idxLevel].type == x86_x64::Cache::kInstruction || caches[L1I+idxLevel].type == x86_x64::Cache::kUnified);
-		ENSURE(caches[L1I+idxLevel].level == idxLevel+1);
+		ENSURE(caches[L1I+idxLevel].m_Type == x86_x64::Cache::kInstruction || caches[L1I+idxLevel].m_Type == x86_x64::Cache::kUnified);
+		ENSURE(caches[L1I+idxLevel].m_Level == idxLevel+1);
 		ENSURE(caches[L1I+idxLevel].Validate() == true);
 	}
 	for(size_t i = 0; i < numTLBs; i++)

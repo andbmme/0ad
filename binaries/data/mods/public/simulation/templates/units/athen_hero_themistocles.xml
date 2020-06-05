@@ -8,10 +8,10 @@
     <Civ>athen</Civ>
     <Lang>greek</Lang>
     <GenericName>Themistocles</GenericName>
-    <SpecificName>Themistoklês</SpecificName>
+    <SpecificName>Themistoklēs</SpecificName>
     <Icon>units/athen_hero_themistocles.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/athenians/themistocles.xml</Actor>
+    <Actor>units/athenians/hero_infantry_swordsman_themistocles.xml</Actor>
   </VisualActor>
 </Entity>

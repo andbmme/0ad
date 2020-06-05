@@ -1,10 +1,12 @@
 const g_CivData = loadCivData(false, false);
 
+var g_ScorePanelsData;
+
 var g_MaxHeadingTitle = 9;
 var g_LongHeadingWidth = 250;
 var g_PlayerBoxYSize = 40;
 var g_PlayerBoxGap = 2;
-var g_PlayerBoxAlpha = " 50";
+var g_PlayerBoxAlpha = 50;
 var g_TeamsBoxYStart = 40;
 
 var g_TypeColors = {
@@ -15,7 +17,7 @@ var g_TypeColors = {
 };
 
 /**
- * Colors, captions and format used for units, buildings, etc. types
+ * Colors, captions and format used for units, structures, etc. types
  */
 var g_SummaryTypes = {
 	"percent": {
@@ -76,38 +78,36 @@ var g_SummaryTypes = {
 	"lost": {
 		"color": g_TypeColors.red,
 		"caption": translate("Lost"),
-		"postfix": "\n"
+		"postfix": ""
 	},
 	"used": {
 		"color": g_TypeColors.red,
 		"caption": translate("Used"),
-		"postfix": "\n"
+		"postfix": ""
 	},
 	"received": {
 		"color": g_TypeColors.red,
 		"caption": translate("Received"),
-		"postfix": "\n"
+		"postfix": ""
 	},
 	"sold": {
 		"color": g_TypeColors.red,
 		"caption": translate("Sold"),
-		"postfix": "\n"
+		"postfix": ""
 	},
 	"outcome": {
 		"color": g_TypeColors.red,
 		"caption": translate("Outcome"),
-		"postfix": "\n"
+		"postfix": ""
 	},
 	"failed": {
 		"color": g_TypeColors.red,
 		"caption": translate("Failed"),
-		"postfix": "\n"
+		"postfix": ""
 	}
 };
 
-/**
- * Translation: Unicode encoded infinity symbol indicating a division by zero in the summary screen.
- */
+// Translation: Unicode encoded infinity symbol indicating a division by zero in the summary screen.
 var g_InfinitySymbol = translate("\u221E");
 
 var g_Teams = [];
@@ -118,12 +118,78 @@ var g_PlayerCount = 0;
 var g_GameData;
 var g_ResourceData = new Resources();
 
-// Selected chart indexes
+/**
+ * Selected chart indexes.
+ */
 var g_SelectedChart = {
 	"category": [0, 0],
-	"value": [0, 0],
+	"value": [0, 1],
 	"type": [0, 0]
 };
+
+/**
+ * Array of the panel button names.
+ */
+var g_PanelButtons = [];
+
+/**
+ * Remember the name of the currently opened view panel.
+ */
+var g_SelectedPanel = "";
+
+function init(data)
+{
+	// Fill globals
+	g_GameData = data;
+	g_ScorePanelsData = getScorePanelsData();
+	g_PanelButtons = Object.keys(g_ScorePanelsData).concat(["charts"]).map(panel => panel + "PanelButton");
+
+	g_SelectedPanel = g_PanelButtons[0];
+	if (data && data.selectedData)
+	{
+		g_SelectedPanel = data.selectedData.panel;
+		g_SelectedChart = data.selectedData.charts;
+	}
+
+	initTeamData();
+	calculateTeamCounterDataHelper();
+
+	// Output globals
+	initGUIWindow();
+	initPlayerBoxPositions();
+	initGUICharts();
+	initGUILabels();
+	initGUIButtons();
+
+	selectPanel(Engine.GetGUIObjectByName(g_SelectedPanel));
+	for (let button of g_PanelButtons)
+	{
+		let tab = Engine.GetGUIObjectByName(button);
+		tab.onMouseWheelUp = () => selectNextTab(1);
+		tab.onMouseWheelDown = () => selectNextTab(-1);
+	}
+}
+
+/**
+ * Sets the style and title of the page.
+ */
+function initGUIWindow()
+{
+	let summaryWindow = Engine.GetGUIObjectByName("summaryWindow");
+	summaryWindow.sprite = g_GameData.gui.dialog ? "ModernDialog" : "ModernWindow";
+	summaryWindow.size = g_GameData.gui.dialog ? "16 24 100%-16 100%-24" : "0 0 100% 100%";
+	Engine.GetGUIObjectByName("summaryWindowTitle").size = g_GameData.gui.dialog ? "50%-128 -16 50%+128 16" : "50%-128 4 50%+128 36";
+}
+
+/**
+ * Show next/previous panel.
+ * @param direction - 1/-1 forward, backward panel.
+ */
+function selectNextTab(direction)
+{
+	selectPanel(Engine.GetGUIObjectByName(g_PanelButtons[
+		(g_PanelButtons.indexOf(g_SelectedPanel) + direction + g_PanelButtons.length) % g_PanelButtons.length]));
+}
 
 function selectPanel(panel)
 {
@@ -146,9 +212,11 @@ function selectPanel(panel)
 		updatePanelData(g_ScorePanelsData[panel.name.substr(0, panel.name.length - "PanelButton".length)]);
 	else
 		[0, 1].forEach(updateCategoryDropdown);
+
+	g_SelectedPanel = panel.name;
 }
 
-function initCharts()
+function initGUICharts()
 {
 	let player_colors = [];
 	for (let i = 1; i <= g_PlayerCount; ++i)
@@ -161,14 +229,13 @@ function initCharts()
 		);
 	}
 
-	[0, 1].forEach(i => {
+	for (let i = 0; i < 2; ++i)
 		Engine.GetGUIObjectByName("chart[" + i + "]").series_color = player_colors;
-	});
 
 	let chartLegend = Engine.GetGUIObjectByName("chartLegend");
 	chartLegend.caption = g_GameData.sim.playerStates.slice(1).map(
-		(state, index) => '[color="' + player_colors[index] + '"]■[/color] ' + state.name
-	).join("  ");
+		(state, index) => coloredText("■", player_colors[index]) + " " + state.name
+	).join("   ");
 
 	let chart1Part = Engine.GetGUIObjectByName("chart[1]Part");
 	let chart1PartSize = chart1Part.size;
@@ -264,6 +331,8 @@ function updateChart(number, category, item, itemNumber, type)
 	if (!g_ScorePanelsData[category].counters[itemNumber].fn)
 		return;
 	let chart = Engine.GetGUIObjectByName("chart[" + number + "]");
+	chart.format_y = g_ScorePanelsData[category].headings[itemNumber + 1].format || "INTEGER";
+	Engine.GetGUIObjectByName("chart[" + number + "]XAxisLabel").caption = translate("Time elapsed");
 	let series = [];
 	for (let j = 1; j <= g_PlayerCount; ++j)
 	{
@@ -343,15 +412,17 @@ function updatePanelData(panelInfo)
 
 		let rowPlayerObject = Engine.GetGUIObjectByName(rowPlayer);
 		rowPlayerObject.hidden = false;
-		rowPlayerObject.sprite = colorString + g_PlayerBoxAlpha;
+		rowPlayerObject.sprite = colorString + " " + g_PlayerBoxAlpha;
 
 		let boxSize = rowPlayerObject.size;
 		boxSize.right = rowPlayerObjectWidth;
 		rowPlayerObject.size = boxSize;
 
-		setOutcomeIcon(playerState.state, playerOutcome);
+		setOutcomeIcon(playerState.state, Engine.GetGUIObjectByName(playerOutcome));
 
-		Engine.GetGUIObjectByName(playerNameColumn).caption = g_GameData.sim.playerStates[i + 1].name;
+		playerNameColumn = Engine.GetGUIObjectByName(playerNameColumn);
+		playerNameColumn.caption = g_GameData.sim.playerStates[i + 1].name;
+		playerNameColumn.tooltip = translateAISettings(g_GameData.sim.mapSettings.PlayerData[i + 1]);
 
 		let civIcon = Engine.GetGUIObjectByName(playerCivicBoxColumn);
 		civIcon.sprite = "stretched:" + g_CivData[playerState.civ].Emblem;
@@ -365,39 +436,31 @@ function updatePanelData(panelInfo)
 		updateCountersTeam(teamCounterFn, panelInfo.counters, panelInfo.headings, index);
 }
 
-function confirmStartReplay()
-{
-	if (Engine.HasXmppClient())
-		messageBox(
-			400, 200,
-			translate("Are you sure you want to quit the lobby?"),
-			translate("Confirmation"),
-			[translate("No"), translate("Yes")],
-			[null, startReplay]
-		);
-	else
-		startReplay();
-}
-
 function continueButton()
 {
+	let summarySelectedData = {
+		"panel": g_SelectedPanel,
+		"charts": g_SelectedChart
+	};
 	if (g_GameData.gui.isInGame)
-		Engine.PopGuiPageCB(0);
+		Engine.PopGuiPage({
+			"summarySelectedData": summarySelectedData
+		});
+	else if (g_GameData.gui.dialog)
+		Engine.PopGuiPage();
+	else if (Engine.HasXmppClient())
+		Engine.SwitchGuiPage("page_lobby.xml", { "dialog": false });
 	else if (g_GameData.gui.isReplay)
 		Engine.SwitchGuiPage("page_replaymenu.xml", {
-			"replaySelectionData": g_GameData.gui.replaySelectionData
+			"replaySelectionData": g_GameData.gui.replaySelectionData,
+			"summarySelectedData": summarySelectedData
 		});
-	else if (Engine.HasXmppClient())
-		Engine.SwitchGuiPage("page_lobby.xml");
 	else
 		Engine.SwitchGuiPage("page_pregame.xml");
 }
 
 function startReplay()
 {
-	if (Engine.HasXmppClient())
-		Engine.StopXmppClient();
-
 	if (!Engine.StartVisualReplay(g_GameData.gui.replayDirectory))
 	{
 		warn("Replay file not found!");
@@ -406,7 +469,6 @@ function startReplay()
 
 	Engine.SwitchGuiPage("page_loading.xml", {
 		"attribs": Engine.GetReplayAttributes(g_GameData.gui.replayDirectory),
-		"isNetworked": false,
 		"playerAssignments": {
 			"local": {
 				"name": singleplayerName(),
@@ -419,9 +481,8 @@ function startReplay()
 	});
 }
 
-function init(data)
+function initGUILabels()
 {
-	g_GameData = data;
 	let assignedState = g_GameData.sim.playerStates[g_GameData.gui.assignedPlayer || -1];
 
 	Engine.GetGUIObjectByName("summaryText").caption =
@@ -436,10 +497,8 @@ function init(data)
 		assignedState.state == "won" ?
 			translate("You have won the battle!") :
 		assignedState.state == "defeated" ?
-			translate("You have been defeated...") :
+			translate("You have been defeated…") :
 			translate("You have abandoned the game.");
-
-	initPlayerBoxPositions();
 
 	Engine.GetGUIObjectByName("timeElapsed").caption = sprintf(
 		translate("Game time elapsed: %(time)s"), {
@@ -454,9 +513,27 @@ function init(data)
 			"mapName": translate(g_GameData.sim.mapSettings.Name),
 			"mapType": mapSize ? mapSize.Name : (mapType ? mapType.Title : "")
 		});
+}
 
-	Engine.GetGUIObjectByName("replayButton").hidden = g_GameData.gui.isInGame || !g_GameData.gui.replayDirectory;
+function initGUIButtons()
+{
+	let replayButton = Engine.GetGUIObjectByName("replayButton");
+	replayButton.hidden = g_GameData.gui.isInGame || !g_GameData.gui.replayDirectory;
 
+	let lobbyButton = Engine.GetGUIObjectByName("lobbyButton");
+	lobbyButton.tooltip = colorizeHotkey(translate("%(hotkey)s: Toggle the multiplayer lobby in a dialog window."), "lobby");
+	lobbyButton.hidden = g_GameData.gui.isInGame || !Engine.HasXmppClient();
+
+	// Right-align lobby button
+	let lobbyButtonSize = lobbyButton.size;
+	let lobbyButtonWidth = lobbyButtonSize.right - lobbyButtonSize.left;
+	lobbyButtonSize.right = (replayButton.hidden ? Engine.GetGUIObjectByName("continueButton").size.left : replayButton.size.left) - 10;
+	lobbyButtonSize.left = lobbyButtonSize.right - lobbyButtonWidth;
+	lobbyButton.size = lobbyButtonSize;
+}
+
+function initTeamData()
+{
 	// Panels
 	g_PlayerCount = g_GameData.sim.playerStates.length - 1;
 
@@ -481,9 +558,4 @@ function init(data)
 	if (!g_Teams)
 		for (let p = 0; p < g_PlayerCount; ++p)
 			g_GameData.sim.playerStates[p+1].team = -1;
-
-	calculateTeamCounterDataHelper();
-
-	initCharts();
-	selectPanel(Engine.GetGUIObjectByName("scorePanelButton"));
 }

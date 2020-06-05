@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -25,8 +25,7 @@
 #include "ps/Filesystem.h"
 
 BEGIN_INTERFACE_WRAPPER(AIManager)
-DEFINE_INTERFACE_METHOD_3("AddPlayer", void, ICmpAIManager, AddPlayer, std::wstring, player_id_t, uint8_t)
-DEFINE_INTERFACE_METHOD_1("SetRNGSeed", void, ICmpAIManager, SetRNGSeed, uint32_t)
+DEFINE_INTERFACE_METHOD_4("AddPlayer", void, ICmpAIManager, AddPlayer, std::wstring, player_id_t, uint8_t, std::wstring)
 DEFINE_INTERFACE_METHOD_0("TryLoadSharedComponent", void, ICmpAIManager, TryLoadSharedComponent)
 DEFINE_INTERFACE_METHOD_0("RunGamestateInit", void, ICmpAIManager, RunGamestateInit)
 END_INTERFACE_WRAPPER(AIManager)
@@ -65,9 +64,10 @@ public:
 		std::wstring dirname = GetWstringFromWpath(*it);
 
 		JS::RootedValue ai(cx);
+		ScriptInterface::CreateObject(cx, &ai);
+
 		JS::RootedValue data(cx);
 		self->m_ScriptInterface.ReadJSONFile(pathname, &data);
-		self->m_ScriptInterface.Eval("({})", &ai);
 		self->m_ScriptInterface.SetProperty(ai, "id", dirname, true);
 		self->m_ScriptInterface.SetProperty(ai, "data", data, true);
 		u32 length;

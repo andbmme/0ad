@@ -82,7 +82,7 @@
 		{
 			"Name":"Peloponnesian League",
 			"History":"Much of the Peloponnese was subject to Sparta in one way or another. This loose confederation, with Sparta as its leader, was later dubbed the Peloponnesian League by historians, but in ancient times was called 'The Lacedaemonians and their allies.'",
-			"Description":"Increases the health for citizen-soldier infantry spearmen by 10% for allies of Spartan players."
+			"Description":"Allied Citizen Infantry Spearmen +10% health."
 		}
 	],
 	"Structures":
@@ -105,6 +105,11 @@
 			"Phase":"City",
 			"Special":"Train heroes and Spartiates and research technologies related to them."
 		}
+	],
+	"WallSets":
+	[
+		"structures/wallset_palisade",
+		"structures/spart_wallset_stone"
 	],
 	"StartEntities":
 	[
@@ -136,9 +141,9 @@
 		"special/formations/column_open",
 		"special/formations/line_open",
 		"special/formations/flank",
+		"special/formations/battle_line",
 		"special/formations/skirmish",
 		"special/formations/wedge",
-		"special/formations/battle_line",
 		"special/formations/phalanx"
 	],
 	"AINames":

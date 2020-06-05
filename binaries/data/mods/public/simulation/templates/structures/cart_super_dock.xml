@@ -21,7 +21,6 @@
     <Resources>
       <wood>300</wood>
       <stone>200</stone>
-      <metal>0</metal>
     </Resources>
   </Cost>
   <Footprint>
@@ -41,6 +40,7 @@
   </Health>
   <Identity>
     <Civ>cart</Civ>
+    <Classes datatype="tokens">ConquestCritical</Classes>
     <GenericName>Naval Shipyard</GenericName>
     <SpecificName>Cothon</SpecificName>
     <VisibleClasses datatype="tokens">-City Shipyard Town</VisibleClasses>
@@ -49,8 +49,8 @@
     <RequiredTechnology>phase_town</RequiredTechnology>
   </Identity>
   <Loot>
-    <wood>75</wood>
-    <stone>50</stone>
+    <wood>60</wood>
+    <stone>40</stone>
   </Loot>
   <Obstruction>
     <Static width="42.0" depth="58.0"/>
@@ -78,7 +78,6 @@
     <SoundGroups>
       <select>interface/select/building/sel_dock.xml</select>
       <constructed>interface/complete/building/complete_dock.xml</constructed>
-      <death>attack/destruction/building_collapse_large.xml</death>
     </SoundGroups>
   </Sound>
   <TerritoryDecay disable=""/>

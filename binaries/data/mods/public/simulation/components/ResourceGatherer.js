@@ -40,8 +40,6 @@ ResourceGatherer.prototype.Init = function()
 
 	// The last exact type gathered, so we can render appropriate props
 	this.lastCarriedType = undefined; // { generic, specific }
-
-	this.RecalculateGatherRatesAndCapacities();
 };
 
 /**
@@ -69,9 +67,7 @@ ResourceGatherer.prototype.GetCarryingStatus = function()
 ResourceGatherer.prototype.GiveResources = function(resources)
 {
 	for (let resource of resources)
-	{
-		this.carrying[resource.type] = +(resource.amount);
-	}
+		this.carrying[resource.type] = +resource.amount;
 
 	Engine.PostMessage(this.entity, MT_ResourceCarryingChanged, { "to": this.GetCarryingStatus() });
 };
@@ -98,16 +94,19 @@ ResourceGatherer.prototype.GetLastCarriedType = function()
 {
 	if (this.lastCarriedType && this.lastCarriedType.generic in this.carrying)
 		return this.lastCarriedType;
-	else
-		return undefined;
+
+	return undefined;
+};
+
+ResourceGatherer.prototype.SetLastCarriedType = function(lastCarriedType)
+{
+	this.lastCarriedType = lastCarriedType;
 };
 
 // Since this code is very performancecritical and applying technologies quite slow, cache it.
 ResourceGatherer.prototype.RecalculateGatherRatesAndCapacities = function()
 {
-	let cmpPlayer = QueryOwnerInterface(this.entity, IID_Player);
-	let multiplier = cmpPlayer ? cmpPlayer.GetGatherRateMultiplier() : 1;
-	this.baseSpeed = multiplier * ApplyValueModificationsToEntity("ResourceGatherer/BaseSpeed", +this.template.BaseSpeed, this.entity);
+	this.baseSpeed = ApplyValueModificationsToEntity("ResourceGatherer/BaseSpeed", +this.template.BaseSpeed, this.entity);
 
 	this.rates = {};
 	for (let r in this.template.Rates)
@@ -179,7 +178,7 @@ ResourceGatherer.prototype.TryInstantGather = function(target)
 
 	let cmpTrigger = Engine.QueryInterface(SYSTEM_ENTITY, IID_Trigger);
 	if (cmpTrigger && cmpPlayer)
-		cmpTrigger.CallEvent("TreasureCollected", {"player": cmpPlayer.GetPlayerID(), "type": type.specific, "amount": status.amount });
+		cmpTrigger.CallEvent("TreasureCollected", { "player": cmpPlayer.GetPlayerID(), "type": type.specific, "amount": status.amount });
 
 	return true;
 };
@@ -225,7 +224,7 @@ ResourceGatherer.prototype.PerformGather = function(target)
 	return {
 		"amount": status.amount,
 		"exhausted": status.exhausted,
-		"filled": (this.carrying[type.generic] >= this.GetCapacity(type.generic))
+		"filled": this.carrying[type.generic] >= this.GetCapacity(type.generic)
 	};
 };
 
@@ -248,10 +247,6 @@ ResourceGatherer.prototype.GetTargetGatherRate = function(target)
 	if (rate == 0 && type.generic)
 		rate = this.GetGatherRate(type.generic);
 
-	let cmpPlayer = QueryOwnerInterface(this.entity, IID_Player);
-	let cheatMultiplier = cmpPlayer ? cmpPlayer.GetCheatTimeMultiplier() : 1;
-	rate = rate / cheatMultiplier;
-
 	if ("Mirages" in cmpResourceSupply)
 		return rate;
 
@@ -272,14 +267,14 @@ ResourceGatherer.prototype.GetTargetGatherRate = function(target)
  */
 ResourceGatherer.prototype.CanCarryMore = function(type)
 {
-	let amount = (this.carrying[type] || 0);
+	let amount = this.carrying[type] || 0;
 	return amount < this.GetCapacity(type);
 };
 
 
 ResourceGatherer.prototype.IsCarrying = function(type)
 {
-	let amount = (this.carrying[type] || 0);
+	let amount = this.carrying[type] || 0;
 	return amount > 0;
 };
 
@@ -299,22 +294,32 @@ ResourceGatherer.prototype.IsCarryingAnythingExcept = function(exceptedType)
 
 /**
  * Transfer our carried resources to our owner immediately.
- * Only resources of the given types will be transferred.
- * (This should typically be called after reaching a dropsite).
+ * Only resources of the appropriate types will be transferred.
+ * (This should typically be called after reaching a dropsite.)
+ *
+ * @param {number} target - The target entity ID to drop resources at.
  */
-ResourceGatherer.prototype.CommitResources = function(types)
+ResourceGatherer.prototype.CommitResources = function(target)
 {
+	let cmpResourceDropsite = Engine.QueryInterface(target, IID_ResourceDropsite);
+	if (!cmpResourceDropsite)
+		return;
+
 	let cmpPlayer = QueryOwnerInterface(this.entity);
+	if (!cmpPlayer)
+		return;
 
-	if (cmpPlayer)
-		for (let type of types)
-			if (type in this.carrying)
-			{
-				cmpPlayer.AddResource(type, this.carrying[type]);
-				delete this.carrying[type];
-			}
+	let changed = false;
+	for (let type in this.carrying)
+		if (cmpResourceDropsite.AcceptsType(type))
+		{
+			cmpPlayer.AddResource(type, this.carrying[type]);
+			delete this.carrying[type];
+			changed = true;
+		}
 
-	Engine.PostMessage(this.entity, MT_ResourceCarryingChanged, { "to": this.GetCarryingStatus() });
+	if (changed)
+		Engine.PostMessage(this.entity, MT_ResourceCarryingChanged, { "to": this.GetCarryingStatus() });
 };
 
 /**
@@ -341,7 +346,7 @@ ResourceGatherer.prototype.OnValueModification = function(msg)
 
 ResourceGatherer.prototype.OnOwnershipChanged = function(msg)
 {
-	if (msg.to === -1)
+	if (msg.to == INVALID_PLAYER)
 		return;
 	this.RecalculateGatherRatesAndCapacities();
 };
@@ -349,6 +354,12 @@ ResourceGatherer.prototype.OnOwnershipChanged = function(msg)
 ResourceGatherer.prototype.OnGlobalInitGame = function(msg)
 {
 	this.RecalculateGatherRatesAndCapacities();
+};
+
+ResourceGatherer.prototype.OnMultiplierChanged = function(msg)
+{
+	if (msg.player == QueryOwnerInterface(this.entity, IID_Player).GetPlayerID())
+		this.RecalculateGatherRatesAndCapacities();
 };
 
 Engine.RegisterComponentType(IID_ResourceGatherer, "ResourceGatherer", ResourceGatherer);

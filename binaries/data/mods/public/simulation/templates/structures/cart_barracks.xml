@@ -18,11 +18,15 @@
     <SpecificName>Maḥanēt</SpecificName>
     <Tooltip>Train North African citizen-soldiers. Research improvements for North African units.</Tooltip>
   </Identity>
+  <Loot>
+    <wood>30</wood>
+    <stone>30</stone>
+  </Loot>
   <Obstruction>
     <Static width="22.0" depth="23.0"/>
   </Obstruction>
   <VisualActor>
     <Actor>structures/carthaginians/barracks.xml</Actor>
-    <FoundationActor>structures/fndn_5x5.xml</FoundationActor>
+    <FoundationActor>structures/fndn_6x6.xml</FoundationActor>
   </VisualActor>
 </Entity>

@@ -6,7 +6,7 @@ newoption { trigger = "icc", description = "Use Intel C++ Compiler (Linux only; 
 newoption { trigger = "jenkins-tests", description = "Configure CxxTest to use the XmlPrinter runner which produces Jenkins-compatible output" }
 newoption { trigger = "minimal-flags", description = "Only set compiler/linker flags that are really needed. Has no effect on Windows builds" }
 newoption { trigger = "outpath", description = "Location for generated project files" }
-newoption { trigger = "with-system-mozjs38", description = "Search standard paths for libmozjs38, instead of using bundled copy" }
+newoption { trigger = "with-system-mozjs45", description = "Search standard paths for libmozjs45, instead of using bundled copy" }
 newoption { trigger = "with-system-nvtt", description = "Search standard paths for nvidia-texture-tools library, instead of using bundled copy" }
 newoption { trigger = "without-audio", description = "Disable use of OpenAL/Ogg/Vorbis APIs" }
 newoption { trigger = "without-lobby", description = "Disable the use of gloox and the multiplayer lobby" }
@@ -14,6 +14,9 @@ newoption { trigger = "without-miniupnpc", description = "Disable use of miniupn
 newoption { trigger = "without-nvtt", description = "Disable use of NVTT" }
 newoption { trigger = "without-pch", description = "Disable generation and usage of precompiled headers" }
 newoption { trigger = "without-tests", description = "Disable generation of test projects" }
+
+-- Linux/BSD specific options
+newoption { trigger = "prefer-local-libs", description = "Prefer locally built libs. Any local libraries used must also be listed within a file within /etc/ld.so.conf.d so the dynamic linker can find them at runtime." }
 
 -- OS X specific options
 newoption { trigger = "macosx-bundle", description = "Enable OSX bundle, the argument is the bundle identifier string (e.g. com.wildfiregames.0ad)" }
@@ -186,6 +189,8 @@ function project_set_build_flags()
 	-- various platform-specific build flags
 	if os.istarget("windows") then
 
+		flags { "MultiProcessorCompile" }
+
 		-- use native wchar_t type (not typedef to unsigned short)
 		nativewchar "on"
 
@@ -257,7 +262,7 @@ function project_set_build_flags()
 
 				if os.istarget("linux") or os.istarget("bsd") then
 					buildoptions { "-fPIC" }
-					linkoptions { "-Wl,--no-undefined", "-Wl,--as-needed" }
+					linkoptions { "-Wl,--no-undefined", "-Wl,--as-needed", "-Wl,-z,relro" }
 				end
 
 				if arch == "x86" then
@@ -343,6 +348,10 @@ function project_set_build_flags()
 		end
 
 		if os.istarget("linux") or os.istarget("bsd") then
+			if _OPTIONS["prefer-local-libs"] then
+				libdirs { "/usr/local/lib" }
+			end
+
 			-- To use our local shared libraries, they need to be found in the
 			-- runtime dynamic linker path. Add their path to -rpath.
 			if _OPTIONS["libdir"] then
@@ -365,23 +374,6 @@ function project_set_build_flags()
 	end
 end
 
--- add X11 includes paths after all the others so they don't conflict with
--- bundled libs
-function project_add_x11_dirs()
-	if not os.istarget("windows") and not os.istarget("macosx") then
-		-- X11 includes may be installed in one of a gadzillion of five places
-		-- Famous last words: "You can't include too much! ;-)"
-		sysincludedirs {
-			"/usr/X11R6/include/X11",
-			"/usr/X11R6/include",
-			"/usr/local/include/X11",
-			"/usr/local/include",
-			"/usr/include/X11"
-		}
-		libdirs { "/usr/X11R6/lib" }
-	end
-end
-
 -- create a project and set the attributes that are common to all projects.
 function project_create(project_name, target_type)
 
@@ -389,9 +381,12 @@ function project_create(project_name, target_type)
 	language "C++"
 	kind(target_type)
 
-	filter "action:vs2013"
-		characterset "MBCS"
-		toolset "v120_xp"
+	filter "action:vs2015"
+		toolset "v140_xp"
+	filter {}
+
+	filter "action:vs*"
+		buildoptions "/utf-8"
 	filter {}
 
 	project_set_target(project_name)
@@ -463,9 +458,10 @@ function project_add_contents(source_root, rel_source_dirs, rel_include_dirs, ex
 			pchheader(pch_dir.."precompiled.h")
 		filter {}
 		pchsource(pch_dir.."precompiled.cpp")
-		defines { "USING_PCH" }
+		defines { "CONFIG_ENABLE_PCH=1" }
 		files { pch_dir.."precompiled.h", pch_dir.."precompiled.cpp" }
 	else
+		defines { "CONFIG_ENABLE_PCH=0" }
 		flags { "NoPCH" }
 	end
 
@@ -525,7 +521,6 @@ function setup_static_lib_project (project_name, rel_source_dirs, extern_libs, e
 	project_create(project_name, target_type)
 	project_add_contents(source_root, rel_source_dirs, {}, extra_params)
 	project_add_extern_libs(extern_libs, target_type)
-	project_add_x11_dirs()
 
 	if not extra_params["no_default_link"] then
 		table.insert(static_lib_names, project_name)
@@ -533,6 +528,8 @@ function setup_static_lib_project (project_name, rel_source_dirs, extern_libs, e
 
 	if os.istarget("windows") then
 		rtti "off"
+	elseif os.istarget("macosx") and _OPTIONS["macosx-version-min"] then
+		xcodebuildsettings { MACOSX_DEPLOYMENT_TARGET = _OPTIONS["macosx-version-min"] }
 	end
 end
 
@@ -548,7 +545,6 @@ function setup_shared_lib_project (project_name, rel_source_dirs, extern_libs, e
 	project_create(project_name, target_type)
 	project_add_contents(source_root, rel_source_dirs, {}, extra_params)
 	project_add_extern_libs(extern_libs, target_type)
-	project_add_x11_dirs()
 
 	if not extra_params["no_default_link"] then
 		table.insert(static_lib_names, project_name)
@@ -557,6 +553,8 @@ function setup_shared_lib_project (project_name, rel_source_dirs, extern_libs, e
 	if os.istarget("windows") then
 		rtti "off"
 		links { "delayimp" }
+	elseif os.istarget("macosx") and _OPTIONS["macosx-version-min"] then
+		xcodebuildsettings { MACOSX_DEPLOYMENT_TARGET = _OPTIONS["macosx-version-min"] }
 	end
 end
 
@@ -596,7 +594,7 @@ function setup_all_libs ()
 	setup_third_party_static_lib_project("tinygettext", source_dirs, extern_libs, { } )
 
 	-- it's an external library and we don't want to modify its source to fix warnings, so we just disable them to avoid noise in the compile output
-	if _ACTION == "vs2013" then
+	filter "action:vs*"
 		buildoptions {
 			"/wd4127",
 			"/wd4309",
@@ -606,7 +604,7 @@ function setup_all_libs ()
 			"/wd4099",
 			"/wd4503"
 		}
-	end
+	filter {}
 
 
 	if not _OPTIONS["without-lobby"] then
@@ -624,6 +622,7 @@ function setup_all_libs ()
 			"gloox",
 			"icu",
 			"iconv",
+			"libsodium",
 			"tinygettext"
 		}
 		setup_static_lib_project("lobby", source_dirs, extern_libs, {})
@@ -652,7 +651,8 @@ function setup_all_libs ()
 		}
 		extern_libs = {
 			"spidermonkey",
-			"boost"
+			"boost",
+			"libsodium"
 		}
 		setup_static_lib_project("lobby", source_dirs, extern_libs, {})
 		files { source_root.."lobby/Globals.cpp" }
@@ -703,7 +703,7 @@ function setup_all_libs ()
 		"maths/scripting",
 		"i18n",
 		"i18n/scripting",
-		"third_party/cppformat",
+		"third_party/fmt",
 	}
 	extern_libs = {
 		"spidermonkey",
@@ -717,6 +717,7 @@ function setup_all_libs ()
 		"tinygettext",
 		"icu",
 		"iconv",
+		"libsodium",
 	}
 
 	if not _OPTIONS["without-audio"] then
@@ -732,7 +733,8 @@ function setup_all_libs ()
 		"graphics/scripting",
 		"renderer",
 		"renderer/scripting",
-		"third_party/mikktspace"
+		"third_party/mikktspace",
+		"third_party/ogre3d_preprocessor"
 	}
 	extern_libs = {
 		"opengl",
@@ -761,7 +763,10 @@ function setup_all_libs ()
 
 	source_dirs = {
 		"gui",
-		"gui/scripting",
+		"gui/ObjectTypes",
+		"gui/ObjectBases",
+		"gui/Scripting",
+		"gui/SettingTypes",
 		"i18n"
 	}
 	extern_libs = {
@@ -851,7 +856,7 @@ function setup_all_libs ()
 	end
 
 	-- runtime-library-specific
-	if _ACTION == "vs2013" then
+	if _ACTION == "vs2015" then
 		table.insert(source_dirs, "lib/sysdep/rtl/msc");
 	else
 		table.insert(source_dirs, "lib/sysdep/rtl/gcc");
@@ -909,6 +914,7 @@ used_extern_libs = {
 	"tinygettext",
 	"icu",
 	"iconv",
+	"libsodium",
 
 	"valgrind",
 }
@@ -954,7 +960,6 @@ function setup_main_exe ()
 	}
 	project_add_contents(source_root, {}, {}, extra_params)
 	project_add_extern_libs(used_extern_libs, target_type)
-	project_add_x11_dirs()
 
 	dependson { "Collada" }
 
@@ -1027,7 +1032,9 @@ function setup_main_exe ()
 
 		links { "pthread" }
 		links { "ApplicationServices.framework", "Cocoa.framework", "CoreFoundation.framework" }
-
+		if _OPTIONS["macosx-version-min"] then
+			xcodebuildsettings { MACOSX_DEPLOYMENT_TARGET = _OPTIONS["macosx-version-min"] }
+		end
 	end
 end
 
@@ -1050,11 +1057,9 @@ function setup_atlas_project(project_name, target_type, rel_source_dirs, rel_inc
 
 	project_add_contents(source_root, rel_source_dirs, rel_include_dirs, extra_params)
 	project_add_extern_libs(extern_libs, target_type)
-	project_add_x11_dirs()
 
 	-- Platform Specifics
 	if os.istarget("windows") then
-		defines { "_UNICODE" }
 		-- Link to required libraries
 		links { "winmm", "comctl32", "rpcrt4", "delayimp", "ws2_32" }
 
@@ -1102,8 +1107,7 @@ function setup_atlas_projects()
 	},{	-- extern_libs
 		"boost",
 		"iconv",
-		"libxml2",
-		"wxwidgets"
+		"libxml2"
 	},{	-- extra_params
 		no_pch = 1
 	})
@@ -1174,7 +1178,6 @@ function setup_atlas_frontend_project (project_name)
 
 	local target_type = get_main_project_target_type()
 	project_create(project_name, target_type)
-	project_add_x11_dirs()
 
 	local source_root = rootdir.."/source/tools/atlas/AtlasFrontends/"
 	files { source_root..project_name..".cpp" }
@@ -1187,8 +1190,6 @@ function setup_atlas_frontend_project (project_name)
 
 	-- Platform Specifics
 	if os.istarget("windows") then
-		defines { "_UNICODE" }
-
 		-- see manifest.cpp
 		project_add_manifest()
 
@@ -1216,10 +1217,11 @@ function setup_collada_project(project_name, target_type, rel_source_dirs, rel_i
 	extra_params["pch_dir"] = source_root
 	project_add_contents(source_root, rel_source_dirs, rel_include_dirs, extra_params)
 	project_add_extern_libs(extern_libs, target_type)
-	project_add_x11_dirs()
 
 	-- Platform Specifics
-	if os.istarget("linux") then
+	if os.istarget("windows") then
+		characterset "MBCS"
+	elseif os.istarget("linux") then
 		defines { "LINUX" }
 
 		links {
@@ -1291,27 +1293,34 @@ end
 -- tests
 --------------------------------------------------------------------------------
 
-function configure_cxxtestgen()
-	local lcxxtestrootfile = source_root.."test_root.cpp"
+function setup_tests()
 
-	-- Define the options used for cxxtestgen
-	local lcxxtestoptions = "--have-std"
-	local lcxxtestrootoptions = "--have-std"
+	local cxxtest = require "cxxtest"
 
-	if _OPTIONS["jenkins-tests"] then
-		lcxxtestrootoptions = lcxxtestrootoptions .. " --runner=XmlPrinter"
+	if os.istarget("windows") then
+		cxxtest.setpath(rootdir.."/build/bin/cxxtestgen.exe")
 	else
-		lcxxtestrootoptions = lcxxtestrootoptions .. " --runner=ErrorPrinter"
+		cxxtest.setpath(rootdir.."/libraries/source/cxxtest-4.4/bin/cxxtestgen")
 	end
 
-	-- Precompiled headers - the header is added to all generated .cpp files
-	-- note that the header isn't actually precompiled here, only #included
-	-- so that the build stage can use it as a precompiled header.
-	local include = " --include=precompiled.h"
-	-- This is required to build against SDL 2.0.4 on Windows
-	include = include .. " --include=lib/external_libraries/libsdl.h"
-	lcxxtestrootoptions = lcxxtestrootoptions .. include
-	lcxxtestoptions = lcxxtestoptions .. include
+	local runner = "ErrorPrinter"
+	if _OPTIONS["jenkins-tests"] then
+		runner = "XmlPrinter"
+	end
+
+	local includefiles = {
+		-- Precompiled headers - the header is added to all generated .cpp files
+		-- note that the header isn't actually precompiled here, only #included
+		-- so that the build stage can use it as a precompiled header.
+		"precompiled.h",
+		-- This is required to build against SDL 2.0.4 on Windows.
+		"lib/external_libraries/libsdl.h",
+	}
+
+	cxxtest.init(source_root, true, runner, includefiles)
+
+	local target_type = get_main_project_target_type()
+	project_create("test", target_type)
 
 	-- Find header files in 'test' subdirectories
 	local all_files = os.matchfiles(source_root .. "**/tests/*.h")
@@ -1327,24 +1336,7 @@ function configure_cxxtestgen()
 		end
 	end
 
-	local cxxtest = require "cxxtest"
-
-	if os.istarget("windows") then
-		cxxtest.path = rootdir.."/build/bin/cxxtestgen.exe"
-	else
-		cxxtest.path = rootdir.."/libraries/source/cxxtest-4.4/bin/cxxtestgen"
-	end
-
-	cxxtest.configure_project(lcxxtestrootfile, test_files, lcxxtestrootoptions, lcxxtestoptions)
-end
-
-
-function setup_tests()
-
-	local target_type = get_main_project_target_type()
-	project_create("test", target_type)
-
-	configure_cxxtestgen()
+	cxxtest.configure_project(test_files)
 
 	filter "system:not macosx"
 		linkgroups 'On'
@@ -1360,7 +1352,6 @@ function setup_tests()
 	links { "mocks_test" }
 	if _OPTIONS["atlas"] then
 		links { "AtlasObject" }
-		project_add_extern_libs({"wxwidgets"}, target_type)
 	end
 	extra_params = {
 		extra_files = { "test_setup.cpp" },
@@ -1368,7 +1359,6 @@ function setup_tests()
 
 	project_add_contents(source_root, {}, {}, extra_params)
 	project_add_extern_libs(used_extern_libs, target_type)
-	project_add_x11_dirs()
 
 	dependson { "Collada" }
 
@@ -1423,6 +1413,9 @@ function setup_tests()
 		filter { }
 
 		includedirs { source_root .. "pch/test/" }
+
+	elseif os.istarget("macosx") and _OPTIONS["macosx-version-min"] then
+		xcodebuildsettings { MACOSX_DEPLOYMENT_TARGET = _OPTIONS["macosx-version-min"] }
 	end
 end
 

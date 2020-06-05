@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -242,13 +242,6 @@ bool CVideoMode::InitSDL()
 	ogl_Init(); // required after each mode change
 	// (TODO: does that mean we need to call this when toggling fullscreen later?)
 
-#if !OS_ANDROID
-	u16 ramp[256];
-	SDL_CalculateGammaRamp(g_Gamma, ramp);
-	if (SDL_SetWindowGammaRamp(m_Window, ramp, ramp, ramp) < 0)
-		LOGWARNING("SDL_SetWindowGammaRamp failed");
-#endif
-
 	m_IsInitialised = true;
 
 	if (!m_ConfigFullscreen)
@@ -401,6 +394,11 @@ bool CVideoMode::ToggleFullscreen()
 	return SetFullscreen(!m_IsFullscreen);
 }
 
+bool CVideoMode::IsInFullscreen() const
+{
+	return m_IsFullscreen;
+}
+
 void CVideoMode::UpdatePosition(int x, int y)
 {
 	if (!m_IsFullscreen)
@@ -495,9 +493,12 @@ SDL_Window* CVideoMode::GetWindow()
 
 void CVideoMode::SetWindowIcon()
 {
+	// The window icon should be kept outside of art/textures/, or else it will be converted
+	// to DDS by the archive builder and will become unusable here. Using DDS makes BGRA
+	// conversion needlessly complicated.
 	std::shared_ptr<u8> iconFile;
 	size_t iconFileSize;
-	if (g_VFS->LoadFile("art/textures/icons/window.png", iconFile, iconFileSize) != INFO::OK)
+	if (g_VFS->LoadFile("art/icons/window.png", iconFile, iconFileSize) != INFO::OK)
 	{
 		LOGWARNING("Window icon not found.");
 		return;

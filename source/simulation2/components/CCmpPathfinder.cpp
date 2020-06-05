@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -34,7 +34,11 @@
 #include "simulation2/components/ICmpObstructionManager.h"
 #include "simulation2/components/ICmpTerrain.h"
 #include "simulation2/components/ICmpWaterManager.h"
+#include "simulation2/helpers/HierarchicalPathfinder.h"
+#include "simulation2/helpers/LongPathfinder.h"
+#include "simulation2/helpers/MapEdgeTiles.h"
 #include "simulation2/helpers/Rasterize.h"
+#include "simulation2/helpers/VertexPathfinder.h"
 #include "simulation2/serialization/SerializeTemplates.h"
 
 REGISTER_COMPONENT_TYPE(Pathfinder)
@@ -49,10 +53,11 @@ void CCmpPathfinder::Init(const CParamNode& UNUSED(paramNode))
 
 	m_NextAsyncTicket = 1;
 
-	m_DebugOverlay = false;
 	m_AtlasOverlay = NULL;
 
-	m_SameTurnMovesCount = 0;
+	m_VertexPathfinder = std::unique_ptr<VertexPathfinder>(new VertexPathfinder(m_MapSize, m_TerrainOnlyGrid));
+	m_LongPathfinder = std::unique_ptr<LongPathfinder>(new LongPathfinder());
+	m_PathfinderHier = std::unique_ptr<HierarchicalPathfinder>(new HierarchicalPathfinder());
 
 	// Register Relax NG validator
 	CXeromyces::AddValidator(g_VFS, "pathfinder", "simulation/data/pathfinder.rng");
@@ -91,10 +96,16 @@ void CCmpPathfinder::Init(const CParamNode& UNUSED(paramNode))
 		m_PassClasses.push_back(PathfinderPassability(mask, it->second));
 		m_PassClassMasks[name] = mask;
 	}
+
+	m_Workers.emplace_back(PathfinderWorker{});
 }
+
+CCmpPathfinder::~CCmpPathfinder() {};
 
 void CCmpPathfinder::Deinit()
 {
+	m_Workers.clear();
+
 	SetDebugOverlay(false); // cleans up memory
 	SAFE_DELETE(m_AtlasOverlay);
 
@@ -105,7 +116,7 @@ void CCmpPathfinder::Deinit()
 struct SerializeLongRequest
 {
 	template<typename S>
-	void operator()(S& serialize, const char* UNUSED(name), AsyncLongPathRequest& value)
+	void operator()(S& serialize, const char* UNUSED(name), LongPathRequest& value)
 	{
 		serialize.NumberU32_Unbounded("ticket", value.ticket);
 		serialize.NumberFixed_Unbounded("x0", value.x0);
@@ -119,7 +130,7 @@ struct SerializeLongRequest
 struct SerializeShortRequest
 {
 	template<typename S>
-	void operator()(S& serialize, const char* UNUSED(name), AsyncShortPathRequest& value)
+	void operator()(S& serialize, const char* UNUSED(name), ShortPathRequest& value)
 	{
 		serialize.NumberU32_Unbounded("ticket", value.ticket);
 		serialize.NumberFixed_Unbounded("x0", value.x0);
@@ -137,10 +148,9 @@ struct SerializeShortRequest
 template<typename S>
 void CCmpPathfinder::SerializeCommon(S& serialize)
 {
-	SerializeVector<SerializeLongRequest>()(serialize, "long requests", m_AsyncLongPathRequests);
-	SerializeVector<SerializeShortRequest>()(serialize, "short requests", m_AsyncShortPathRequests);
+	SerializeVector<SerializeLongRequest>()(serialize, "long requests", m_LongPathRequests);
+	SerializeVector<SerializeShortRequest>()(serialize, "short requests", m_ShortPathRequests);
 	serialize.NumberU32_Unbounded("next ticket", m_NextAsyncTicket);
-	serialize.NumberU16_Unbounded("same turn moves count", m_SameTurnMovesCount);
 	serialize.NumberU16_Unbounded("map size", m_MapSize);
 }
 
@@ -167,26 +177,54 @@ void CCmpPathfinder::HandleMessage(const CMessage& msg, bool UNUSED(global))
 		break;
 	}
 	case MT_TerrainChanged:
+	{
+		const CMessageTerrainChanged& msgData = static_cast<const CMessageTerrainChanged&>(msg);
 		m_TerrainDirty = true;
-		MinimalTerrainUpdate();
+		MinimalTerrainUpdate(msgData.i0, msgData.j0, msgData.i1, msgData.j1);
 		break;
+	}
 	case MT_WaterChanged:
 	case MT_ObstructionMapShapeChanged:
 		m_TerrainDirty = true;
 		UpdateGrid();
 		break;
-	case MT_TurnStart:
-		m_SameTurnMovesCount = 0;
+	case MT_Deserialized:
+		UpdateGrid();
+		// In case we were serialised with requests pending, we need to process them.
+		if (!m_ShortPathRequests.empty() || !m_LongPathRequests.empty())
+		{
+			ENSURE(CmpPtr<ICmpObstructionManager>(GetSystemEntity()));
+			StartProcessingMoves(false);
+		}
 		break;
 	}
 }
 
 void CCmpPathfinder::RenderSubmit(SceneCollector& collector)
 {
-	for (size_t i = 0; i < m_DebugOverlayShortPathLines.size(); ++i)
-		collector.Submit(&m_DebugOverlayShortPathLines[i]);
+	m_VertexPathfinder->RenderSubmit(collector);
+	m_PathfinderHier->RenderSubmit(collector);
+}
 
-	m_LongPathfinder.HierarchicalRenderSubmit(collector);
+void CCmpPathfinder::SetDebugPath(entity_pos_t x0, entity_pos_t z0, const PathGoal& goal, pass_class_t passClass)
+{
+	m_LongPathfinder->SetDebugPath(*m_PathfinderHier, x0, z0, goal, passClass);
+}
+
+void CCmpPathfinder::SetDebugOverlay(bool enabled)
+{
+	m_VertexPathfinder->SetDebugOverlay(enabled);
+	m_LongPathfinder->SetDebugOverlay(enabled);
+}
+
+void CCmpPathfinder::SetHierDebugOverlay(bool enabled)
+{
+	m_PathfinderHier->SetDebugOverlay(enabled, &GetSimContext());
+}
+
+void CCmpPathfinder::GetDebugData(u32& steps, double& time, Grid<u8>& grid) const
+{
+	m_LongPathfinder->GetDebugData(steps, time, grid);
 }
 
 void CCmpPathfinder::SetAtlasOverlay(bool enable, pass_class_t passClass)
@@ -511,26 +549,30 @@ void CCmpPathfinder::UpdateGrid()
 	// Add obstructions onto the grid
 	cmpObstructionManager->Rasterize(*m_Grid, m_PassClasses, m_DirtinessInformation.globallyDirty);
 
-	// Update the long-range pathfinder
+	// Update the long-range and hierarchical pathfinders.
 	if (m_DirtinessInformation.globallyDirty)
 	{
 		std::map<std::string, pass_class_t> nonPathfindingPassClasses, pathfindingPassClasses;
 		GetPassabilityClasses(nonPathfindingPassClasses, pathfindingPassClasses);
-		m_LongPathfinder.Reload(m_Grid, nonPathfindingPassClasses, pathfindingPassClasses);
+		m_LongPathfinder->Reload(m_Grid);
+		m_PathfinderHier->Recompute(m_Grid, nonPathfindingPassClasses, pathfindingPassClasses);
 	}
 	else
-		m_LongPathfinder.Update(m_Grid, m_DirtinessInformation.dirtinessGrid);
+	{
+		m_LongPathfinder->Update(m_Grid);
+		m_PathfinderHier->Update(m_Grid, m_DirtinessInformation.dirtinessGrid);
+	}
 
 	// Remember the necessary updates that the AI pathfinder will have to perform as well
 	m_AIPathfinderDirtinessInformation.MergeAndClear(m_DirtinessInformation);
 }
 
-void CCmpPathfinder::MinimalTerrainUpdate()
+void CCmpPathfinder::MinimalTerrainUpdate(int itile0, int jtile0, int itile1, int jtile1)
 {
-	TerrainUpdateHelper(false);
+	TerrainUpdateHelper(false, itile0, jtile0, itile1, jtile1);
 }
 
-void CCmpPathfinder::TerrainUpdateHelper(bool expandPassability/* = true */)
+void CCmpPathfinder::TerrainUpdateHelper(bool expandPassability, int itile0, int jtile0, int itile1, int jtile1)
 {
 	PROFILE3("TerrainUpdateHelper");
 
@@ -546,20 +588,47 @@ void CCmpPathfinder::TerrainUpdateHelper(bool expandPassability/* = true */)
 	if (terrainSize == 0)
 		return;
 
-	if (!m_TerrainOnlyGrid || m_MapSize != terrainSize)
+	const bool needsNewTerrainGrid = !m_TerrainOnlyGrid || m_MapSize != terrainSize;
+	if (needsNewTerrainGrid)
 	{
 		m_MapSize = terrainSize;
 
 		SAFE_DELETE(m_TerrainOnlyGrid);
 		m_TerrainOnlyGrid = new Grid<NavcellData>(m_MapSize * Pathfinding::NAVCELLS_PER_TILE, m_MapSize * Pathfinding::NAVCELLS_PER_TILE);
+
+		// If this update comes from a map resizing, we must reinitialize the other grids as well
+		if (!m_TerrainOnlyGrid->compare_sizes(m_Grid))
+		{
+			SAFE_DELETE(m_Grid);
+			m_Grid = new Grid<NavcellData>(m_MapSize * Pathfinding::NAVCELLS_PER_TILE, m_MapSize * Pathfinding::NAVCELLS_PER_TILE);
+
+			m_DirtinessInformation = { true, true, Grid<u8>(m_MapSize * Pathfinding::NAVCELLS_PER_TILE, m_MapSize * Pathfinding::NAVCELLS_PER_TILE) };
+			m_AIPathfinderDirtinessInformation = m_DirtinessInformation;
+		}
 	}
 
 	Grid<u16> shoreGrid = ComputeShoreGrid();
 
-	// Compute initial terrain-dependent passability
-	for (int j = 0; j < m_MapSize * Pathfinding::NAVCELLS_PER_TILE; ++j)
+	const bool partialTerrainGridUpdate =
+		!expandPassability && !needsNewTerrainGrid &&
+		itile0 != -1 && jtile0 != -1 && itile1 != -1 && jtile1 != -1;
+	int istart = 0, iend = m_MapSize * Pathfinding::NAVCELLS_PER_TILE;
+	int jstart = 0, jend = m_MapSize * Pathfinding::NAVCELLS_PER_TILE;
+	if (partialTerrainGridUpdate)
 	{
-		for (int i = 0; i < m_MapSize * Pathfinding::NAVCELLS_PER_TILE; ++i)
+		// We need to extend the boundaries by 1 tile, because slope and ground
+		// level are calculated by multiple neighboring tiles.
+		// TODO: add CTerrain constant instead of 1.
+		istart = Clamp(itile0 - 1, 0, static_cast<int>(m_MapSize)) * Pathfinding::NAVCELLS_PER_TILE;
+		iend = Clamp(itile1 + 1, 0, static_cast<int>(m_MapSize)) * Pathfinding::NAVCELLS_PER_TILE;
+		jstart = Clamp(jtile0 - 1, 0, static_cast<int>(m_MapSize)) * Pathfinding::NAVCELLS_PER_TILE;
+		jend = Clamp(jtile1 + 1, 0, static_cast<int>(m_MapSize)) * Pathfinding::NAVCELLS_PER_TILE;
+	}
+
+	// Compute initial terrain-dependent passability
+	for (int j = jstart; j < jend; ++j)
+	{
+		for (int i = istart; i < iend; ++i)
 		{
 			// World-space coordinates for this navcell
 			fixed x, z;
@@ -587,7 +656,7 @@ void CCmpPathfinder::TerrainUpdateHelper(bool expandPassability/* = true */)
 
 			// Compute the passability for every class for this cell
 			NavcellData t = 0;
-			for (PathfinderPassability& passability : m_PassClasses)
+			for (const PathfinderPassability& passability : m_PassClasses)
 				if (!passability.IsPassable(depth, slope, shoredist))
 					t |= passability.m_Mask;
 
@@ -596,11 +665,10 @@ void CCmpPathfinder::TerrainUpdateHelper(bool expandPassability/* = true */)
 	}
 
 	// Compute off-world passability
-	// WARNING: CCmpRangeManager::LosIsOffWorld needs to be kept in sync with this
-	const int edgeSize = 3 * Pathfinding::NAVCELLS_PER_TILE; // number of tiles around the edge that will be off-world
+	const int edgeSize = MAP_EDGE_TILES * Pathfinding::NAVCELLS_PER_TILE;
 
 	NavcellData edgeMask = 0;
-	for (PathfinderPassability& passability : m_PassClasses)
+	for (const PathfinderPassability& passability : m_PassClasses)
 		edgeMask |= passability.m_Mask;
 
 	int w = m_TerrainOnlyGrid->m_W;
@@ -608,9 +676,9 @@ void CCmpPathfinder::TerrainUpdateHelper(bool expandPassability/* = true */)
 
 	if (cmpObstructionManager->GetPassabilityCircular())
 	{
-		for (int j = 0; j < h; ++j)
+		for (int j = jstart; j < jend; ++j)
 		{
-			for (int i = 0; i < w; ++i)
+			for (int i = istart; i < iend; ++i)
 			{
 				// Based on CCmpRangeManager::LosIsOffWorld
 				// but tweaked since it's tile-based instead.
@@ -662,122 +730,146 @@ void CCmpPathfinder::TerrainUpdateHelper(bool expandPassability/* = true */)
 
 //////////////////////////////////////////////////////////
 
-// Async path requests:
+// Async pathfinder workers
+
+CCmpPathfinder::PathfinderWorker::PathfinderWorker() {}
+
+template<typename T>
+void CCmpPathfinder::PathfinderWorker::PushRequests(std::vector<T>&, ssize_t)
+{
+	static_assert(sizeof(T) == 0, "Only specializations can be used");
+}
+
+template<> void CCmpPathfinder::PathfinderWorker::PushRequests(std::vector<LongPathRequest>& from, ssize_t amount)
+{
+	m_LongRequests.insert(m_LongRequests.end(), std::make_move_iterator(from.end() - amount), std::make_move_iterator(from.end()));
+}
+
+template<> void CCmpPathfinder::PathfinderWorker::PushRequests(std::vector<ShortPathRequest>& from, ssize_t amount)
+{
+	m_ShortRequests.insert(m_ShortRequests.end(), std::make_move_iterator(from.end() - amount), std::make_move_iterator(from.end()));
+}
+
+void CCmpPathfinder::PathfinderWorker::Work(const CCmpPathfinder& pathfinder)
+{
+	while (!m_LongRequests.empty())
+	{
+		const LongPathRequest& req = m_LongRequests.back();
+		WaypointPath path;
+		pathfinder.m_LongPathfinder->ComputePath(*pathfinder.m_PathfinderHier, req.x0, req.z0, req.goal, req.passClass, path);
+		m_Results.emplace_back(req.ticket, req.notify, path);
+
+		m_LongRequests.pop_back();
+	}
+
+	while (!m_ShortRequests.empty())
+	{
+		const ShortPathRequest& req = m_ShortRequests.back();
+		WaypointPath path = pathfinder.m_VertexPathfinder->ComputeShortPath(req, CmpPtr<ICmpObstructionManager>(pathfinder.GetSystemEntity()));
+		m_Results.emplace_back(req.ticket, req.notify, path);
+
+		m_ShortRequests.pop_back();
+	}
+}
 
 u32 CCmpPathfinder::ComputePathAsync(entity_pos_t x0, entity_pos_t z0, const PathGoal& goal, pass_class_t passClass, entity_id_t notify)
 {
-	AsyncLongPathRequest req = { m_NextAsyncTicket++, x0, z0, goal, passClass, notify };
-	m_AsyncLongPathRequests.push_back(req);
+	LongPathRequest req = { m_NextAsyncTicket++, x0, z0, goal, passClass, notify };
+	m_LongPathRequests.push_back(req);
 	return req.ticket;
 }
 
-u32 CCmpPathfinder::ComputeShortPathAsync(entity_pos_t x0, entity_pos_t z0, entity_pos_t clearance, entity_pos_t range, const PathGoal& goal, pass_class_t passClass, bool avoidMovingUnits, entity_id_t group, entity_id_t notify)
+u32 CCmpPathfinder::ComputeShortPathAsync(entity_pos_t x0, entity_pos_t z0, entity_pos_t clearance, entity_pos_t range,
+                                          const PathGoal& goal, pass_class_t passClass, bool avoidMovingUnits,
+                                          entity_id_t group, entity_id_t notify)
 {
-	AsyncShortPathRequest req = { m_NextAsyncTicket++, x0, z0, clearance, range, goal, passClass, avoidMovingUnits, group, notify };
-	m_AsyncShortPathRequests.push_back(req);
+	ShortPathRequest req = { m_NextAsyncTicket++, x0, z0, clearance, range, goal, passClass, avoidMovingUnits, group, notify };
+	m_ShortPathRequests.push_back(req);
 	return req.ticket;
 }
 
-void CCmpPathfinder::FinishAsyncRequests()
+void CCmpPathfinder::ComputePathImmediate(entity_pos_t x0, entity_pos_t z0, const PathGoal& goal, pass_class_t passClass, WaypointPath& ret) const
 {
-	PROFILE2("Finish Async Requests");
-	// Save the request queue in case it gets modified while iterating
-	std::vector<AsyncLongPathRequest> longRequests;
-	m_AsyncLongPathRequests.swap(longRequests);
-
-	std::vector<AsyncShortPathRequest> shortRequests;
-	m_AsyncShortPathRequests.swap(shortRequests);
-
-	// TODO: we should only compute one path per entity per turn
-
-	// TODO: this computation should be done incrementally, spread
-	// across multiple frames (or even multiple turns)
-
-	ProcessLongRequests(longRequests);
-	ProcessShortRequests(shortRequests);
+	m_LongPathfinder->ComputePath(*m_PathfinderHier, x0, z0, goal, passClass, ret);
 }
 
-void CCmpPathfinder::ProcessLongRequests(const std::vector<AsyncLongPathRequest>& longRequests)
+WaypointPath CCmpPathfinder::ComputeShortPathImmediate(const ShortPathRequest& request) const
 {
-	PROFILE2("Process Long Requests");
-	for (size_t i = 0; i < longRequests.size(); ++i)
+	return m_VertexPathfinder->ComputeShortPath(request, CmpPtr<ICmpObstructionManager>(GetSystemEntity()));
+}
+
+void CCmpPathfinder::FetchAsyncResultsAndSendMessages()
+{
+	PROFILE2("FetchAsyncResults");
+
+	// We may now clear existing requests.
+	m_ShortPathRequests.clear();
+	m_LongPathRequests.clear();
+
+	// WARNING: the order in which moves are pulled must be consistent when using 1 or n workers.
+	// We fetch in the same order we inserted in, but we push moves backwards, so this works.
+	std::vector<PathResult> results;
+	for (PathfinderWorker& worker : m_Workers)
 	{
-		const AsyncLongPathRequest& req = longRequests[i];
-		WaypointPath path;
-		ComputePath(req.x0, req.z0, req.goal, req.passClass, path);
-		CMessagePathResult msg(req.ticket, path);
-		GetSimContext().GetComponentManager().PostMessage(req.notify, msg);
+		results.insert(results.end(), std::make_move_iterator(worker.m_Results.begin()), std::make_move_iterator(worker.m_Results.end()));
+		worker.m_Results.clear();
+	}
+
+	{
+		PROFILE2("PostMessages");
+		for (PathResult& path : results)
+		{
+			CMessagePathResult msg(path.ticket, path.path);
+			GetSimContext().GetComponentManager().PostMessage(path.notify, msg);
+		}
 	}
 }
 
-void CCmpPathfinder::ProcessShortRequests(const std::vector<AsyncShortPathRequest>& shortRequests)
+void CCmpPathfinder::StartProcessingMoves(bool useMax)
 {
-	PROFILE2("Process Short Requests");
-	for (size_t i = 0; i < shortRequests.size(); ++i)
-	{
-		const AsyncShortPathRequest& req = shortRequests[i];
-		WaypointPath path;
-		ControlGroupMovementObstructionFilter filter(req.avoidMovingUnits, req.group);
-		ComputeShortPath(filter, req.x0, req.z0, req.clearance, req.range, req.goal, req.passClass, path);
-		CMessagePathResult msg(req.ticket, path);
-		GetSimContext().GetComponentManager().PostMessage(req.notify, msg);
-	}
+	std::vector<LongPathRequest> longRequests = GetMovesToProcess(m_LongPathRequests, useMax, m_MaxSameTurnMoves);
+	std::vector<ShortPathRequest> shortRequests = GetMovesToProcess(m_ShortPathRequests, useMax, m_MaxSameTurnMoves - longRequests.size());
+
+	PushRequestsToWorkers(longRequests);
+	PushRequestsToWorkers(shortRequests);
+
+	for (PathfinderWorker& worker : m_Workers)
+		worker.Work(*this);
 }
 
-void CCmpPathfinder::ProcessSameTurnMoves()
+template <typename T>
+std::vector<T> CCmpPathfinder::GetMovesToProcess(std::vector<T>& requests, bool useMax, size_t maxMoves)
 {
-	if (!m_AsyncLongPathRequests.empty())
+	// Keep the original requests in which we need to serialize.
+	std::vector<T> copiedRequests;
+	if (useMax)
 	{
-		// Figure out how many moves we can do this time
-		i32 moveCount = m_MaxSameTurnMoves - m_SameTurnMovesCount;
-
-		if (moveCount <= 0)
-			return;
-
-		// Copy the long request elements we are going to process into a new array
-		std::vector<AsyncLongPathRequest> longRequests;
-		if ((i32)m_AsyncLongPathRequests.size() <= moveCount)
-		{
-			m_AsyncLongPathRequests.swap(longRequests);
-			moveCount = (i32)longRequests.size();
-		}
-		else
-		{
-			longRequests.resize(moveCount);
-			copy(m_AsyncLongPathRequests.begin(), m_AsyncLongPathRequests.begin() + moveCount, longRequests.begin());
-			m_AsyncLongPathRequests.erase(m_AsyncLongPathRequests.begin(), m_AsyncLongPathRequests.begin() + moveCount);
-		}
-
-		ProcessLongRequests(longRequests);
-
-		m_SameTurnMovesCount = (u16)(m_SameTurnMovesCount + moveCount);
+		size_t amount = std::min(requests.size(), maxMoves);
+		if (amount > 0)
+			copiedRequests.insert(copiedRequests.begin(), requests.end() - amount, requests.end());
 	}
+	else
+		copiedRequests = requests;
 
-	if (!m_AsyncShortPathRequests.empty())
+	return copiedRequests;
+}
+
+template <typename T>
+void CCmpPathfinder::PushRequestsToWorkers(std::vector<T>& from)
+{
+	if (from.empty())
+		return;
+
+	// Trivial load-balancing, / rounds towards zero so add 1 to ensure we do push all requests.
+	size_t amount = from.size() / m_Workers.size() + 1;
+
+	// WARNING: the order in which moves are pushed must be consistent when using 1 or n workers.
+	// In this instance, work is distributed in a strict LIFO order, effectively reversing tickets.
+	for (PathfinderWorker& worker : m_Workers)
 	{
-		// Figure out how many moves we can do now
-		i32 moveCount = m_MaxSameTurnMoves - m_SameTurnMovesCount;
-
-		if (moveCount <= 0)
-			return;
-
-		// Copy the short request elements we are going to process into a new array
-		std::vector<AsyncShortPathRequest> shortRequests;
-		if ((i32)m_AsyncShortPathRequests.size() <= moveCount)
-		{
-			m_AsyncShortPathRequests.swap(shortRequests);
-			moveCount = (i32)shortRequests.size();
-		}
-		else
-		{
-			shortRequests.resize(moveCount);
-			copy(m_AsyncShortPathRequests.begin(), m_AsyncShortPathRequests.begin() + moveCount, shortRequests.begin());
-			m_AsyncShortPathRequests.erase(m_AsyncShortPathRequests.begin(), m_AsyncShortPathRequests.begin() + moveCount);
-		}
-
-		ProcessShortRequests(shortRequests);
-
-		m_SameTurnMovesCount = (u16)(m_SameTurnMovesCount + moveCount);
+		amount = std::min(amount, from.size()); // Since we are rounding up before, ensure we aren't pushing beyond the end.
+		worker.PushRequests(from, amount);
+		from.erase(from.end() - amount, from.end());
 	}
 }
 

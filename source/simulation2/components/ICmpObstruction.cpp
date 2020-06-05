@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -47,9 +47,12 @@ std::string ICmpObstruction::CheckFoundation_wrapper(const std::string& classNam
 
 BEGIN_INTERFACE_WRAPPER(Obstruction)
 DEFINE_INTERFACE_METHOD_CONST_0("GetUnitRadius", entity_pos_t, ICmpObstruction, GetUnitRadius)
+DEFINE_INTERFACE_METHOD_CONST_0("CheckShorePlacement", bool, ICmpObstruction, CheckShorePlacement)
 DEFINE_INTERFACE_METHOD_CONST_2("CheckFoundation", std::string, ICmpObstruction, CheckFoundation_wrapper, std::string, bool)
 DEFINE_INTERFACE_METHOD_CONST_0("CheckDuplicateFoundation", bool, ICmpObstruction, CheckDuplicateFoundation)
-DEFINE_INTERFACE_METHOD_CONST_0("GetUnitCollisions", std::vector<entity_id_t>, ICmpObstruction, GetUnitCollisions)
+DEFINE_INTERFACE_METHOD_CONST_0("GetEntitiesBlockingMovement", std::vector<entity_id_t>, ICmpObstruction, GetEntitiesBlockingMovement)
+DEFINE_INTERFACE_METHOD_CONST_0("GetEntitiesBlockingConstruction", std::vector<entity_id_t>, ICmpObstruction, GetEntitiesBlockingConstruction)
+DEFINE_INTERFACE_METHOD_CONST_0("GetEntitiesDeletedUponConstruction", std::vector<entity_id_t>, ICmpObstruction, GetEntitiesDeletedUponConstruction)
 DEFINE_INTERFACE_METHOD_1("SetActive", void, ICmpObstruction, SetActive, bool)
 DEFINE_INTERFACE_METHOD_3("SetDisableBlockMovementPathfinding", void, ICmpObstruction, SetDisableBlockMovementPathfinding, bool, bool, int32_t)
 DEFINE_INTERFACE_METHOD_CONST_0("GetBlockMovementFlag", bool, ICmpObstruction, GetBlockMovementFlag)

@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -54,6 +54,16 @@ class ICmpObstructionManager : public IComponent
 {
 public:
 	/**
+	 * Standard representation for all types of shapes, for use with geometry processing code.
+	 */
+	struct ObstructionSquare
+	{
+		entity_pos_t x, z; // position of center
+		CFixedVector2D u, v; // 'horizontal' and 'vertical' orthogonal unit vectors, representing orientation
+		entity_pos_t hw, hh; // half width, half height of square
+	};
+
+	/**
 	 * External identifiers for shapes.
 	 * (This is a struct rather than a raw u32 for type-safety.)
 	 */
@@ -71,11 +81,12 @@ public:
 	 */
 	enum EFlags
 	{
-		FLAG_BLOCK_MOVEMENT     = (1 << 0), // prevents units moving through this shape
-		FLAG_BLOCK_FOUNDATION   = (1 << 1), // prevents foundations being placed on this shape
-		FLAG_BLOCK_CONSTRUCTION = (1 << 2), // prevents buildings being constructed on this shape
-		FLAG_BLOCK_PATHFINDING  = (1 << 3), // prevents the tile pathfinder choosing paths through this shape
-		FLAG_MOVING             = (1 << 4)  // indicates this unit is currently moving
+		FLAG_BLOCK_MOVEMENT           = (1 << 0), // prevents units moving through this shape
+		FLAG_BLOCK_FOUNDATION         = (1 << 1), // prevents foundations being placed on this shape
+		FLAG_BLOCK_CONSTRUCTION       = (1 << 2), // prevents buildings being constructed on this shape
+		FLAG_BLOCK_PATHFINDING        = (1 << 3), // prevents the tile pathfinder choosing paths through this shape
+		FLAG_MOVING                   = (1 << 4), // indicates this unit is currently moving
+		FLAG_DELETE_UPON_CONSTRUCTION = (1 << 5)  // this entity is deleted when construction of a building placed on top of this entity starts
 	};
 
 	/**
@@ -159,6 +170,60 @@ public:
 	virtual void RemoveShape(tag_t tag) = 0;
 
 	/**
+	 * Returns the distance from the obstruction to the point (px, pz), or -1 if the entity is out of the world.
+	 */
+	virtual fixed DistanceToPoint(entity_id_t ent, entity_pos_t px, entity_pos_t pz) const = 0;
+
+	/**
+	 * Calculate the largest straight line distance between the entity and the point.
+	 */
+	virtual fixed MaxDistanceToPoint(entity_id_t ent, entity_pos_t px, entity_pos_t pz) const = 0;
+
+	/**
+	 * Calculate the shortest distance between the entity and the target.
+	 */
+	virtual fixed DistanceToTarget(entity_id_t ent, entity_id_t target) const = 0;
+
+	/**
+	 * Calculate the largest straight line distance between the entity and the target.
+	 */
+	virtual fixed MaxDistanceToTarget(entity_id_t ent, entity_id_t target) const = 0;
+
+	/**
+	 * Calculate the shortest straight line distance between the source and the target
+	 */
+	virtual fixed DistanceBetweenShapes(const ObstructionSquare& source, const ObstructionSquare& target) const = 0;
+
+	/**
+	 * Calculate the largest straight line distance between the source and the target
+	 */
+	virtual fixed MaxDistanceBetweenShapes(const ObstructionSquare& source, const ObstructionSquare& target) const = 0;
+
+	/**
+	 * Check if the given entity is in range of the other point given those parameters.
+	 * @param maxRange - if -1, treated as infinite.
+	 */
+	virtual bool IsInPointRange(entity_id_t ent, entity_pos_t px, entity_pos_t pz, entity_pos_t minRange, entity_pos_t maxRange, bool opposite) const = 0;
+
+	/**
+	 * Check if the given entity is in range of the target given those parameters.
+	 * @param maxRange - if -1, treated as infinite.
+	 */
+	virtual bool IsInTargetRange(entity_id_t ent, entity_id_t target, entity_pos_t minRange, entity_pos_t maxRange, bool opposite) const = 0;
+
+	/**
+	 * Check if the given point is in range of the other point given those parameters.
+	 * @param maxRange - if -1, treated as infinite.
+	 */
+	virtual bool IsPointInPointRange(entity_pos_t x, entity_pos_t z, entity_pos_t px, entity_pos_t pz, entity_pos_t minRange, entity_pos_t maxRange) const = 0;
+
+	/**
+	 * Check if the given shape is in range of the target shape given those parameters.
+	 * @param maxRange - if -1, treated as infinite.
+	 */
+	virtual bool AreShapesInRange(const ObstructionSquare& source, const ObstructionSquare& target, entity_pos_t minRange, entity_pos_t maxRange, bool opposite) const = 0;
+
+	/**
 	 * Collision test a flat-ended thick line against the current set of shapes.
 	 * The line caps extend by @p r beyond the end points.
 	 * Only intersections going from outside to inside a shape are counted.
@@ -219,16 +284,6 @@ public:
 	virtual void UpdateInformations(GridUpdateInformation& informations) = 0;
 
 	/**
-	 * Standard representation for all types of shapes, for use with geometry processing code.
-	 */
-	struct ObstructionSquare
-	{
-		entity_pos_t x, z; // position of center
-		CFixedVector2D u, v; // 'horizontal' and 'vertical' orthogonal unit vectors, representing orientation
-		entity_pos_t hw, hh; // half width, half height of square
-	};
-
-	/**
 	 * Find all the obstructions that are inside (or partially inside) the given range.
 	 * @param filter filter to restrict the shapes that are counted
 	 * @param x0 X coordinate of left edge of range
@@ -240,6 +295,7 @@ public:
 	virtual void GetObstructionsInRange(const IObstructionTestFilter& filter, entity_pos_t x0, entity_pos_t z0, entity_pos_t x1, entity_pos_t z1, std::vector<ObstructionSquare>& squares) const = 0;
 	virtual void GetStaticObstructionsInRange(const IObstructionTestFilter& filter, entity_pos_t x0, entity_pos_t z0, entity_pos_t x1, entity_pos_t z1, std::vector<ObstructionSquare>& squares) const = 0;
 	virtual void GetUnitObstructionsInRange(const IObstructionTestFilter& filter, entity_pos_t x0, entity_pos_t z0, entity_pos_t x1, entity_pos_t z1, std::vector<ObstructionSquare>& squares) const = 0;
+	virtual void GetStaticObstructionsOnObstruction(const ObstructionSquare& square, std::vector<entity_id_t>& out, const IObstructionTestFilter& filter) const = 0;
 
 	/**
 	 * Returns the entity IDs of all unit shapes that intersect the given

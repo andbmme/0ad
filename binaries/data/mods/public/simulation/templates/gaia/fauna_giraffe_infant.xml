@@ -5,25 +5,18 @@
     <Height>3.5</Height>
   </Footprint>
   <Identity>
-    <Civ>gaia</Civ>
-    <SpecificName>Giraffe (Juvenile)</SpecificName>
+    <GenericName>Juvenile Giraffe</GenericName>
+    <SpecificName>Giraffa camelopardalis</SpecificName>
     <Icon>gaia/fauna_giraffe.png</Icon>
   </Identity>
-  <Position>
-    <Anchor>pitch</Anchor>
-  </Position>
   <ResourceSupply>
     <Amount>150</Amount>
-    <Type>food.meat</Type>
   </ResourceSupply>
   <StatusBars>
     <HeightOffset>7.0</HeightOffset>
   </StatusBars>
   <UnitMotion>
     <WalkSpeed op="mul">0.6</WalkSpeed>
-    <Run>
-      <Speed op="mul">0.6</Speed>
-    </Run>
   </UnitMotion>
   <VisualActor>
     <Actor>fauna/giraffe_baby.xml</Actor>

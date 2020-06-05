@@ -4,14 +4,9 @@
 var g_Options;
 
 /**
- * Numerical index of the chosen category.
+ * Names of config keys that have changed, value returned when closing the page.
  */
-var g_SelectedCategory;
-
-/**
- * Remember whether to unpause running singleplayer games.
- */
-var g_HasCallback;
+var g_ChangedKeys;
 
 /**
  * Vertical size of a tab button.
@@ -44,6 +39,11 @@ var g_OptionControlDist = 2;
 var g_DependentLabelIndentation = 25;
 
 /**
+ * Color used to indicate that the string entered by the player isn't a sane color.
+ */
+var g_InsaneColor = "255 0 255";
+
+/**
  * Defines the parsing of config strings and GUI control interaction for the different option types.
  *
  * @property configToValue - parses a string from the user config to a value of the declared type.
@@ -73,6 +73,29 @@ var g_OptionType = {
 		"guiToValue": control => control.caption,
 		"guiSetter": "onTextEdit"
 	},
+	"color":
+	{
+		"configToValue": value => value,
+		"valueToGui": (value, control) => {
+			control.caption = value;
+		},
+		"guiToValue": control => control.caption,
+		"guiSetter": "onTextEdit",
+		"sanitizeValue": (value, control, option) => {
+			let color = guiToRgbColor(value);
+			let sanitized = rgbToGuiColor(color);
+			if (control)
+			{
+				control.sprite = sanitized == value ? "ModernDarkBoxWhite" : "ModernDarkBoxWhiteInvalid";
+				control.children[1].sprite = sanitized == value ? "color:" + value : "color:" + g_InsaneColor;
+			}
+			return sanitized;
+		},
+		"tooltip": (value, option) =>
+			sprintf(translate("Default: %(value)s"), {
+				"value": Engine.ConfigDB_GetValue("default", option.config)
+			})
+	},
 	"number":
 	{
 		"configToValue": value => value,
@@ -87,7 +110,8 @@ var g_OptionType = {
 					Math.max(option.min !== undefined ? option.min : -Infinity,
 						isNaN(+value) ? 0 : value));
 
-			control.sprite = sanitized == value ? "ModernDarkBoxWhite" : "ModernDarkBoxWhiteInvalid";
+			if (control)
+				control.sprite = sanitized == value ? "ModernDarkBoxWhite" : "ModernDarkBoxWhiteInvalid";
 
 			return sanitized;
 		},
@@ -116,7 +140,11 @@ var g_OptionType = {
 		"initGUI": (option, control) => {
 			control.list = option.list.map(e => e.label);
 			control.list_data = option.list.map(e => e.value);
-		},
+			control.onHoverChange = () => {
+				let item = option.list[control.hovered];
+				control.tooltip = item && item.tooltip || option.tooltip;
+			};
+		}
 	},
 	"slider":
 	{
@@ -141,51 +169,27 @@ var g_OptionType = {
 
 function init(data, hotloadData)
 {
-	g_HasCallback = hotloadData && hotloadData.callback || data && data.callback;
-	g_SelectedCategory = hotloadData ? hotloadData.selectedCategory : 0;
+	g_ChangedKeys = hotloadData ? hotloadData.changedKeys : new Set();
+	g_TabCategorySelected = hotloadData ? hotloadData.tabCategorySelected : 0;
 
 	g_Options = Engine.ReadJSONFile("gui/options/options.json");
 	translateObjectKeys(g_Options, ["label", "tooltip"]);
 	deepfreeze(g_Options);
 
-	placeTabButtons();
-	displayOptions();
+	placeTabButtons(
+		g_Options,
+		g_TabButtonHeight,
+		g_TabButtonDist,
+		selectPanel,
+		displayOptions);
 }
 
 function getHotloadData()
 {
 	return {
-		"selectedCategory": g_SelectedCategory,
-		"callback": g_HasCallback
+		"tabCategorySelected": g_TabCategorySelected,
+		"changedKeys": g_ChangedKeys
 	};
-}
-
-function placeTabButtons()
-{
-	for (let category in g_Options)
-	{
-		let button = Engine.GetGUIObjectByName("tabButton[" + category + "]");
-		if (!button)
-		{
-			warn("Too few tab-buttons!");
-			break;
-		}
-
-		button.hidden = false;
-
-		let size = button.size;
-		size.top = category * (g_TabButtonHeight + g_TabButtonDist);
-		size.bottom = size.top + g_TabButtonHeight;
-		button.size = size;
-		button.tooltip = g_Options[category].tooltip || "";
-
-		button.onPress = (category => function() {
-			g_SelectedCategory = category;
-			displayOptions();
-		})(category);
-
-		Engine.GetGUIObjectByName("tabButtonText[" + category + "]").caption = g_Options[category].label;
-	}
 }
 
 /**
@@ -193,11 +197,6 @@ function placeTabButtons()
  */
 function displayOptions()
 {
-	// Highlight the selected tab
-	Engine.GetGUIObjectByName("tabButtons").children.forEach((button, i) => {
-		button.sprite = i == g_SelectedCategory ? "ModernTabVerticalForeground" : "ModernTabVerticalBackground";
-	});
-
 	// Hide all controls
 	for (let body of Engine.GetGUIObjectByName("option_controls").children)
 	{
@@ -207,7 +206,7 @@ function displayOptions()
 	}
 
 	// Initialize label and control of each option for this category
-	for (let i = 0; i < g_Options[g_SelectedCategory].options.length; ++i)
+	for (let i = 0; i < g_Options[g_TabCategorySelected].options.length; ++i)
 	{
 		// Position vertically
 		let body = Engine.GetGUIObjectByName("option_control[" + i + "]");
@@ -218,7 +217,7 @@ function displayOptions()
 		body.hidden = false;
 
 		// Load option data
-		let option = g_Options[g_SelectedCategory].options[i];
+		let option = g_Options[g_TabCategorySelected].options[i];
 		let optionType = g_OptionType[option.type];
 		let value = optionType.configToValue(Engine.ConfigDB_GetValue("user", option.config));
 
@@ -247,6 +246,9 @@ function displayOptions()
 			Engine.ConfigDB_CreateValue("user", option.config, String(value));
 			Engine.ConfigDB_SetChanges("user", true);
 
+			g_ChangedKeys.add(option.config);
+			fireConfigChangeHandlers(new Set([option.config]));
+
 			if (option.function)
 				Engine[option.function](value);
 
@@ -273,7 +275,7 @@ function displayOptions()
  */
 function enableButtons()
 {
-	g_Options[g_SelectedCategory].options.forEach((option, i) => {
+	g_Options[g_TabCategorySelected].options.forEach((option, i) => {
 
 		let enabled =
 			!option.dependencies ||
@@ -303,7 +305,10 @@ function reallySetDefaults()
 {
 	for (let category in g_Options)
 		for (let option of g_Options[category].options)
+		{
 			Engine.ConfigDB_RemoveValue("user", option.config);
+			g_ChangedKeys.add(option.config);
+		}
 
 	Engine.ConfigDB_WriteFile("user", "config/user.cfg");
 	revertChanges();
@@ -334,14 +339,11 @@ function saveChanges()
 			if (!optionType.sanitizeValue)
 				continue;
 
-			let control = Engine.GetGUIObjectByName("option_control_" + option.type + "[" + i + "]");
-			let value = optionType.guiToValue(control);
-
-			if (value == optionType.sanitizeValue(value, control, option))
+			let value = optionType.configToValue(Engine.ConfigDB_GetValue("user", option.config));
+			if (value == optionType.sanitizeValue(value, undefined, option))
 				continue;
 
-			g_SelectedCategory = category;
-			displayOptions();
+			selectPanel(category);
 
 			messageBox(
 				500, 200,
@@ -364,7 +366,7 @@ function reallySaveChanges()
 }
 
 /**
- * Close GUI page and call callbacks if they exist.
+ * Close GUI page and inform the parent GUI page which options changed.
  **/
 function closePage()
 {
@@ -381,8 +383,5 @@ function closePage()
 
 function closePageWithoutConfirmation()
 {
-	if (g_HasCallback)
-		Engine.PopGuiPageCB();
-	else
-		Engine.PopGuiPage();
+	Engine.PopGuiPage(g_ChangedKeys);
 }

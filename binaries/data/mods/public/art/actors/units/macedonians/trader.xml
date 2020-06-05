@@ -1,12 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <actor version="1">
   <castshadow/>
   <group>
-    <variant frequency="100" name="Trader Cart">
+    <variant frequency="1" name="Trader Cart">
       <animations>
-        <animation file="mechanical/trader_cart_idle.dae" name="Idle" speed="100"/>
+        <animation file="mechanical/trader_cart_idle.dae" name="Idle" speed="80"/>
         <animation file="mechanical/trader_cart_move.dae" name="Walk" speed="10"/>
         <animation file="mechanical/trader_cart_move.dae" name="Run" speed="10"/>
+        <animation file="mechanical/trader_cart_idle.dae" name="Death" id="death1" speed="80"/>
+        <animation file="mechanical/trader_cart_idle.dae" name="Death" id="death2" speed="80"/>
       </animations>
       <mesh>skeletal/trader_cart.dae</mesh>
       <props>
@@ -15,7 +17,9 @@
         <prop actor="props/special/eyecandy/crate_a.xml" attachpoint="goodsa"/>
         <prop actor="props/special/eyecandy/barrel_a.xml" attachpoint="goodsb"/>
       </props>
-      <textures><texture file="structural/rome_ram.png" name="baseTex"/></textures>
+      <textures>
+        <texture file="structural/rome_ram.png" name="baseTex"/>
+      </textures>
     </variant>
   </group>
   <material>player_trans.xml</material>

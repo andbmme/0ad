@@ -65,7 +65,6 @@ function reallyStartVisualReplay(replayDirectory)
 
 	Engine.SwitchGuiPage("page_loading.xml", {
 		"attribs": Engine.GetReplayAttributes(replayDirectory),
-		"isNetworked": false,
 		"playerAssignments": {
 			"local": {
 				"name": singleplayerName(),
@@ -73,7 +72,6 @@ function reallyStartVisualReplay(replayDirectory)
 			}
 		},
 		"savedGUIData": "",
-		"isReplay": true,
 		"replaySelectionData": createReplaySelectionData(replayDirectory)
 	});
 }
@@ -89,9 +87,8 @@ function displayReplayCompatibilityError(replay)
 	if (replayHasSameEngineVersion(replay))
 	{
 		let gameMods = replay.attribs.mods || [];
-		errMsg = translate("You don't have the same mods active as the replay does.") + "\n";
-		errMsg += sprintf(translate("Required: %(mods)s"), { "mods": gameMods.join(translate(", ")) }) + "\n";
-		errMsg += sprintf(translate("Active: %(mods)s"), { "mods": g_EngineInfo.mods.join(translate(", ")) });
+		errMsg = translate("This replay needs a different sequence of mods:") + "\n" +
+			comparedModsString(gameMods, g_EngineInfo.mods);
 	}
 	else
 	{
@@ -124,10 +121,12 @@ function showReplaySummary()
 	Engine.SwitchGuiPage("page_summary.xml", {
 		"sim": simData,
 		"gui": {
+			"dialog": false,
 			"isReplay": true,
 			"replayDirectory": g_ReplaysFiltered[selected].directory,
 			"replaySelectionData": createReplaySelectionData(g_ReplaysFiltered[selected].directory)
-		}
+		},
+		"selectedData": g_SummarySelectedData
 	});
 }
 

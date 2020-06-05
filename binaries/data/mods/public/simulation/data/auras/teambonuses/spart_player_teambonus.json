@@ -1,10 +1,10 @@
 {
 	"type": "global",
-	"affects": ["CitizenSoldier Spear Infantry"],
+	"affects": ["Citizen Infantry Spearman"],
 	"affectedPlayers": ["ExclusiveMutualAlly"],
 	"modifications": [
-		{ "value": "Health/Max", "multiply": 1.10 }
+		{ "value": "Health/Max", "multiply": 1.1 }
 	],
 	"auraName": "Peloponnesian League",
-	"auraDescription": "Increases the health for citizen-soldier infantry spearmen by 10% for allies of Spartan players."
+	"auraDescription": "Allied Citizen Infantry Spearmen +10% health."
 }

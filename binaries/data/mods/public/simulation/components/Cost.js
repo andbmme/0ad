@@ -44,9 +44,7 @@ Cost.prototype.GetPopBonus = function()
 
 Cost.prototype.GetBuildTime = function()
 {
-	var cmpPlayer = QueryOwnerInterface(this.entity);
-	var buildTime = (+this.template.BuildTime) * cmpPlayer.cheatTimeMultiplier;
-	return ApplyValueModificationsToEntity("Cost/BuildTime", buildTime, this.entity);
+	return ApplyValueModificationsToEntity("Cost/BuildTime", +this.template.BuildTime, this.entity);
 };
 
 Cost.prototype.GetResourceCosts = function(owner)
@@ -73,13 +71,13 @@ Cost.prototype.GetResourceCosts = function(owner)
 
 Cost.prototype.OnOwnershipChanged = function(msg)
 {
-	if (msg.from != -1)
+	if (msg.from != INVALID_PLAYER)
 	{
 		let cmpPlayer = QueryPlayerIDInterface(msg.from);
 		if (cmpPlayer)
 			cmpPlayer.AddPopulationBonuses(-this.GetPopBonus());
 	}
-	if (msg.to != -1)
+	if (msg.to != INVALID_PLAYER)
 	{
 		let cmpPlayer = QueryPlayerIDInterface(msg.to);
 		if (cmpPlayer)

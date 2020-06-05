@@ -73,7 +73,7 @@
 		{
 			"Name": "Druidic Wisdom",
 			"History": "The Druids of the Gauls maintained an organized religion that advanced the technology of their people even during wartime.",
-			"Description": "-10% research time for technologies of allies."
+			"Description": "Allied Structures −20% technology research time."
 		}
 	],
 	"Structures":
@@ -87,6 +87,11 @@
 			"Phase": "",
 			"Special": ""
 		}
+	],
+	"WallSets":
+	[
+		"structures/wallset_palisade",
+		"structures/gaul_wallset_stone"
 	],
 	"StartEntities":
 	[
@@ -118,9 +123,9 @@
 		"special/formations/column_open",
 		"special/formations/line_open",
 		"special/formations/flank",
+		"special/formations/battle_line",
 		"special/formations/skirmish",
-		"special/formations/wedge",
-		"special/formations/battle_line"
+		"special/formations/wedge"
 	],
 	"AINames":
 	[

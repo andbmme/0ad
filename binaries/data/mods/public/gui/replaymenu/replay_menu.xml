@@ -2,26 +2,11 @@
 
 <objects>
 
-	<!-- Used to display game info. -->
-	<script file="gui/common/color.js" />
-	<script file="gui/common/functions_civinfo.js" />
-	<script file="gui/common/functions_utility.js" />
-	<script file="gui/common/gamedescription.js"/>
-	<script file="gui/common/settings.js" />
-
-	<!-- Used to display message boxes. -->
-	<script file="gui/common/functions_global_object.js" />
-
-	<!-- Used for engine + mod version checks and deleteTooltip. -->
-	<script file="gui/common/functions_utility_loadsave.js" />
-
-	<!-- Actual replay scripts after settings.js, as it initializes g_Settings. -->
-	<script file="gui/replaymenu/replay_menu.js" />
-	<script file="gui/replaymenu/replay_actions.js" />
-	<script file="gui/replaymenu/replay_filters.js" />
+	<script directory="gui/common/"/>
+	<script directory="gui/replaymenu/" />
 
 	<!-- Everything displayed in the replay menu. -->
-	<object type="image" style="ModernWindow" size="0 0 100% 100%" name="replayWindow">
+	<object type="image" style="ModernWindow" name="replayWindow">
 
 		<!-- Title -->
 		<object style="ModernLabelText" type="text" size="50%-128 4 50%+128 36">
@@ -41,7 +26,7 @@
 				<object name="playersFilter" type="input" style="ModernInput" size="12%-5 0 56%-10 100%" font="sans-bold-13">
 					<action on="Press">displayReplayList();</action>
 					<action on="Tab">
-						autoCompleteNick(this, g_Playernames);
+						autoCompleteText(this, g_Playernames);
 					</action>
 				</object>
 
@@ -72,11 +57,12 @@
 				selected_column="months"
 				selected_column_order="-1"
 				font="sans-stroke-13"
+				auto_scroll="true"
 			>
 
 				<action on="SelectionChange">displayReplayDetails();</action>
 				<action on="SelectionColumnChange">displayReplayList();</action>
-				<action on="mouseleftdoubleclickitem">startReplay();</action>
+				<action on="MouseLeftDoubleClickItem">startReplay();</action>
 
 				<!-- Columns -->
 				<column id="months" color="172 172 212" width="12%">
@@ -123,7 +109,7 @@
 				<translatableAttribute id="caption">Filter compatible replays</translatableAttribute>
 			</object>
 
-			<!-- Singleplayer / Multiplayer Filter -->
+			<!-- Single-player / Multiplayer Filter -->
 			<object name="singleplayerFilter" type="dropdown" style="ModernDropDown" size="0 30 100% 55" font="sans-bold-13">
 				<action on="SelectionChange">displayReplayList();</action>
 			</object>
@@ -139,7 +125,7 @@
 			</object>
 
 			<!-- Placeholder to show if no replay is selected -->
-			<object name="replayInfoEmpty" size="0 120 100% 100%-60" type="image" sprite="ModernDarkBoxGold" hidden="false">
+			<object name="replayInfoEmpty" size="0 120 100% 100%-60" type="image" sprite="ModernDarkBoxGold">
 				<object name="logo" size="50%-110 40 50%+110 140" type="image" sprite="logo"/>
 				<object name="subjectBox" type="image" sprite="ModernDarkBoxWhite" size="3% 180 97% 99%">
 					<object name="subject" size="5 5 100%-5 100%-5" type="text" style="ModernText" text_align="center"/>
@@ -167,7 +153,7 @@
 
 				<!-- Map Type Label -->
 				<object size="50% 195 100%-5 225" type="image" sprite="ModernItemBackShadeRight">
-					<object name="sgMapType" size="0 0 100% 100%" type="text" style="ModernLeftLabelText"/>
+					<object name="sgMapType" type="text" style="ModernLeftLabelText"/>
 				</object>
 
 				<!-- Separator Line -->
@@ -182,29 +168,29 @@
 
 				<!-- Map Size Label -->
 				<object size="50% 225 100%-5 255" type="image" sprite="ModernItemBackShadeRight">
-					<object name="sgMapSize" size="0 0 100% 100%" type="text" style="ModernLeftLabelText"/>
+					<object name="sgMapSize" type="text" style="ModernLeftLabelText"/>
 				</object>
 
 				<!-- Separator Line -->
 				<object size="5 254 100%-5 255" type="image" sprite="ModernWhiteLine" z="25"/>
 
 				<!-- Victory Condition Caption -->
-				<object size="5 255 50% 285" type="image" sprite="ModernItemBackShadeLeft">
+				<object size="5 255 50% 295" type="image" sprite="ModernItemBackShadeLeft">
 					<object size="0 0 100%-10 100%" type="text" style="ModernRightLabelText">
 						<translatableAttribute id="caption">Victory:</translatableAttribute>
 					</object>
 				</object>
 
 				<!-- Victory Condition Label -->
-				<object size="50% 255 100%-5 285" type="image" sprite="ModernItemBackShadeRight">
-					<object name="sgVictory" size="0 0 100% 100%" type="text" style="ModernLeftLabelText"/>
+				<object size="50% 255 100%-5 295" type="image" sprite="ModernItemBackShadeRight">
+					<object name="sgVictory" type="text" style="ModernText" font="sans-bold-stroke-14"/>
 				</object>
 
 				<!-- Separator Line -->
-				<object size="5 284 100%-5 285" type="image" sprite="ModernWhiteLine" z="25"/>
+				<object size="5 294 100%-5 295" type="image" sprite="ModernWhiteLine" z="25"/>
 
 				<!-- Map Description Text -->
-				<object type="image" sprite="ModernDarkBoxWhite" size="5 290 100%-5 40%+170">
+				<object type="image" sprite="ModernDarkBoxWhite" size="5 300 100%-5 40%+170">
 					<object name="sgMapDescription" size="0 1 100% 100%-1" type="text" style="ModernText" font="sans-12"/>
 				</object>
 
@@ -246,15 +232,15 @@
 				<action on="Press">deleteReplayButtonPressed();</action>
 			</object>
 
-			<!-- Reload Cache Button -->
+			<!-- Rebuild Cache Button -->
 			<object type="button" style="StoneButton" size="40%+25 0 57%+25 100%">
-				<translatableAttribute id="caption">Reload Cache</translatableAttribute>
+				<translatableAttribute id="caption">Rebuild Cache</translatableAttribute>
 				<translatableAttribute id="tooltip">Rebuild the replay cache from scratch. Potentially slow!</translatableAttribute>
 				<action on="Press">reloadCache();</action>
 			</object>
 
 			<!-- Summary Button -->
-			<object name="summaryButton" type="button" style="StoneButton" size="65%-50 0 82%-50 100%">
+			<object name="summaryButton" type="button" style="StoneButton" size="65%-50 0 82%-50 100%" hotkey="summary">
 				<translatableAttribute id="caption">Summary</translatableAttribute>
 				<action on="Press">showReplaySummary();</action>
 			</object>

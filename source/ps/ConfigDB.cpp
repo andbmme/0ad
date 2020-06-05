@@ -1,4 +1,4 @@
-/* Copyright (C) 2015 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -22,31 +22,28 @@
 #include <boost/algorithm/string.hpp>
 
 #include "lib/allocators/shared_ptr.h"
+#include "lib/file/vfs/vfs_path.h"
 #include "ps/CLogger.h"
+#include "ps/CStr.h"
 #include "ps/Filesystem.h"
-#include "ps/ThreadUtil.h"
+
+#include <mutex>
+#include <unordered_set>
+
 
 typedef std::map<CStr, CConfigValueSet> TConfigMap;
 TConfigMap CConfigDB::m_Map[CFG_LAST];
 VfsPath CConfigDB::m_ConfigFile[CFG_LAST];
 bool CConfigDB::m_HasChanges[CFG_LAST];
 
-static pthread_mutex_t cfgdb_mutex = PTHREAD_MUTEX_INITIALIZER;
+static std::recursive_mutex cfgdb_mutex;
 
-CConfigDB::CConfigDB()
-{
-	// Recursive mutex needed for WriteFile
-	pthread_mutexattr_t attr;
-	int err;
-	err = pthread_mutexattr_init(&attr);
-	ENSURE(err == 0);
-	err = pthread_mutexattr_settype(&attr, PTHREAD_MUTEX_RECURSIVE);
-	ENSURE(err == 0);
-	err = pthread_mutex_init(&cfgdb_mutex, &attr);
-	ENSURE(err == 0);
-	err = pthread_mutexattr_destroy(&attr);
-	ENSURE(err == 0);
-}
+// These entries will not be printed to logfiles, so that logfiles can be shared without leaking personal or sensitive data
+static const std::unordered_set<std::string> g_UnloggedEntries = {
+	"lobby.password",
+	"lobby.buddies",
+	"userreport.id" // authentication token for GDPR personal data requests
+};
 
 #define CHECK_NS(rval)\
 	do {\
@@ -91,7 +88,7 @@ std::string EscapeString(const CStr& str)
 	void CConfigDB::GetValue(EConfigNamespace ns, const CStr& name, type& value)\
 	{\
 		CHECK_NS(;);\
-		CScopeLock s(&cfgdb_mutex);\
+		std::lock_guard<std::recursive_mutex> s(cfgdb_mutex);\
 		TConfigMap::iterator it = m_Map[CFG_COMMAND].find(name);\
 		if (it != m_Map[CFG_COMMAND].end())\
 		{\
@@ -110,6 +107,7 @@ std::string EscapeString(const CStr& str)
 	}
 GETVAL(bool)
 GETVAL(int)
+GETVAL(u32)
 GETVAL(float)
 GETVAL(double)
 GETVAL(std::string)
@@ -119,7 +117,7 @@ bool CConfigDB::HasChanges(EConfigNamespace ns) const
 {
 	CHECK_NS(false);
 
-	CScopeLock s(&cfgdb_mutex);
+	std::lock_guard<std::recursive_mutex> s(cfgdb_mutex);
 	return m_HasChanges[ns];
 }
 
@@ -127,7 +125,7 @@ void CConfigDB::SetChanges(EConfigNamespace ns, bool value)
 {
 	CHECK_NS(;);
 
-	CScopeLock s(&cfgdb_mutex);
+	std::lock_guard<std::recursive_mutex> s(cfgdb_mutex);
 	m_HasChanges[ns] = value;
 }
 
@@ -135,7 +133,7 @@ void CConfigDB::GetValues(EConfigNamespace ns, const CStr& name, CConfigValueSet
 {
 	CHECK_NS(;);
 
-	CScopeLock s(&cfgdb_mutex);
+	std::lock_guard<std::recursive_mutex> s(cfgdb_mutex);
 	TConfigMap::iterator it = m_Map[CFG_COMMAND].find(name);
 	if (it != m_Map[CFG_COMMAND].end())
 	{
@@ -158,7 +156,7 @@ EConfigNamespace CConfigDB::GetValueNamespace(EConfigNamespace ns, const CStr& n
 {
 	CHECK_NS(CFG_LAST);
 
-	CScopeLock s(&cfgdb_mutex);
+	std::lock_guard<std::recursive_mutex> s(cfgdb_mutex);
 	TConfigMap::iterator it = m_Map[CFG_COMMAND].find(name);
 	if (it != m_Map[CFG_COMMAND].end())
 		return CFG_COMMAND;
@@ -175,7 +173,7 @@ EConfigNamespace CConfigDB::GetValueNamespace(EConfigNamespace ns, const CStr& n
 
 std::map<CStr, CConfigValueSet> CConfigDB::GetValuesWithPrefix(EConfigNamespace ns, const CStr& prefix) const
 {
-	CScopeLock s(&cfgdb_mutex);
+	std::lock_guard<std::recursive_mutex> s(cfgdb_mutex);
 	std::map<CStr, CConfigValueSet> ret;
 
 	CHECK_NS(ret);
@@ -198,7 +196,7 @@ void CConfigDB::SetValueString(EConfigNamespace ns, const CStr& name, const CStr
 {
 	CHECK_NS(;);
 
-	CScopeLock s(&cfgdb_mutex);
+	std::lock_guard<std::recursive_mutex> s(cfgdb_mutex);
 	TConfigMap::iterator it = m_Map[ns].find(name);
 	if (it == m_Map[ns].end())
 		it = m_Map[ns].insert(m_Map[ns].begin(), make_pair(name, CConfigValueSet(1)));
@@ -216,7 +214,7 @@ void CConfigDB::RemoveValue(EConfigNamespace ns, const CStr& name)
 {
 	CHECK_NS(;);
 
-	CScopeLock s(&cfgdb_mutex);
+	std::lock_guard<std::recursive_mutex> s(cfgdb_mutex);
 	TConfigMap::iterator it = m_Map[ns].find(name);
 	if (it == m_Map[ns].end())
 		return;
@@ -227,7 +225,7 @@ void CConfigDB::SetConfigFile(EConfigNamespace ns, const VfsPath& path)
 {
 	CHECK_NS(;);
 
-	CScopeLock s(&cfgdb_mutex);
+	std::lock_guard<std::recursive_mutex> s(cfgdb_mutex);
 	m_ConfigFile[ns] = path;
 }
 
@@ -235,7 +233,7 @@ bool CConfigDB::Reload(EConfigNamespace ns)
 {
 	CHECK_NS(false);
 
-	CScopeLock s(&cfgdb_mutex);
+	std::lock_guard<std::recursive_mutex> s(cfgdb_mutex);
 
 	shared_ptr<u8> buffer;
 	size_t buflen;
@@ -367,7 +365,7 @@ bool CConfigDB::Reload(EConfigNamespace ns)
 		{
 			CStr key(header + name);
 			newMap[key] = values;
-			if (key == "lobby.password")
+			if (g_UnloggedEntries.find(key) != g_UnloggedEntries.end())
 				LOGMESSAGE("Loaded config string \"%s\"", key);
 			else
 			{
@@ -398,7 +396,7 @@ bool CConfigDB::WriteFile(EConfigNamespace ns) const
 {
 	CHECK_NS(false);
 
-	CScopeLock s(&cfgdb_mutex);
+	std::lock_guard<std::recursive_mutex> s(cfgdb_mutex);
 	return WriteFile(ns, m_ConfigFile[ns]);
 }
 
@@ -406,7 +404,7 @@ bool CConfigDB::WriteFile(EConfigNamespace ns, const VfsPath& path) const
 {
 	CHECK_NS(false);
 
-	CScopeLock s(&cfgdb_mutex);
+	std::lock_guard<std::recursive_mutex> s(cfgdb_mutex);
 	shared_ptr<u8> buf;
 	AllocateAligned(buf, 1*MiB, maxSectorSize);
 	char* pos = (char*)buf.get();
@@ -434,7 +432,7 @@ bool CConfigDB::WriteValueToFile(EConfigNamespace ns, const CStr& name, const CS
 {
 	CHECK_NS(false);
 
-	CScopeLock s(&cfgdb_mutex);
+	std::lock_guard<std::recursive_mutex> s(cfgdb_mutex);
 	return WriteValueToFile(ns, name, value, m_ConfigFile[ns]);
 }
 
@@ -442,7 +440,7 @@ bool CConfigDB::WriteValueToFile(EConfigNamespace ns, const CStr& name, const CS
 {
 	CHECK_NS(false);
 
-	CScopeLock s(&cfgdb_mutex);
+	std::lock_guard<std::recursive_mutex> s(cfgdb_mutex);
 
 	TConfigMap newMap;
 	m_Map[ns].swap(newMap);

@@ -44,7 +44,8 @@
 		"secondaryHuntableAnimal": "gaia/fauna_sheep",
 		"stoneLarge": "gaia/geology_stonemine_medit_quarry",
 		"stoneSmall": "gaia/geology_stone_mediterranean",
-		"metalLarge": "gaia/geology_metal_mediterranean_slabs"
+		"metalLarge": "gaia/geology_metal_mediterranean_slabs",
+		"metalSmall": "gaia/geology_metal_mediterranean"
 	},
 	"Decoratives": {
 		"grass": "actor|props/flora/grass_soft_large_tall.xml",
@@ -57,9 +58,11 @@
 		"bushSmall": "actor|props/flora/bush_medit_sm.xml",
 		"tree": "actor|flora/trees/oak.xml"
 	},
-	"TreeCount": {
-		"minTrees": 500,
-		"maxTrees": 3000,
-		"forestProbability": 0.7
+	"ResourceCounts": {
+		"trees": {
+			"min": 500,
+			"max": 3000,
+			"forestProbability": 0.7
+		}
 	}
 }

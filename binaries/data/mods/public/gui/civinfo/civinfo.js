@@ -3,17 +3,22 @@
  */
 const g_CivData = loadCivData(true, false);
 
+var g_SelectedCiv = "";
+
 /**
  * Initialize the dropdown containing all the available civs.
  */
-function init(settings)
+function init(data = {})
 {
 	var civList = Object.keys(g_CivData).map(civ => ({ "name": g_CivData[civ].Name, "code": civ })).sort(sortNameIgnoreCase);
 	var civSelection = Engine.GetGUIObjectByName("civSelection");
 
 	civSelection.list = civList.map(civ => civ.name);
 	civSelection.list_data = civList.map(civ => civ.code);
-	civSelection.selected = 0;
+	civSelection.selected = data.civ ? civSelection.list_data.indexOf(data.civ) : 0;
+
+	Engine.GetGUIObjectByName("structreeButton").tooltip = colorizeHotkey(translate("%(hotkey)s: Switch to Structure Tree."), "structree");
+	Engine.GetGUIObjectByName("close").tooltip = colorizeHotkey(translate("%(hotkey)s: Close Civilization Overview."), "cancel");
 }
 
 /**
@@ -71,13 +76,23 @@ function subHeading(obj)
 {
 	if (!obj.Name)
 		return "";
-	let string = '[color="white"][font="sans-bold-14"]' + obj.Name + '[/font] ';
+	let string = '[font="sans-bold-14"]' + obj.Name + '[/font] ';
 	if (obj.History)
 		string += '[icon="iconInfo" tooltip="' + escapeQuotation(obj.History) + '" tooltip_style="civInfoTooltip"]';
 	if (obj.Description)
 		string += '\n     ' + obj.Description;
-	string += '\n[/color]';
-	return string;
+	// Translation: insert an itemization symbol for each entry.
+	return sprintf(translate("• %(string)s"), { "string": string }) + "\n";
+}
+
+function switchToStrucTreePage()
+{
+	Engine.PopGuiPage({ "civ": g_SelectedCiv, "nextPage": "page_structree.xml" });
+}
+
+function closePage()
+{
+	Engine.PopGuiPage({ "civ": g_SelectedCiv, "page": "page_civinfo.xml" });
 }
 
 /**
@@ -88,6 +103,8 @@ function subHeading(obj)
 function selectCiv(code)
 {
 	var civInfo = g_CivData[code];
+
+	g_SelectedCiv = code;
 
 	if(!civInfo)
 		error(sprintf("Error loading civ data for \"%(code)s\"", { "code": code }));
@@ -100,21 +117,21 @@ function selectCiv(code)
 	for (let bonus of civInfo.CivBonuses)
 		bonusCaption += subHeading(bonus);
 
-	// Team Bonuses
+	// Team bonuses
 	bonusCaption += heading(translatePlural("Team Bonus", "Team Bonuses", civInfo.TeamBonuses.length), 12) + '\n';
 	for (let bonus of civInfo.TeamBonuses)
 		bonusCaption += subHeading(bonus);
 
 	Engine.GetGUIObjectByName("civBonuses").caption = bonusCaption;
 
-	// Special techs
+	// Special technologies
 	var techCaption = heading(translate("Special Technologies"), 12) + '\n';
 	for (let faction of civInfo.Factions)
 		for (let technology of faction.Technologies)
 			techCaption += subHeading(technology);
 
-	// Special buildings
-	techCaption += heading(translatePlural("Special Building", "Special Buildings", civInfo.Structures.length), 12) + '\n';
+	// Special structures
+	techCaption += heading(translatePlural("Special Structure", "Special Structures", civInfo.Structures.length), 12) + '\n';
 	for (let structure of civInfo.Structures)
 		techCaption += subHeading(structure);
 

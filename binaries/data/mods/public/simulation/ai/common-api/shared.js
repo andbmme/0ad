@@ -9,7 +9,6 @@ m.SharedScript = function(settings)
 
 	this._players = Object.keys(settings.players).map(key => settings.players[key]); // TODO SM55 Object.values(settings.players)
 	this._templates = settings.templates;
-	this._techTemplates = settings.techTemplates;
 
 	this._entityMetadata = {};
 	for (let player of this._players)
@@ -30,7 +29,6 @@ m.SharedScript.prototype.Serialize = function()
 {
 	return {
 		"players": this._players,
-		"techTemplates": this._techTemplates,
 		"templatesModifications": this._templatesModifications,
 		"entitiesModifications": this._entitiesModifications,
 		"metadata": this._entityMetadata
@@ -44,7 +42,6 @@ m.SharedScript.prototype.Serialize = function()
 m.SharedScript.prototype.Deserialize = function(data)
 {
 	this._players = data.players;
-	this._techTemplates = data.techTemplates;
 	this._templatesModifications = data.templatesModifications;
 	this._entitiesModifications = data.entitiesModifications;
 	this._entityMetadata = data.metadata;
@@ -55,7 +52,7 @@ m.SharedScript.prototype.Deserialize = function(data)
 m.SharedScript.prototype.GetTemplate = function(name)
 {
 	if (this._templates[name] === undefined)
-		this._templates[name] = Engine.GetTemplate(name) || null
+		this._templates[name] = Engine.GetTemplate(name) || null;
 
 	return this._templates[name];
 };
@@ -77,7 +74,7 @@ m.SharedScript.prototype.init = function(state, deserialization)
 	this.timeElapsed = state.timeElapsed;
 	this.circularMap = state.circularMap;
 	this.mapSize = state.mapSize;
-	this.gameType = state.gameType;
+	this.victoryConditions = new Set(state.victoryConditions);
 	this.alliedVictory = state.alliedVictory;
 	this.ceasefireActive = state.ceasefireActive;
 	this.ceasefireTimeRemaining = state.ceasefireTimeRemaining / 1000;
@@ -118,9 +115,6 @@ m.SharedScript.prototype.init = function(state, deserialization)
 	this.accessibility = new m.Accessibility();
 	this.accessibility.init(state, this.terrainAnalyzer);
 
-	// Setup resources
-	this.resourceInfo = state.resources;
-	m.Resources.prototype.types = state.resources.codes;
 	// Resource types: ignore = not used for resource maps
 	//                 abundant = abundant resource with small amount each
 	//                 sparse = sparse resource, but huge amount each
@@ -137,7 +131,7 @@ m.SharedScript.prototype.init = function(state, deserialization)
 	for (let player of this._players)
 	{
 		this.gameState[player] = new m.GameState();
-		this.gameState[player].init(this,state, player);
+		this.gameState[player].init(this, state, player);
 	}
 };
 
@@ -233,7 +227,7 @@ m.SharedScript.prototype.ApplyEntitiesDelta = function(state)
 	{
 		if (!this._entities.has(evt.id))
 			continue;	// might happen in some rare cases of foundations getting destroyed, perhaps.
-						// Apply metadata (here for buildings for example)
+		// Apply metadata (here for buildings for example)
 		for (let key in evt.metadata)
 			this.setMetadata(evt.owner, this._entities.get(evt.id), key, evt.metadata[key]);
 	}
@@ -351,7 +345,10 @@ m.SharedScript.prototype.setMetadata = function(player, ent, key, value)
 {
 	let metadata = this._entityMetadata[player][ent.id()];
 	if (!metadata)
-		metadata = this._entityMetadata[player][ent.id()] = {};
+	{
+		this._entityMetadata[player][ent.id()] = {};
+		metadata = this._entityMetadata[player][ent.id()];
+	}
 	metadata[key] = value;
 
 	this.updateEntityCollections('metadata', ent);
@@ -383,9 +380,9 @@ m.SharedScript.prototype.deleteMetadata = function(player, ent, key)
 m.copyPrototype = function(descendant, parent)
 {
 	let sConstructor = parent.toString();
-	let aMatch = sConstructor.match( /\s*function (.*)\(/ );
+	let aMatch = sConstructor.match(/\s*function (.*)\(/);
 
-	if ( aMatch != null )
+	if (aMatch != null)
 		descendant.prototype[aMatch[1]] = parent;
 
 	for (let p in parent.prototype)

@@ -2,25 +2,14 @@
 
 <objects>
 
-	<script file="gui/common/color.js"/>
-	<script file="gui/common/functions_global_object.js"/>
-	<script file="gui/common/functions_utility.js"/>
-	<script file="gui/common/gamedescription.js"/>
-	<script file="gui/common/music.js"/>
-	<script file="gui/common/settings.js"/>
-	<script file="gui/common/timer.js"/>
+	<script directory="gui/common/"/>
+	<script directory="gui/lobby/"/>
 
-	<!-- After settings.js, which defines g_Settings -->
-	<script file="gui/lobby/lobby.js"/>
+	<object>
 
-	<object type="image" style="ModernWindow" size="0 0 100% 100%" name="lobbyWindow">
-
-		<object style="ModernLabelText" type="text" size="50%-128 0%+4 50%+128 36">
-			<translatableAttribute id="caption">Multiplayer Lobby</translatableAttribute>
-		</object>
-
-		<include file="gui/lobby/lobby_panels.xml"/>
+		<include file="gui/lobby/LobbyPage/LobbyPage.xml"/>
+		<include file="gui/lobby/LeaderboardPage/LeaderboardPage.xml"/>
+		<include file="gui/lobby/ProfilePage/ProfilePage.xml"/>
 
 	</object>
-
 </objects>

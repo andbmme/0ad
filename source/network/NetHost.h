@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -47,7 +47,7 @@ struct PlayerAssignment
 	/// The player that the given host controls, or -1 if none (observer)
 	i32 m_PlayerID;
 
-	/// Status - Ready or not: 0 for not ready, 1 for ready
+	/// Status - Ready or not: 0 for not ready, 1 for ready, 2 to stay ready
 	u8 m_Status;
 };
 
@@ -56,6 +56,8 @@ typedef std::map<CStr, PlayerAssignment> PlayerAssignmentMap; // map from GUID -
 /**
  * Reasons sent by server to clients in disconnection messages.
  * Must be kept in sync with binaries/data/mods/public/gui/common/network.js
+ * To avoid ambiguity, use a distinct reason for each callstack leading to a disconnect.
+ * NDR_UNKNOWN should remain reserved to the case where it is actually not a known disconnect by the server.
  */
 enum NetDisconnectReason
 {
@@ -67,7 +69,11 @@ enum NetDisconnectReason
 	NDR_KICKED,
 	NDR_BANNED,
 	NDR_PLAYERNAME_IN_USE,
-	NDR_SERVER_FULL
+	NDR_SERVER_FULL,
+	NDR_LOBBY_AUTH_FAILED,
+	NDR_GUID_FAILED,
+	NDR_INCORRECT_READY_TURN_COMMANDS,
+	NDR_INCORRECT_READY_TURN_SIMULATED
 };
 
 class CNetHost

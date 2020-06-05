@@ -5,10 +5,11 @@
   </Auras>
   <Identity>
     <Civ>gaul</Civ>
-    <SpecificName>Britomartus</SpecificName>
-    <Icon>units/celt_hero_viridomarus.png</Icon>
+    <GenericName>Viridomarus</GenericName>
+    <SpecificName>Britomaros</SpecificName>
+    <Icon>units/gaul_hero_viridomarus.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/celts/viridomarus.xml</Actor>
+    <Actor>units/gauls/hero_infantry_spearman_viridomarus.xml</Actor>
   </VisualActor>
 </Entity>

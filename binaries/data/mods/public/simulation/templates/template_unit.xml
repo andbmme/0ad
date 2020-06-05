@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_entity_full">
+<Entity>
+  <AIProxy/>
   <Armour>
     <Hack>1</Hack>
     <Pierce>1</Pierce>
@@ -19,7 +20,7 @@
   <Decay>
     <Active>false</Active>
     <SinkingAnim>false</SinkingAnim>
-    <DelayTime>80.0</DelayTime>
+    <DelayTime>30.0</DelayTime>
     <SinkRate>0.01</SinkRate>
     <SinkAccel>0.0</SinkAccel>
   </Decay>
@@ -34,12 +35,12 @@
     <Max>100</Max>
     <RegenRate>0</RegenRate>
     <IdleRegenRate>0</IdleRegenRate>
-    <Undeletable>false</Undeletable>
     <Unhealable>false</Unhealable>
   </Health>
   <Identity>
+    <Civ>gaia</Civ>
+    <Classes datatype="tokens">Unit Organic ConquestCritical</Classes>
     <GenericName>Unit</GenericName>
-    <Classes datatype="tokens">Unit ConquestCritical</Classes>
     <Formations datatype="tokens">
       special/formations/null
       special/formations/box
@@ -50,6 +51,8 @@
       special/formations/flank
       special/formations/battle_line
     </Formations>
+    <Phenotype datatype="tokens">male</Phenotype>
+    <Undeletable>false</Undeletable>
   </Identity>
   <Looter/>
   <Minimap>
@@ -64,9 +67,19 @@
     <BlockConstruction>true</BlockConstruction>
     <DisableBlockMovement>false</DisableBlockMovement>
     <DisableBlockPathfinding>false</DisableBlockPathfinding>
+    <DeleteUponConstruction>false</DeleteUponConstruction>
   </Obstruction>
   <OverlayRenderer/>
-  <RangeVisualization/>
+  <Ownership/>
+  <Position>
+    <Altitude>0</Altitude>
+    <Anchor>pitch</Anchor>
+    <Floating>false</Floating>
+    <FloatDepth>0.0</FloatDepth>
+    <TurnRate>6.0</TurnRate>
+  </Position>
+  <RangeOverlayManager/>
+  <RangeOverlayRenderer/>
   <ResourceGatherer>
     <MaxDistance>2.0</MaxDistance>
     <BaseSpeed>1.0</BaseSpeed>
@@ -83,15 +96,15 @@
   <Selectable>
     <Overlay>
       <Texture>
-        <MainTexture>circle/128x128.png</MainTexture>
-        <MainTextureMask>circle/128x128_mask.png</MainTextureMask>
+        <MainTexture>128x128/ellipse.png</MainTexture>
+        <MainTextureMask>128x128/ellipse_mask.png</MainTextureMask>
       </Texture>
     </Overlay>
   </Selectable>
   <Sound>
     <SoundGroups>
       <attacked>interface/alarm/alarm_attackplayer.xml</attacked>
-      <attack_slaughter>attack/weapon/sword.xml</attack_slaughter>
+      <attack_slaughter>attack/weapon/sword_attack.xml</attack_slaughter>
     </SoundGroups>
   </Sound>
   <StatusBars>
@@ -99,8 +112,8 @@
     <BarHeight>0.333</BarHeight>
     <HeightOffset>5.0</HeightOffset>
   </StatusBars>
+  <StatusEffectsReceiver/>
   <UnitAI>
-    <AlertReactiveLevel>2</AlertReactiveLevel>
     <DefaultStance>aggressive</DefaultStance>
     <FleeDistance>12.0</FleeDistance>
     <FormationController>false</FormationController>
@@ -109,15 +122,9 @@
   </UnitAI>
   <UnitMotion>
     <FormationController>false</FormationController>
-    <WalkSpeed>9.0</WalkSpeed>
-    <Run>
-      <Speed>15.0</Speed>
-      <Range>50.0</Range>
-      <RangeMin>0.0</RangeMin>
-      <RegenTime>0.1</RegenTime>
-      <DecayTime>0.2</DecayTime>
-    </Run>
     <PassabilityClass>default</PassabilityClass>
+    <WalkSpeed>9.0</WalkSpeed>
+    <RunMultiplier>1.67</RunMultiplier>
   </UnitMotion>
   <Visibility>
     <RetainInFog>false</RetainInFog>

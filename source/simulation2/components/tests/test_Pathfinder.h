@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ class TestCmpPathfinder : public CxxTest::TestSuite
 public:
 	void setUp()
 	{
-		g_VFS = CreateVfs(20 * MiB);
+		g_VFS = CreateVfs();
 		g_VFS->Mount(L"", DataDir()/"mods"/"mod", VFS_MOUNT_MUST_EXIST);
 		g_VFS->Mount(L"", DataDir()/"mods"/"public", VFS_MOUNT_MUST_EXIST, 1); // ignore directory-not-found errors
 		TS_ASSERT_OK(g_VFS->Mount(L"cache", DataDir()/"_testcache"));
@@ -64,6 +64,76 @@ public:
 		TS_ASSERT_EQUALS((Pathfinding::NAVCELL_SIZE >> 1).ToInt_RoundToZero(), Pathfinding::NAVCELL_SIZE_LOG2);
 	}
 
+	void test_pathgoal_nearest_distance()
+	{
+		entity_pos_t i = Pathfinding::NAVCELL_SIZE;
+		CFixedVector2D u(i*1, i*0);
+		CFixedVector2D v(i*0, i*1);
+
+		{
+			PathGoal goal = { PathGoal::POINT, i*8, i*6 };
+			TS_ASSERT_EQUALS(goal.NearestPointOnGoal(u*8 + v*4), u*8 + v*6);
+			TS_ASSERT_EQUALS(goal.DistanceToPoint(u*8 + v*4), i*2);
+			TS_ASSERT_EQUALS(goal.NearestPointOnGoal(u*0 + v*0), u*8 + v*6);
+			TS_ASSERT_EQUALS(goal.DistanceToPoint(u*0 + v*0), i*10);
+			TS_ASSERT(goal.RectContainsGoal(i*4, i*3, i*12, i*9));
+			TS_ASSERT(goal.RectContainsGoal(i*4, i*3, i*8, i*6));
+			TS_ASSERT(goal.RectContainsGoal(i*8, i*6, i*12, i*9));
+			TS_ASSERT(!goal.RectContainsGoal(i*4, i*3, i*7, i*5));
+			TS_ASSERT(!goal.RectContainsGoal(i*9, i*7, i*13, i*15));
+		}
+
+		{
+			PathGoal goal = { PathGoal::CIRCLE, i*8, i*6, i*5 };
+			TS_ASSERT_EQUALS(goal.NearestPointOnGoal(u*8 + v*4), u*8 + v*4);
+			TS_ASSERT_EQUALS(goal.DistanceToPoint(u*8 + v*4), i*0);
+			TS_ASSERT_EQUALS(goal.NearestPointOnGoal(u*0 + v*0), u*4 + v*3);
+			TS_ASSERT_EQUALS(goal.DistanceToPoint(u*0 + v*0), i*5);
+			TS_ASSERT(goal.RectContainsGoal(i*7, i*5, i*9, i*7)); // fully inside
+			TS_ASSERT(goal.RectContainsGoal(i*3, i*1, i*13, i*11)); // fully outside
+			TS_ASSERT(goal.RectContainsGoal(i*4, i*3, i*8, i*6)); // partially inside
+			TS_ASSERT(goal.RectContainsGoal(i*4, i*0, i*12, i*1)); // touching the edge
+		}
+
+		{
+			PathGoal goal = { PathGoal::INVERTED_CIRCLE, i*8, i*6, i*5 };
+			TS_ASSERT_EQUALS(goal.NearestPointOnGoal(u*8 + v*4), u*8 + v*1);
+			TS_ASSERT_EQUALS(goal.DistanceToPoint(u*8 + v*4), i*3);
+			TS_ASSERT_EQUALS(goal.NearestPointOnGoal(u*0 + v*0), u*0 + v*0);
+			TS_ASSERT_EQUALS(goal.DistanceToPoint(u*0 + v*0), i*0);
+			TS_ASSERT(!goal.RectContainsGoal(i*7, i*5, i*9, i*7)); // fully inside
+			TS_ASSERT(goal.RectContainsGoal(i*3, i*1, i*13, i*11)); // fully outside
+			TS_ASSERT(goal.RectContainsGoal(i*4, i*3, i*8, i*6)); // partially inside
+			TS_ASSERT(goal.RectContainsGoal(i*4, i*0, i*12, i*1)); // touching the edge
+		}
+
+		{
+			PathGoal goal = { PathGoal::SQUARE, i*8, i*6, i*4, i*3, u, v };
+			TS_ASSERT_EQUALS(goal.NearestPointOnGoal(u*8 + v*4), u*8 + v*4);
+			TS_ASSERT_EQUALS(goal.DistanceToPoint(u*8 + v*4), i*0);
+			TS_ASSERT_EQUALS(goal.NearestPointOnGoal(u*0 + v*0), u*4 + v*3);
+			TS_ASSERT_EQUALS(goal.DistanceToPoint(u*0 + v*0), i*5);
+			TS_ASSERT(goal.RectContainsGoal(i*7, i*5, i*9, i*7)); // fully inside
+			TS_ASSERT(goal.RectContainsGoal(i*3, i*1, i*13, i*11)); // fully outside
+			TS_ASSERT(goal.RectContainsGoal(i*4, i*3, i*8, i*6)); // partially inside
+			TS_ASSERT(goal.RectContainsGoal(i*4, i*2, i*12, i*3)); // touching the edge
+			TS_ASSERT(goal.RectContainsGoal(i*3, i*0, i*4, i*10)); // touching the edge
+		}
+
+		{
+			PathGoal goal = { PathGoal::INVERTED_SQUARE, i*8, i*6, i*4, i*3, u, v };
+			TS_ASSERT_EQUALS(goal.NearestPointOnGoal(u*8 + v*4), u*8 + v*3);
+			TS_ASSERT_EQUALS(goal.DistanceToPoint(u*8 + v*4), i*1);
+			TS_ASSERT_EQUALS(goal.NearestPointOnGoal(u*0 + v*0), u*0 + v*0);
+			TS_ASSERT_EQUALS(goal.DistanceToPoint(u*0 + v*0), i*0);
+			TS_ASSERT(!goal.RectContainsGoal(i*7, i*5, i*9, i*7)); // fully inside
+			TS_ASSERT(goal.RectContainsGoal(i*3, i*1, i*13, i*11)); // fully outside
+			TS_ASSERT(!goal.RectContainsGoal(i*4, i*3, i*8, i*6)); // inside, touching (should fail)
+			TS_ASSERT(goal.RectContainsGoal(i*4, i*2, i*12, i*3)); // touching the edge
+			TS_ASSERT(goal.RectContainsGoal(i*3, i*0, i*4, i*10)); // touching the edge
+		}
+	}
+
 	void test_performance_DISABLED()
 	{
 		CTerrain terrain;
@@ -82,6 +152,8 @@ public:
 		LDR_EndRegistering();
 		TS_ASSERT_OK(LDR_NonprogressiveLoad());
 
+		sim2.PreInitGame();
+		sim2.InitGame();
 		sim2.Update(0);
 
 		CmpPtr<ICmpPathfinder> cmp(sim2, SYSTEM_ENTITY);
@@ -111,7 +183,7 @@ public:
 			PathGoal goal = { PathGoal::POINT, x1, z1 };
 
 			WaypointPath path;
-			cmp->ComputePath(x0, z0, goal, cmp->GetPassabilityClass("default"), path);
+			cmp->ComputePathImmediate(x0, z0, goal, cmp->GetPassabilityClass("default"), path);
 		}
 
 		t = timer_Time() - t;
@@ -141,10 +213,8 @@ public:
 			cmpObstructionMan->AddUnitShape(INVALID_ENTITY, x, z, fixed::FromInt(2), 0, INVALID_ENTITY);
 		}
 
-		NullObstructionFilter filter;
 		PathGoal goal = { PathGoal::POINT, range, range };
-		WaypointPath path;
-		cmpPathfinder->ComputeShortPath(filter, range/3, range/3, fixed::FromInt(2), range, goal, 0, path);
+		WaypointPath path = cmpPathfinder->ComputeShortPathImmediate(ShortPathRequest{ 0, range/3, range/3, fixed::FromInt(2), range, goal, 0, false, 0, 0 });
 		for (size_t i = 0; i < path.m_Waypoints.size(); ++i)
 			printf("# %d: %f %f\n", (int)i, path.m_Waypoints[i].x.ToFloat(), path.m_Waypoints[i].z.ToFloat());
 	}
@@ -193,6 +263,8 @@ public:
 		LDR_EndRegistering();
 		TS_ASSERT_OK(LDR_NonprogressiveLoad());
 
+		sim2.PreInitGame();
+		sim2.InitGame();
 		sim2.Update(0);
 
 		std::ofstream stream(OsString("perf2.html").c_str(), std::ofstream::out | std::ofstream::trunc);
@@ -248,6 +320,8 @@ public:
 		LDR_EndRegistering();
 		TS_ASSERT_OK(LDR_NonprogressiveLoad());
 
+		sim2.PreInitGame();
+		sim2.InitGame();
 		sim2.Update(0);
 
 		std::ofstream stream(OsString("perf3.html").c_str(), std::ofstream::out | std::ofstream::trunc);
@@ -295,7 +369,7 @@ public:
 		PathGoal goal = { PathGoal::POINT, x1, z1 };
 
 		WaypointPath path;
-		cmpPathfinder->ComputePath(x0, z0, goal, cmpPathfinder->GetPassabilityClass("default"), path);
+		cmpPathfinder->ComputePathImmediate(x0, z0, goal, cmpPathfinder->GetPassabilityClass("default"), path);
 
 		u32 debugSteps;
 		double debugTime;
@@ -344,7 +418,7 @@ public:
 		for (int i = 0; i < n; ++i)
 		{
 			WaypointPath path;
-			cmpPathfinder->ComputePath(x0, z0, goal, cmpPathfinder->GetPassabilityClass("default"), path);
+			cmpPathfinder->ComputePathImmediate(x0, z0, goal, cmpPathfinder->GetPassabilityClass("default"), path);
 		}
 		t = timer_Time() - t;
 		debug_printf("### RepeatPath %fms each (%fs total)\n", 1000*t / n, t);

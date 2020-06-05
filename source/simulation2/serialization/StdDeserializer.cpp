@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -167,12 +167,7 @@ JS::Value CStdDeserializer::ReadScriptVal(const char* UNUSED(name), JS::HandleOb
 			if (!proto)
 				throw PSERROR_Deserialize_ScriptError("Failed to find serializable prototype for object");
 
-			JS::RootedObject parent(cx, JS_GetParent(proto));
-			if (!proto || !parent)
-				throw PSERROR_Deserialize_ScriptError();
-
-			// TODO: Remove support for parent since this is dropped upstream SpiderMonkey
-			obj.set(JS_NewObjectWithGivenProto(cx, nullptr, proto, parent));
+			obj.set(JS_NewObjectWithGivenProto(cx, nullptr, proto));
 			if (!obj)
 				throw PSERROR_Deserialize_ScriptError("JS_NewObject failed");
 
@@ -218,7 +213,7 @@ JS::Value CStdDeserializer::ReadScriptVal(const char* UNUSED(name), JS::HandleOb
 			{
 				std::vector<JS::Latin1Char> propname;
 				ReadStringLatin1("prop name", propname);
-				JS::RootedValue propval(cx, ReadScriptVal("prop value", JS::NullPtr()));
+				JS::RootedValue propval(cx, ReadScriptVal("prop value", nullptr));
 
 				utf16string prp(propname.begin(), propname.end());;
 // TODO: Should ask upstream about getting a variant of JS_SetProperty with a length param.
@@ -229,7 +224,7 @@ JS::Value CStdDeserializer::ReadScriptVal(const char* UNUSED(name), JS::HandleOb
 			{
 				utf16string propname;
 				ReadStringUTF16("prop name", propname);
-				JS::RootedValue propval(cx, ReadScriptVal("prop value", JS::NullPtr()));
+				JS::RootedValue propval(cx, ReadScriptVal("prop value", nullptr));
 
 				if (!JS_SetUCProperty(cx, obj, (const char16_t*)propname.data(), propname.length(), propval))
 					throw PSERROR_Deserialize_ScriptError();
@@ -338,7 +333,7 @@ JS::Value CStdDeserializer::ReadScriptVal(const char* UNUSED(name), JS::HandleOb
 		AddScriptBackref(arrayObj);
 
 		// Get buffer object
-		JS::RootedValue bufferVal(cx, ReadScriptVal("buffer", JS::NullPtr()));
+		JS::RootedValue bufferVal(cx, ReadScriptVal("buffer", nullptr));
 
 		if (!bufferVal.isObject())
 			throw PSERROR_Deserialize_ScriptError();
@@ -410,8 +405,8 @@ JS::Value CStdDeserializer::ReadScriptVal(const char* UNUSED(name), JS::HandleOb
 
 		for (u32 i=0; i<mapSize; ++i)
 		{
-			JS::RootedValue key(cx, ReadScriptVal("map key", JS::NullPtr()));
-			JS::RootedValue value(cx, ReadScriptVal("map value", JS::NullPtr()));
+			JS::RootedValue key(cx, ReadScriptVal("map key", nullptr));
+			JS::RootedValue value(cx, ReadScriptVal("map value", nullptr));
 			JS::MapSet(cx, obj, key, value);
 		}
 
@@ -430,7 +425,7 @@ JS::Value CStdDeserializer::ReadScriptVal(const char* UNUSED(name), JS::HandleOb
 
 		for (u32 i=0; i<setSize; ++i)
 		{
-			JS::RootedValue value(cx, ReadScriptVal("set value", JS::NullPtr()));
+			JS::RootedValue value(cx, ReadScriptVal("set value", nullptr));
 			m_ScriptInterface.CallFunctionVoid(setVal, "add", value);
 		}
 
@@ -492,7 +487,7 @@ void CStdDeserializer::ScriptString(const char* name, JS::MutableHandleString ou
 
 void CStdDeserializer::ScriptVal(const char* name, JS::MutableHandleValue out)
 {
-	out.set(ReadScriptVal(name, JS::NullPtr()));
+	out.set(ReadScriptVal(name, nullptr));
 }
 
 void CStdDeserializer::ScriptObjectAppend(const char* name, JS::HandleValue objVal)

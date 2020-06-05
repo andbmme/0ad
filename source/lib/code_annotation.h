@@ -1,4 +1,4 @@
-/* Copyright (c) 2017 Wildfire Games.
+/* Copyright (c) 2019 Wildfire Games.
  *
  * Permission is hereby granted, free of charge, to any person obtaining
  * a copy of this software and associated documentation files (the
@@ -216,7 +216,15 @@ switch(x % 2)
  */
 #define NONCOPYABLE(className) \
 	className(const className&) = delete; \
-	const className& operator=(const className&) = delete
+	className& operator=(const className&) = delete
+
+/**
+ * Indicates that move semantics can be used, so that a NONCOPYABLE class can still be assigned by taking over the reference to the value.
+ * Make sure to use the macro with the necessary access modifier.
+ */
+#define MOVABLE(className) \
+	className(className&&) = default; \
+	className& operator=(className&&) = default
 
 #if ICC_VERSION
 # define ASSUME_ALIGNED(ptr, multiple) __assume_aligned(ptr, multiple)

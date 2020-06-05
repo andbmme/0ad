@@ -100,7 +100,7 @@ function confirmSetup()
 		let joinServer = Engine.GetGUIObjectByName("joinServer").caption;
 		let joinPort = Engine.GetGUIObjectByName("joinPort").caption;
 
-		if (startJoin(joinPlayerName, joinServer, getValidPort(joinPort), false))
+		if (startJoin(joinPlayerName, joinServer, getValidPort(joinPort), false, ""))
 			switchSetupPage("pageConnecting");
 	}
 	else if (!Engine.GetGUIObjectByName("pageHost").hidden)
@@ -195,11 +195,12 @@ function pollAndHandleNetworkClient()
 
 				Engine.SwitchGuiPage("page_loading.xml", {
 					"attribs": g_GameAttributes,
-					"isNetworked": true,
 					"isRejoining": g_IsRejoining,
 					"playerAssignments": g_PlayerAssignments
 				});
-				break;
+
+				// Process further pending netmessages in the session page
+				return;
 
 			case "chat":
 				break;
@@ -230,7 +231,6 @@ function pollAndHandleNetworkClient()
 						return; // we'll process the game setup messages in the next tick
 					}
 					Engine.SwitchGuiPage("page_gamesetup.xml", {
-						"type": g_GameType,
 						"serverName": g_ServerName,
 						"serverPort": g_ServerPort,
 						"stunEndpoint": g_StunEndpoint
@@ -260,9 +260,19 @@ function pollAndHandleNetworkClient()
 
 function switchSetupPage(newPage)
 {
-	for (let page of Engine.GetGUIObjectByName("multiplayerPages").children)
-		if (page.name.substr(0, 4) == "page")
+	let multiplayerPages = Engine.GetGUIObjectByName("multiplayerPages");
+	for (let page of multiplayerPages.children)
+		if (page.name.startsWith("page"))
 			page.hidden = true;
+
+	if (newPage == "pageJoin" || newPage == "pageHost")
+	{
+		let pageSize = multiplayerPages.size;
+		let halfHeight = newPage == "pageJoin" ? 130 : Engine.HasXmppClient() ? 125 : 110;
+		pageSize.top = -halfHeight;
+		pageSize.bottom = halfHeight;
+		multiplayerPages.size = pageSize;
+	}
 
 	Engine.GetGUIObjectByName(newPage).hidden = false;
 
@@ -272,23 +282,13 @@ function switchSetupPage(newPage)
 	Engine.GetGUIObjectByName("continueButton").hidden = newPage == "pageConnecting";
 }
 
-function saveSTUNSetting(enabled)
-{
-	Engine.ConfigDB_CreateValue("user", "lobby.stun.enabled", enabled);
-	Engine.ConfigDB_WriteValueToFile("user", "lobby.stun.enabled", enabled, "config/user.cfg");
-}
-
 function startHost(playername, servername, port)
 {
 	startConnectionStatus("server");
 
-	// Save player name
-	Engine.ConfigDB_CreateValue("user", "playername.multiplayer", playername);
-	Engine.ConfigDB_WriteValueToFile("user", "playername.multiplayer", playername, "config/user.cfg");
+	Engine.ConfigDB_CreateAndWriteValueToFile("user", "playername.multiplayer", playername, "config/user.cfg");
 
-	// Save port
-	Engine.ConfigDB_CreateValue("user", "multiplayerhosting.port", port);
-	Engine.ConfigDB_WriteValueToFile("user", "multiplayerhosting.port", port, "config/user.cfg");
+	Engine.ConfigDB_CreateAndWriteValueToFile("user", "multiplayerhosting.port", port, "config/user.cfg");
 
 	let hostFeedback = Engine.GetGUIObjectByName("hostFeedback");
 
@@ -314,10 +314,7 @@ function startHost(playername, servername, port)
 
 	try
 	{
-		if (g_UserRating)
-			Engine.StartNetworkHost(playername + " (" + g_UserRating + ")", port);
-		else
-			Engine.StartNetworkHost(playername, port);
+		Engine.StartNetworkHost(playername + (g_UserRating ? " (" + g_UserRating + ")" : ""), port, playername);
 	}
 	catch (e)
 	{
@@ -342,7 +339,7 @@ function startHost(playername, servername, port)
 /**
  * Connects via STUN if the hostJID is given.
  */
-function startJoin(playername, ip, port, useSTUN, hostJID = "")
+function startJoin(playername, ip, port, useSTUN, hostJID)
 {
 	try
 	{
@@ -366,12 +363,9 @@ function startJoin(playername, ip, port, useSTUN, hostJID = "")
 	else
 	{
 		// Only save the player name and host address if they're valid and we're not in the lobby
-		Engine.ConfigDB_CreateValue("user", "playername.multiplayer", playername);
-		Engine.ConfigDB_WriteValueToFile("user", "playername.multiplayer", playername, "config/user.cfg");
-		Engine.ConfigDB_CreateValue("user", "multiplayerserver", ip);
-		Engine.ConfigDB_WriteValueToFile("user", "multiplayerserver", ip, "config/user.cfg");
-		Engine.ConfigDB_CreateValue("user", "multiplayerjoining.port", port);
-		Engine.ConfigDB_WriteValueToFile("user", "multiplayerjoining.port", port, "config/user.cfg");
+		Engine.ConfigDB_CreateAndWriteValueToFile("user", "playername.multiplayer", playername, "config/user.cfg");
+		Engine.ConfigDB_CreateAndWriteValueToFile("user", "multiplayerserver", ip, "config/user.cfg");
+		Engine.ConfigDB_CreateAndWriteValueToFile("user", "multiplayerjoining.port", port, "config/user.cfg");
 	}
 	return true;
 }

@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -18,9 +18,12 @@
 #ifndef INCLUDED_REPLAY
 #define INCLUDED_REPLAY
 
+#include "lib/os_path.h"
+#include "ps/CStr.h"
 #include "scriptinterface/ScriptTypes.h"
 
 struct SimulationCommand;
+class CSimulation2;
 class ScriptInterface;
 
 /**
@@ -49,6 +52,11 @@ public:
 	virtual void Hash(const std::string& hash, bool quick) = 0;
 
 	/**
+	 * Saves metadata.json containing part of the simulation state used for the summary screen.
+	 */
+	virtual void SaveMetadata(const CSimulation2& simulation) = 0;
+
+	/**
 	 * Remember the directory containing the commands.txt file, so that we can save additional files to it.
 	 */
 	virtual OsPath GetDirectory() const = 0;
@@ -63,6 +71,7 @@ public:
 	virtual void StartGame(JS::MutableHandleValue UNUSED(attribs)) { }
 	virtual void Turn(u32 UNUSED(n), u32 UNUSED(turnLength), std::vector<SimulationCommand>& UNUSED(commands)) { }
 	virtual void Hash(const std::string& UNUSED(hash), bool UNUSED(quick)) { }
+	virtual void SaveMetadata(const CSimulation2& UNUSED(simulation)) { };
 	virtual OsPath GetDirectory() const { return OsPath(); }
 };
 
@@ -79,6 +88,7 @@ public:
 	virtual void StartGame(JS::MutableHandleValue attribs);
 	virtual void Turn(u32 n, u32 turnLength, std::vector<SimulationCommand>& commands);
 	virtual void Hash(const std::string& hash, bool quick);
+	virtual void SaveMetadata(const CSimulation2& simulation);
 	virtual OsPath GetDirectory() const;
 
 private:
@@ -97,10 +107,13 @@ public:
 	~CReplayPlayer();
 
 	void Load(const OsPath& path);
-	void Replay(bool serializationtest, int rejointestturn, bool ooslog);
+	void Replay(const bool serializationtest, const int rejointestturn, const bool ooslog, const bool testHashFull, const bool testHashQuick);
 
 private:
 	std::istream* m_Stream;
+	CStr ModListToString(const std::vector<std::vector<CStr>>& list) const;
+	void CheckReplayMods(const ScriptInterface& scriptInterface, JS::HandleValue attribs) const;
+	void TestHash(const std::string& hashType, const std::string& replayHash, const bool testHashFull, const bool testHashQuick);
 };
 
 #endif // INCLUDED_REPLAY

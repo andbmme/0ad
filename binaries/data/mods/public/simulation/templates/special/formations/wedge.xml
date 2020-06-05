@@ -3,16 +3,15 @@
   <Formation>
     <Icon>formations/wedge.png</Icon>
     <RequiredMemberCount>6</RequiredMemberCount>
-    <DisabledTooltip>6 cavalry units required</DisabledTooltip>
+    <DisabledTooltip>Cavalry only, requires at least 6.</DisabledTooltip>
     <FormationName>Wedge</FormationName>
     <FormationShape>triangle</FormationShape>
     <ShiftRows>true</ShiftRows>
-    <SpeedMultiplier>1.25</SpeedMultiplier>
     <Sloppyness>0.25</Sloppyness>
     <UnitSeparationWidthMultiplier>1.1</UnitSeparationWidthMultiplier>
     <UnitSeparationDepthMultiplier>1.1</UnitSeparationDepthMultiplier>
   </Formation>
   <FormationAttack>
-    <CanAttackAsFormation>true</CanAttackAsFormation>
+    <CanAttackAsFormation>false</CanAttackAsFormation>
   </FormationAttack>
 </Entity>

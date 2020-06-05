@@ -1,5 +1,7 @@
-RMS.LoadLibrary("rmgen");
+Engine.LoadLibrary("rmgen");
+Engine.LoadLibrary("rmgen-common");
 
+const tPrimary = "temp_grass_long";
 const tGrass = ["temp_grass", "temp_grass", "temp_grass_d"];
 const tGrassDForest = "temp_plants_bog";
 const tGrassA = "temp_grass_plants";
@@ -38,131 +40,84 @@ const aLillies = "actor|props/flora/water_lillies.xml";
 
 const pForestD = [tGrassDForest + TERRAIN_SEPARATOR + oBeech, tGrassDForest];
 
-InitMap();
+var heightSeaGround = -4;
+var heightShore = 1;
+var heightLand = 3;
+
+var g_Map = new RandomMap(heightShore, tPrimary);
 
 const numPlayers = getNumPlayers();
+const mapCenter = g_Map.getCenter();
+const mapBounds = g_Map.getBounds();
 
-var clPlayer = createTileClass();
-var clHill = createTileClass();
-var clForest = createTileClass();
-var clWater = createTileClass();
-var clDirt = createTileClass();
-var clRock = createTileClass();
-var clMetal = createTileClass();
-var clFood = createTileClass();
-var clBaseResource = createTileClass();
-var clShallow = createTileClass();
+var clPlayer = g_Map.createTileClass();
+var clHill = g_Map.createTileClass();
+var clForest = g_Map.createTileClass();
+var clWater = g_Map.createTileClass();
+var clDirt = g_Map.createTileClass();
+var clRock = g_Map.createTileClass();
+var clMetal = g_Map.createTileClass();
+var clFood = g_Map.createTileClass();
+var clBaseResource = g_Map.createTileClass();
+var clShallow = g_Map.createTileClass();
 
-var landHeight = 3;
-var waterHeight = -4;
+var startAngle = randomAngle();
 
-var [playerIDs, playerX, playerZ] = playerPlacementRiver(Math.PI / 2, 0.6);
-for (var i = 0; i < numPlayers; i++)
-{
-	var id = playerIDs[i];
-	log("Creating base for player " + id + "...");
-
-	var radius = scaleByMapSize(15,25);
-	var cliffRadius = 2;
-	var elevation = 20;
-
-	// get the x and z in tiles
-	var fx = fractionToTiles(playerX[i]);
-	var fz = fractionToTiles(playerZ[i]);
-	var ix = round(fx);
-	var iz = round(fz);
-	// Setting tile class
-	addCivicCenterAreaToClass(ix, iz, clPlayer);
-
-	// create the city patch
-	var cityRadius = radius/3;
-	var placer = new ClumpPlacer(PI*cityRadius*cityRadius, 0.6, 0.3, 10, ix, iz);
-	var painter = new LayeredPainter([tRoadWild, tRoad], [1]);
-	createArea(placer, [painter, paintClass(clPlayer)], null);
-
-	placeCivDefaultEntities(fx, fz, id);
-
-	placeDefaultChicken(fx, fz, clBaseResource);
-
-	// create berry bushes
-	var bbAngle = randFloat(0, TWO_PI);
-	var bbDist = 12;
-	var bbX = round(fx + bbDist * cos(bbAngle));
-	var bbZ = round(fz + bbDist * sin(bbAngle));
-	var group = new SimpleGroup(
-		[new SimpleObject(oBerryBush, 5,5, 0,3)],
-		true, clBaseResource, bbX, bbZ
-	);
-	createObjectGroup(group, 0);
-
-	// create metal mine
-	var mAngle = bbAngle;
-	while(abs(mAngle - bbAngle) < PI/3)
-		mAngle = randFloat(0, TWO_PI);
-
-	var mDist = 12;
-	var mX = round(fx + mDist * cos(mAngle));
-	var mZ = round(fz + mDist * sin(mAngle));
-	group = new SimpleGroup(
-		[new SimpleObject(oMetalLarge, 1,1, 0,0)],
-		true, clBaseResource, mX, mZ
-	);
-	createObjectGroup(group, 0);
-
-	// create stone mines
-	mAngle += randFloat(PI/8, PI/4);
-	mX = round(fx + mDist * cos(mAngle));
-	mZ = round(fz + mDist * sin(mAngle));
-	group = new SimpleGroup(
-		[new SimpleObject(oStoneLarge, 1,1, 0,2)],
-		true, clBaseResource, mX, mZ
-	);
-	createObjectGroup(group, 0);
-
-	// create starting trees
-	var num = 2;
-	var tAngle = randFloat(-PI/3, 4*PI/3);
-	var tDist = randFloat(11, 13);
-	var tX = round(fx + tDist * cos(tAngle));
-	var tZ = round(fz + tDist * sin(tAngle));
-	group = new SimpleGroup(
-		[new SimpleObject(oOak, num, num, 0,5)],
-		false, clBaseResource, tX, tZ
-	);
-	createObjectGroup(group, 0, avoidClasses(clBaseResource,2));
-
-	placeDefaultDecoratives(fx, fz, aGrassShort, clBaseResource, radius);
-}
-RMS.SetProgress(10);
+placePlayerBases({
+	"PlayerPlacement": playerPlacementRiver(startAngle + Math.PI / 2, fractionToTiles(0.6)),
+	"PlayerTileClass": clPlayer,
+	"BaseResourceClass": clBaseResource,
+	"CityPatch": {
+		"outerTerrain": tRoadWild,
+		"innerTerrain": tRoad
+	},
+	"Chicken": {
+	},
+	"Berries": {
+		"template": oBerryBush
+	},
+	"Mines": {
+		"types": [
+			{ "template": oMetalLarge },
+			{ "template": oStoneLarge }
+		]
+	},
+	"Trees": {
+		"template": oOak,
+		"count": 2
+	},
+	"Decoratives": {
+		"template": aGrassShort
+	}
+});
+Engine.SetProgress(10);
 
 paintRiver({
 	"parallel": false,
-	"startX": 0,
-	"startZ": 0.5,
-	"endX": 1,
-	"endZ": 0.5,
-	"width": 0.25,
-	"fadeDist": 0.01,
+	"start": new Vector2D(mapBounds.left, mapCenter.y).rotateAround(startAngle, mapCenter),
+	"end": new Vector2D(mapBounds.right, mapCenter.y).rotateAround(startAngle, mapCenter),
+	"width": fractionToTiles(0.25),
+	"fadeDist": scaleByMapSize(3, 10),
 	"deviation": 0,
-	"waterHeight": waterHeight,
-	"landHeight": landHeight,
+	"heightRiverbed": heightSeaGround,
+	"heightLand": heightLand,
 	"meanderShort": 20,
 	"meanderLong": 0,
-	"waterFunc": (ix, iz, height, riverFraction) => {
-		placeTerrain(ix, iz, height < -1.5 ? tWater : tShore);
+	"waterFunc": (position, height, riverFraction) => {
+		createTerrain(height < -1.5 ? tWater : tShore).place(position);
 	},
-	"landFunc": (ix, iz, shoreDist1, shoreDist2) => {
-		setHeight(ix, iz, landHeight + 0.1);
+	"landFunc": (position, shoreDist1, shoreDist2) => {
+		g_Map.setHeight(position, heightLand + 0.1);
 	}
 });
 
-RMS.SetProgress(20);
+Engine.SetProgress(20);
 
 createTributaryRivers(
-	true,
+	startAngle,
 	randIntInclusive(9, scaleByMapSize(13, 21)),
 	scaleByMapSize(10, 20),
-	waterHeight,
+	heightSeaGround,
 	[-6, -1.5],
 	Math.PI / 5,
 	clWater,
@@ -170,15 +125,15 @@ createTributaryRivers(
 	avoidClasses(clPlayer, 8, clBaseResource, 4));
 
 paintTerrainBasedOnHeight(-5, 1, 1, tWater);
-paintTerrainBasedOnHeight(1, landHeight, 1, tShore);
+paintTerrainBasedOnHeight(1, heightLand, 1, tShore);
 paintTileClassBasedOnHeight(-6, 0.5, 1, clWater);
-RMS.SetProgress(25);
+Engine.SetProgress(25);
 
 createBumps(avoidClasses(clWater, 5, clPlayer, 20));
-RMS.SetProgress(30);
+Engine.SetProgress(30);
 
 createHills([tCliff, tCliff, tHill], avoidClasses(clPlayer, 20, clHill, 15, clWater, 5), clHill, scaleByMapSize(1, 4) * numPlayers);
-RMS.SetProgress(50);
+Engine.SetProgress(50);
 
 var [forestTrees, stragglerTrees] = getTreeCounts(500, 3000, 0.7);
 createForests(
@@ -186,9 +141,9 @@ createForests(
  avoidClasses(clPlayer, 20, clForest, 17, clHill, 0, clWater, 6),
  clForest,
  forestTrees);
-RMS.SetProgress(70);
+Engine.SetProgress(70);
 
-log("Creating dirt patches...");
+g_Map.log("Creating dirt patches");
 createLayeredPatches(
  [scaleByMapSize(3, 6), scaleByMapSize(5, 10), scaleByMapSize(8, 21)],
  [[tGrass,tGrassA], tGrassB, [tGrassB,tGrassC]],
@@ -197,7 +152,7 @@ createLayeredPatches(
  scaleByMapSize(15, 45),
  clDirt);
 
-log("Creating grass patches...");
+g_Map.log("Creating grass patches");
 createPatches(
  [scaleByMapSize(2, 4), scaleByMapSize(3, 7), scaleByMapSize(5, 15)],
  [tGrassPatchBlend, tGrassPatch],
@@ -205,18 +160,18 @@ createPatches(
  avoidClasses(clWater, 1, clForest, 0, clHill, 0, clDirt, 5, clPlayer, 6),
  scaleByMapSize(15, 45),
  clDirt);
-RMS.SetProgress(80);
+Engine.SetProgress(80);
 
-log("Creating stone mines...");
+g_Map.log("Creating stone mines");
 createMines(
  [
-  [new SimpleObject(oStoneSmall, 0,2, 0,4), new SimpleObject(oStoneLarge, 1,1, 0,4)],
+  [new SimpleObject(oStoneSmall, 0, 2, 0, 4, 0, 2 * Math.PI, 1), new SimpleObject(oStoneLarge, 1, 1, 0, 4, 0, 2 * Math.PI, 4)],
   [new SimpleObject(oStoneSmall, 2,5, 1,3)]
  ],
  avoidClasses(clWater, 2, clForest, 1, clPlayer, 20, clRock, 10, clHill, 2),
  clRock);
 
-log("Creating metal mines...");
+g_Map.log("Creating metal mines");
 createMines(
  [
   [new SimpleObject(oMetalLarge, 1,1, 0,4)]
@@ -224,73 +179,67 @@ createMines(
  avoidClasses(clWater, 2, clForest, 1, clPlayer, 20, clMetal, 10, clRock, 5, clHill, 2),
  clMetal
 );
-RMS.SetProgress(85);
+Engine.SetProgress(85);
 
-createDecoration
-(
- [[new SimpleObject(aRockMedium, 1,3, 0,1)],
-  [new SimpleObject(aRockLarge, 1,2, 0,1), new SimpleObject(aRockMedium, 1,3, 0,2)],
-  [new SimpleObject(aGrassShort, 1,2, 0,1, -PI/8,PI/8)],
-  [new SimpleObject(aGrass, 2,4, 0,1.8, -PI/8,PI/8), new SimpleObject(aGrassShort, 3,6, 1.2,2.5, -PI/8,PI/8)],
-  [new SimpleObject(aBushMedium, 1,2, 0,2), new SimpleObject(aBushSmall, 2,4, 0,2)]
- ],
- [
-  scaleByMapSize(16, 262),
-  scaleByMapSize(8, 131),
-  scaleByMapSize(13, 200),
-  scaleByMapSize(13, 200),
-  scaleByMapSize(13, 200)
- ],
- avoidClasses(clWater, 1, clForest, 0, clPlayer, 0, clHill, 0)
-);
+createDecoration(
+	[
+		[new SimpleObject(aRockMedium, 1, 3, 0, 1)],
+		[new SimpleObject(aRockLarge, 1, 2, 0, 1), new SimpleObject(aRockMedium, 1, 3, 0, 2)],
+		[new SimpleObject(aGrassShort, 1, 2, 0, 1)],
+		[new SimpleObject(aGrass, 2, 4, 0, 1.8), new SimpleObject(aGrassShort, 3, 6, 1.2, 2.5)],
+		[new SimpleObject(aBushMedium, 1, 2, 0, 2), new SimpleObject(aBushSmall, 2, 4, 0, 2)]
+	],
+	[
+		scaleByMapSize(16, 262),
+		scaleByMapSize(8, 131),
+		scaleByMapSize(13, 200),
+		scaleByMapSize(13, 200),
+		scaleByMapSize(13, 200)
+	],
+	avoidClasses(clWater, 1, clForest, 0, clPlayer, 0, clHill, 0));
 
-// create water decoration in the shallow parts
-createDecoration
-(
- [[new SimpleObject(aReeds, 1,3, 0,1)],
-  [new SimpleObject(aLillies, 1,2, 0,1)]
- ],
- [
-  scaleByMapSize(800, 12800),
-  scaleByMapSize(800, 12800)
- ],
- stayClasses(clShallow, 0)
-);
+createDecoration(
+	[
+		[new SimpleObject(aReeds, 1, 3, 0, 1)],
+		[new SimpleObject(aLillies, 1, 2, 0, 1)]
+	],
+	[
+		scaleByMapSize(800, 12800),
+		scaleByMapSize(800, 12800)
+	],
+	stayClasses(clShallow, 0));
 
-createFood
-(
- [
-  [new SimpleObject(oDeer, 5,7, 0,4)],
-  [new SimpleObject(oGoat, 2,3, 0,2)],
-  [new SimpleObject(oBoar, 2,3, 0,2)]
- ],
- [
-  3 * numPlayers,
-  3 * numPlayers,
-  3 * numPlayers
- ],
- avoidClasses(clWater, 1, clForest, 0, clPlayer, 20, clHill, 0, clFood, 15)
-);
+createFood(
+	[
+		[new SimpleObject(oDeer, 5, 7, 0, 4)],
+		[new SimpleObject(oGoat, 2, 3, 0, 2)],
+		[new SimpleObject(oBoar, 2, 3, 0, 2)]
+	],
+	[
+		3 * numPlayers,
+		3 * numPlayers,
+		3 * numPlayers
+	],
+	avoidClasses(clWater, 1, clForest, 0, clPlayer, 20, clHill, 0, clFood, 15),
+	clFood);
 
-createFood
-(
- [
-  [new SimpleObject(oBerryBush, 5,7, 0,4)]
- ],
- [
-  randIntInclusive(1, 4) * numPlayers + 2
- ],
- avoidClasses(clWater, 3, clForest, 0, clPlayer, 20, clHill, 1, clFood, 10)
-);
+createFood(
+	[
+		[new SimpleObject(oBerryBush, 5, 7, 0, 4)]
+	],
+	[
+		randIntInclusive(1, 4) * numPlayers + 2
+	],
+	avoidClasses(clWater, 3, clForest, 0, clPlayer, 20, clHill, 1, clFood, 10),
+	clFood);
 
-createFood
-(
- [
-  [new SimpleObject(oFish, 2,3, 0,2)]
- ],
- [scaleByMapSize(3, 25) * numPlayers],
- [avoidClasses(clFood, 6), stayClasses(clWater, 4)]
-);
+createFood(
+	[
+		[new SimpleObject(oFish, 2, 3, 0, 2)]
+	],
+	[scaleByMapSize(3, 25) * numPlayers],
+	[avoidClasses(clFood, 6), stayClasses(clWater, 4)],
+	clFood);
 
 createStragglerTrees(
 	[oBeech, oPoplar, oApple],
@@ -313,4 +262,6 @@ setPPSaturation(0.62);
 setPPContrast(0.62);
 setPPBloom(0.37);
 
-ExportMap();
+placePlayersNomad(clPlayer, avoidClasses(clWater, 4, clForest, 1, clMetal, 4, clRock, 4, clHill, 4, clFood, 2));
+
+g_Map.ExportMap();

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_unit_champion_infantry_spearman">
+<Entity parent="template_unit_champion_infantry_spearman_hoplite">
   <Identity>
     <Civ>mace</Civ>
     <Lang>greek</Lang>
     <GenericName>Macedonian Shield Bearer</GenericName>
     <SpecificName>Hypaspistḗs</SpecificName>
-    <Icon>units/macedonian_hypaspist.png</Icon>
+    <Icon>units/mace_hypaspist.png</Icon>
     <SelectionGroupName>units/mace_champion_infantry_a</SelectionGroupName>
   </Identity>
   <Promotion>
@@ -13,6 +13,6 @@
     <RequiredXp>2000</RequiredXp>
   </Promotion>
   <VisualActor>
-    <Actor>units/macedonians/champion_infantry_a.xml</Actor>
+    <Actor>units/macedonians/infantry_spearman_c_a.xml</Actor>
   </VisualActor>
 </Entity>

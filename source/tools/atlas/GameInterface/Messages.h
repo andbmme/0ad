@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -174,6 +174,7 @@ QUERY(GetMapList,
 		,
 		((std::vector<std::wstring>, scenarioFilenames))
 		((std::vector<std::wstring>, skirmishFilenames))
+		((std::vector<std::wstring>, tutorialFilenames))
 		);
 
 QUERY(GetMapSettings,
@@ -207,6 +208,12 @@ QUERY(VFSFileExists,
 		((std::wstring, path))
 		,
 		((bool, exists))
+		);
+
+QUERY(VFSFileRealPath,
+		((std::wstring, path))
+		,
+		((std::wstring, realPath))
 		);
 
 //////////////////////////////////////////////////////////////////////////
@@ -386,7 +393,7 @@ COMMAND(CreateObject, NOMERGE,
 // (Use RenderEnable to make it visible.)
 MESSAGE(SetActorViewer,
 		((std::wstring, id))
-		((std::wstring, animation))
+		((std::string, animation))
 		((int, playerID))
 		((float, speed))
 		((bool, flushcache)) // true => unload all actor files before starting the preview (because we don't have proper hotloading yet)
@@ -496,7 +503,9 @@ COMMAND(SetEnvironmentSettings, MERGE,	// merge lots of small changes into one u
 		((sEnvironmentSettings, settings))
 		);
 
-COMMAND(RecalculateWaterData, NOMERGE, ((float,unused)));
+COMMAND(RecalculateWaterData, NOMERGE, ((float, unused)));
+
+COMMAND(PickWaterHeight, NOMERGE, ((Position, screenPos)));
 
 QUERY(GetSkySets,
 	  // no inputs

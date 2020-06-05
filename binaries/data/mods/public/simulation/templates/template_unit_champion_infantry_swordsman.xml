@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_unit_champion_infantry">
   <Armour>
-    <Hack op="add">2</Hack>
-    <Pierce op="add">2</Pierce>
+    <Hack op="add">3</Hack>
+    <Pierce op="add">3</Pierce>
   </Armour>
   <Attack>
     <Melee>
-      <Hack>11.0</Hack>
-      <Pierce>0</Pierce>
-      <Crush>0.0</Crush>
-      <MaxRange>5.0</MaxRange>
+      <Damage>
+        <Hack>11.0</Hack>
+        <Pierce>0</Pierce>
+        <Crush>0.0</Crush>
+      </Damage>
+      <MaxRange>3.5</MaxRange>
       <PrepareTime>375</PrepareTime>
       <RepeatTime>750</RepeatTime>
       <PreferredClasses datatype="tokens">Human Siege</PreferredClasses>
@@ -25,17 +27,13 @@
     <Max>200</Max>
   </Health>
   <Identity>
-    <VisibleClasses datatype="tokens">Melee Sword</VisibleClasses>
+    <VisibleClasses datatype="tokens">Melee Swordsman</VisibleClasses>
     <GenericName>Champion Swordsman</GenericName>
     <Formations datatype="tokens">
-      special/formations/phalanx
       special/formations/testudo
     </Formations>
   </Identity>
   <UnitMotion>
     <WalkSpeed op="mul">1.4</WalkSpeed>
-    <Run>
-      <Speed op="mul">1.4</Speed>
-    </Run>
   </UnitMotion>
 </Entity>

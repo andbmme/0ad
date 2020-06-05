@@ -1,4 +1,4 @@
-/* Copyright (C) 2015 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -20,25 +20,19 @@
 
 #include "graphics/ShaderTechnique.h"
 #include "graphics/Texture.h"
+#include "gui/SettingTypes/CGUIColor.h"
 #include "lib/res/handle.h"
 #include "ps/CStr.h"
 #include "ps/Shapes.h"
 
+#include <map>
 #include <vector>
 
-struct SGUIImageEffects;
+class CGUISprite;
 struct SGUIImage;
 
 namespace GUIRenderer
 {
-	class IGLState
-	{
-	public:
-		virtual ~IGLState() {};
-		virtual void Set(const CTexturePtr& tex) = 0;
-		virtual void Unset() = 0;
-	};
-
 	struct SDrawCall
 	{
 		SDrawCall(const SGUIImage* image) : m_Image(image) {}
@@ -60,8 +54,8 @@ namespace GUIRenderer
 		CRect m_Vertices;
 		float m_DeltaZ;
 
-		CColor m_BorderColor; // == CColor() for no border
-		CColor m_BackColor;
+		CGUIColor* m_BorderColor; // == nullptr for no border
+		CGUIColor* m_BackColor;
 	};
 
 	class DrawCalls : public std::vector<SDrawCall>
@@ -72,13 +66,8 @@ namespace GUIRenderer
 		DrawCalls(const DrawCalls&);
 		DrawCalls& operator=(const DrawCalls&);
 	};
-}
 
-#include "gui/CGUISprite.h"
-
-namespace GUIRenderer
-{
-	void UpdateDrawCallCache(DrawCalls& Calls, const CStr& SpriteName, const CRect& Size, int CellID, std::map<CStr, CGUISprite*>& Sprites);
+	void UpdateDrawCallCache(const CGUI& pGUI, DrawCalls& Calls, const CStr& SpriteName, const CRect& Size, int CellID, std::map<CStr, const CGUISprite*>& Sprites);
 
 	void Draw(DrawCalls& Calls, float Z);
 }

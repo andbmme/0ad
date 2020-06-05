@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -31,15 +31,26 @@
 #include "ps/Profile.h"
 #include "ps/ProfileViewer.h"
 #include "ps/Pyrogenesis.h"
+#include "ps/Mod.h"
 #include "ps/Util.h"
 #include "ps/VisualReplay.h"
 #include "scriptinterface/ScriptInterface.h"
+#include "scriptinterface/ScriptRuntime.h"
 #include "scriptinterface/ScriptStats.h"
-#include "simulation2/Simulation2.h"
+#include "simulation2/components/ICmpGuiInterface.h"
+#include "simulation2/helpers/Player.h"
 #include "simulation2/helpers/SimulationCommand.h"
+#include "simulation2/Simulation2.h"
+#include "simulation2/system/CmpPtr.h"
 
 #include <ctime>
 #include <fstream>
+
+/**
+ * Number of turns between two saved profiler snapshots.
+ * Keep in sync with source/tools/replayprofile/graph.js
+ */
+static const int PROFILE_TURN_INTERVAL = 20;
 
 CReplayLogger::CReplayLogger(const ScriptInterface& scriptInterface) :
 	m_ScriptInterface(scriptInterface), m_Stream(NULL)
@@ -53,14 +64,18 @@ CReplayLogger::~CReplayLogger()
 
 void CReplayLogger::StartGame(JS::MutableHandleValue attribs)
 {
+	JSContext* cx = m_ScriptInterface.GetContext();
+	JSAutoRequest rq(cx);
+
 	// Add timestamp, since the file-modification-date can change
 	m_ScriptInterface.SetProperty(attribs, "timestamp", (double)std::time(nullptr));
 
 	// Add engine version and currently loaded mods for sanity checks when replaying
-	m_ScriptInterface.SetProperty(attribs, "engine_version", CStr(engine_version));
-	m_ScriptInterface.SetProperty(attribs, "mods", g_modsLoaded);
+	m_ScriptInterface.SetProperty(attribs, "engine_version", engine_version);
+	JS::RootedValue mods(cx, Mod::GetLoadedModsWithVersions(m_ScriptInterface));
+	m_ScriptInterface.SetProperty(attribs, "mods", mods);
 
-	m_Directory = createDateIndexSubdirectory(VisualReplay::GetDirectoryName());
+	m_Directory = createDateIndexSubdirectory(VisualReplay::GetDirectoryPath());
 	debug_printf("Writing replay to %s\n", m_Directory.string8().c_str());
 
 	m_Stream = new std::ofstream(OsString(m_Directory / L"commands.txt").c_str(), std::ofstream::out | std::ofstream::trunc);
@@ -89,6 +104,32 @@ void CReplayLogger::Hash(const std::string& hash, bool quick)
 		*m_Stream << "hash " << Hexify(hash) << "\n";
 }
 
+void CReplayLogger::SaveMetadata(const CSimulation2& simulation)
+{
+	CmpPtr<ICmpGuiInterface> cmpGuiInterface(simulation, SYSTEM_ENTITY);
+	if (!cmpGuiInterface)
+	{
+		LOGERROR("Could not save replay metadata!");
+		return;
+	}
+
+	ScriptInterface& scriptInterface = simulation.GetScriptInterface();
+	JSContext* cx = scriptInterface.GetContext();
+	JSAutoRequest rq(cx);
+
+	JS::RootedValue arg(cx);
+	JS::RootedValue metadata(cx);
+	cmpGuiInterface->ScriptCall(INVALID_PLAYER, L"GetReplayMetadata", arg, &metadata);
+
+	const OsPath fileName = g_Game->GetReplayLogger().GetDirectory() / L"metadata.json";
+	CreateDirectories(fileName.Parent(), 0700);
+
+	std::ofstream stream (OsString(fileName).c_str(), std::ofstream::out | std::ofstream::trunc);
+	stream << scriptInterface.StringifyJSON(&metadata, false);
+	stream.close();
+	debug_printf("Saved replay metadata to %s\n", fileName.string8().c_str());
+}
+
 OsPath CReplayLogger::GetDirectory() const
 {
 	return m_Directory;
@@ -114,7 +155,49 @@ void CReplayPlayer::Load(const OsPath& path)
 	ENSURE(m_Stream->good());
 }
 
-void CReplayPlayer::Replay(bool serializationtest, int rejointestturn, bool ooslog)
+CStr CReplayPlayer::ModListToString(const std::vector<std::vector<CStr>>& list) const
+{
+	CStr text;
+	for (const std::vector<CStr>& mod : list)
+		text += mod[0] + " (" + mod[1] + ")\n";
+	return text;
+}
+
+void CReplayPlayer::CheckReplayMods(const ScriptInterface& scriptInterface, JS::HandleValue attribs) const
+{
+	JSContext* cx = scriptInterface.GetContext();
+	JSAutoRequest rq(cx);
+
+	std::vector<std::vector<CStr>> replayMods;
+	scriptInterface.GetProperty(attribs, "mods", replayMods);
+
+	std::vector<std::vector<CStr>> enabledMods;
+	JS::RootedValue enabledModsJS(cx, Mod::GetLoadedModsWithVersions(scriptInterface));
+	scriptInterface.FromJSVal(cx, enabledModsJS, enabledMods);
+
+	CStr warn;
+	if (replayMods.size() != enabledMods.size())
+		warn = "The number of enabled mods does not match the mods of the replay.";
+	else
+		for (size_t i = 0; i < replayMods.size(); ++i)
+		{
+			if (replayMods[i][0] != enabledMods[i][0])
+			{
+				warn = "The enabled mods don't match the mods of the replay.";
+				break;
+			}
+			else if (replayMods[i][1] != enabledMods[i][1])
+			{
+				warn = "The mod '" + replayMods[i][0] + "' with version '" + replayMods[i][1] + "' is required by the replay file, but version '" + enabledMods[i][1] + "' is present!";
+				break;
+			}
+		}
+
+	if (!warn.empty())
+		LOGWARNING("%s\nThe mods of the replay are:\n%s\nThese mods are enabled:\n%s", warn, ModListToString(replayMods), ModListToString(enabledMods));
+}
+
+void CReplayPlayer::Replay(const bool serializationtest, const int rejointestturn, const bool ooslog, const bool testHashFull, const bool testHashQuick)
 {
 	ENSURE(m_Stream);
 
@@ -127,10 +210,12 @@ void CReplayPlayer::Replay(bool serializationtest, int rejointestturn, bool oosl
 	const int heapGrowthBytesGCTrigger = 20 * 1024 * 1024;
 	g_ScriptRuntime = ScriptInterface::CreateRuntime(shared_ptr<ScriptRuntime>(), runtimeSize, heapGrowthBytesGCTrigger);
 
-	g_Game = new CGame(true, false);
+	Mod::CacheEnabledModVersions(g_ScriptRuntime);
+
+	g_Game = new CGame(false);
 	if (serializationtest)
 		g_Game->GetSimulation2()->EnableSerializationTest();
-	if (rejointestturn > 0)
+	if (rejointestturn >= 0)
 		g_Game->GetSimulation2()->EnableRejoinTest(rejointestturn);
 	if (ooslog)
 		g_Game->GetSimulation2()->EnableOOSLog();
@@ -151,6 +236,7 @@ void CReplayPlayer::Replay(bool serializationtest, int rejointestturn, bool oosl
 	JSContext* cx = g_Game->GetSimulation2()->GetScriptInterface().GetContext();
 	JSAutoRequest rq(cx);
 	std::string type;
+
 	while ((*m_Stream >> type).good())
 	{
 		if (type == "start")
@@ -160,16 +246,7 @@ void CReplayPlayer::Replay(bool serializationtest, int rejointestturn, bool oosl
 			JS::RootedValue attribs(cx);
 			ENSURE(g_Game->GetSimulation2()->GetScriptInterface().ParseJSON(line, &attribs));
 
-			std::vector<CStr> replayModList;
-			g_Game->GetSimulation2()->GetScriptInterface().GetProperty(attribs, "mods", replayModList);
-
-			for (const CStr& mod : replayModList)
-				if (mod != "user" && std::find(g_modsLoaded.begin(), g_modsLoaded.end(), mod) == g_modsLoaded.end())
-					LOGWARNING("The mod '%s' is required by the replay file, but wasn't passed as an argument!", mod);
-
-			for (const CStr& mod : g_modsLoaded)
-				if (mod != "user" && std::find(replayModList.begin(), replayModList.end(), mod) == replayModList.end())
-					LOGWARNING("The mod '%s' wasn't used when creating this replay file, but was passed as an argument!", mod);
+			CheckReplayMods(g_Game->GetSimulation2()->GetScriptInterface(), attribs);
 
 			g_Game->StartGame(&attribs, "");
 
@@ -200,20 +277,7 @@ void CReplayPlayer::Replay(bool serializationtest, int rejointestturn, bool oosl
 		{
 			std::string replayHash;
 			*m_Stream >> replayHash;
-
-			bool quick = (type == "hash-quick");
-
-			if (turn % 100 == 0)
-			{
-				std::string hash;
-				bool ok = g_Game->GetSimulation2()->ComputeStateHash(hash, quick);
-				ENSURE(ok);
-				std::string hexHash = Hexify(hash);
-				if (hexHash == replayHash)
-					debug_printf("hash ok (%s)\n", hexHash.c_str());
-				else
-					debug_printf("HASH MISMATCH (%s != %s)\n", hexHash.c_str(), replayHash.c_str());
-			}
+			TestHash(type, replayHash, testHashFull, testHashQuick);
 		}
 		else if (type == "end")
 		{
@@ -229,13 +293,11 @@ void CReplayPlayer::Replay(bool serializationtest, int rejointestturn, bool oosl
 
 			g_Profiler.Frame();
 
-			if (turn % 20 == 0)
+			if (turn % PROFILE_TURN_INTERVAL == 0)
 				g_ProfileViewer.SaveToFile();
 		}
 		else
-		{
 			debug_printf("Unrecognised replay token %s\n", type.c_str());
-		}
 	}
 	}
 
@@ -261,4 +323,21 @@ void CReplayPlayer::Replay(bool serializationtest, int rejointestturn, bool oosl
 	delete &g_Profiler;
 	delete &g_ProfileViewer;
 	SAFE_DELETE(g_ScriptStatsTable);
+}
+
+void CReplayPlayer::TestHash(const std::string& hashType, const std::string& replayHash, const bool testHashFull, const bool testHashQuick)
+{
+	bool quick = (hashType == "hash-quick");
+	if ((quick && !testHashQuick) || (!quick && !testHashFull))
+		return;
+
+	std::string hash;
+	ENSURE(g_Game->GetSimulation2()->ComputeStateHash(hash, quick));
+
+	std::string hexHash = Hexify(hash);
+
+	if (hexHash == replayHash)
+		debug_printf("%s ok (%s)\n", hashType.c_str(), hexHash.c_str());
+	else
+		debug_printf("%s MISMATCH (%s != %s)\n", hashType.c_str(), hexHash.c_str(), replayHash.c_str());
 }

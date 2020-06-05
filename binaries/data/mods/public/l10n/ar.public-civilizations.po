@@ -1,10 +1,11 @@
 # Translation template for 0 A.D. — Empires Ascendant.
-# Copyright © 2014 Wildfire Games
+# Copyright (C) 2020 Wildfire Games
 # This file is distributed under the same license as the 0 A.D. — Empires Ascendant project.
 # 
 # Translators:
 # abdul-rahman sawalmah <abdulrahman1123@gmail.com>, 2015
 # Ahmed Saadawi <9597011@gmail.com>, 2015
+# Eslam obeidat <islamobidat92@gmail.com>, 2018
 # Houssem Mhamdi <houss.sword@gmail.com>, 2014
 # Majid Al-Dharrab, 2014
 # mustapha ali abdulkarim <baghdadhost@gmail.com>, 2014
@@ -12,13 +13,13 @@
 # Safa Alfulaij <safa1996alfulaij@gmail.com>, 2014
 # slimkhan, 2014
 # Tux-Tn <sarhanaissi@gmail.com>, 2013
-# صفا الفليج <safaalfulaij@hotmail.com>, 2014-2015,2017
+# صفا الفليج <safaalfulaij@hotmail.com>, 2014-2015,2017-2018
 msgid ""
 msgstr ""
 "Project-Id-Version: 0 A.D.\n"
-"POT-Creation-Date: 2017-06-05 09:01+0200\n"
-"PO-Revision-Date: 2017-09-21 15:53+0000\n"
-"Last-Translator: صفا الفليج <safaalfulaij@hotmail.com>\n"
+"POT-Creation-Date: 2020-01-17 08:08+0000\n"
+"PO-Revision-Date: 2020-01-17 15:06+0000\n"
+"Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
 "Language-Team: Arabic (http://www.transifex.com/wildfire-games/0ad/language/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -33,7 +34,7 @@ msgstr "الأثينيّون"
 
 #: simulation/data/civs/athen.jsonCivBonuses[0].Description
 msgid "Metal mining gathering rates increased by +10% for each passing age."
-msgstr "تزداد معدّلات التّنقيب عن المعادن بنسبة 10% لكلّ طور يمرّ."
+msgstr "تزداد معدّلات التّنقيب عن المعادن بنسبة ١٠٪ لكلّ طور يمرّ."
 
 #: simulation/data/civs/athen.jsonCivBonuses[0].Name
 msgid "Silver Owls"
@@ -51,7 +52,7 @@ msgstr "كانت مناجم لاوريون في أتيكا تزوّد أثينا
 msgid ""
 "Constructing a Theatron increases the territory expanse of all buildings by "
 "+20%."
-msgstr "يزيد بناء ثياترون امتداد الإقليم لكلّ الأبنية بنسبة 20%."
+msgstr "يزيد بناء ثياترون امتداد الإقليم لكلّ الأبنية بنسبة ٢٠٪."
 
 #: simulation/data/civs/athen.jsonCivBonuses[1].Name
 #: simulation/data/civs/mace.jsonCivBonuses[2].Name
@@ -68,8 +69,8 @@ msgid ""
 msgstr "كان اليونانيّون ناجحين للغاية في هَلْيَنة مختلف الأجانب. ففي العصر الهيلينستيّ، كانت اليونانيّة لغة تواصل العالم القديم المشتركة، ويتحدّث بها النّاس من إسپانيا حتّى الهند."
 
 #: simulation/data/civs/athen.jsonTeamBonuses[0].Description
-msgid "Ships construct 25% faster."
-msgstr "تُبنى السّفن أسرع بنسبة 25%."
+msgid "Allied Warships −25% construction time."
+msgstr ""
 
 #: simulation/data/civs/athen.jsonTeamBonuses[0].Name
 msgid "Delian League"
@@ -81,7 +82,7 @@ msgid ""
 "city-states instituted the so-called Delian League in 478 B.C., whose "
 "purpose was to push the Persians out of the Aegean region. The allied states"
 " contributed ships and money, while the Athenians offered their entire navy."
-msgstr "بعد فترة قصيرة من الانتصارات البحريّة العظيمة في سالاميس وميكالي، أسّست دول المدن اليونانيّة ما يُعرف بالاتّحاد الدّيلي عام 478 قبل الميلاد، والتي كانت تهدف لإبعاد الفُرس عن منطقة إيجة. ساهمت الدّول المتحالفة بالسّفن والمال، بينما قدّم الأثينيّون أسطولهم البحري كلّه."
+msgstr "بعد فترة قصيرة من الانتصارات البحريّة العظيمة في سالاميس وميكالي، أسّست دول المدن اليونانيّة ما يُعرف بالاتّحاد الدّيلي عام ٤٧٨ قبل الميلاد، والتي كانت تهدف لإبعاد الفُرس عن منطقة إيجة. ساهمت الدّول المتحالفة بالسّفن والمال، بينما قدّم الأثينيّون أسطولهم البحري كلّه."
 
 #: simulation/data/civs/athen.jsonAINames[0]
 #: simulation/data/civs/athen.jsonFactions[0].Heroes[0].Name
@@ -95,7 +96,7 @@ msgstr "پريكليس"
 
 #: simulation/data/civs/athen.jsonAINames[2]
 msgid "Cimon"
-msgstr "سيمون"
+msgstr "كيمون"
 
 #: simulation/data/civs/athen.jsonAINames[3]
 msgid "Aristides"
@@ -148,17 +149,17 @@ msgstr "ديموستيني"
 
 #: simulation/data/civs/athen.jsonFactions[0].Technologies[0].Description
 msgid "Athenian triremes can train Marines (Epibastes Athenaikos)."
-msgstr "ثلاثيات المجاديف الأثينية تستطيع تدريب جنود بحرية (إپيباستس أثينايكوس)."
+msgstr "تستطيع ثلاثيّات المجاديف الأثينيّة تدريب جنود بحريّة (إپيباستس أثينايكوس)."
 
 #: simulation/data/civs/athen.jsonFactions[0].Technologies[0].Name
 msgid "Iphicratean Reforms"
-msgstr "الإصلاحات الإفقراطية"
+msgstr "الإصلاحات الإفقراطيّة"
 
 #: simulation/data/civs/athen.jsonFactions[0].Technologies[1].Description
 msgid ""
 "Stone walls can be built in neutral territory. Construction time for walls "
 "is reduced by 50%."
-msgstr "يمكن بناء الأسوار الحجريّة في الأقاليم الحياديّة. يقلّ زمن بناء الأسوار بنسبة 50%."
+msgstr "يمكن بناء الأسوار الحجريّة في الأقاليم الحياديّة. يقلّ زمن بناء الأسوار بنسبة ٥٠٪."
 
 #: simulation/data/civs/athen.jsonFactions[0].Technologies[1].Name
 msgid "Long Walls"
@@ -170,13 +171,13 @@ msgid ""
 "Themistocles and extended 6 km from the city to the port of Piraeus. This "
 "secured the city's sea supply routes and prevented an enemy from starving "
 "out the city during a siege."
-msgstr "أُنشِئَت أسوار أثينا الطّويلة بفضل مكائد ثيميستوكليس الماكر وامتدّت 6 كيلومترات من المدينة إلى ميناء بيرايوس. وقد أمّن هذا طُرق الإمداد البحريّ للمدينة ومنع العدوّ من تجويع المدينة أثناء الحصار."
+msgstr "أُنشِئَت أسوار أثينا الطّويلة بفضل مكائد ثيميستوكليس الماكر وامتدّت ستّة كيلومترات من المدينة إلى ميناء بيرايوس. وقد أمّن هذا طُرق الإمداد البحريّ للمدينة ومنع العدوّ من تجويع المدينة أثناء الحصار."
 
 #: simulation/data/civs/athen.jsonFactions[0].Technologies[2].Description
 msgid ""
 "The player gains the ability to order spear-armed troops into Phalanx "
 "formation, providing greater attack and armor."
-msgstr "يحصل اللاعب على قابليةإنشاء قوات مسلحة بالرماح في وضع تشكيلة الكتيبة، معطياً بذلك هجوماًَ ودرعاً أكثر."
+msgstr "يكسب اللاعب إمكانيّة إنشاء قوّات مسلّحة بالرّماح في وضع تشكيلة الكتيبة، ما يوفّر له هجومًا أفضل ودرعًا أقوى."
 
 #: simulation/data/civs/athen.jsonFactions[0].Technologies[2].Name
 #: simulation/data/civs/spart.jsonCivBonuses[0].Name
@@ -189,7 +190,7 @@ msgid ""
 "eight men deep and up to eight hundred men wide. The men within overlapped "
 "their shields, presenting a formidable shield wall brimming with 8 foot "
 "spears."
-msgstr "التّشكيلة التّقليديّة للكتيبة ظهرت في حوالي القرن الثّامن قبل الميلاد. كان عمقها ثمانية رجال ويصل عرضها حتّى ثمانمائة رجل. كان الرّجال داخلها شابكين تروسهم، مشكّلين بذلك حائطًا هائلًا من الدّروع في حوافه رماح طولها 8 أقدام."
+msgstr "التّشكيلة التّقليديّة للكتيبة ظهرت في حوالي القرن الثّامن قبل الميلاد. كان عمقها ثمانية رجال ويصل عرضها حتّى ثمانمائة رجل. كان الرّجال داخلها شابكين تروسهم، مشكّلين بذلك حائطًا هائلًا من الدّروع في حوافه رماح طولها ثمانية أقدام."
 
 #: simulation/data/civs/athen.jsonFactions[0].Heroes[0].History
 msgid ""
@@ -200,7 +201,7 @@ msgid ""
 "Aegean, thereby laying the foundations of future Athenian power. However, he"
 " was eventually ostracised by the Athenians and forced to flee to the "
 "protection of the Persians."
-msgstr "الجنرال الذي أقنع الأثينيّين بالاسثمار في إيراداتهم من مناجم الفضّة واستخدامها في حرب بحريّة من 200 ثلاثيّة مجاديف. كان شخصيّة رئيسيّة أثناء الحروب الفارسيّة، فقد قاد الأسطول البحريّ الأثينيّ المنتصر في معركة سالاميس البحريّة عام 479 قبل الميلاد. بعد ذلك سعى في سياسة فعّالة ضدّ الفُرس في بحر إيجة، ما وضع أسس القوّة الأثينيّة المستقبليّة. مع كلّ ذلك، نُبذ على يد الأثينيّين وأُجبر على الهروب تحت حماية الفُرس."
+msgstr "الجنرال الذي أقنع الأثينيّين بالاسثمار في إيراداتهم من مناجم الفضّة واستخدامها في حرب بحريّة من مئتي ثلاثيّة مجاديف. كان شخصيّة رئيسيّة أثناء الحروب الفارسيّة، فقد قاد الأسطول البحريّ الأثينيّ المنتصر في معركة سالاميس البحريّة عام ٤٧٩ قبل الميلاد. بعد ذلك سعى في سياسة فعّالة ضدّ الفُرس في بحر إيجة، ما وضع أسس القوّة الأثينيّة المستقبليّة. مع كلّ ذلك، نُبذ على يد الأثينيّين وأُجبر على الهروب تحت حماية الفُرس."
 
 #: simulation/data/civs/athen.jsonFactions[0].Heroes[1].History
 msgid "Pericles was the foremost Athenian politician of the 5th Century B.C."
@@ -234,7 +235,7 @@ msgstr "ثياترون"
 msgid ""
 "The Hellenization civ bonus. Building a Theatron increases the territory "
 "effect of all buildings by 25%."
-msgstr "مكافأة حضارة الهَلْينة. يزيد بناء ثياترون من أثر الإقليم لكلّ المباني بنسبة 25%."
+msgstr "مكافأة حضارة الهَلْينة. يزيد بناء ثياترون من أثر الإقليم لكلّ المباني بنسبة ٢٥٪."
 
 #: simulation/data/civs/athen.jsonStructures[0].History
 #: simulation/data/civs/mace.jsonStructures[0].History
@@ -252,13 +253,13 @@ msgstr "جيمناسيون"
 #: simulation/data/civs/athen.jsonStructures[1].Special
 msgid ""
 "Train champion units and research technologies pertaining to champion units."
-msgstr "درّب وحدات الأبطال وطور التقنيات المتعلقة بها."
+msgstr "درّب وحدات الأبطال وابحث في التقنيّات المتعلّقة بها."
 
 #: simulation/data/civs/athen.jsonStructures[1].History
 msgid ""
 "The Gymnasion was a vital place in Hellenic cities, where physical exercises"
 " were performed and social contacts established."
-msgstr "كان الجيمناسيون مكانًا حيويًّا في المدن الهيلينيّة، تُؤدَّى فيه التمارين البدنيّة وتنشأ فيه العلاقات الاجتماعيّة."
+msgstr "كان الجيمناسيون مكانًا حيويًّا في المدن الهيلينيّة، تُؤدّى فيه التمارين البدنيّة وتنشأ فيه العلاقات الاجتماعيّة."
 
 #: simulation/data/civs/athen.jsonStructures[2].Name
 msgid "Prytaneion"
@@ -266,7 +267,7 @@ msgstr "پريتانيون"
 
 #: simulation/data/civs/athen.jsonStructures[2].Special
 msgid "Train heroes and research technology pertaining to heroes."
-msgstr "درّب الأبطال وابحث التقنيّات الخاصّة بهم."
+msgstr "درّب الأبطال وابحث في التقنيّات المتعلّقة بهم."
 
 #: simulation/data/civs/athen.jsonStructures[2].History
 msgid ""
@@ -290,7 +291,7 @@ msgstr "البريطونيّون"
 #: simulation/data/civs/brit.jsonCivBonuses[0].Description
 #: simulation/data/civs/gaul.jsonCivBonuses[0].Description
 msgid "Enhanced food gained from ranching and farming. "
-msgstr "تعزيز الطعام المجني من تربية الماشية ومن الزراعة."
+msgstr "تعزيز الطعام المجنيّ من تربية الماشية ومن الزراعة."
 
 #: simulation/data/civs/brit.jsonCivBonuses[0].Name
 #: simulation/data/civs/gaul.jsonCivBonuses[0].Name
@@ -300,12 +301,12 @@ msgstr "\"أريدومانى\""
 #: simulation/data/civs/brit.jsonCivBonuses[0].History
 #: simulation/data/civs/gaul.jsonCivBonuses[0].History
 msgid "Represents Celtic farming methods. "
-msgstr "يمثل طرق الزراعة الكلتية."
+msgstr "يمثّل طرق الزراعة الكلتيّة."
 
 #: simulation/data/civs/brit.jsonCivBonuses[1].Description
 #: simulation/data/civs/gaul.jsonCivBonuses[1].Description
 msgid "Druids increase attack rates of soldiers near them slightly."
-msgstr "يزيد الدرويد معدل الهجوم للجنود القريبين بشكل طفيف."
+msgstr "يزيد الدرويد معدّل الهجوم للجنود القريبين منهم قليلًا."
 
 #: simulation/data/civs/brit.jsonCivBonuses[1].Name
 #: simulation/data/civs/gaul.jsonCivBonuses[1].Name
@@ -315,11 +316,11 @@ msgstr "\"ديس كيلتا\""
 #: simulation/data/civs/brit.jsonCivBonuses[1].History
 #: simulation/data/civs/gaul.jsonCivBonuses[1].History
 msgid "Celtic religion and druidry inspired their warlike mindset. "
-msgstr "الدين والدرويديّة الكلتية استلهموا عقليتهم المولعة بالحرب."
+msgstr "الدين الكلتيّ والدرويديّة الكلتيّة ألهمت عقليّتهم المولعة بالحرب."
 
 #: simulation/data/civs/brit.jsonTeamBonuses[0].Description
-msgid "-20% resources cost for allies healers."
-msgstr "-٢٠٪ لتكاليف معالجي الحلفاء."
+msgid "Allied Healers −20% resource costs."
+msgstr ""
 
 #: simulation/data/civs/brit.jsonTeamBonuses[0].Name
 msgid "Druids"
@@ -391,7 +392,7 @@ msgid ""
 "The Britons took up the practice of either making permanent marks on their "
 "body in the form of tattoos or temporarily painted their bodies with woad "
 "paint. The effect was very frightening."
-msgstr "مارس البريطونيون عمل علامات دائمة على أجسادهم على شكل وشوم أو دهنو أجسامهم بشكل مؤقت بدهان وسمة الصباغين. كان أثر ذلك مخيفاً جداً."
+msgstr "مارس البريطونيّون رسم العلامات الدائمة على أجسادهم والتي كانت على شكل وشوم، أو دهن أجسادهم بشكل مؤقّت بدهان النّيلج. كان أثر ذلك مخيفًا جدًّا."
 
 #: simulation/data/civs/brit.jsonFactions[0].Technologies[1].Description
 msgid "Increases the height bonus of units garrisoned in a tower."
@@ -424,8 +425,8 @@ msgid ""
 "once captured. Roman policy was typically to have such men killed in public "
 "displays to celebrate. Karatakos was brought before the Emperor and Senate "
 "at his request to explain himself. What he said is not known for certainty, "
-"but Tacitus applies to him a famous speech..."
-msgstr "كاراكتاكوس (بالصيغة الرّومانيّة: Caractacus)، هو تعديل بسيط على اسمه الحقيقيّ Karatakos، والذي طُبع على العديد والعديد من العملات. تحت مسمّاه هذا، يُتذكّر على أنّه الحامي الشّرس لبريطانيا ضدّ الرّومان بعد غزوهم في 43 للميلاد. كاراتاكوس -ابن كيونوبيلين ملك اتّحاد قبائل كاتوفيلوني- قاتلَ الرّومان لتسع سنوات حاصدًا بعض النّجاح، فارًّا في النّهاية إلى القبائل في ويلز، حيث هُزم بشكل حاسم. في نهاية الأمر دخل شمال بريطانيا، حيث سُلّم للرّومان. بعد أخذه إلى روما، سُمح له بالعيش عند الإمبراطور كلاوديوس ومات في إيطاليا. تقول التّقاليد أنّه تحوّل نصرانيًّا عندما تحوّلت زوجته، ولكن لا يوجد ما يُعرف عن هذا بشكل أكيد. الموضوع الأكثر أهميّة هو السّماح له بالعيش بعد أسره. سياسة الرّومان في العادة كانت أن يُقتل أمثال هذا الرّجل في مناطق عامّة للاحتفال. أُحضر كاراتاكوس أمام الإمبراطور وعضو مجلس الشّيوخ بناءً على طلبه ليُعرّف عن نفسه. ما قاله لا يُعرف على وجه التّأكيد، ولكنّ تاسيتُس خصّص له خطابًا مشهورًا..."
+"but Tacitus applies to him a famous speech…"
+msgstr ""
 
 #: simulation/data/civs/brit.jsonFactions[0].Heroes[1].History
 msgid ""
@@ -435,7 +436,7 @@ msgid ""
 "as Camulodunum), modern day Colchester. The Roman defeat in the battle of "
 "Teutoburg Forest (Germania) allowed Kunobelinos to conquer a neighboring "
 "tribe, the Trinovantes, who were Roman allies and couldn't receive Roman "
-"aide. Kunobelinos seems to have been indifferent to the Romans. He traded "
+"aid. Kunobelinos seems to have been indifferent to the Romans. He traded "
 "with them freely, but had few qualms subjugating known Roman allies, and "
 "even sent his youngest son Adminius as a fosterling to be educated in Roman "
 "Gaul. This accounted for Adminius's friendships among the Romans. Adminius "
@@ -460,7 +461,7 @@ msgid ""
 "their British allies, and Kunobelinos was held up by the post-Roman Britons "
 "as one of their great heroes; a conqueror and uniter of petty kingdoms, "
 "something the post-Roman Britons or Romano-British sorely needed."
-msgstr "كيونوبيلينوس (Kunobelinos) (ربما يعرف أكثر بالصيغة اللاتينية كيونوبيلين (Cunobelin)) كان حاكماً قوياً للكاتوفيلوني. كان يُشار إليه من قبل الرومان كحاكم البريطونيين. امتدت أراضيه حول مدينة كامولودونون (المعروفة بكامولودونوم)، أو كولشيستر في يومنا هذا.‌ انهزام الرومان في معركة غابة تويتوبورغ (جرمانيا) مكّن كيونوبيلينوس أن يغزو القبيلة المجاورة، الترينوفانتيس، والذين كانوا حلفاء الرومان، ولكنهم لم يتلقوا مساعدة الرومان. يبدو أن كيونوبيلينوس كان محايداً مع الرومان. قام بالتجارة معهم بحرية، إلا أنه كان لديه وخز للضمير من إخضاع حلفاء معروفين للرومان، حتى إنه أرسل ابنه الأصغر أدمينيوس ربيباً ليُعَلّم في بلاد الغال بروما.‌ الأمر الذي فسر صداقة أدمينيوس بين الرومان. أُعطي أدمينيوس السيادة على الكنتاكيين، الذين سكنوا كنت، من قبل والده. كانت هذه المنطقة المنطقةَ الرئيسية لتأثير الرومان ولتجارتهم في بريطانيا، وقد راقب كيونوبيلينوس بشكل فطن صداقة ابنه الأصغر مع الساسة الرومان والساسة الغاليين-الرومانيين، وأن التجار سيكونون ذوي فائدة في إدارة المنطقة. مع أن أبناءه الآخرين لم يكن لديهم أي حب للرومان. عندما مات كيونوبيلينوس من المرض، خلفه ابنه توغدومنوس، والذي اعتقل، أو شنق، أو طرد العديد من المتعاطفين مع الرومان. هؤلاء شملوا أيضاً أخاه أدمينيوس، وملك الأتريباتيين المخلوع، فيريكا، والذي استغاث بصِلاته في الإمبراطورية الرومانية للمساعدة في استعادة أرضهم. مات توغدومنوس في معركة مع الرومان، ثم خُلف بأخيه، كاراتاكوس. إنه لمن السخرية أن يكون ابنَه الثالث من استدعى هذا الانتقام للرومان. كان كيونوبيلينوس خلال فترة حياته ربما واحداً من أعظم الملوك البريطانيين. وقد غزا أغلب النصف الجنوبي من بريطانيا (كانت عملاته تُسك حتى حدود ما سيعرف لاحقاً بويلز). بدأ بالحكم على أربعة قبائل فقط في اتحاد، الكاتوفيلوني، وانتهى بالاعتراف به ملكاً على بريطانيا. هذا الاعتراف كان عظيماً لدرجة أن قبائل في كامبريا جاءت تساعد أبناءه ضد الرومان وحلفاءهم البريطانيين، وقد اعتُبر كينوبيلينوس كبطل  من قبل البريتونيين الآتين بعد فترة الرومان؛ غازياً وموحداً لقبائل صغيرة، وهو الشيء الذي احتاجه البريتونيون الآتون بعد الرومان والرومانيون البريطانيون بشدة."
+msgstr ""
 
 #: simulation/data/civs/brit.jsonFactions[0].Heroes[2].History
 msgid ""
@@ -548,7 +549,7 @@ msgid ""
 "The resource cost of training elephant-mounted (war elephant) or horse-"
 "mounted units (cavalry) is reduced by 5% per animal corralled (as "
 "appropriate)."
-msgstr "تكلفة الموارد لتدريب وحدات تركب الفيله (فيل حرب) أو ممتطي الخيول (خيّالة) تقل 5% لكل حيوان في الزريبة (بما يناسبه)."
+msgstr "تقلّ تكلفة الموارد لتدريب الوحدات التي تمتطي الفيلة (فيل الحرب) أو التي تمتطي الخيول (الخيّالة) - تقل بنسبة ٥٪ لكلّ حيوان في الزريبة (بما يناسبه)."
 
 #: simulation/data/civs/cart.jsonCivBonuses[1].Name
 #: simulation/data/civs/ptol.jsonCivBonuses[2].Name
@@ -560,10 +561,10 @@ msgid ""
 "Not unlike the Iberian Peninsula, North Africa was known as horse country, "
 "capable of producing up to 100,000 new mounts each year. It was also the "
 "home of the North African Forest Elephant."
-msgstr "كان شمال أفريقيا كشبه الجزيرة الأيبيرية مشهورًا بأنه ريف خيول قادر على إنتاج 100.000 حصان كل عام. كما كان موطن فيل الغابات الشمال الأفريقي."
+msgstr "كان شمال أفريقيا كشبه الجزيرة الأيبيريّة مشهورًا بأنه ريف خيول قادر على إنتاج مئة ألف مطيّة كل عام. كما كان موطن فيل الغابات شمال الأفريقيّ."
 
 #: simulation/data/civs/cart.jsonTeamBonuses[0].Description
-msgid "10% bonus of trade profit for allies' international routes."
+msgid "Allied Markets +10% international trade bonus."
 msgstr ""
 
 #: simulation/data/civs/cart.jsonTeamBonuses[0].Name
@@ -574,7 +575,7 @@ msgstr "تاجر محترف"
 msgid ""
 "The Phoenicians and Carthaginians were broadly known as the greatest trading"
 " civilization of the ancient and classical world."
-msgstr "كان الفينيقيون والقرطاجيون معروفين على نطاق واسع بأنهم أكبر الحضارات التجارية في العالم القديم والعالم التقليدي. "
+msgstr "كان الفينيقيّون والقرطاجيّون معروفين على نطاق واسع بأنهم أكبر الحضارات التجاريّة في العالم القديم والعالم التقليدي. "
 
 #: simulation/data/civs/cart.jsonAINames[0]
 #: simulation/data/civs/cart.jsonFactions[0].Heroes[0].Name
@@ -592,11 +593,11 @@ msgstr "صدربعل برقا"
 
 #: simulation/data/civs/cart.jsonAINames[3]
 msgid "Hasdrubal Gisco"
-msgstr "\"صدربعل جيسكو\""
+msgstr "صدربعل جيسكو"
 
 #: simulation/data/civs/cart.jsonAINames[4]
 msgid "Hanno the Elder"
-msgstr "\"هانو الكبير\""
+msgstr "هانّو الكبير"
 
 #: simulation/data/civs/cart.jsonAINames[5]
 #: simulation/data/civs/cart.jsonFactions[0].Heroes[2].Name
@@ -605,11 +606,11 @@ msgstr "ماهربعل"
 
 #: simulation/data/civs/cart.jsonAINames[6]
 msgid "Mago Barca"
-msgstr "\"ماجو برقا\""
+msgstr "ماجو برقا"
 
 #: simulation/data/civs/cart.jsonAINames[7]
 msgid "Hasdrubal the Fair"
-msgstr "\"صدربعل العادل\""
+msgstr "صدربعل العادل"
 
 #: simulation/data/civs/cart.jsonAINames[8]
 msgid "Hanno the Great"
@@ -617,15 +618,15 @@ msgstr "هانّو الأكبر"
 
 #: simulation/data/civs/cart.jsonAINames[9]
 msgid "Himilco"
-msgstr "\"هملكون\""
+msgstr "هملكون"
 
 #: simulation/data/civs/cart.jsonAINames[10]
 msgid "Hampsicora"
-msgstr "\"هامبصقورا\""
+msgstr "هامبصقورا"
 
 #: simulation/data/civs/cart.jsonAINames[11]
 msgid "Hannibal Gisco"
-msgstr "\"حنبعل جيسكو\""
+msgstr "حنبعل جيسكو"
 
 #: simulation/data/civs/cart.jsonAINames[12]
 msgid "Dido"
@@ -633,19 +634,19 @@ msgstr "ديدو"
 
 #: simulation/data/civs/cart.jsonAINames[13]
 msgid "Xanthippus"
-msgstr "\"زانثيبوس\""
+msgstr "زانثيبوس"
 
 #: simulation/data/civs/cart.jsonAINames[14]
 msgid "Himilco Phameas"
-msgstr "\"هملكون فامياس\""
+msgstr "هملكون فامياس"
 
 #: simulation/data/civs/cart.jsonAINames[15]
 msgid "Hasdrubal the Boetharch"
-msgstr "\"صدربعل البيوطراخ\""
+msgstr "صدربعل البيوطراخ"
 
 #: simulation/data/civs/cart.jsonFactions[0].Technologies[0].Description
 msgid "All Traders and Ships +25% vision range."
-msgstr "يزيد مجال رؤية كلّ التّجار والسّفن بنسبة 25%."
+msgstr "يزيد مجال رؤية كلّ التّجار والسّفن بنسبة ٢٥٪."
 
 #: simulation/data/civs/cart.jsonFactions[0].Technologies[0].Name
 msgid "Exploration"
@@ -656,11 +657,11 @@ msgid ""
 "Nobody knew better than the Carthaginians where in the ancient world they "
 "were going and going to go; their merchant traders had missions to "
 "everywhere."
-msgstr "لم يتفوق أحد على القرطاجيين في معرفتهم بالأماكن التي يذهبون إليها في العالم القديم، كانت لديهم بعثات تجارية فى كل مكان."
+msgstr "لم يتفوّق أحد على القرطاجيّين في معرفتهم بالأماكن التي يذهبون إليها في العالم القديم، فقد كان تجّارهم يعملون في كل مكان."
 
 #: simulation/data/civs/cart.jsonFactions[0].Technologies[1].Description
 msgid "Civic Centers, Temples, and Houses -25% build time."
-msgstr "للمراكز الحضارية، والمعابد، والبيوت -25% وقت بناء."
+msgstr "يقلّ وقت بناء المراكز الحضارية، والمعابد، والبيوت بنسبة ٢٥٪."
 
 #: simulation/data/civs/cart.jsonFactions[0].Technologies[1].Name
 msgid "Colonization"
@@ -670,7 +671,7 @@ msgstr "الاستعمار"
 msgid ""
 "Carthaginians established many trading centers as colonies and ultimately "
 "held dominion over 300 cities and towns in North Africa alone."
-msgstr "أنشأ القرطاجيون عدة مراكز تجارية كمستعمرات، وفي النهاية حققوا السيادة على 300 مدينة وبلدة في شمال أفريقيا وحدها."
+msgstr "أنشأ القرطاجيون عددًا من المراكز التجاريًة كمستعمرات، وفي النهاية حقّقوا السيادة على ثلاثمئة مدينة وبلدة في شمال أفريقيا وحدها."
 
 #: simulation/data/civs/cart.jsonFactions[0].Heroes[0].History
 msgid ""
@@ -679,7 +680,7 @@ msgid ""
 "B.C. While he ultimately lost the Second Punic War his victories at Trebia, "
 "Lake Trasimene, and Cannae, and the feat of crossing the Alps have secured "
 "his position as among the best tacticians and strategists in history."
-msgstr "أشهر أبناء قرطاج، حنبعل برقا، أكبر أبناء حملقار برقا. أثبت كفاءته قائدًا أعظم حتّى من والده. عاش بين 247-182 قبل الميلاد. بالرّغم من أنّه في النّهاية خسر الحرب البونيّة الثّانيّة، إلّا أنّ انتصاراته في تريبيا، وبحيرة تراسمانيا، وكاناي، وإنجاز عبور جبال الألب قد رسّخت مكانته ضمن أفضل المخطّطين والاستراتيجيّين في التّاريخ."
+msgstr "أشهر أبناء قرطاج، حنبعل برقا، أكبر أبناء حملقار برقا. أثبت كفاءته قائدًا أعظم حتّى من والده. عاش بين ٢٤٧-١٨٢ قبل الميلاد. بالرّغم من أنّه في النّهاية خسر الحرب البونيّة الثّانيّة، إلّا أنّ انتصاراته في تريبيا، وبحيرة تراسمانيا، وكاناي، وإنجاز عبور جبال الألب قد رسّخت مكانته ضمن أفضل المخطّطين والاستراتيجيّين في التّاريخ."
 
 #: simulation/data/civs/cart.jsonFactions[0].Heroes[1].History
 msgid ""
@@ -688,7 +689,7 @@ msgid ""
 "B.C. While overshadowed by his sons, Hamilcar was great general in his own "
 "right, earning the nickname Baraq or Barca for the lightning speed of his "
 "advance."
-msgstr "الطّاغية العسكريّ والد حنبعل. كان حملقار برقا جنديًّا وسياسيًّا بارعًا في مسيرته العمليّة كلّها. عاش بين 275-228 قبل الميلاد. على الرّغم من انغماره تحت ظلّ أبنائه، إلّا أنّه كان في حدّ ذاته قائدًا عظيمًا، ممّا أكسبه لقب \"برقة\" أو \"برقا\" نسبة إلى تقدّمه السريع بسرعة البرق."
+msgstr "الطّاغية العسكريّ والد حنبعل. كان حملقار برقا جنديًّا وسياسيًّا بارعًا في مسيرته العمليّة كلّها. عاش بين ٢٧٥-٢٢٨ قبل الميلاد. على الرّغم من انغماره تحت ظلّ أبنائه، إلّا أنّه كان في حدّ ذاته قائدًا عظيمًا، ممّا أكسبه لقب ”برقة“ أو ”برقا“ نسبة إلى تقدّمه السريع بسرعة البرق."
 
 #: simulation/data/civs/cart.jsonFactions[0].Heroes[2].History
 msgid ""
@@ -698,15 +699,15 @@ msgid ""
 "significant contributions to the winning of many other battles during the "
 "2nd Punic War. He is known for having said, after the battle of Cannae, "
 "'Hannibal, you know how to win the victory; just not what to do with it.'"
-msgstr "كان ماهربعل ابن حنبعل برقا قائدًا خيّالًا متهوّرًا وصغيرًا أثناء الحرب البونيّة الثّانية. يُنسَب إليه الفضل في الضّغط على أجنحة الرّومان في كاناي حيث خسروا 30 ألفًا من رجالهم الذين بلغوا 50 ألفًا. كما ساهم إسهامًا أساسيًّا في انتصارات القرطاجيّين في معارك أخرى عديدة في الحرب البونيّة الثّانية. تُعرف عنه مقولته بعد معركة كاناي: \"أنت تعرف يا حنبعل كيف تنتصر، لكنّك لا تعرف ما تفعل به\"."
+msgstr "كان ماهربعل بن حنبعل برقا قائدًا خيّالًا متهوّرًا وصغيرًا أثناء الحرب البونيّة الثّانية. يُنسَب إليه الفضل في الضّغط على أجنحة الرّومان في كاناي حيث خسروا ثلاثين ألفًا من رجالهم الذين بلغوا خمسين ألفًا. كما ساهم إسهامًا أساسيًّا في انتصارات القرطاجيّين في معارك أخرى عديدة في الحرب البونيّة الثّانية. تُعرف عنه مقولته بعد معركة كاناي: ”أنت تعرف يا حنبعل كيف تنتصر، لكنّك لا تعرف ما تفعل به\"."
 
 #: simulation/data/civs/cart.jsonStructures[0].Name
 msgid "Naval Shipyard"
-msgstr "مرفأ سفن"
+msgstr "مَسفن حربيّ"
 
 #: simulation/data/civs/cart.jsonStructures[0].Special
 msgid "Construct the powerful warships of the Carthaginian navy."
-msgstr "ابنِ أقوى السفن الحربية لبحرية القرطاجيين."
+msgstr "ابنِ أقوى السفن الحربيّة لبحريّة القرطاجيّين."
 
 #: simulation/data/civs/cart.jsonStructures[0].History
 msgid ""
@@ -720,11 +721,11 @@ msgstr "سفارة كلتيّة"
 
 #: simulation/data/civs/cart.jsonStructures[1].Special
 msgid "Hire Celtic mercenaries."
-msgstr "استأجر مرتزقة كلتيين."
+msgstr "استأجر مرتزقة كلتيّين."
 
 #: simulation/data/civs/cart.jsonStructures[1].History
 msgid "The Celts supplied fierce warrior mercenaries for Carthaginian armies."
-msgstr "كان الكلتيون يوفرون مقاتلين مرتزقة عتاة للجيوش القرطاجية."
+msgstr "وفّر الكلتيّون مقاتلين مرتزقة عتاة للجيوش القرطاجيّة."
 
 #: simulation/data/civs/cart.jsonStructures[2].Name
 msgid "Italiote Embassy"
@@ -732,7 +733,7 @@ msgstr "سفارة إيطاليّة"
 
 #: simulation/data/civs/cart.jsonStructures[2].Special
 msgid "Hire Italian mercenaries."
-msgstr "استأجر مرتزقة إيطاليين."
+msgstr "استأجر مرتزقة إيطاليّين."
 
 #: simulation/data/civs/cart.jsonStructures[2].History
 msgid ""
@@ -743,16 +744,16 @@ msgstr "عندما غزا حنبعل إيطاليا وهزم الرّومان ف
 
 #: simulation/data/civs/cart.jsonStructures[3].Name
 msgid "Iberian Embassy"
-msgstr "سفارة أيبيرية"
+msgstr "سفارة أيبيريّة"
 
 #: simulation/data/civs/cart.jsonStructures[3].Special
 msgid "Hire Iberian mercenaries."
-msgstr "استأجر مرتزقة أيبيريين."
+msgstr "استأجر مرتزقة أيبيريّين."
 
 #: simulation/data/civs/cart.jsonStructures[3].History
 msgid ""
 "The Iberians were known as fierce mercenaries, loyal to their paymasters."
-msgstr "كان المرتزقة الأيبريين معروفين بشراستهم وولائهم لأسيادهم."
+msgstr "كان المرتزقة الأيبريّين معروفين بشراستهم وولائهم لأسيادهم."
 
 #: simulation/data/civs/cart.jsonHistory
 msgid ""
@@ -762,7 +763,7 @@ msgid ""
 "among the fiercest contenders on the high seas, and masters of naval trade. "
 "They deployed towered War Elephants on the battlefield to fearsome effect, "
 "and had defensive walls so strong, they were never breached."
-msgstr "قرطاج، مدينة في ما يعرف اليوم بتونس. كانت قوة هائلة في غرب البحر المتوسط سيطرت فيما بعد على أغلب شمال أفريقيا وما يعرف اليوم بإسبانيا في القرن الثالث قبل الميلاد. كان بحارة القرطاجيين من أعتى المحاربين في البحار، وربابنة التجارة البحرية. استخدموا الفيلة المقاتلة الرهيبة ذات الأبراج في أرض المعركة، وكانت أسوارهم قوية حتى أنها لم تخترق قط."
+msgstr "قرطاج، دولة مدينة في ما يُعرف اليوم بتونس. كانت قوّة هائلة في غرب البحر المتوسّط سيطرت فيما بعد على أغلب شمال أفريقيا وما يُعرف اليوم بإسبانيا في القرن الثالث قبل الميلاد. كان بحّارة القرطاجيّين من أعتى المحاربين في البحار، وربابنة التجارة البحريّة. استخدموا الفيلة المقاتلة الرهيبة ذات الأبراج في أرض المعركة، وكانت أسوارهم قويّة حتّى أنّها لم تُخترق قط."
 
 #: simulation/data/civs/gaul.jsonName
 #: simulation/data/civs/gaul.jsonFactions[0].Name
@@ -770,28 +771,28 @@ msgid "Gauls"
 msgstr "الغاليّون"
 
 #: simulation/data/civs/gaul.jsonTeamBonuses[0].Description
-msgid "-10% research time for technologies of allies."
-msgstr "يقلّ وقت البحث بنسبة 10% لتقنيّات الحلفاء."
+msgid "Allied Structures −20% technology research time."
+msgstr ""
 
 #: simulation/data/civs/gaul.jsonTeamBonuses[0].Name
 msgid "Druidic Wisdom"
-msgstr "حكمة كهنوتية"
+msgstr "حكمة درويديّة"
 
 #: simulation/data/civs/gaul.jsonTeamBonuses[0].History
 msgid ""
 "The Druids of the Gauls maintained an organized religion that advanced the "
 "technology of their people even during wartime."
-msgstr ""
+msgstr "حافظ درويد الغالّ على دين منظّم تقدَّم بتقنيّات شعبهم حتّى أثناء الحروب."
 
 #: simulation/data/civs/gaul.jsonAINames[0]
 #: simulation/data/civs/gaul.jsonFactions[0].Heroes[0].Name
 msgid "Viridomarus"
-msgstr ""
+msgstr "ڤيريدوماروس"
 
 #: simulation/data/civs/gaul.jsonAINames[1]
 #: simulation/data/civs/gaul.jsonFactions[0].Heroes[1].Name
 msgid "Brennus"
-msgstr ""
+msgstr "برينوس"
 
 #: simulation/data/civs/gaul.jsonAINames[2]
 msgid "Cativolcus"
@@ -804,27 +805,27 @@ msgstr "\"فيرسينجيتوريكس\""
 #: simulation/data/civs/gaul.jsonAINames[4]
 #: simulation/data/civs/gaul.jsonFactions[0].Heroes[2].Name
 msgid "Vercingetorix"
-msgstr ""
+msgstr "ڤيرسنجيتوركس"
 
 #: simulation/data/civs/gaul.jsonAINames[5]
 msgid "Divico"
-msgstr "\"ديفيكو\""
+msgstr "ديڤيكو"
 
 #: simulation/data/civs/gaul.jsonAINames[6]
 msgid "Ambiorix"
-msgstr "\"أمبيوريكس\""
+msgstr "أمبيوركس"
 
 #: simulation/data/civs/gaul.jsonAINames[7]
 msgid "Liscus"
-msgstr "\"ليسكوس\""
+msgstr "ليسكوس"
 
 #: simulation/data/civs/gaul.jsonAINames[8]
 msgid "Valetiacus"
-msgstr ""
+msgstr "فاليتياكوس"
 
 #: simulation/data/civs/gaul.jsonAINames[9]
 msgid "Viridovix"
-msgstr "\"فيريدوفيكس\""
+msgstr "ڤيريدوڤكس"
 
 #: simulation/data/civs/gaul.jsonFactions[0].Technologies[0].Description
 msgid ""
@@ -833,7 +834,7 @@ msgstr "كمّيّة معيّنة من المعدن والطّعام لكلّ ب
 
 #: simulation/data/civs/gaul.jsonFactions[0].Technologies[0].Name
 msgid "Vae Victis"
-msgstr ""
+msgstr "الويل للمهزومين"
 
 #: simulation/data/civs/gaul.jsonFactions[0].Technologies[0].History
 msgid ""
@@ -842,11 +843,11 @@ msgid ""
 " a relief force from Veii, he negotiated his surrender for 1000 pounds of "
 "gold, and adding the weight of his sword on the scale when the Romans "
 "complained that he used false weights he uttered those famous words."
-msgstr ""
+msgstr "ويل للمهزومين! استولى زعيم قبيلة غاليك برينيوس على روما (باستثناء حامية على تل كابيتولين). عندما حاصره كاميلوس مع قوة إغاثة من فاي ، تفاوض على استسلامه مقابل 1000 باوند من الذهب ، بلإضافة لوزن سيفه على الميزان عندما اشتكى الرومان من أنه استخدم أوزانًا كاذبة نطق بتلك الكلمات الشهيرة."
 
 #: simulation/data/civs/gaul.jsonFactions[0].Technologies[1].Description
 msgid "Gallic druids gain a small melee attack."
-msgstr "الدرويد الغاليون يحصلون على قدرة هجومية اشتباكية ضئيلة."
+msgstr "يكسب الدرويد الغالّ قدرة هجوميّة اشتباكيّة ضئيلة."
 
 #: simulation/data/civs/gaul.jsonFactions[0].Technologies[1].Name
 msgid "Carnutes"
@@ -857,7 +858,7 @@ msgid ""
 "The Carnutes were druids from Aulercia. They fought when needed, and were "
 "largely responsible for turning back the Belgae incursions into Armorica and"
 " Aulercia."
-msgstr "كان الكارنوتيون درويداً من أوليريكا. كانوا يقاتلون عن الحاجة، وكانوا مسؤولين بشكل كبير عن منع توغل البلجيين في أموريكا وأوليريكا."
+msgstr "كان الكارنوتيّون درويدًا من أوليريكا. لقد كانوا يقاتلون عند الحاجة، وكانوا مسؤولين بشكل كبير عن منع توغل البلجيّين في أرموريكا وأوليريكا."
 
 #: simulation/data/civs/gaul.jsonFactions[0].Heroes[0].History
 msgid ""
@@ -875,7 +876,7 @@ msgid ""
 " Marcellus, would be a fitting offering to the gods. He charged the Gaul, "
 "pierced his bright breastplate and cast him to the ground. It was an easy "
 "task to kill Viridomarus and strip him of his armor."
-msgstr ""
+msgstr "عندما كانت الجيوش الكلتيّة تقابل العدو، وقبل أن تبدأ المعركة، كان زعيم الكلتيّين يذهب إلى أول صف ويتحدّى أشجع جنود العدو في قتال منفرد. إن القصة التي تروي طريقة قتل ماركوس كلاوديوس مارسيلوس أحد الزعماء الغالّ في كلاستيديم (عام ٢٢٢ ق.م) تُعتبر نموذجا عن هذه اللقاءات. عندما تقدّم بجيشه الصغير، قابل ماركوس قوّة مجتمعة مكوّنة من Insubrian Gauls and Gaesatae في كلاستيديم. تقدّم الجيش الغاليّ باندفاع معتاد وصراخ مُرعب، وقد خرج قائدهم ڤيريدوماروس أمام ماركوس لشارات الرتبة لديه، وهو يصرخ طالبًا التّحدّي وملوّحًا برمحه. كان ڤيريدوماروس رمزًا بارزًا ليس فقط لحجمه بل أيضا لزينته، إذ أنه كان متألقا بألوان ساطعة وكان درعه يلمع بالذهب والفضة. اعتبر ماركوس هذا الدرع عرضًا ملائمًا للآلهة. فانقضّ على الغاليّ، وثقب درع الصدر الساطع وطرحه أرضًا. كانت مهمّة قتل ڤيريدوماروس وتجريده من درعه مهمّة سهلة."
 
 #: simulation/data/civs/gaul.jsonFactions[0].Heroes[1].History
 msgid ""
@@ -898,7 +899,7 @@ msgid ""
 "brothers Belinus and Brennus (the sons of Dunvallo Molmutius) who contended "
 "for power in northern Britain in around 390 B.C., and were regarded as gods "
 "in old Celtic tradition."
-msgstr ""
+msgstr "برينوس هو الاسم الذي أطلقه المؤرخون الرومان على الزعيم الشهير من غالوس الذين أخذوا روما في زمن كاميلوس. وفقا لجيفري من مونموث ، رجل الدين الذي كتب “تاريخ ملوك بريطانيا” ، غزا برينوس وشقيقه بيلينوس غول وسلبوا روما في عام 390 قبل الميلاد ، \"يثبت\" أن البريطانيين احتلوا روما ، أعظم حضارة في العالم ، قبل أن تغزو روما البريطانيين. نعلم من العديد من المصادر القديمة التي سبقت جيفري أن روما قد تم سلبها بالفعل ، ولكن في 387 وليس 390 ، وأن الغارة قادها رجل يدعى برينوس ، لكن هو وحشده الغازي كانوا من غاليون سينون ، وليس بريطانيين. في هذه الحلقة ، يمكن رؤية العديد من ملامح طريقة تحرير جوفري: قام بتعديل برينوس التاريخي ، أوجد شقيق بيلينوس ، أو استعار غزو الغال ، لكنه أغفل الأجزاء التي بدا فيها الكيلت ضعيفًا أو أحمق. أسلوبه مضاف و مطروح. مثل قصة أصل تروجان ، وقصة كيس روما ليست تلفيق نقي ؛ إنه إعادة ترتيب مبتكر للحقائق المتاحة ، مع إضافة التفاصيل عند الضرورة. وبحكم ارتباطهم التاريخي ، فإن بيلي وبران غالباً ما يخطأ بينهما مع الأخوين الأولين بيلينوس وبرينوس (أبناء دنفالو مولموتيوس) اللذان كانا يتنافسان على السلطة في شمال بريطانيا في حوالي عام 390 قبل الميلاد ، وكانا يعتبران آلهة في تقاليد سلتيك القديمة."
 
 #: simulation/data/civs/gaul.jsonFactions[0].Heroes[2].History
 msgid ""
@@ -911,11 +912,11 @@ msgid ""
 "was. Because we only know of him from Roman sources we don't know much about"
 " Vercingetorix as a child or young man, except that perhaps he was probably "
 "very high spirited and probably gained some renown in deeds."
-msgstr "ڤرسن جتوركس (بالغاليّة: ڤير-ركس سينجتوس (Ver-Rix Cingetos)). كان الزّعيم لقبيلة الأرڤيرني في بلاد الغالّ (فرنسا حديثًا). بدء في 52 قبل الميلاد بقيادة ثورة ضدّ الرّومان الغازين تحت لواء يوليوس قيصر، أفعاله خلال الثورة لا تزال في العقول حتّى يومنا هذا. وُلد ڤرسن جتوركس على الأرجح قريبًا من عاصمة قبائله (جيرجوڤيا). من المعلومات القليلة التي نملكها، فإنّ ڤرسن جتوركس وُلد على الأرجح عام 72 قبل الميلاد، والده كان كلتيوس ولا نعلم من تكون أمّه. لأنّنا نعرفه فقط من المصادر الرّومانيّة، فإنّنا لا نعلم الكثير عن ڤرسن جتوركس طفلًا أو شابًّا، وذلك ربما باستثناء كونه عالي المعنويات جدًّا وأنّه حصل على الأرجح على بعض الشّهرة جرّاء صنائعه."
+msgstr "ڤرسن جتوركس (بالغاليّة: ڤير-ركس سينجتوس (Ver-Rix Cingetos)). كان الزّعيم لقبيلة الأرڤيرني في بلاد الغالّ (فرنسا حديثًا). بدء في ٥٢ قبل الميلاد بقيادة ثورة ضدّ الرّومان الغازين تحت لواء يوليوس قيصر، أفعاله خلال الثورة لا تزال في العقول حتّى يومنا هذا. وُلد ڤرسن جتوركس على الأرجح قريبًا من عاصمة قبائله (جيرجوڤيا). من المعلومات القليلة التي نملكها، فإنّ ڤرسن جتوركس وُلد على الأرجح عام ٧٢ قبل الميلاد، والده كان كلتيوس ولا نعلم من تكون أمّه. لأنّنا نعرفه فقط من المصادر الرّومانيّة، فإنّنا لا نعلم الكثير عن ڤرسن جتوركس طفلًا أو شابًّا، وذلك ربما باستثناء كونه عالي المعنويات جدًّا وأنّه حصل على الأرجح على بعض الشّهرة جرّاء صنائعه."
 
 #: simulation/data/civs/gaul.jsonFactions[0].Description
 msgid "The Celts of mainland Europe."
-msgstr "الكلتيون في البر الرئيسي لأوروبا."
+msgstr "كلتيّو برّ أوروبا الرئيسي."
 
 #: simulation/data/civs/gaul.jsonStructures[0].Name
 msgid "Melonas"
@@ -936,11 +937,11 @@ msgstr "كان الغاليون القبائل الكلتية لأوروبا ا�
 
 #: simulation/data/civs/iber.jsonName
 msgid "Iberians"
-msgstr ""
+msgstr "الأيبيريّون"
 
 #: simulation/data/civs/iber.jsonCivBonuses[0].Description
 msgid "Iberians start with a powerful prefabricated circuit of stone walls."
-msgstr "يبدأ الأيبيريون بمنطقة من الجدران الحجرية مسبقة الصنع."
+msgstr "يبدأ الأيبيريّون بحقلة من الجدران الحجريّة مسبقة الصنع."
 
 #: simulation/data/civs/iber.jsonCivBonuses[0].Name
 msgid "Harritsu Leku"
@@ -951,7 +952,7 @@ msgid ""
 "With exception to alluvial plains and river valleys, stone is abundant in "
 "the Iberian Peninsula and was greatly used in construction of structures of "
 "all types."
-msgstr "باستثناء السهول الرسوبية، والوديان النهرية، فإن الحجارة متوفرة بكثرة في شبة الجزيرة الأيبيرية وكانت تستخدم بكثرة في بناء مبانٍ من كل الأنواع."
+msgstr "إن استثنينا السهول الرسوبية، والوديان النهرية، فإن الحجارة متوفّرة بكثرة في شبة الجزيرة الأيبيريّة وكانت تُستخدم بكثرة في بناء مبانٍ من كل الأنواع."
 
 #: simulation/data/civs/iber.jsonCivBonuses[1].Description
 msgid ""
@@ -970,10 +971,8 @@ msgid ""
 msgstr "كان شبه الجزيرة الأيبيرية مثل نوميديا في شمال أفريقيا مشهورًا بأنه بلد أحصنة قادر على إنتاج 100.000 حصان كل عام."
 
 #: simulation/data/civs/iber.jsonTeamBonuses[0].Description
-msgid ""
-"Citizen-soldier infantry skirmishers and cavalry skirmishers -20% cost for "
-"allies."
-msgstr "جنود المشاة والخيالة المواطنيين سعر أقل بـ -20% للحلفاء."
+msgid "Allied Citizen Javelinists −10% resource costs."
+msgstr ""
 
 #: simulation/data/civs/iber.jsonTeamBonuses[0].Name
 msgid "Saripeko"
@@ -981,17 +980,17 @@ msgstr "سارابيكو"
 
 #: simulation/data/civs/iber.jsonTeamBonuses[0].History
 msgid ""
-"The Iberians were long known to provide mercenary soldiers to other nations "
-"to serve as auxiliaries to their armies in foreign wars. Carthage is the "
-"most well known example, and we have evidence of them serving in such a "
-"capacity in Aquitania."
-msgstr "الايبيرين كانوا معروفين من وقت طويل بأنهم يوفورن جنود المرتزقة للدول الاخرى لكى يخدموا كمساعدين للجيش فى حروبه الاجنبية. بقرطاج \"مكان\" مثال معروف جداً، ونحن لدينا أدلة على انهم خدموا بكمية لا بأس بها مثل آكيتين \"مكان\"."
+"The Iberians were long known to provide mercenaries to other nations to "
+"serve as auxiliaries to their armies in foreign wars. Carthage is the most "
+"well known example, and we have evidence of them serving in such a capacity "
+"in Aquitania."
+msgstr ""
 
 #: simulation/data/civs/iber.jsonAINames[0]
 #: simulation/data/civs/iber.jsonAINames[1]
 #: simulation/data/civs/iber.jsonFactions[0].Heroes[0].Name
 msgid "Viriato"
-msgstr "فيرياتو"
+msgstr "ڤرِياتو"
 
 #: simulation/data/civs/iber.jsonAINames[2]
 #: simulation/data/civs/iber.jsonFactions[0].Heroes[1].Name
@@ -1001,7 +1000,7 @@ msgstr "كاروس"
 #: simulation/data/civs/iber.jsonAINames[3]
 #: simulation/data/civs/iber.jsonFactions[0].Heroes[2].Name
 msgid "Indibil"
-msgstr "إنديبيل"
+msgstr "إنديبِل"
 
 #: simulation/data/civs/iber.jsonAINames[4]
 msgid "Audax"
@@ -1034,7 +1033,7 @@ msgid ""
 "Iberian tribesmen were noted for wrapping bundles of grass about the shafts "
 "of their throwing spears, soaking that in some sort of flammable pitch, then"
 " setting it afire just before throwing."
-msgstr "لُوحظ أن قبائل الايبيريين يحيطيون بعض أجزاء العُشب بمقدمة الرمح، ويتم غمسه فى نوع ما من القار القابل للأشتعال، ومن ثم يشعلونه قبل إطلاقة."
+msgstr "كان الأيبيريّون معروفين بلفّ بعض الرّزم من العشب حول أصل الرماح، والتي تُبلّل بنوع من القار المشتعل، والتي يُشعل فيها النار قبل رميها."
 
 #: simulation/data/civs/iber.jsonFactions[0].Technologies[1].Description
 msgid "Metal costs for units and technologies reduced by 50%."
@@ -1101,7 +1100,7 @@ msgid ""
 "were again defeated, Indibil losing his life in the final battle and "
 "Mandonio being captured then later put to death. From that date onward the "
 "Ilergetes remained a pacified tribe under Roman rule."
-msgstr ""
+msgstr "انديبيل كان ملك ايلرغيتس ، فيدرالية كبيرة تكونت أساسا على طول نهر ايبرو في شمال غرب شبه الجزيرة الايبيرية. خلال توسع بارسيد، من 212 قبل الميلاد. كان قد أخبر في البداية لتحالف نفسه مع القرطاجيين الذين سيطروا على الكثير من الأراضي إلى الجنوب والغرب ، ولكن بعد الهزيمة والقبض عليه في معركة كبيرة تم أُقناعه ، البعض يقول أنه خُدع ، للانتقال إلى الجانب الروماني بواسطة سكيبيو افرينيوس. لكن هذا التحالف لم يدم طويلا ، حيث كانت الوعود الرومانية فارغه وكان الرومان يتصرفون كغزاة أكثر من حلفاء. لذا ، عندما أنهى الرومان وحلفاؤهم الوجود القرطاجي في 'هيسبانيا' في 206 قبل الميلاد ، فإن انديبيل وأحد أمراء قبيلة أخرى باسم ماندونيو، الذي ربما كان شقيقه ، نهض في تمرد ضد الرومان. لكنهم هُزِموا في المعركة ، لكنهم نهضوا في ثورة ثانية أكبر كانت قد وحدت كل الأيليغتيس مرة أخرى في عام 205 قبل الميلاد. والبتفوق العددي والعسكري هزموا مرة أخرى ، إنديبيل خسرحياته في المعركة النهائية وقبض على مندونيو ثم تم إعدامه فيما بعد. منذ ذلك التاريخ فصاعدا بقيت ايلرغيتس قبيلة مسالمة تحت الحكم الروماني."
 
 #: simulation/data/civs/iber.jsonStructures[0].Name
 msgid "Gur Oroigarri"
@@ -1112,14 +1111,14 @@ msgid ""
 "Defensive Aura - Gives all Iberian units and buildings within vision range "
 "of the monument a 10-15% attack boost. Build Limit: Only 5 may be built per "
 "map."
-msgstr ""
+msgstr "مدى الرؤيةالة دفاعية - تحصل جميع الوحدات والمباني الأيبيرية ضمن مدى الرؤية للتمثال زيادة في الهجوم بنسبة 10-15٪. حدود البناء: يمكن بناء 5 فقط لكل خريطة."
 
 #: simulation/data/civs/iber.jsonStructures[0].History
 msgid ""
 "'Revered Monument' The Iberians were a religious people who built small "
 "monuments to their various gods. These monuments could also serve as family "
 "tombs."
-msgstr ""
+msgstr "\"تمثال مقدس\" كان الأيبيريون أناسًا متدينين قاموا ببناء تماثيل صغيرة لآلهتهم المختلفة. هذه التماثيل يمكن أيضا أن تكون بمثابة مقابر عائلية."
 
 #: simulation/data/civs/iber.jsonHistory
 msgid ""
@@ -1129,6 +1128,209 @@ msgid ""
 "proved tenacious when Rome sought to take their land and freedom from them, "
 "and employed pioneering guerrilla tactics and flaming javelins as they "
 "fought back."
+msgstr "كان الأيبيريون شعبًا من أصول ولغة مبهمتين، مع تراث قوي من الفروسية وأعمال المعادن. ثقافة سلمية نسبيا ، وعادة ما قاتلوا في معارك الآخرين فقط كمرتزقة. ومع ذلك ، فقد أثبتوا صلابتهم عندما سعت روما إلى الاستيلاء على أراضيهم وحريتهم، واستخدمت أساليب حرب العصابات الرائدة والرماح المشتعلة في مقاومتهم."
+
+#: simulation/data/civs/kush.jsonName
+msgid "Kushites"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonCivBonuses[0].Name
+msgid "The Pyramids of Meroe"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonCivBonuses[0].Description
+msgid ""
+"Building a Kushite pyramid increases Civic Center territory influence by "
+"+10% for each one built."
+msgstr ""
+
+#: simulation/data/civs/kush.jsonCivBonuses[1].Name
+msgid "Mineral Deposits"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonCivBonuses[1].Description
+msgid ""
+"Kushite players receive a free extra Metal Mine somewhere in their home "
+"territory."
+msgstr ""
+
+#: simulation/data/civs/kush.jsonCivBonuses[2].Name
+#: simulation/data/civs/maur.jsonFactions[0].Technologies[0].Name
+msgid "Elephant Roundup"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonCivBonuses[2].Description
+msgid ""
+"Can capture Gaia elephants and garrison them into a corral to reduce "
+"training costs for War Elephants."
+msgstr ""
+
+#: simulation/data/civs/kush.jsonTeamBonuses[0].Name
+msgid "Elephant Suppliers"
+msgstr "مزودون الفيلة"
+
+#: simulation/data/civs/kush.jsonTeamBonuses[0].Description
+msgid "Allied Elephants −20% resource costs and training time."
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[0]
+msgid "Kashta"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[1]
+msgid "Alara"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[2]
+msgid "Pebatjma"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[3]
+msgid "Shabaka"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[4]
+msgid "Shebitku"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[5]
+msgid "Qalhata"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[6]
+msgid "Takahatenamun"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[7]
+msgid "Tantamani"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[8]
+msgid "Atlanersa"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[9]
+msgid "Nasalsa"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[10]
+msgid "Malewiebamani"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[11]
+msgid "Harsiotef"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[12]
+msgid "Shanakdakhete"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonAINames[13]
+msgid "Amanishakheto"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[0].Name
+msgid "Monumental Architecture"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[0].Description
+msgid ""
+"+50% HP and -50% build time for Civic Centers, Temples, Pyramids and "
+"Wonders."
+msgstr ""
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[1].Description
+msgid "Allow to train elite rank healers"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[1].Name
+msgid "High Priest of Amun"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonFactions[0].Technologies[1].History
+msgid ""
+"Have your priests instructed by the High Priest himself - may Amun bless "
+"him."
+msgstr ""
+
+#: simulation/data/civs/kush.jsonFactions[0].Heroes[0].Name
+msgid "Nastasen"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonFactions[0].Heroes[1].Name
+msgid "Arakamani"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonFactions[0].Heroes[2].Name
+msgid "Amanirenas"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonFactions[0].Name
+msgid "Kushite Africans"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonFactions[0].Description
+msgid ""
+"The great African kingdom that straddled the Nile River in Nubia, in the "
+"South of Egypt."
+msgstr ""
+
+#: simulation/data/civs/kush.jsonStructures[0].Name
+msgid "Temple of Amun"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonStructures[0].Special
+msgid ""
+"The Kushites can upgrade individual Temples to Temples of Amun, which can "
+"train Napatan Temple Guard champions and heal units faster."
+msgstr ""
+
+#: simulation/data/civs/kush.jsonStructures[0].History
+#: simulation/data/civs/kush.jsonStructures[1].History
+msgid "History."
+msgstr ""
+
+#: simulation/data/civs/kush.jsonStructures[1].Name
+msgid "Temple of Apedemak"
+msgstr "معبد أباداماك"
+
+#: simulation/data/civs/kush.jsonStructures[1].Special
+msgid ""
+"The Kushites can upgrade individual Temples to Temples of Apedemak, which "
+"can train Meroe Temple Guard champions and heal units faster."
+msgstr ""
+
+#: simulation/data/civs/kush.jsonStructures[2].Name
+msgid "Kushite Pyramids"
+msgstr ""
+
+#: simulation/data/civs/kush.jsonStructures[2].Special
+msgid ""
+"Building a Small Kushite Pyramid unlocks the Town Phase. Building a Large "
+"Kushite Pyramid unlocks the City Phase. And each pyramid built adds +10% "
+"territory effect to Civic Centers."
+msgstr ""
+
+#: simulation/data/civs/kush.jsonStructures[2].History
+msgid "The Kushites built over 200 pyramids in Nubia."
+msgstr ""
+
+#: simulation/data/civs/kush.jsonHistory
+msgid ""
+"The Kingdom of Kush was an ancient African kingdom situated on the "
+"confluences of the Blue Nile, White Nile and River Atbara in what is now the"
+" Republic of Sudan. The Kushite era of rule in the region was established "
+"after the Bronze Age collapse of the New Kingdom of Egypt, and it was "
+"centered at Napata in its early phase. They invaded Egypt in the 8th century"
+" BC, and the Kushite emperors ruled as Pharaohs of the Twenty-fifth dynasty "
+"of Egypt for a century, until they were expelled by the Assyrians. Kushite "
+"culture was influenced heavily by the Egyptians, with Kushite pyramid "
+"building and monumental temple architecture still extent. The Kushites even "
+"worshipped many Egyptian gods, including Amun. During Classical antiquity, "
+"the Kushite imperial capital was at Meroe. In early Greek geography, the "
+"Meroitic kingdom was known as Aethiopia. The Kushite kingdom persisted until"
+" the 4th century AD, when it weakened and disintegrated due to internal "
+"rebellion, eventually succumbing to the rising power of Axum."
 msgstr ""
 
 #: simulation/data/civs/mace.jsonName
@@ -1154,7 +1356,7 @@ msgid ""
 "Persia for past wrongs. Although assassinated before he could carry out the "
 "invasion, his son Alexander the Great took up the mantle and completed his "
 "fathers plans."
-msgstr "بعد توحيد اليونان، جمع فيليب الثاني كل الدول المدن لتكوين الحلف الهيليني وقائده مقدونيا. وخطط بهذا الحلف الهيليني أن يطلق حملة ليعاقب فارس على أخطائها في الماضي. وبالرغم من أنه اغتيل قبل أن يقوم بغزوه، إلا أن ابنه الإسكندر الأكبر تسلم مقاليد الحكم وأتم مخطط والده."
+msgstr "بعد توحيد اليونان، جمع فيليب الثّاني كلّ الدّول المدن لتكوين الحلف الهيلينيّ وقائده مقدونيا. وخطّط بهذا الحلف الهيلينيّ أن يُطلق حملة يعاقب فيها فارس على أخطائها في الماضي. وبالرّغم من أنّه قد اغتيل قبل أن يغزوها، إلّا أنّ ابنه الإسكندر الأكبر تسلّم مقاليد الحكم وأتمّ مخطّط والده."
 
 #: simulation/data/civs/mace.jsonCivBonuses[1].Description
 msgid "Infantry pike units can use the slow and powerful Syntagma formation."
@@ -1168,7 +1370,7 @@ msgstr "سنتاجما"
 msgid ""
 "Based upon the Theban Oblique Order phalanx, the Syntagma was the formation "
 "that proved invincible against the armies of Hellas and the East."
-msgstr ""
+msgstr "واستنادًا إلى تشكيلة ثيبان الترتيب المائل ، كانت سينتاغيما التشكيل الذي أثبت أنه لا يقهر ضد جيوش هيلاس والشرق."
 
 #: simulation/data/civs/mace.jsonCivBonuses[2].History
 msgid ""
@@ -1178,12 +1380,12 @@ msgid ""
 msgstr "كان اليونانيّون ناجحين للغاية في هَلْيَنة مختلف الأجانب. ففي العصر الهيلينستيّ، كانت اليونانيّة لغة تواصل العالم القديم المشتركة، ويتحدّث بها النّاس من إسپانيا حتّى الهند."
 
 #: simulation/data/civs/mace.jsonTeamBonuses[0].Description
-msgid "+20% sell prices at market."
-msgstr "+٢٠٪ أسعار البيع في السوق."
+msgid "Allies +20% barter sell prices."
+msgstr ""
 
 #: simulation/data/civs/mace.jsonTeamBonuses[0].Name
 msgid "Standardized Currency"
-msgstr "العملة النقدية"
+msgstr "العملة الموحّدة"
 
 #: simulation/data/civs/mace.jsonTeamBonuses[0].History
 msgid ""
@@ -1191,7 +1393,7 @@ msgid ""
 " currency the Diadochi in particular frequently depicted themselves as the "
 "rightful successor to Alexander the Great, attempting to legitimize their "
 "rule."
-msgstr "سك المقدونيون وملوك طوائف الإسكندر عملات في غاية الجودة. ملوك الطوائف تحديدًا كانوا كثيرًا ما يصورون أنفسهم على أنهم الخلفاء الشرعيون للإسكندر الأكبر في محاولة لشرعنة حكمهم."
+msgstr "صكّ المقدونيّون وملوك طوائف الإسكندر عملات في غاية الجودة. ملوك الطوائف تحديدًا كانوا كثيرًا ما يصوّرون أنفسهم على أنّهم الخلفاء الشرعيّون للإسكندر الأكبر في محاولةٍ لشرعنة حكمهم."
 
 #: simulation/data/civs/mace.jsonAINames[0]
 #: simulation/data/civs/mace.jsonFactions[0].Heroes[1].Name
@@ -1204,7 +1406,7 @@ msgstr "فيليپ الثّاني"
 
 #: simulation/data/civs/mace.jsonAINames[2]
 msgid "Antipater"
-msgstr ""
+msgstr "أنتيباتر"
 
 #: simulation/data/civs/mace.jsonAINames[3]
 msgid "Philip IV"
@@ -1229,7 +1431,7 @@ msgstr "أنتيغونوس الثّاني غوناتاس"
 
 #: simulation/data/civs/mace.jsonAINames[8]
 msgid "Demetrius II Aetolicus"
-msgstr ""
+msgstr "ديمتريوس الثاني ايليتوكوس"
 
 #: simulation/data/civs/mace.jsonAINames[9]
 msgid "Philip V"
@@ -1237,15 +1439,15 @@ msgstr "فيليپ الخامس"
 
 #: simulation/data/civs/mace.jsonAINames[10]
 msgid "Perseus"
-msgstr ""
+msgstr "بيرسيوس"
 
 #: simulation/data/civs/mace.jsonAINames[11]
 msgid "Craterus"
-msgstr ""
+msgstr "كريتيروس"
 
 #: simulation/data/civs/mace.jsonAINames[12]
 msgid "Meleager"
-msgstr ""
+msgstr "ميليجير"
 
 #: simulation/data/civs/mace.jsonFactions[0].Technologies[0].Description
 msgid ""
@@ -1266,13 +1468,13 @@ msgid ""
 " of the Macedonian army. His reforms created a powerful cavalry arm to his "
 "army that would prove useful to both himself and his son Alexander's "
 "conquests."
-msgstr "عندما وصل فيليب الثاني إلى عرش مقدونا بدأ إعادة تنظيم شاملة للجيش المقدوني. أضافت إصلاحاته ذراع خيالة قوية إلى جيشه أثبتت جدواها معه ومع فتوحات ابنه الإسكندر."
+msgstr "عندما وصل فيليب الثاني إلى عرش مقدونا بدأ إعادة تنظيم شاملة للجيش المقدونيّ. أضافت إصلاحاته ذراع خيّالة قويّة إلى جيشه أثبتت جدواها معه ومع فتوحات ابنه الإسكندر."
 
 #: simulation/data/civs/mace.jsonFactions[0].Technologies[1].Description
 msgid ""
 "Upgrade Hypaspist Champion Infantry to Silver Shields, with greater attack "
 "and armor, but also greater cost."
-msgstr ""
+msgstr "ترقيه بطل المشاة هيباسبست إلى دروع فضية ، مع مزيد من الهجوم والدروع ، ولكن أيضا تكلفه أكبر."
 
 #: simulation/data/civs/mace.jsonFactions[0].Technologies[1].Name
 msgid "Royal Gift"
@@ -1283,13 +1485,13 @@ msgid ""
 "In India near the end of his long anabasis, Alexander gifted to the Royal "
 "Hypaspist corps shields of silver for their long and valiant service in his "
 "army."
-msgstr ""
+msgstr "في الهند بالقرب من نهاية حملته الطويلة ، أهدى الإسكندر لهيباسبيست الملكية دروعا من الفضة لخدمتهم الطويلة والبسالة في جيشه."
 
 #: simulation/data/civs/mace.jsonFactions[0].Technologies[2].Description
 #: simulation/data/civs/ptol.jsonFactions[0].Technologies[0].Description
 #: simulation/data/civs/sele.jsonFactions[0].Technologies[0].Description
 msgid "Civic Centers have double Health and double default arrows."
-msgstr ""
+msgstr "المراكز المدنية لديها ضعف الصحة و ضعف عدد السهام الافتراضية ."
 
 #: simulation/data/civs/mace.jsonFactions[0].Technologies[2].Name
 #: simulation/data/civs/ptol.jsonFactions[0].Technologies[0].Name
@@ -1317,7 +1519,7 @@ msgstr "ملك مقدونيا (359-336 قبل الميلاد). أجرى إصلا
 
 #: simulation/data/civs/mace.jsonFactions[0].Heroes[0].Name
 msgid "Philip II of Macedon"
-msgstr "فيليب الثاني المقدوني"
+msgstr "فيليب الثاني المقدونيّ"
 
 #: simulation/data/civs/mace.jsonFactions[0].Heroes[1].History
 msgid ""
@@ -1329,7 +1531,7 @@ msgid ""
 "India, he defeated king Porus at Hydaspes (326 B.C.), but his weary troops "
 "made him halt. Died in Babylon at the age of 33 while planning a campaign "
 "against Arabia."
-msgstr "أقوى الأبطال كافة ابن فيليب الثاني ملك مقدونيا (336-323 ق.م). بعد أن فتح الإسكندر ما تبقى من تراقيا وأخمد اضطرابات اليونانيين، انطلق في مسيرة للسيطرة على العالم. غالبًا قوات الفرس في الجرانيكوس (334 ق.م)، وإسوس (333 ق.م)، وجوجاميلا (331 ق.م)، أصبح زعيم الإمبراطورية الفارسية. دخل الهند، وهزم الملك بورس في هيداسبس (326 ق.م)، لكن ضجر جنوده أجبره على التوقف. توفي في بابل عن 33 سنة وهو يخطط حملة ضد جزيرة العرب."
+msgstr "أقوى الأشاوس كافّة ابن فيليب الثاني ملك مقدونيا (٣٣٦-٣٢٣ ق.م). بعد أن فتح الإسكندر ما تبقى من تراقيا وأخمد اضطرابات اليونانيّين، انطلق في مسيرة للسيطرة على العالم. بعد غلبته على قوّات الفرس في الجرانيكوس (٣٣٤ ق.م)، وإسوس (٣٣٣ ق.م)، وجوجاميلا (٣٣١ ق.م)، أصبح زعيم الإمبراطوريّة الفارسيّة. دخل الهند، وهزم الملك بورس في هيداسبس (٣٢٦ ق.م)، لكنّ ضجر جنوده أجبره على التوقف. تُوفيّ في بابل عن ٣٣ سنة وهو يخطّط حملة ضد جزيرة العرب."
 
 #: simulation/data/civs/mace.jsonFactions[0].Heroes[2].History
 msgid ""
@@ -1340,7 +1542,7 @@ msgid ""
 "his Asian possessions after the battle of Ipsos, he later won the Macedonian"
 " throne. Fearing lest they should be overpowered by Demetrios, the other "
 "Diadochi united against him and defeated him."
-msgstr "أحد ملوك طوائف الإسكندر، ملك مقدونيا (294-288 ق.م). عرف عن ديميتريوس أنه أحد أشجع خلفاء الإسكندر وأكثرهم براعة. لأنه ابن أنتيجونوس الأول مونوفثالموس فقد قاتل وانتصر في معارك عديدة منذ نشاته ومُنح لقب الملك مع والده عام 306 ق.م. بعد أن خسر أراضيه في آسيا بعد معركة إبسوس تربع على عرش مقدونيا. اتحد ملوك طوائف الإسكندر الآخرون ضد ديميتريوس لما خافوا أن يغلبهم وهزموه."
+msgstr "أحد ملوك طوائف الإسكندر، ملك مقدونيا (٢٩٤-٢٨٨ ق.م). عُرف عن ديميتريوس أنّه أحد أشجع خلفاء الإسكندر وأكثرهم براعة. لكونه ابن أنتيجونوس الأوّل مونوفثالموس، قاتل وانتصر في معارك عديدة منذ نشأته ومُنح لقب الملك مع والده عام  ٣٠٦ ق.م. بعد أن خسر أراضيه في آسيا بعد معركة إبسوس تربّع على عرش مقدونيا. اتّحد ملوك طوائف الإسكندر الآخرون ضد ديميتريوس لمّا خافوا أن يغلبهم وهزموه."
 
 #: simulation/data/civs/mace.jsonFactions[0].Heroes[2].Name
 msgid "Demetrios the Besieger"
@@ -1348,19 +1550,19 @@ msgstr "ديميتريوس المحاصر"
 
 #: simulation/data/civs/mace.jsonFactions[0].Description
 msgid "A Hellenistic kingdom bordering the Greek city-states."
-msgstr ""
+msgstr "مملكة هيلينية تجاور دول-المدن اليونانية ."
 
 #: simulation/data/civs/mace.jsonStructures[0].Special
 msgid ""
 "The Hellenization civ bonus. Building a Theatron increases the territory "
 "effect of all buildings by 25%. Build limit: 1."
-msgstr ""
+msgstr "مكافأة الحضارة الهيلينية. بناء ثياترون يزيد من التأثير الإستعماري لكل المباني بنسبة 25%. حد البناء:1."
 
 #: simulation/data/civs/mace.jsonStructures[1].Name
 #: simulation/data/civs/ptol.jsonStructures[0].Name
 #: simulation/data/civs/sele.jsonStructures[0].Name
 msgid "Library"
-msgstr "مكتبة"
+msgstr "المكتبة"
 
 #: simulation/data/civs/mace.jsonStructures[1].Special
 msgid ""
@@ -1375,19 +1577,7 @@ msgid ""
 "Alexander the Great founded libraries all over his new empire. These became "
 "a center of learning for an entirely new synthesized culture: the "
 "Hellenistic culture."
-msgstr "أنشأ الإسكندر الأكبر مكتبات في كل أنحاء إمبراطوريته الجديدة. وأصبحت مركزًا للتعلم لثقافة جديدة النشاة: الثقافة الهيلينية."
-
-#: simulation/data/civs/mace.jsonStructures[2].Name
-msgid "Siege Workshop"
-msgstr "ورشة حصار"
-
-#: simulation/data/civs/mace.jsonStructures[2].Special
-msgid "Constructs and upgrades all Macedonian siege engines."
-msgstr ""
-
-#: simulation/data/civs/mace.jsonStructures[2].History
-msgid "The Macedonians were innovators in area of siegecraft."
-msgstr ""
+msgstr "أنشأ الإسكندر الأكبر مكتبات في كل أنحاء إمبراطوريّته الجديدة. وأصبحت مركزًا لتعلّم ثقافة جديدة النشأة: الثقافة الهيلينيّة."
 
 #: simulation/data/civs/mace.jsonHistory
 msgid ""
@@ -1399,31 +1589,31 @@ msgid ""
 msgstr "كانت مقدونيا مملكة يونانيّة قديمة مركزها الجزء الشّماليّ الشّرقيّ من شبه الجزيرة اليونانيّة. سيطرت القوّات المقدونيّة وحلفاؤها تحت قيادة الإسكندر الأكبر على معظم العالم الذي عرفوه، بما في ذلك مصر، وفارس، وأجزاء من شبه القارّة الهنديّة، ممّا سمح بانتشار الحضارات الهيلينيّة والشّرقيّة لسنوات مديدة."
 
 #: simulation/data/civs/maur.jsonName
-msgid "Mauryans"
+msgid "Mauryas"
 msgstr ""
 
 #: simulation/data/civs/maur.jsonCivBonuses[0].Description
 msgid ""
-"Mauryans have a +10% population cap bonus (i.e., 330 pop cap instead of the "
+"Mauryas have a +10% population cap bonus (e.g., 330 pop cap instead of the "
 "usual 300)."
 msgstr ""
 
 #: simulation/data/civs/maur.jsonCivBonuses[0].Name
 msgid "Emperor of Emperors."
-msgstr ""
+msgstr "إمبراطور الأباطرة."
 
 #: simulation/data/civs/maur.jsonCivBonuses[0].History
 msgid ""
 "The Mauryan Empire encompassed dozens of formerly independent kingdoms over "
 "an area of 5 million square kilometers, with a population of close to 60 "
-"million people. The Mauryan regents held the title Emperor of Emperors and "
+"million people. The Mauryan rulers held the title Emperor of Emperors and "
 "commanded a standing army of 600,000 infantry, 9000 elephants, 8000 "
 "chariots, and 30,000 cavalry, making it arguably the largest army of its "
 "time."
 msgstr ""
 
 #: simulation/data/civs/maur.jsonCivBonuses[1].Description
-msgid "The Mauryans enjoy access to 4 champions."
+msgid "The Mauryas enjoy access to 4 champions."
 msgstr ""
 
 #: simulation/data/civs/maur.jsonCivBonuses[1].Name
@@ -1439,7 +1629,9 @@ msgid ""
 msgstr ""
 
 #: simulation/data/civs/maur.jsonTeamBonuses[0].Description
-msgid "Allied temples and temple technologies -50% cost and research time."
+msgid ""
+"Allied Temples −50% resource costs and building time; Temple technologies "
+"−50% resource costs and research time."
 msgstr ""
 
 #: simulation/data/civs/maur.jsonTeamBonuses[0].Name
@@ -1457,43 +1649,35 @@ msgid "Chandragupta Maurya"
 msgstr "تشاندراغبت موريا"
 
 #: simulation/data/civs/maur.jsonAINames[1]
-#: simulation/data/civs/maur.jsonFactions[0].Heroes[1].Name
-msgid "Ashoka the Great"
-msgstr "أشوكا العظيم"
-
-#: simulation/data/civs/maur.jsonAINames[2]
-msgid "Ashokavardhan Maurya"
-msgstr ""
-
-#: simulation/data/civs/maur.jsonAINames[3]
-msgid "Acharya Bhadrabahu"
-msgstr ""
-
-#: simulation/data/civs/maur.jsonAINames[4]
 msgid "Bindusara Maurya"
 msgstr ""
 
-#: simulation/data/civs/maur.jsonAINames[5]
-msgid "Dasaratha Maurya"
+#: simulation/data/civs/maur.jsonAINames[2]
+#: simulation/data/civs/maur.jsonFactions[0].Heroes[1].Name
+msgid "Ashoka the Great"
+msgstr "آشوكا العظيم"
+
+#: simulation/data/civs/maur.jsonAINames[3]
+msgid "Dasharatha Maurya"
 msgstr ""
 
-#: simulation/data/civs/maur.jsonAINames[6]
+#: simulation/data/civs/maur.jsonAINames[4]
 msgid "Samprati Maurya"
 msgstr ""
 
-#: simulation/data/civs/maur.jsonAINames[7]
-msgid "Salisuka Maurya"
+#: simulation/data/civs/maur.jsonAINames[5]
+msgid "Shalishuka Maurya"
 msgstr ""
 
-#: simulation/data/civs/maur.jsonAINames[8]
+#: simulation/data/civs/maur.jsonAINames[6]
 msgid "Devavarman Maurya"
 msgstr ""
 
-#: simulation/data/civs/maur.jsonAINames[9]
-msgid "Satadhanvan Maurya"
+#: simulation/data/civs/maur.jsonAINames[7]
+msgid "Shatadhanvan Maurya"
 msgstr ""
 
-#: simulation/data/civs/maur.jsonAINames[10]
+#: simulation/data/civs/maur.jsonAINames[8]
 msgid "Brihadratha Maurya"
 msgstr ""
 
@@ -1501,10 +1685,6 @@ msgstr ""
 msgid ""
 "Capture up to 5 Gaia elephants and garrison them in the Elephant Stables to "
 "gain up to a 25% bonus in cost and train time of elephant units."
-msgstr ""
-
-#: simulation/data/civs/maur.jsonFactions[0].Technologies[0].Name
-msgid "Elephant Roundup"
 msgstr ""
 
 #: simulation/data/civs/maur.jsonFactions[0].Technologies[1].Description
@@ -1519,7 +1699,7 @@ msgstr "تقليد السهاميين"
 msgid ""
 "India was a land of archery. The bulk of any Indian army was made up of "
 "highly skilled archers, armed with bamboo longbows."
-msgstr "كات الهند أرض الرّماية. كان وتد أيّ جيش هنديّ مكوّن من رماة مهرة مزوّدين بأقواس طويلة من الخيزران."
+msgstr "كات الهند أرض الرّماية، حيث كان وتد أيّ جيش هنديّ مكوّن من رماة مهرة مزوّدين بأقواس طويلة من الخيزران."
 
 #: simulation/data/civs/maur.jsonFactions[0].Heroes[0].History
 msgid "Founder of the Mauryan Empire."
@@ -1614,10 +1794,10 @@ msgid ""
 "great tenacity. However while this was true the infantry were poor hand-to-"
 "hand, close combat fighters. Also, with the exception of the elite "
 "regiments, the Persian infantry was not a standing professional force."
-msgstr ""
+msgstr "استطاع الفُرس تجنيد عدد ضخم من الخيّالة أثناء الحروب وذلك بسبب الحجم الكبير للإمبراطوريّة الأخمينيّة والطريقة التي كانت تقوم عليها. يمكن القول بشكل عام أنّ الخيّالة الفارسيّة كانت مدرّبة جيّدًا وقد حاربت بصلابة عالية، إلّا أن (ورغم صحّة ما قيل) الخيّالة كانت ضعيفة إن تحدّثنا عن القتال اليدويّ أو القتال بالاشتباك. كما وأنّ الخيّالة الفارسيّة (وباستثناء أفواج النخبة) لم تكن قوّة احترافيّة ذات مكانة."
 
 #: simulation/data/civs/pers.jsonTeamBonuses[0].Description
-msgid "Higher income (+15%) from land trade routes for ally's traders."
+msgid "Allied Land Traders +15% trade gain."
 msgstr ""
 
 #: simulation/data/civs/pers.jsonTeamBonuses[0].Name
@@ -1634,25 +1814,25 @@ msgstr ""
 
 #: simulation/data/civs/pers.jsonAINames[0]
 msgid "Kurush II the Great"
-msgstr ""
+msgstr "كورش الثاني الكبير"
 
 #: simulation/data/civs/pers.jsonAINames[1]
 #: simulation/data/civs/pers.jsonFactions[0].Heroes[1].Name
 msgid "Darayavahush I"
-msgstr "دارايافاهوش الأول"
+msgstr "داراياڤاهوش الأوّل"
 
 #: simulation/data/civs/pers.jsonAINames[2]
 msgid "Cambyses II"
-msgstr ""
+msgstr "قمبيز الثاني"
 
 #: simulation/data/civs/pers.jsonAINames[3]
 msgid "Bardiya"
-msgstr ""
+msgstr "بارديا"
 
 #: simulation/data/civs/pers.jsonAINames[4]
 #: simulation/data/civs/pers.jsonFactions[0].Heroes[2].Name
 msgid "Xsayarsa I"
-msgstr "خشيارشاه الأول"
+msgstr "خشيارشاه الأوّل"
 
 #: simulation/data/civs/pers.jsonAINames[5]
 msgid "Artaxshacha I"
@@ -1660,11 +1840,11 @@ msgstr ""
 
 #: simulation/data/civs/pers.jsonAINames[6]
 msgid "Darayavahush II"
-msgstr ""
+msgstr "داراياڤاهوش الثاني"
 
 #: simulation/data/civs/pers.jsonAINames[7]
 msgid "Darayavahush III"
-msgstr ""
+msgstr "داراياڤاهوش الثالث"
 
 #: simulation/data/civs/pers.jsonAINames[8]
 msgid "Artaxshacha II"
@@ -1680,15 +1860,15 @@ msgstr ""
 
 #: simulation/data/civs/pers.jsonAINames[11]
 msgid "Xsayarsa II"
-msgstr ""
+msgstr "خشيارشاه الثاني"
 
 #: simulation/data/civs/pers.jsonFactions[0].Technologies[0].Description
-msgid "Phoenician triremes gain the unique ability to train cavalry units."
+msgid "Phoenician triremes gain the unique ability to train cavalry."
 msgstr ""
 
 #: simulation/data/civs/pers.jsonFactions[0].Technologies[0].Name
 msgid "Naval Craftsmanship"
-msgstr ""
+msgstr "الحرفة البحريّة"
 
 #: simulation/data/civs/pers.jsonFactions[0].Technologies[0].History
 msgid ""
@@ -1819,12 +1999,12 @@ msgstr "كانت الإمبراطوريّة الفارسيّة (أثناء حك�
 
 #: simulation/data/civs/ptol.jsonName
 msgid "Ptolemies"
-msgstr ""
+msgstr "البطلميّون"
 
 #: simulation/data/civs/ptol.jsonCivBonuses[0].Description
 msgid ""
-"The Ptolemies receive the Mercenary Camp, a barracks that is constructed in "
-"neutral territory and trains mercenary soldiers."
+"The Ptolemies receive the Mercenary Camp, a Barracks that is constructed in "
+"neutral territory and trains mercenaries."
 msgstr ""
 
 #: simulation/data/civs/ptol.jsonCivBonuses[0].Name
@@ -1832,6 +2012,7 @@ msgid "Mercenary Army"
 msgstr ""
 
 #: simulation/data/civs/ptol.jsonCivBonuses[0].History
+#: simulation/data/civs/ptol.jsonStructures[1].History
 msgid ""
 "The Greco-Macedonian Ptolemy Dynasty relied on large numbers of Greek and "
 "foreign mercenaries for the bulk of its military force, mainly because the "
@@ -1862,8 +2043,8 @@ msgid "Can capture gaia elephants and camels to reduce their training cost."
 msgstr "يمكنه السيطرة على الفيلة والجمال لكى يقلل سعر التدريب."
 
 #: simulation/data/civs/ptol.jsonTeamBonuses[0].Description
-msgid "All allies automatically gain a slow trickle of food income."
-msgstr "كل الحلفاء تلقائيا يكسبون دلف بطئ من دخل الطعام"
+msgid "Allies +1.0 food trickle rate."
+msgstr ""
 
 #: simulation/data/civs/ptol.jsonTeamBonuses[0].Name
 msgid "Breadbasket of the Mediterranean"
@@ -2015,19 +2196,7 @@ msgstr ""
 #: simulation/data/civs/ptol.jsonStructures[1].Special
 msgid ""
 "Must be constructed in neutral territory. Has no territory radius effect. "
-"Trains all 'mercenary' units."
-msgstr "يجب ان تبني فى منطقة حيادية. ليس لديها تاثير أقليمى. يدرب كل وحدات المرتزقة."
-
-#: simulation/data/civs/ptol.jsonStructures[1].History
-msgid ""
-"The Greco-Macedonian Ptolemy Dynasty relied on large numbers of Greek and "
-"foreign mercenaries for the bulk of its military force, mainly because the "
-"loyalty of native Egyptian units was often suspect. Indeed, during one "
-"native uprising, Upper Egypt was lost to the Ptolemies for decades. "
-"Mercenaries were often battle-hardened and their loyalty can be bought, "
-"sometimes cheaply, sometimes not cheaply. This was of no matter, since Egypt"
-" under the Ptolemies was so prosperous as to be the richest of Alexander's "
-"successor states."
+"Trains mercenaries."
 msgstr ""
 
 #: simulation/data/civs/ptol.jsonStructures[2].Name
@@ -2092,15 +2261,15 @@ msgid ""
 "peoples. It is said that harming a Roman citizen was akin to harming Rome "
 "herself, and would cause the entire might of Rome to fall upon the "
 "perpetrator."
-msgstr "كانت المواطَنية الرومانية ذات شأن رفيع في العالم القديم. كان المواطنون الرومان يُمنحون حقوقًا أساسية وامتيازات تُمنع عن الشعوب المحتلة الأخرى. يقال أن إلحاق أي أذى بمواطن روماني كان يعادل إيذاء روما نفسها، ويستدعي أن يقع بأس روما كله على الجاني."
+msgstr "كانت المواطَنة الرومانيّة ذات شأن رفيع في العالم القديم، فكان المواطنون الرومان يُمنحون حقوقًا أساسيّة وامتيازات تُمنع عن الشعوب المحتلّة الأخرى. يُقال أنّ إلحاق أيّ أذًى بمواطن روماني كان يعادل إيذاء روما نفسها، ويستدعي أن يقع بأس روما كلّه على الجاني."
 
 #: simulation/data/civs/rome.jsonTeamBonuses[0].Description
-msgid "-20% training time for allied infantry."
-msgstr "-٢٠٪ وقت تدريب مشاة الحلفاء."
+msgid "Allied Citizen Infantry −10% training time."
+msgstr ""
 
 #: simulation/data/civs/rome.jsonTeamBonuses[0].Name
 msgid "Conscription"
-msgstr "التجنيد الإلزامي."
+msgstr "التجنيد الإلزاميّ"
 
 #: simulation/data/civs/rome.jsonTeamBonuses[0].History
 msgid ""
@@ -2183,14 +2352,14 @@ msgid ""
 "throughout its long history. The Romans lured enemies or neutral factions to"
 " their side by offering them certain privileges. In due period of time, "
 "friends as well as foes were subjugated."
-msgstr "\"فرِّق تسد\" كان المبدأ الرئيسي في سياسات روما الخارجية خلال تاريخها الطويل. أغرى الرومان الفرق المعادية أو المحايدة إلى جانبهم بإعطائهم امتيازات معينة. وبعد فترة من الزمن أصبح الأصدقاء والأعداء خاضعين."
+msgstr "”فرِّق تسُد“. هذا كان المبدأ الرئيسي في سياسات روما الخارجية خلال تاريخها الطويل. أغرى الرومان الفِرق المعادية أو المحايدة إلى جانبهم بإعطائهم امتيازات معينة. وبعد فترة من الزمن أصبح الأصدقاء والأعداء خاضعين."
 
 #: simulation/data/civs/rome.jsonFactions[0].Heroes[0].History
 msgid ""
 "Dictator for six months during the Second Punic War. Instead of attacking "
 "the most powerful Hannibal, he started a very effective war of attrition "
 "against him."
-msgstr "دكتاتور لستة أشهر خلال الحرب البونية الثانية. بدلًا من الهجوم على هنبعل القوي، بدأ حرب استنزاف فعالة جدًا ضده."
+msgstr "دكتاتور لستّة أشهر خلال الحرب البونيّة الثانية. بدلًا من الهجوم على حنبعل القويّ، بدأ حرب استنزاف فعّالة جدًّا ضدّه."
 
 #: simulation/data/civs/rome.jsonFactions[0].Heroes[0].Name
 msgid "Quintus Fabius Maximus"
@@ -2219,7 +2388,7 @@ msgid ""
 "His campaigns in Spain and Africa helped to bring Carthage to its knees "
 "during the Second Punic War. He defeated Hannibal at the Battle of Zama in "
 "202 B.C."
-msgstr "لقد كان أوّل جنرال رومانيّ ناجح ضدّ القرطاجيّين. حملاته في إسپانيا وأفريقيا ساعدته في إخضاع قرطاج أثناء الحرب الپونيّة الثّانية. استطاع هزم حنبعل في معركة زامة عام 202 قبل الميلاد."
+msgstr "كان أوّل جنرال رومانيّ ناجح ضدّ القرطاجيّين. حملاته في إسپانيا وأفريقيا ساعدته في إخضاع قرطاج أثناء الحرب الپونيّة الثّانية. استطاع هزم حنبعل في معركة زامة عام 202 قبل الميلاد."
 
 #: simulation/data/civs/rome.jsonFactions[0].Heroes[2].Name
 msgid "Scipio Africanus"
@@ -2253,7 +2422,7 @@ msgstr "ميورس لاتيرتوس"
 
 #: simulation/data/civs/rome.jsonStructures[1].Special
 msgid "Can be built in neutral and enemy territory to strangle enemy towns."
-msgstr ""
+msgstr "يمكن بناؤه في أراضي العدو والمحايد للتّضييق على مُدن العدو."
 
 #: simulation/data/civs/rome.jsonStructures[1].History
 msgid "Turf walls built by legionaries during sieges."
@@ -2305,7 +2474,7 @@ msgid ""
 msgstr ""
 
 #: simulation/data/civs/sele.jsonTeamBonuses[0].Description
-msgid "Allied Civic Centers are 20% cheaper."
+msgid "Allied Civil Centers −20% resource costs."
 msgstr ""
 
 #: simulation/data/civs/sele.jsonTeamBonuses[0].Name
@@ -2491,9 +2660,9 @@ msgstr ""
 #: simulation/data/civs/sele.jsonFactions[0].Heroes[1].History
 msgid ""
 "Antiochus inherited a troubled kingdom upon the beginning of his reign. From"
-" the verge of collapse he managed to weld back together the empire Seleukus "
+" the verge of collapse he managed to weld back together the empire Seleucus "
 "I fought so hard to found. The rebellious eastern satraps of Bactria and "
-"Parthia were brought to heel , temporarily securing his eastern borders. He "
+"Parthia were brought to heel, temporarily securing his eastern borders. He "
 "then turned his attention to mother Greece, attempting to fulfill the dreams"
 " of his fathers by invading Greece under the pretext of liberation. The "
 "Achaean League and the Kingdom of Pergamon banded together with the Romans "
@@ -2527,7 +2696,7 @@ msgid ""
 msgstr ""
 
 #: simulation/data/civs/sele.jsonStructures[1].Special
-msgid "Trains all cavalry units except Citizen-Militia Cavalry."
+msgid "Trains all cavalry except citizen-soldier cavalry."
 msgstr ""
 
 #: simulation/data/civs/sele.jsonStructures[2].Name
@@ -2563,11 +2732,11 @@ msgstr ""
 #: simulation/data/civs/spart.jsonName
 #: simulation/data/civs/spart.jsonFactions[0].Name
 msgid "Spartans"
-msgstr "الاسبارطيون"
+msgstr "الأسبرطيّون"
 
 #: simulation/data/civs/spart.jsonCivBonuses[0].Description
 msgid "Spartans can use the powerful Phalanx formation."
-msgstr "الأسبارطيون يستطيعون استخدام التشكيلة السُلامية القوية."
+msgstr "يستطيع الأسبرطيّون استخدام تشكيلة الكتيبة القويّة."
 
 #: simulation/data/civs/spart.jsonCivBonuses[0].History
 msgid ""
@@ -2595,9 +2764,7 @@ msgid ""
 msgstr ""
 
 #: simulation/data/civs/spart.jsonTeamBonuses[0].Description
-msgid ""
-"Increases the health for citizen-soldier infantry spearmen by 10% for allies"
-" of Spartan players."
+msgid "Allied Citizen Infantry Spearmen +10% health."
 msgstr ""
 
 #: simulation/data/civs/spart.jsonTeamBonuses[0].Name
@@ -2681,7 +2848,7 @@ msgstr ""
 
 #: simulation/data/civs/spart.jsonFactions[0].Technologies[1].Description
 msgid "Units in phalanx formation move faster."
-msgstr "الوحدات في التشكيلة السُلامية تتحرك أسرع."
+msgstr "تتحرّك الوحدات في تشكيلات الكتائب أسرع."
 
 #: simulation/data/civs/spart.jsonFactions[0].Technologies[1].Name
 msgid "Tyrtean Paeans"
@@ -2700,7 +2867,7 @@ msgstr ""
 
 #: simulation/data/civs/spart.jsonFactions[0].Technologies[2].Name
 msgid "The Agoge"
-msgstr "بالنّظام الصّارم"
+msgstr "التأهيل البدنيّ"
 
 #: simulation/data/civs/spart.jsonFactions[0].Technologies[2].History
 msgid ""
@@ -2744,7 +2911,7 @@ msgstr ""
 
 #: simulation/data/civs/spart.jsonFactions[0].Heroes[2].Name
 msgid "Agis III"
-msgstr ""
+msgstr "أجيس الثالث"
 
 #: simulation/data/civs/spart.jsonStructures[1].Name
 msgid "Syssition"
@@ -2752,7 +2919,7 @@ msgstr "سيسيسيتيون"
 
 #: simulation/data/civs/spart.jsonStructures[1].Special
 msgid "Train heroes and Spartiates and research technologies related to them."
-msgstr "درب الابطال و الاسبارطيون و طور التقنيات المتعلقة بهم."
+msgstr "درّب الأشاوس وأسبرطيّون وابجث في التقنيّات المتعلّقة بهم."
 
 #: simulation/data/civs/spart.jsonStructures[1].History
 msgid ""

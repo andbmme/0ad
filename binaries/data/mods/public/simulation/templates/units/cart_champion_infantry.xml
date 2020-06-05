@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<Entity parent="template_unit_champion_infantry_spearman">
+<Entity parent="template_unit_champion_infantry_spearman_hoplite">
   <Identity>
     <Civ>cart</Civ>
     <GenericName>Sacred Band Infantry</GenericName>
@@ -7,6 +7,6 @@
     <Icon>units/cart_champion_infantry.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/carthaginians/champion_spearman.xml</Actor>
+    <Actor>units/carthaginians/infantry_spearman_c.xml</Actor>
   </VisualActor>
 </Entity>

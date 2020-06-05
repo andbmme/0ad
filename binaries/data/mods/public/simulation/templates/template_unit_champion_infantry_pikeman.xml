@@ -7,10 +7,12 @@
   </Armour>
   <Attack>
     <Melee>
-      <Hack>2.0</Hack>
-      <Pierce>6.0</Pierce>
-      <Crush>0.0</Crush>
-      <MaxRange>8.0</MaxRange>
+      <Damage>
+        <Hack>2.0</Hack>
+        <Pierce>6.0</Pierce>
+        <Crush>0.0</Crush>
+      </Damage>
+      <MaxRange>7</MaxRange>
       <PrepareTime>1000</PrepareTime>
       <RepeatTime>2000</RepeatTime>
       <Bonuses>
@@ -31,19 +33,20 @@
     <Max>200</Max>
   </Health>
   <Identity>
-    <VisibleClasses datatype="tokens">Melee Spear Pike</VisibleClasses>
+    <VisibleClasses datatype="tokens">Melee Pikeman</VisibleClasses>
     <GenericName>Champion Pikeman</GenericName>
     <Tooltip>Counters: 3x vs. Cavalry.</Tooltip>
     <Formations datatype="tokens">
-      special/formations/phalanx
       special/formations/syntagma
       special/formations/testudo
     </Formations>
   </Identity>
+  <Sound>
+    <SoundGroups>
+      <attack_melee>attack/weapon/pike_attack.xml</attack_melee>
+    </SoundGroups>
+  </Sound>
   <UnitMotion>
     <WalkSpeed op="mul">0.8</WalkSpeed>
-    <Run>
-      <Speed op="mul">0.8</Speed>
-    </Run>
   </UnitMotion>
 </Entity>

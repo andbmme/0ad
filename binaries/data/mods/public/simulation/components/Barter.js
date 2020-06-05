@@ -29,17 +29,16 @@ Barter.prototype.RESTORE_TIMER_INTERVAL = 5000;
 Barter.prototype.Init = function()
 {
 	this.priceDifferences = {};
-	for (let resource of Resources.GetCodes())
+	for (let resource of Resources.GetBarterableCodes())
 		this.priceDifferences[resource] = 0;
 	this.restoreTimer = undefined;
 };
 
-Barter.prototype.GetPrices = function(playerEntity)
+Barter.prototype.GetPrices = function(playerID)
 {
-	var prices = { "buy": {}, "sell": {} };
-	let cmpPlayer = Engine.QueryInterface(playerEntity, IID_Player);
-	let multiplier = cmpPlayer.GetBarterMultiplier();
-	for (let resource of Resources.GetCodes())
+	let prices = { "buy": {}, "sell": {} };
+	let multiplier = QueryPlayerIDInterface(playerID).GetBarterMultiplier();
+	for (let resource of Resources.GetBarterableCodes())
 	{
 		let truePrice = Resources.GetResource(resource).truePrice;
 		prices.buy[resource] = truePrice * (100 + this.CONSTANT_DIFFERENCE + this.priceDifferences[resource]) * multiplier.buy[resource] / 100;
@@ -48,11 +47,10 @@ Barter.prototype.GetPrices = function(playerEntity)
 	return prices;
 };
 
-Barter.prototype.PlayerHasMarket = function(playerEntity)
+Barter.prototype.PlayerHasMarket = function(playerID)
 {
-	var cmpPlayer = Engine.QueryInterface(playerEntity, IID_Player);
 	var cmpRangeManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_RangeManager);
-	var entities = cmpRangeManager.GetEntitiesByPlayer(cmpPlayer.GetPlayerID());
+	var entities = cmpRangeManager.GetEntitiesByPlayer(playerID);
 	for (var entity of entities)
 	{
 		var cmpFoundation = Engine.QueryInterface(entity, IID_Foundation);
@@ -63,35 +61,36 @@ Barter.prototype.PlayerHasMarket = function(playerEntity)
 	return false;
 };
 
-Barter.prototype.ExchangeResources = function(playerEntity, resourceToSell, resourceToBuy, amount)
+Barter.prototype.ExchangeResources = function(playerID, resourceToSell, resourceToBuy, amount)
 {
-	// Data verification
 	if (amount <= 0)
 	{
 		warn("ExchangeResources: incorrect amount: " + uneval(amount));
 		return;
 	}
-	let availResources = Resources.GetCodes();
+
+	let availResources = Resources.GetBarterableCodes();
 	if (availResources.indexOf(resourceToSell) == -1)
 	{
 		warn("ExchangeResources: incorrect resource to sell: " + uneval(resourceToSell));
 		return;
 	}
+
 	if (availResources.indexOf(resourceToBuy) == -1)
 	{
 		warn("ExchangeResources: incorrect resource to buy: " + uneval(resourceToBuy));
 		return;
 	}
-	if (!this.PlayerHasMarket(playerEntity))
-	{
-		warn("ExchangeResources: player has no markets");
+
+	// This can occur when the player issues the order just before the market is destroyed or captured
+	if (!this.PlayerHasMarket(playerID))
 		return;
-	}
+
 	if (amount != 100 && amount != 500)
 		return;
 
-	var cmpPlayer = Engine.QueryInterface(playerEntity, IID_Player);
-	var prices = this.GetPrices(playerEntity);
+	var cmpPlayer = QueryPlayerIDInterface(playerID);
+	var prices = this.GetPrices(playerID);
 	var amountsToSubtract = {};
 	amountsToSubtract[resourceToSell] = amount;
 	if (cmpPlayer.TrySubtractResources(amountsToSubtract))
@@ -104,14 +103,14 @@ Barter.prototype.ExchangeResources = function(playerEntity, resourceToSell, reso
 		if (cmpGUIInterface)
 			cmpGUIInterface.PushNotification({
 				"type": "barter",
-				"players": [cmpPlayer.GetPlayerID()],
+				"players": [playerID],
 				"amountsSold": amount,
 				"amountsBought": amountToAdd,
 				"resourceSold": resourceToSell,
 				"resourceBought": resourceToBuy
 			});
 
-		var cmpStatisticsTracker = Engine.QueryInterface(playerEntity, IID_StatisticsTracker);
+		var cmpStatisticsTracker = QueryPlayerIDInterface(playerID, IID_StatisticsTracker);
 		if (cmpStatisticsTracker)
 		{
 			cmpStatisticsTracker.IncreaseResourcesSoldCounter(resourceToSell, amount);
@@ -136,11 +135,11 @@ Barter.prototype.ExchangeResources = function(playerEntity, resourceToSell, reso
 
 Barter.prototype.ProgressTimeout = function(data)
 {
-	var needRestore = false;
-	for (let resource of Resources.GetCodes())
+	let needRestore = false;
+	for (let resource of Resources.GetBarterableCodes())
 	{
 		// Calculate value to restore, it should be limited to [-DIFFERENCE_RESTORE; DIFFERENCE_RESTORE] interval
-		var differenceRestore = Math.min(this.DIFFERENCE_RESTORE, Math.max(-this.DIFFERENCE_RESTORE, this.priceDifferences[resource]));
+		let differenceRestore = Math.min(this.DIFFERENCE_RESTORE, Math.max(-this.DIFFERENCE_RESTORE, this.priceDifferences[resource]));
 		differenceRestore = -differenceRestore;
 		this.priceDifferences[resource] += differenceRestore;
 		// If price difference still exists then set flag to run timer again
@@ -150,11 +149,10 @@ Barter.prototype.ProgressTimeout = function(data)
 
 	if (!needRestore)
 	{
-		var cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
+		let cmpTimer = Engine.QueryInterface(SYSTEM_ENTITY, IID_Timer);
 		cmpTimer.CancelTimer(this.restoreTimer);
 		this.restoreTimer = undefined;
 	}
 };
 
 Engine.RegisterSystemComponentType(IID_Barter, "Barter", Barter);
-

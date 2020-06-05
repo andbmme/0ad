@@ -25,41 +25,57 @@ PlayerManager.prototype.AddPlayer = function(ent)
 	newDiplo[id] = 1;
 	cmpPlayer.SetDiplomacy(newDiplo);
 
+	Engine.BroadcastMessage(MT_PlayerEntityChanged, {
+		"player": id,
+		"from": INVALID_ENTITY,
+		"to": ent
+	});
+
 	return id;
 };
 
 /**
- * To avoid possible problems with cached quantities (as in TechnologyManager),
+ * To avoid possible problems,
  * we first remove all entities from this player, and add them back after the replacement.
  * Note: This should only be called during setup/init and not during the game
  */
 PlayerManager.prototype.ReplacePlayer = function(id, ent)
 {
-	var cmpRangeManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_RangeManager);
-	var entities = cmpRangeManager.GetEntitiesByPlayer(id);
-	for (var e of entities)
+	let cmpRangeManager = Engine.QueryInterface(SYSTEM_ENTITY, IID_RangeManager);
+	let entities = cmpRangeManager.GetEntitiesByPlayer(id);
+	for (let e of entities)
 	{
-		var cmpOwnership = Engine.QueryInterface(e, IID_Ownership);
+		let cmpOwnership = Engine.QueryInterface(e, IID_Ownership);
 		if (cmpOwnership)
-			cmpOwnership.SetOwner(-1);
+			cmpOwnership.SetOwner(INVALID_PLAYER);
 	}
 
-	var oldent = this.playerEntities[id];
-	var cmpPlayer = Engine.QueryInterface(oldent, IID_Player);
-	var diplo = cmpPlayer.GetDiplomacy();
-	var cmpPlayer = Engine.QueryInterface(ent, IID_Player);
-	cmpPlayer.SetPlayerID(id);
-	this.playerEntities[id] = ent;
-	cmpPlayer.SetDiplomacy(diplo);
-	Engine.DestroyEntity(oldent);
-	Engine.FlushDestroyedEntities();
+	let oldent = this.playerEntities[id];
+	let oldCmpPlayer = Engine.QueryInterface(oldent, IID_Player);
+	let diplo = oldCmpPlayer.GetDiplomacy();
+	let color = oldCmpPlayer.GetColor();
 
-	for (var e of entities)
+	let newCmpPlayer = Engine.QueryInterface(ent, IID_Player);
+	newCmpPlayer.SetPlayerID(id);
+	this.playerEntities[id] = ent;
+	newCmpPlayer.SetColor(color);
+	newCmpPlayer.SetDiplomacy(diplo);
+
+	Engine.BroadcastMessage(MT_PlayerEntityChanged, {
+		"player": id,
+		"from": oldent,
+		"to": ent
+	});
+
+	for (let e of entities)
 	{
-		var cmpOwnership = Engine.QueryInterface(e, IID_Ownership);
+		let cmpOwnership = Engine.QueryInterface(e, IID_Ownership);
 		if (cmpOwnership)
 			cmpOwnership.SetOwner(id);
 	}
+
+	Engine.DestroyEntity(oldent);
+	Engine.FlushDestroyedEntities();
 };
 
 /**
@@ -81,16 +97,56 @@ PlayerManager.prototype.GetPlayerByID = function(id)
 	return INVALID_ENTITY;
 };
 
+/**
+ * Returns the number of players including gaia.
+ */
 PlayerManager.prototype.GetNumPlayers = function()
 {
 	return this.playerEntities.length;
 };
 
+/**
+ * Returns IDs of all players including gaia.
+ */
+PlayerManager.prototype.GetAllPlayers = function()
+{
+	let players = [];
+	for (let i = 0; i < this.playerEntities.length; ++i)
+		players.push(i);
+	return players;
+};
+
+/**
+ * Returns IDs of all players excluding gaia.
+ */
+PlayerManager.prototype.GetNonGaiaPlayers = function()
+{
+	let players = [];
+	for (let i = 1; i < this.playerEntities.length; ++i)
+		players.push(i);
+	return players;
+};
+
+/**
+ * Returns IDs of all players excluding gaia that are not defeated nor have won.
+ */
+PlayerManager.prototype.GetActivePlayers = function()
+{
+	return this.GetNonGaiaPlayers().filter(playerID => QueryPlayerIDInterface(playerID).GetState() == "active");
+};
+
 PlayerManager.prototype.RemoveAllPlayers = function()
 {
 	// Destroy existing player entities
-	for (var id of this.playerEntities)
-		Engine.DestroyEntity(id);
+	for (let player in this.playerEntities)
+	{
+		Engine.BroadcastMessage(MT_PlayerEntityChanged, {
+			"player": player,
+			"from": this.playerEntities[player],
+			"to": INVALID_ENTITY
+		});
+		Engine.DestroyEntity(this.playerEntities[player]);
+	}
 
 	this.playerEntities = [];
 };
@@ -101,6 +157,11 @@ PlayerManager.prototype.RemoveLastPlayer = function()
 		return;
 
 	var lastId = this.playerEntities.pop();
+	Engine.BroadcastMessage(MT_PlayerEntityChanged, {
+		"player": this.playerEntities.length + 1,
+		"from": lastId,
+		"to": INVALID_ENTITY
+	});
 	Engine.DestroyEntity(lastId);
 };
 

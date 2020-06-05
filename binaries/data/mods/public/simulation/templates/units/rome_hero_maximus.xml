@@ -6,10 +6,10 @@
   <Identity>
     <Civ>rome</Civ>
     <Lang>latin</Lang>
-    <SpecificName>Quintus Fabius Maximus</SpecificName>
+    <SpecificName>Quīntus Fabius Maximus Verrūcōsus Cūnctātor</SpecificName>
     <Icon>units/rome_hero_maximus.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/romans/hero_maximus_horse.xml</Actor>
+    <Actor>units/romans/hero_cavalry_swordsman_maximus_m.xml</Actor>
   </VisualActor>
 </Entity>

@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -102,6 +102,7 @@ public:
 	struct SBoundaryLine
 	{
 		bool blinking;
+		player_id_t owner;
 		CColor color;
 		SOverlayTexturedLine overlay;
 	};
@@ -128,6 +129,7 @@ public:
 		m_DirtyID = 1;
 		m_DirtyBlinkingID = 1;
 		m_Visible = true;
+		m_ColorChanged = false;
 
 		m_AnimTime = 0.0;
 
@@ -221,7 +223,7 @@ public:
 		case MT_RenderSubmit:
 		{
 			const CMessageRenderSubmit& msgData = static_cast<const CMessageRenderSubmit&> (msg);
-			RenderSubmit(msgData.collector);
+			RenderSubmit(msgData.collector, msgData.frustum, msgData.culling);
 			break;
 		}
 		}
@@ -258,6 +260,8 @@ public:
 	size_t m_DirtyID;
 	size_t m_DirtyBlinkingID;
 
+	bool m_ColorChanged;
+
 	void MakeDirty()
 	{
 		SAFE_DELETE(m_Territories);
@@ -266,25 +270,24 @@ public:
 		m_TriggerEvent = true;
 	}
 
-	virtual bool NeedUpdate(size_t* dirtyID) const
+	virtual bool NeedUpdateTexture(size_t* dirtyID)
 	{
-		if (*dirtyID != m_DirtyID)
-		{
-			*dirtyID = m_DirtyID;
-			return true;
-		}
-		return false;
+		if (*dirtyID == m_DirtyID && !m_ColorChanged)
+			return false;
+
+		*dirtyID = m_DirtyID;
+		m_ColorChanged = false;
+		return true;
 	}
 
-	virtual bool NeedUpdate(size_t* dirtyID, size_t* dirtyBlinkingID) const
+	virtual bool NeedUpdateAI(size_t* dirtyID, size_t* dirtyBlinkingID) const
 	{
-		if (*dirtyID != m_DirtyID || *dirtyBlinkingID != m_DirtyBlinkingID)
-		{
-			*dirtyID = m_DirtyID;
-			*dirtyBlinkingID = m_DirtyBlinkingID;
-			return true;
-		}
-		return false;
+		if (*dirtyID == m_DirtyID && *dirtyBlinkingID == m_DirtyBlinkingID)
+			return false;
+
+		*dirtyID = m_DirtyID;
+		*dirtyBlinkingID = m_DirtyBlinkingID;
+		return true;
 	}
 
 	void CalculateCostGrid();
@@ -299,12 +302,14 @@ public:
 
 	void Interpolate(float frameTime, float frameOffset);
 
-	void RenderSubmit(SceneCollector& collector);
+	void RenderSubmit(SceneCollector& collector, const CFrustum& frustum, bool culling);
 
 	void SetVisibility(bool visible)
 	{
 		m_Visible = visible;
 	}
+
+	void UpdateColors();
 
 private:
 
@@ -357,8 +362,8 @@ struct Tile
 static void NearestTerritoryTile(entity_pos_t x, entity_pos_t z, u16& i, u16& j, u16 w, u16 h)
 {
 	entity_pos_t scale = Pathfinding::NAVCELL_SIZE * ICmpTerritoryManager::NAVCELLS_PER_TERRITORY_TILE;
-	i = clamp((x / scale).ToInt_RoundToNegInfinity(), 0, w - 1);
-	j = clamp((z / scale).ToInt_RoundToNegInfinity(), 0, h - 1);
+	i = Clamp((x / scale).ToInt_RoundToNegInfinity(), 0, w - 1);
+	j = Clamp((z / scale).ToInt_RoundToNegInfinity(), 0, h - 1);
 }
 
 void CCmpTerritoryManager::CalculateCostGrid()
@@ -576,12 +581,13 @@ std::vector<STerritoryBoundary> CCmpTerritoryManager::ComputeBoundaries()
 
 u8 CCmpTerritoryManager::GetTerritoryPercentage(player_id_t player)
 {
-	if (player <= 0 || (size_t)player > m_TerritoryCellCounts.size())
+	if (player <= 0 || static_cast<size_t>(player) >= m_TerritoryCellCounts.size())
 		return 0;
 
 	CalculateTerritories();
 
-	if (m_TerritoryTotalPassableCellCount == 0)
+	// Territories may have been recalculated, check whether player is still there.
+	if (m_TerritoryTotalPassableCellCount == 0 || static_cast<size_t>(player) >= m_TerritoryCellCounts.size())
 		return 0;
 
 	u8 percentage = (m_TerritoryCellCounts[player] * 100) / m_TerritoryTotalPassableCellCount;
@@ -623,10 +629,11 @@ void CCmpTerritoryManager::UpdateBoundaryLines()
 		CColor color(1, 0, 1, 1);
 		CmpPtr<ICmpPlayer> cmpPlayer(GetSimContext(), cmpPlayerManager->GetPlayerByID(boundaries[i].owner));
 		if (cmpPlayer)
-			color = cmpPlayer->GetColor();
+			color = cmpPlayer->GetDisplayedColor();
 
 		m_BoundaryLines.push_back(SBoundaryLine());
 		m_BoundaryLines.back().blinking = boundaries[i].blinking;
+		m_BoundaryLines.back().owner = boundaries[i].owner;
 		m_BoundaryLines.back().color = color;
 		m_BoundaryLines.back().overlay.m_SimContext = &GetSimContext();
 		m_BoundaryLines.back().overlay.m_TextureBase = textureBase;
@@ -685,13 +692,17 @@ void CCmpTerritoryManager::Interpolate(float frameTime, float UNUSED(frameOffset
 	}
 }
 
-void CCmpTerritoryManager::RenderSubmit(SceneCollector& collector)
+void CCmpTerritoryManager::RenderSubmit(SceneCollector& collector, const CFrustum& frustum, bool culling)
 {
 	if (!m_Visible)
 		return;
 
 	for (size_t i = 0; i < m_BoundaryLines.size(); ++i)
+	{
+		if (culling && !m_BoundaryLines[i].overlay.IsVisibleInFrustum(frustum))
+			continue;
 		collector.Submit(&m_BoundaryLines[i].overlay);
+	}
 
 	for (size_t i = 0; i < m_DebugBoundaryLineNodes.size(); ++i)
 		collector.Submit(&m_DebugBoundaryLineNodes[i]);
@@ -803,6 +814,25 @@ bool CCmpTerritoryManager::IsTerritoryBlinking(entity_pos_t x, entity_pos_t z)
 	u16 i, j;
 	NearestTerritoryTile(x, z, i, j, m_Territories->m_W, m_Territories->m_H);
 	return (m_Territories->get(i, j) & TERRITORY_BLINKING_MASK) != 0;
+}
+
+void CCmpTerritoryManager::UpdateColors()
+{
+	m_ColorChanged = true;
+
+	CmpPtr<ICmpPlayerManager> cmpPlayerManager(GetSystemEntity());
+	if (!cmpPlayerManager)
+		return;
+
+	for (SBoundaryLine& boundaryLine : m_BoundaryLines)
+	{
+		CmpPtr<ICmpPlayer> cmpPlayer(GetSimContext(), cmpPlayerManager->GetPlayerByID(boundaryLine.owner));
+		if (!cmpPlayer)
+			continue;
+
+		boundaryLine.color = cmpPlayer->GetDisplayedColor();
+		boundaryLine.overlay.m_Color = boundaryLine.color;
+	}
 }
 
 TerritoryOverlay::TerritoryOverlay(CCmpTerritoryManager& manager) :

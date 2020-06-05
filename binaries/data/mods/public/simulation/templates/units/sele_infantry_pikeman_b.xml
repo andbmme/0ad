@@ -2,7 +2,7 @@
 <Entity parent="template_unit_infantry_melee_pikeman">
   <Builder>
     <Entities datatype="tokens">
-      structures/sele_military_colony
+      structures/sele_tower_artillery
       structures/sele_library
     </Entities>
   </Builder>
@@ -10,14 +10,14 @@
     <Civ>sele</Civ>
     <Lang>greek</Lang>
     <SelectionGroupName>units/sele_infantry_pikeman_b</SelectionGroupName>
-    <GenericName>Bronze Shield Pikeman</GenericName>
-    <SpecificName>Chalkaspides</SpecificName>
+    <GenericName>Phalangite</GenericName>
+    <SpecificName>Phalangitēs</SpecificName>
     <Icon>units/sele_infantry_spearman.png</Icon>
   </Identity>
   <Promotion>
     <Entity>units/sele_infantry_pikeman_a</Entity>
   </Promotion>
   <VisualActor>
-    <Actor>units/seleucids/infantry_spearman_b.xml</Actor>
+    <Actor>units/seleucids/infantry_pikeman_b.xml</Actor>
   </VisualActor>
 </Entity>

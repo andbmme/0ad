@@ -2,12 +2,12 @@
 <Entity parent="template_unit_champion_infantry_swordsman">
   <Identity>
     <Civ>gaul</Civ>
-    <GenericName>Heavy Swordsman</GenericName>
-    <SpecificName>Solduros</SpecificName>
+    <GenericName>Gallic Champion</GenericName>
+    <SpecificName>Soliduros</SpecificName>
     <SelectionGroupName>units/gaul_champion_infantry</SelectionGroupName>
-    <Icon>units/celt_champion_infantry_gaul.png</Icon>
+    <Icon>units/gaul_champion_infantry.png</Icon>
   </Identity>
   <VisualActor>
-    <Actor>units/celts/champion_unit_1.xml</Actor>
+    <Actor>units/gauls/infantry_swordsman_c.xml</Actor>
   </VisualActor>
 </Entity>

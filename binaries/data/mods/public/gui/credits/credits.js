@@ -1,47 +1,58 @@
-var g_PanelNames = ["special", "programming", "art", "translators", "misc", "donators"];
-var g_ButtonNames = {};
-var g_PanelTexts = {};
+/**
+ * Order in which the tabs should show up.
+ */
+var g_OrderTabNames = [
+	"special",
+	"programming",
+	"art",
+	"history",
+	"balancing",
+	"community",
+	"translators",
+	"donators"
+];
+
+/**
+ * Array of Objects containg all relevant data per tab.
+ */
+var g_PanelData = [];
+
+/**
+ * Vertical size of a tab button.
+ */
+var g_TabButtonHeight = 35;
+
+/**
+ * Vertical space between two tab buttons.
+ */
+var g_TabButtonDist = 5;
 
 function init()
 {
 	// Load credits list from the disk and parse them
-	for (let name of g_PanelNames)
+	for (let category of g_OrderTabNames)
 	{
-		let json = Engine.ReadJSONFile("gui/credits/texts/" + name + ".json");
+		let json = Engine.ReadJSONFile("gui/credits/texts/" + category + ".json");
 		if (!json || !json.Content)
 		{
-			error("Could not load credits for " + name + "!");
+			error("Could not load credits for " + category + "!");
 			continue;
 		}
-		g_ButtonNames[name] = json.Title || name;
-		g_PanelTexts[name] = parseHelper(json.Content);
+		translateObjectKeys(json, ["Title", "Subtitle"]);
+		g_PanelData.push({
+			"label": json.Title || category,
+			"content": parseHelper(json.Content)
+		});
 	}
 
-	placeButtons();
-	selectPanel(0);
-}
-
-function placeButtons()
-{
-
-	for (let i = 0; i < g_PanelNames.length; ++i)
-	{
-		let button = Engine.GetGUIObjectByName("creditsPanelButton[" + i + "]");
-		if (!button)
-		{
-			warn("Could not display some credits.");
-			break;
-		}
-		button.hidden = false;
-		let size = button.size;
-		size.top = i * 35;
-		size.bottom = size.top + 30;
-		button.size = size;
-
-		button.onPress = (i => function() {selectPanel(i);})(i);
-		let buttonText = Engine.GetGUIObjectByName("creditsPanelButtonText[" + i + "]");
-		buttonText.caption = translate(g_ButtonNames[g_PanelNames[i]]);
-	}
+	placeTabButtons(
+		g_PanelData,
+		g_TabButtonHeight,
+		g_TabButtonDist,
+		selectPanel,
+		category => {
+			Engine.GetGUIObjectByName("creditsText").caption = g_PanelData[category].content;
+		});
 }
 
 // Run through a "Content" list and parse elements for formatting and translation
@@ -52,24 +63,28 @@ function parseHelper(list)
 	for (let object of list)
 	{
 		if (object.LangName)
-			result += "[font=\"sans-bold-stroke-14\"]" + object.LangName + "\n";
+			result += setStringTags(object.LangName + "\n", { "font": "sans-bold-stroke-14" });
 
 		if (object.Title)
-			result += "[font=\"sans-bold-stroke-14\"]" + translate(object.Title) + "\n";
+			result += setStringTags(object.Title + "\n", { "font": "sans-bold-stroke-14" });
 
 		if (object.Subtitle)
-			result += "[font=\"sans-bold-14\"]" + translate(object.Subtitle) + "\n";
+			result += setStringTags(object.Subtitle + "\n", { "font": "sans-bold-14" });
 
 		if (object.List)
 		{
 			for (let element of object.List)
 			{
+				let credit;
 				if (element.nick && element.name)
-					result += "[font=\"sans-14\"]" + sprintf(translate("%(nick)s - %(name)s"), { "nick": element.nick, "name": element.name }) + "\n";
+					credit = sprintf(translate("%(nick)s - %(name)s"), { "nick": element.nick, "name": element.name });
 				else if (element.nick)
-					result += "[font=\"sans-14\"]" + element.nick + "\n";
+					credit = element.nick;
 				else if (element.name)
-					result += "[font=\"sans-14\"]" + element.name + "\n";
+					credit = element.name;
+
+				if (credit)
+					result += setStringTags(credit + "\n", { "font": "sans-14" });
 			}
 
 			result += "\n";
@@ -80,13 +95,4 @@ function parseHelper(list)
 	}
 
 	return result;
-}
-
-function selectPanel(i)
-{
-	Engine.GetGUIObjectByName("creditsPanelButtons").children.forEach((button, j) => {
-		button.sprite = i == j ? "ModernTabVerticalForeground" : "ModernTabVerticalBackground";
-	});
-
-	Engine.GetGUIObjectByName("creditsText").caption = g_PanelTexts[g_PanelNames[i]];
 }

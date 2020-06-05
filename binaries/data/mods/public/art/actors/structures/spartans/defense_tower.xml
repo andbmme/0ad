@@ -8,7 +8,7 @@
       </animations>
       <mesh>structural/spart_defense_tower.dae</mesh>
       <props>
-        <prop actor="props/structures/decals/dirt_1x1.xml" attachpoint="root"/>
+        <prop actor="props/structures/decals/spart_1x1.xml" attachpoint="root"/>
         <prop actor="props/units/weapons/arrow_front.xml" attachpoint="loaded-projectile"/>
         <prop actor="props/units/weapons/arrow_front.xml" attachpoint="projectile"/>
         <prop actor="props/structures/spartans/defense_tower_nature.xml" attachpoint="root"/>
@@ -20,6 +20,16 @@
         <texture file="structural/sparta_struct_spec.png" name="specTex"/>
         <texture file="structural/ao/spart_defense_tower_AO.png" name="aoTex"/>
       </textures>
+    </variant>
+  </group>
+  <group>
+    <variant frequency="1" name="Idle"/>
+    <variant name="upgrading">
+      <props>
+        <prop actor="props/structures/decals/spart_1x1.xml" attachpoint="root"/>
+        <prop actor="props/structures/construction/scaf_3x3_tower.xml" attachpoint="root"/>
+        <prop actor="particle/destruction_dust_small.xml" attachpoint="root"/>
+      </props>
     </variant>
   </group>
   <group>

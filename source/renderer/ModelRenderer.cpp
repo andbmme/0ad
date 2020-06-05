@@ -1,4 +1,4 @@
-/* Copyright (C) 2015 Wildfire Games.
+/* Copyright (C) 2020 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -17,15 +17,6 @@
 
 #include "precompiled.h"
 
-#include "lib/allocators/allocator_adapters.h"
-#include "lib/allocators/arena.h"
-#include "lib/ogl.h"
-#include "maths/Vector3D.h"
-#include "maths/Vector4D.h"
-
-#include "ps/CLogger.h"
-#include "ps/Profile.h"
-
 #include "graphics/Color.h"
 #include "graphics/LightEnv.h"
 #include "graphics/Material.h"
@@ -33,7 +24,14 @@
 #include "graphics/ModelDef.h"
 #include "graphics/ShaderManager.h"
 #include "graphics/TextureManager.h"
-
+#include "lib/allocators/allocator_adapters.h"
+#include "lib/allocators/arena.h"
+#include "lib/hash.h"
+#include "lib/ogl.h"
+#include "maths/Vector3D.h"
+#include "maths/Vector4D.h"
+#include "ps/CLogger.h"
+#include "ps/Profile.h"
 #include "renderer/MikktspaceWrap.h"
 #include "renderer/ModelRenderer.h"
 #include "renderer/ModelVertexRenderer.h"
@@ -71,7 +69,7 @@ void ModelRenderer::CopyPositionAndNormals(
 	size_t numVertices = mdef->GetNumVertices();
 	SModelVertex* vertices = mdef->GetVertices();
 
-	for(size_t j = 0; j < numVertices; ++j)
+	for (size_t j = 0; j < numVertices; ++j)
 	{
 		Position[j] = vertices[j].m_Coords;
 		Normal[j] = vertices[j].m_Norm;
@@ -86,7 +84,7 @@ void ModelRenderer::BuildPositionAndNormals(
 {
 	CModelDefPtr mdef = model->GetModelDef();
 	size_t numVertices = mdef->GetNumVertices();
-	SModelVertex* vertices=mdef->GetVertices();
+	SModelVertex* vertices = mdef->GetVertices();
 
 	if (model->IsSkinned())
 	{
@@ -113,14 +111,14 @@ void ModelRenderer::BuildPositionAndNormals(
 	}
 	else
 	{
-		PROFILE( "software transform" );
+		PROFILE("software transform");
 		// just copy regular positions, transform normals to world space
 		const CMatrix3D& transform = model->GetTransform();
 		const CMatrix3D& invtransform = model->GetInvTransform();
-		for (size_t j=0; j<numVertices; j++)
+		for (size_t j = 0; j < numVertices; ++j)
 		{
-			transform.Transform(vertices[j].m_Coords,Position[j]);
-			invtransform.RotateTransposed(vertices[j].m_Norm,Normal[j]);
+			transform.Transform(vertices[j].m_Coords, Position[j]);
+			invtransform.RotateTransposed(vertices[j].m_Norm, Normal[j]);
 		}
 	}
 }
@@ -132,14 +130,14 @@ void ModelRenderer::BuildColor4ub(
 		const VertexArrayIterator<CVector3D>& Normal,
 		const VertexArrayIterator<SColor4ub>& Color)
 {
-	PROFILE( "lighting vertices" );
+	PROFILE("lighting vertices");
 
 	CModelDefPtr mdef = model->GetModelDef();
 	size_t numVertices = mdef->GetNumVertices();
 	const CLightEnv& lightEnv = g_Renderer.GetLightEnv();
 	CColor shadingColor = model->GetShadingColor();
 
-	for (size_t j=0; j<numVertices; j++)
+	for (size_t j = 0; j < numVertices; ++j)
 	{
 		RGBColor tempcolor = lightEnv.EvaluateUnitScaled(Normal[j]);
 		tempcolor.X *= shadingColor.r;
@@ -153,8 +151,7 @@ void ModelRenderer::BuildColor4ub(
 void ModelRenderer::GenTangents(const CModelDefPtr& mdef, std::vector<float>& newVertices, bool gpuSkinning)
 {
 	MikkTSpace ms(mdef, newVertices, gpuSkinning);
-
-	ms.generate();
+	ms.Generate();
 }
 
 
@@ -167,10 +164,10 @@ void ModelRenderer::BuildUV(
 	size_t numVertices = mdef->GetNumVertices();
 	SModelVertex* vertices = mdef->GetVertices();
 
-	for (size_t j=0; j < numVertices; ++j)
+	for (size_t j = 0; j < numVertices; ++j)
 	{
 		UV[j][0] = vertices[j].m_UVs[UVset * 2];
-		UV[j][1] = 1.0-vertices[j].m_UVs[UVset * 2 + 1];
+		UV[j][1] = 1.0 - vertices[j].m_UVs[UVset * 2 + 1];
 	}
 }
 
@@ -183,11 +180,12 @@ void ModelRenderer::BuildIndices(
 	size_t idxidx = 0;
 	SModelFace* faces = mdef->GetFaces();
 
-	for (size_t j = 0; j < mdef->GetNumFaces(); ++j) {
-		SModelFace& face=faces[j];
-		Indices[idxidx++]=face.m_Verts[0];
-		Indices[idxidx++]=face.m_Verts[1];
-		Indices[idxidx++]=face.m_Verts[2];
+	for (size_t j = 0; j < mdef->GetNumFaces(); ++j)
+	{
+		SModelFace& face = faces[j];
+		Indices[idxidx++] = face.m_Verts[0];
+		Indices[idxidx++] = face.m_Verts[1];
+		Indices[idxidx++] = face.m_Verts[2];
 	}
 }
 
@@ -233,7 +231,6 @@ ShaderModelRenderer::~ShaderModelRenderer()
 // Submit one model.
 void ShaderModelRenderer::Submit(int cullGroup, CModel* model)
 {
-	CModelDefPtr mdef = model->GetModelDef();
 	CModelRData* rdata = (CModelRData*)model->GetRenderData();
 
 	// Ensure model data is valid
@@ -339,8 +336,8 @@ struct SMRMaterialBucketKeyHash
 	size_t operator()(const SMRMaterialBucketKey& key) const
 	{
 		size_t hash = 0;
-		boost::hash_combine(hash, key.effect.GetHash());
-		boost::hash_combine(hash, key.defines.GetHash());
+		hash_combine(hash, key.effect.GetHash());
+		hash_combine(hash, key.defines.GetHash());
 		return hash;
 	}
 };
@@ -369,7 +366,7 @@ void ShaderModelRenderer::Render(const RenderModifierPtr& modifier, const CShade
 		return;
 
 	CMatrix3D worldToCam;
-	g_Renderer.GetViewCamera().m_Orientation.GetInverse(worldToCam);
+	g_Renderer.GetViewCamera().GetOrientation().GetInverse(worldToCam);
 
 	/*
 	 * Rendering approach:
@@ -425,12 +422,17 @@ void ShaderModelRenderer::Render(const RenderModifierPtr& modifier, const CShade
 	 */
 
 	Allocators::DynamicArena arena(256 * KiB);
-	typedef ProxyAllocator<CModel*, Allocators::DynamicArena> ModelListAllocator;
-	typedef std::vector<CModel*, ModelListAllocator> ModelList_t;
-	typedef boost::unordered_map<SMRMaterialBucketKey, ModelList_t,
-		SMRMaterialBucketKeyHash, std::equal_to<SMRMaterialBucketKey>,
-		ProxyAllocator<std::pair<const SMRMaterialBucketKey, ModelList_t>, Allocators::DynamicArena>
-	> MaterialBuckets_t;
+	using ModelListAllocator = ProxyAllocator<CModel*, Allocators::DynamicArena>;
+	using ModelList_t = std::vector<CModel*, ModelListAllocator>;
+	using MaterialBuckets_t = std::unordered_map<
+		SMRMaterialBucketKey,
+		ModelList_t,
+		SMRMaterialBucketKeyHash,
+		std::equal_to<SMRMaterialBucketKey>,
+		ProxyAllocator<
+			std::pair<const SMRMaterialBucketKey, ModelList_t>,
+			Allocators::DynamicArena> >;
+
 	MaterialBuckets_t materialBuckets((MaterialBuckets_t::allocator_type(arena)));
 
 	{
@@ -513,7 +515,7 @@ void ShaderModelRenderer::Render(const RenderModifierPtr& modifier, const CShade
 				// (There might be duplicates in this list, but that doesn't really matter)
 				if (sortByDistTechs.empty() || sortByDistTechs.back() != tech)
 					sortByDistTechs.push_back(tech);
-				size_t techIdx = sortByDistTechs.size()-1;
+				size_t techIdx = sortByDistTechs.size() - 1;
 
 				// Add each model into sortByDistItems
 				for (size_t i = 0; i < it->second.size(); ++i)
@@ -583,7 +585,7 @@ void ShaderModelRenderer::Render(const RenderModifierPtr& modifier, const CShade
 				if (techIdx != currentTechIdx)
 				{
 					// Start of a new run - push the old run into a new tech bucket
-					SMRTechBucket techBucket = { sortByDistTechs[currentTechIdx], &sortByDistModels[start], end-start };
+					SMRTechBucket techBucket = { sortByDistTechs[currentTechIdx], &sortByDistModels[start], end - start };
 					techBuckets.push_back(techBucket);
 					start = end;
 					currentTechIdx = techIdx;
@@ -591,7 +593,7 @@ void ShaderModelRenderer::Render(const RenderModifierPtr& modifier, const CShade
 			}
 
 			// Add the tech bucket for the final run
-			SMRTechBucket techBucket = { sortByDistTechs[currentTechIdx], &sortByDistModels[start], sortByDistItems.size()-start };
+			SMRTechBucket techBucket = { sortByDistTechs[currentTechIdx], &sortByDistModels[start], sortByDistItems.size() - start };
 			techBuckets.push_back(techBucket);
 		}
 	}
@@ -686,25 +688,19 @@ void ShaderModelRenderer::Render(const RenderModifierPtr& modifier, const CShade
 						{
 							const CMaterial::TextureSampler& samp = samplers[s];
 
-							CShaderProgram::Binding bind = texBindings[s];
 							// check that the handles are current
 							// and reevaluate them if necessary
-							if (texBindingNames[s] == samp.Name && bind.Active())
+							if (texBindingNames[s] != samp.Name || !texBindings[s].Active())
 							{
-								bind = texBindings[s];
-							}
-							else
-							{
-								bind = shader->GetTextureBinding(samp.Name);
-								texBindings[s] = bind;
+								texBindings[s] = shader->GetTextureBinding(samp.Name);
 								texBindingNames[s] = samp.Name;
 							}
 
 							// same with the actual sampler bindings
 							CTexture* newTex = samp.Sampler.get();
-							if (bind.Active() && newTex != currentTexs[s])
+							if (texBindings[s].Active() && newTex != currentTexs[s])
 							{
-								shader->BindTexture(bind, samp.Sampler->GetHandle());
+								shader->BindTexture(texBindings[s], newTex->GetHandle());
 								currentTexs[s] = newTex;
 							}
 						}
@@ -727,7 +723,7 @@ void ShaderModelRenderer::Render(const RenderModifierPtr& modifier, const CShade
 
 						const CShaderRenderQueries& renderQueries = model->GetMaterial().GetRenderQueries();
 
-						for (size_t q = 0; q < renderQueries.GetSize(); q++)
+						for (size_t q = 0; q < renderQueries.GetSize(); ++q)
 						{
 							CShaderRenderQueries::RenderQuery rq = renderQueries.GetItem(q);
 							if (rq.first == RQUERY_TIME)
@@ -736,7 +732,7 @@ void ShaderModelRenderer::Render(const RenderModifierPtr& modifier, const CShade
 								if (binding.Active())
 								{
 									double time = g_Renderer.GetTimeManager().GetGlobalTime();
-									shader->Uniform(binding, time, 0,0,0);
+									shader->Uniform(binding, time, 0.0f, 0.0f, 0.0f);
 								}
 							}
 							else if (rq.first == RQUERY_WATER_TEX)
@@ -744,7 +740,7 @@ void ShaderModelRenderer::Render(const RenderModifierPtr& modifier, const CShade
 								WaterManager* WaterMgr = g_Renderer.GetWaterManager();
 								double time = WaterMgr->m_WaterTexTimer;
 								double period = 1.6;
-								int curTex = (int)(time*60/period) % 60;
+								int curTex = static_cast<int>(time * 60.0 / period) % 60;
 
 								if (WaterMgr->m_RenderWater && WaterMgr->WillRenderFancyWater())
 									shader->BindTexture(str_waterTex, WaterMgr->m_NormalMap[curTex]);

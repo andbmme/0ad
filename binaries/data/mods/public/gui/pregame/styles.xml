@@ -4,16 +4,10 @@
 
 	<style name="MainMenuPanel"
 		sprite="MainMenuPanel"
-		buffer_zone="10"
-		text_align="left"
-		text_valign="top"
 	/>
 
 	<style name="SubmenuPanel"
 		sprite="SubmenuPanel"
-		buffer_zone="10"
-		text_align="left"
-		text_valign="top"
 	/>
 
 	<style name="userReportPanel"
@@ -21,9 +15,10 @@
 	/>
 
 	<style name="userReportText"
-		ghost="true"
 		font="sans-14"
 		textcolor="white"
+		scrollbar="true"
+		scrollbar_style="ModernScrollBar"
 	/>
 
 </styles>

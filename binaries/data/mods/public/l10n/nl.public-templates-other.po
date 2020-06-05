@@ -1,20 +1,26 @@
 # Translation template for 0 A.D. — Empires Ascendant.
-# Copyright © 2014 Wildfire Games
+# Copyright (C) 2020 Wildfire Games
 # This file is distributed under the same license as the 0 A.D. — Empires Ascendant project.
 # 
 # Translators:
+# annihilator solar <incoming@upcmail.nl>, 2019
+# Bart <b.anthonisse@gmail.com>, 2020
+# bb <b.jansen5@students.uu.nl>, 2018
 # Christof Verhoeven <christof.verhoeven@gmail.com>, 2016-2017
 # Ellen Roels, 2015
+# Freagarach . <freagarach@gmail.com>, 2019-2020
 # Ismail Sahin <ismailsahin1994@hotmail.com>, 2017
 # LTom, 2015
-# Mark Martines <mark-martines@hotmail.com>, 2017
+# 477f07d437f0da0e33ec4ecd7b8e2b62, 2017
+# Michiel Franssen <michiel.franssen@outlook.com>, 2018
+# Piers T <pierstitus@gmail.com>, 2019
 # Sander Deryckere, 2014,2016
 msgid ""
 msgstr ""
 "Project-Id-Version: 0 A.D.\n"
-"POT-Creation-Date: 2017-11-08 09:19+0100\n"
-"PO-Revision-Date: 2017-11-08 15:50+0000\n"
-"Last-Translator: Adrián Chaves Fernández <adriyetichaves@gmail.com>\n"
+"POT-Creation-Date: 2020-05-22 07:09+0000\n"
+"PO-Revision-Date: 2020-05-22 19:22+0000\n"
+"Last-Translator: Wouter Donders <wouter.donders@gmail.com>\n"
 "Language-Team: Dutch (http://www.transifex.com/wildfire-games/0ad/language/nl/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -22,98 +28,94 @@ msgstr ""
 "Language: nl\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: simulation/templates/template_gaia.xml:6
+#: simulation/templates/template_formation.xml:25
+msgid "Requires at least 2 Soldiers or Siege engines."
+msgstr "Benodigd ten minste 2 Soldaten of Belegeringswapenen."
+
+#: simulation/templates/template_gaia.xml:7
 msgid "Gaia"
 msgstr "Gaia"
 
+#: simulation/templates/template_gaia_fish.xml:8
+#: simulation/templates/gaia/fauna_fish.xml:4
+msgid "Fish"
+msgstr "Vis"
+
+#: simulation/templates/template_gaia_fish.xml:10
+msgid "Catch fish for food."
+msgstr "Verzamel voedsel door te vissen."
+
+#: simulation/templates/template_gaia_flora.xml:6
+msgid "Chop trees for wood."
+msgstr "Verzamel hout door bomen om te hakken."
+
 #: simulation/templates/template_gaia_flora_bush.xml:8
+#: simulation/templates/gaia/flora_bush_temperate.xml:4
+#: simulation/templates/gaia/flora_bush_temperate_winter.xml:4
+#: simulation/templates/gaia/flora_bush_tropic.xml:4
 msgid "Bush"
 msgstr "Struik"
+
+#: simulation/templates/template_gaia_flora_bush_berry.xml:4
+#: simulation/templates/template_gaia_flora_tree_fruit.xml:8
+msgid "Pick fruit for food."
+msgstr "Pluk fruit voor voedsel."
 
 #: simulation/templates/template_gaia_flora_tree.xml:8
 msgid "Tree"
 msgstr "Boom"
-
-#: simulation/templates/template_gaia_flora_tree.xml:9
-msgid "Chop down to accumulate Wood."
-msgstr "Hak om voor hout."
 
 #: simulation/templates/template_gaia_geo.xml:8
 msgid "Generic Geology"
 msgstr "Generische geologie"
 
 #: simulation/templates/template_gaia_geo_mineral.xml:4
-msgid "Mineral"
-msgstr "Mineraal"
-
-#: simulation/templates/template_gaia_geo_mineral.xml:5
 msgid "Metal Mine"
 msgstr "Metaalmijn"
 
-#: simulation/templates/template_gaia_geo_mineral.xml:6
-msgid "A mineral deposit, providing access to rare forms of precious Metal."
-msgstr "Een mineralenopslagplaats, geeft toegang tot bijzondere vormen van kostbaar metaal."
+#: simulation/templates/template_gaia_geo_mineral.xml:5
+msgid "Mine ore for metal."
+msgstr "Mijn erts voor metaal."
 
 #: simulation/templates/template_gaia_geo_rock.xml:4
-msgid "Rock"
-msgstr "Rots"
+msgid "Stone Quarry"
+msgstr "Steengroeve"
 
 #: simulation/templates/template_gaia_geo_rock.xml:5
-msgid "Stone Mine"
-msgstr "Steenmijn"
-
-#: simulation/templates/template_gaia_geo_rock.xml:6
-msgid "Mine these to provide Stone building material."
-msgstr "Mijn deze stenen om er gebouwen mee te bouwen."
+msgid "Quarry rock for stone."
+msgstr "Verzamel steen door steen te houwen."
 
 #: simulation/templates/template_gaia_ruins.xml:8
-msgid "Generic Ruins"
-msgstr "Generische ruïnes"
-
-#: simulation/templates/template_gaia_ruins.xml:9
-#: simulation/templates/gaia/special_ruins.xml:9
-#: simulation/templates/gaia/special_ruins_column_doric.xml:9
-#: simulation/templates/other/unfinished_greek_temple.xml:9
 msgid "Ruins"
 msgstr "Ruïnes"
 
-#: simulation/templates/template_gaia_ruins.xml:10
-msgid "These ruins that can be mined for resources."
-msgstr "Deze ruïnes kunnen ontgonnen worden voor grondstoffen."
+#: simulation/templates/template_gaia_ruins.xml:9
+msgid "Demolish ruins for stone."
+msgstr "Verzamel steen door ruïnes af te breken."
 
 #: simulation/templates/template_gaia_treasure.xml:8
-msgid "Generic Treasure"
-msgstr "Generische schat"
-
-#: simulation/templates/template_gaia_treasure.xml:9
-#: simulation/templates/gaia/special_treasure_food_barrel.xml:9
-#: simulation/templates/gaia/special_treasure_food_barrels_buried.xml:9
-#: simulation/templates/gaia/special_treasure_food_bin.xml:9
-#: simulation/templates/gaia/special_treasure_food_crate.xml:9
-#: simulation/templates/gaia/special_treasure_food_jars.xml:9
-#: simulation/templates/gaia/special_treasure_golden_fleece.xml:9
-#: simulation/templates/gaia/special_treasure_pegasus.xml:9
-#: simulation/templates/gaia/special_treasure_stone.xml:9
-#: simulation/templates/gaia/special_treasure_wood.xml:9
-#: simulation/templates/other/special_treasure_shipwreck.xml:9
-#: simulation/templates/other/special_treasure_shipwreck_debris.xml:9
-#: simulation/templates/other/special_treasure_shipwreck_ram_bow.xml:9
-#: simulation/templates/other/special_treasure_shipwreck_sail_boat.xml:9
-#: simulation/templates/other/special_treasure_shipwreck_sail_boat_cut.xml:9
 msgid "Treasure"
 msgstr "Schat"
 
-#: simulation/templates/template_gaia_treasure.xml:10
-msgid "A treasure that can be quickly gathered."
-msgstr "Een schat die snel verzameld kan worden."
+#: simulation/templates/template_gaia_treasure.xml:9
+msgid "Collect treasures for resources."
+msgstr "Verzamel schatten voor grondstoffen."
 
-#: simulation/templates/template_structure.xml:60
+#: simulation/templates/template_structure.xml:61
 msgid "Structure"
 msgstr "Gebouw"
 
-#: simulation/templates/template_unit.xml:41
+#: simulation/templates/template_unit.xml:43
 msgid "Unit"
 msgstr "Eenheid"
+
+#: simulation/templates/template_wallset.xml:10
+msgid "City Wall"
+msgstr "Stadsmuur"
+
+#: simulation/templates/template_wallset.xml:13
+msgid "Wall off your town for a stout defense."
+msgstr "Omwal uw stad voor een sterke verdediging."
 
 #: simulation/templates/campaigns/army_mace_hero_alexander.xml:27
 msgid "Army of Alexander the Great."
@@ -145,29 +147,29 @@ msgstr "Leger van Leonidas I."
 msgid "Army of Leonidas I"
 msgstr "Het leger van Leonidas I"
 
-#: simulation/templates/campaigns/campaign_city_minor_test.xml:25
-#: simulation/templates/campaigns/campaign_city_test.xml:25
+#: simulation/templates/campaigns/campaign_city_minor_test.xml:30
+#: simulation/templates/campaigns/campaign_city_test.xml:30
 msgid "Market"
 msgstr "Markt"
 
-#: simulation/templates/campaigns/campaign_city_minor_test.xml:26
-#: simulation/templates/campaigns/campaign_city_test.xml:26
+#: simulation/templates/campaigns/campaign_city_minor_test.xml:31
+#: simulation/templates/campaigns/campaign_city_test.xml:31
 msgid "Settlement"
 msgstr "Nederzetting"
 
-#: simulation/templates/campaigns/campaign_city_minor_test.xml:27
+#: simulation/templates/campaigns/campaign_city_minor_test.xml:32
 msgid "Minor Greek Polis"
 msgstr "Kleine Griekse polis"
 
-#: simulation/templates/campaigns/campaign_city_minor_test.xml:28
+#: simulation/templates/campaigns/campaign_city_minor_test.xml:33
 msgid "This is a minor Greek city."
 msgstr "Dit is een kleine Griekse stad."
 
-#: simulation/templates/campaigns/campaign_city_test.xml:27
+#: simulation/templates/campaigns/campaign_city_test.xml:32
 msgid "Greek Polis"
 msgstr "Griekse polis"
 
-#: simulation/templates/campaigns/campaign_city_test.xml:28
+#: simulation/templates/campaigns/campaign_city_test.xml:33
 msgid "This is a major Greek city."
 msgstr "Dit is een grote Griekse stad"
 
@@ -179,48 +181,136 @@ msgstr "Religieus kerkhof"
 msgid "Greek Religious Sanctuary"
 msgstr "Grieks religieus kerkhof"
 
-#: simulation/templates/gaia/fauna_bear.xml:18
-msgid "Bear"
-msgstr "Beer"
+#: simulation/templates/gaia/fauna_arctic_wolf.xml:4
+msgid "Arctic Wolf"
+msgstr "Poolvos"
 
-#: simulation/templates/gaia/fauna_boar.xml:18
+#: simulation/templates/gaia/fauna_arctic_wolf.xml:5
+#: simulation/templates/gaia/fauna_wolf.xml:5
+msgid "Canis lupus"
+msgstr "Wolf"
+
+#: simulation/templates/gaia/fauna_bear_black.xml:4
+msgid "Black Bear"
+msgstr "Zwarte beer"
+
+#: simulation/templates/gaia/fauna_bear_black.xml:5
+msgid "Ursus americanus"
+msgstr "Amerikaanse zwarte beer"
+
+#: simulation/templates/gaia/fauna_bear_brown.xml:4
+msgid "Brown Bear"
+msgstr "Bruine Beer"
+
+#: simulation/templates/gaia/fauna_bear_brown.xml:5
+msgid "Ursus arctos"
+msgstr "Bruine beer"
+
+#: simulation/templates/gaia/fauna_bear_polar.xml:4
+msgid "Polar Bear"
+msgstr "IJsbeer"
+
+#: simulation/templates/gaia/fauna_bear_polar.xml:5
+msgid "Ursus maritimus"
+msgstr "IJsbeer"
+
+#: simulation/templates/gaia/fauna_boar.xml:19
 msgid "Wild Boar"
 msgstr "Wild Zwijn"
 
-#: simulation/templates/gaia/fauna_boar.xml:19
+#: simulation/templates/gaia/fauna_boar.xml:20
 msgid "Sus scrofa"
 msgstr "Sus scrofa"
 
-#: simulation/templates/gaia/fauna_camel.xml:9
-msgid "Camel"
-msgstr "Kameel"
+#: simulation/templates/gaia/fauna_camel.xml:8
+msgid "Dromedary"
+msgstr "Dromedaris"
 
-#: simulation/templates/gaia/fauna_chicken.xml:12
+#: simulation/templates/gaia/fauna_camel.xml:9
+msgid "Camelus dromedarius"
+msgstr "Dromedaris"
+
+#: simulation/templates/gaia/fauna_cattle_bull.xml:4
+msgid "Bull"
+msgstr "Stier"
+
+#: simulation/templates/gaia/fauna_cattle_bull.xml:5
+#: simulation/templates/gaia/fauna_cattle_cow.xml:5
+msgid "Bos taurus taurus"
+msgstr "Vee"
+
+#: simulation/templates/gaia/fauna_cattle_cow.xml:4
+msgid "Cow"
+msgstr "Koe"
+
+#: simulation/templates/gaia/fauna_cattle_sanga.xml:4
+msgid "Sanga Cattle"
+msgstr "Afrikaans vee"
+
+#: simulation/templates/gaia/fauna_cattle_sanga.xml:5
+msgid "Bos taurus africanus"
+msgstr "Afrikaans vee"
+
+#: simulation/templates/gaia/fauna_cattle_zebu.xml:4
+msgid "Zebu"
+msgstr "Zeboe"
+
+#: simulation/templates/gaia/fauna_cattle_zebu.xml:5
+msgid "Bos taurus indicus"
+msgstr "Zebu"
+
+#: simulation/templates/gaia/fauna_chicken.xml:11
 msgid "Chicken"
 msgstr "Kip"
 
-#: simulation/templates/gaia/fauna_crocodile.xml:18
-msgid "Crocodylus niloticus"
-msgstr "Crocodylus niloticus"
+#: simulation/templates/gaia/fauna_chicken.xml:12
+msgid "Gallus gallus domesticus"
+msgstr "Kip"
 
 #: simulation/templates/gaia/fauna_crocodile.xml:19
 msgid "Nile Crocodile"
 msgstr "Nijlkrokodil"
 
+#: simulation/templates/gaia/fauna_crocodile.xml:20
+msgid "Crocodylus niloticus"
+msgstr "Crocodylus niloticus"
+
+#: simulation/templates/gaia/fauna_deer.xml:8
+msgid "Red Deer"
+msgstr "Edelhert"
+
 #: simulation/templates/gaia/fauna_deer.xml:9
-msgid "Deer"
-msgstr "Hert"
+msgid "Cervus elaphus"
+msgstr "Edelhert"
+
+#: simulation/templates/gaia/fauna_donkey.xml:4
+msgid "Donkey"
+msgstr "Ezel"
+
+#: simulation/templates/gaia/fauna_donkey.xml:5
+msgid "Equus africanus asinus"
+msgstr "Ezel"
 
 #: simulation/templates/gaia/fauna_elephant_african_bush.xml:11
 msgid "African Bush Elephant"
 msgstr "Afrikaanse bosolifant"
 
+#: simulation/templates/gaia/fauna_elephant_african_bush.xml:12
+#: simulation/templates/gaia/fauna_elephant_african_infant.xml:5
+msgid "Loxodonta africana"
+msgstr "Savanneolifant"
+
 #: simulation/templates/gaia/fauna_elephant_african_infant.xml:4
-msgid "African Elephant Calf"
-msgstr "Afrikaanse Olifant Kalf"
+msgid "African Bush Elephant Calf"
+msgstr "Savanneolifantsjong"
 
 #: simulation/templates/gaia/fauna_elephant_asian.xml:11
 msgid "Asian Elephant"
+msgstr "Aziatische olifant"
+
+#: simulation/templates/gaia/fauna_elephant_asian.xml:12
+#: simulation/templates/gaia/fauna_elephant_asian_infant.xml:5
+msgid "Elephas maximus"
 msgstr "Aziatische olifant"
 
 #: simulation/templates/gaia/fauna_elephant_asian_infant.xml:4
@@ -228,162 +318,241 @@ msgid "Asian Elephant Calf"
 msgstr "Aziatische Olifant Kalf"
 
 #: simulation/templates/gaia/fauna_elephant_north_african.xml:11
-msgid "North African Elephant"
-msgstr "Noord Afrikaanse olifant"
+msgid "African Forest Elephant"
+msgstr "Afrikaanse Bosolifant"
 
-#: simulation/templates/gaia/fauna_fish.xml:5
-#: simulation/templates/gaia/fauna_fish_tuna.xml:5
-msgid "Tuna Fish"
+#: simulation/templates/gaia/fauna_elephant_north_african.xml:12
+msgid "Loxodonta cyclotis"
+msgstr "Bosolifant"
+
+#: simulation/templates/gaia/fauna_fish_tilapia.xml:4
+msgid "Tilapia"
+msgstr "Tilapia"
+
+#: simulation/templates/gaia/fauna_fish_tuna.xml:4
+msgid "Tuna"
 msgstr "Tonijn"
-
-#: simulation/templates/gaia/fauna_fish.xml:6
-#: simulation/templates/gaia/fauna_fish_tuna.xml:6
-msgid "Collect food from this bountiful oceanic resource."
-msgstr "Verzamel voedsel van deze oceanische voedselbron."
-
-#: simulation/templates/gaia/fauna_fish_tilapia.xml:5
-msgid "Tilapia Fish"
-msgstr "Tilapia (vis)"
-
-#: simulation/templates/gaia/fauna_fish_tilapia.xml:6
-msgid "Collect food from this bountiful riparian resource."
-msgstr "Verzamel voedsel van deze, aan de oever gelegen, voedselbron."
 
 #: simulation/templates/gaia/fauna_fox_arctic.xml:4
 msgid "Arctic Fox"
+msgstr "Poolvos"
+
+#: simulation/templates/gaia/fauna_fox_arctic.xml:5
+msgid "Vulpes lagopus"
 msgstr "Poolvos"
 
 #: simulation/templates/gaia/fauna_fox_red.xml:4
 msgid "Red Fox"
 msgstr "Rode Vos"
 
+#: simulation/templates/gaia/fauna_fox_red.xml:5
+msgid "Vulpes vulpes"
+msgstr "Vos"
+
+#: simulation/templates/gaia/fauna_gazelle.xml:8
+msgid "Thomson's Gazelle"
+msgstr "Thomsongazelle"
+
 #: simulation/templates/gaia/fauna_gazelle.xml:9
-msgid "Gazelle"
-msgstr "Gazelle"
+msgid "Eudorcas thomsonii"
+msgstr "Thomsongazelle"
+
+#: simulation/templates/gaia/fauna_giraffe.xml:11
+msgid "Giraffe"
+msgstr "Giraf"
 
 #: simulation/templates/gaia/fauna_giraffe.xml:12
-msgid "Giraffe (Adult)"
-msgstr "Giraf (volwassen)"
-
 #: simulation/templates/gaia/fauna_giraffe_infant.xml:9
-msgid "Giraffe (Juvenile)"
-msgstr "Giraf (kalf)"
+msgid "Giraffa camelopardalis"
+msgstr "Giraffe"
 
-#: simulation/templates/gaia/fauna_goat.xml:15
+#: simulation/templates/gaia/fauna_giraffe_infant.xml:8
+msgid "Juvenile Giraffe"
+msgstr "Giraffejong"
+
+#: simulation/templates/gaia/fauna_goat.xml:8
 msgid "Goat"
 msgstr "Geit"
 
-#: simulation/templates/gaia/fauna_horse.xml:9
+#: simulation/templates/gaia/fauna_goat.xml:9
+msgid "Capra aegagrus hircus"
+msgstr "Geit"
+
+#: simulation/templates/gaia/fauna_hippopotamus.xml:25
+msgid "Hippopotamus"
+msgstr "Nijlpaard"
+
+#: simulation/templates/gaia/fauna_hippopotamus.xml:26
+msgid "Hippopotamus amphibius"
+msgstr "Nijlpaard"
+
+#: simulation/templates/gaia/fauna_horse.xml:8
 msgid "Horse"
 msgstr "Paard"
 
-#: simulation/templates/gaia/fauna_lion.xml:18
+#: simulation/templates/gaia/fauna_horse.xml:9
+msgid "Equus ferus caballus"
+msgstr "Paard"
+
+#: simulation/templates/gaia/fauna_lion.xml:19
 msgid "Lion"
 msgstr "Leeuw"
 
-#: simulation/templates/gaia/fauna_lioness.xml:18
+#: simulation/templates/gaia/fauna_lion.xml:20
+msgid "Panthera leo"
+msgstr "Leeuw"
+
+#: simulation/templates/gaia/fauna_lioness.xml:4
 msgid "Lioness"
 msgstr "Leeuwin"
 
-#: simulation/templates/gaia/fauna_muskox.xml:9
+#: simulation/templates/gaia/fauna_mastiff.xml:4
+msgid "Mastiff"
+msgstr "Buldog"
+
+#: simulation/templates/gaia/fauna_mastiff.xml:5
+#: simulation/templates/gaia/fauna_wolfhound.xml:5
+msgid "Canis lupus familiaris"
+msgstr "Hond"
+
+#: simulation/templates/gaia/fauna_muskox.xml:8
 msgid "Muskox"
 msgstr "Muskusos"
 
-#: simulation/templates/gaia/fauna_peacock.xml:8
+#: simulation/templates/gaia/fauna_muskox.xml:9
+msgid "Ovibos moschatus"
+msgstr "Muskusos"
+
+#: simulation/templates/gaia/fauna_peacock.xml:7
 msgid "Peacock"
 msgstr "Pauw"
 
-#: simulation/templates/gaia/fauna_peacock.xml:9
+#: simulation/templates/gaia/fauna_peacock.xml:8
 msgid "Pavo cristatus"
 msgstr "Pavo cristatus"
 
-#: simulation/templates/gaia/fauna_pig.xml:15
+#: simulation/templates/gaia/fauna_pig.xml:8
 msgid "Pig"
+msgstr "Varken"
+
+#: simulation/templates/gaia/fauna_pig.xml:9
+msgid "Sus scrofa domesticus"
 msgstr "Varken"
 
 #: simulation/templates/gaia/fauna_pig_flaming.xml:18
 msgid "Flaming Pig"
 msgstr "Brandend varken"
 
-#: simulation/templates/gaia/fauna_pig_flaming.xml:19
-msgid "Sus scrofa domesticus igne"
-msgstr "Sus scrofa domesticus igne"
+#: simulation/templates/gaia/fauna_piglet.xml:8
+msgid "Piglet"
+msgstr "Big"
 
-#: simulation/templates/gaia/fauna_rabbit.xml:9
+#: simulation/templates/gaia/fauna_pony.xml:4
+msgid "Pony"
+msgstr "Pony"
+
+#: simulation/templates/gaia/fauna_rabbit.xml:11
 msgid "Rabbit"
 msgstr "Konijn"
 
-#: simulation/templates/gaia/fauna_rhino.xml:18
-msgid "Rhinoceros"
-msgstr "Neushoorn"
+#: simulation/templates/gaia/fauna_rabbit.xml:12
+msgid "Oryctolagus cuniculus"
+msgstr "Europees konijn"
 
-#: simulation/templates/gaia/fauna_shark.xml:13
-msgid "Great White"
+#: simulation/templates/gaia/fauna_rhino.xml:19
+msgid "White Rhinoceros"
+msgstr "Witte neushoorn"
+
+#: simulation/templates/gaia/fauna_rhino.xml:20
+msgid "Ceratotherium simum"
+msgstr "Witte neushoorn"
+
+#: simulation/templates/gaia/fauna_shark.xml:12
+msgid "Great White Shark"
 msgstr "Witte haai"
 
-#: simulation/templates/gaia/fauna_shark.xml:14
-msgid "Shark"
-msgstr "Haai"
+#: simulation/templates/gaia/fauna_shark.xml:13
+msgid "Carcharodon carcharias"
+msgstr "Witte haai"
 
-#: simulation/templates/gaia/fauna_sheep.xml:15
+#: simulation/templates/gaia/fauna_sheep.xml:8
 msgid "Sheep"
 msgstr "Schaap"
 
-#: simulation/templates/gaia/fauna_tiger.xml:18
+#: simulation/templates/gaia/fauna_sheep.xml:9
+msgid "Ovis aries"
+msgstr "Schaap"
+
+#: simulation/templates/gaia/fauna_tiger.xml:19
 msgid "Tiger"
 msgstr "Tijger"
 
-#: simulation/templates/gaia/fauna_walrus.xml:25
+#: simulation/templates/gaia/fauna_tiger.xml:20
+msgid "Panthera tigris"
+msgstr "Tijger"
+
+#: simulation/templates/gaia/fauna_walrus.xml:26
 msgid "Walrus"
+msgstr "Walrus"
+
+#: simulation/templates/gaia/fauna_walrus.xml:27
+msgid "Odobenus rosmarus"
 msgstr "Walrus"
 
 #: simulation/templates/gaia/fauna_whale_fin.xml:8
 msgid "Fin Whale"
 msgstr "Blauwe vinvis"
 
+#: simulation/templates/gaia/fauna_whale_fin.xml:9
+msgid "Balaenoptera physalus"
+msgstr "Gewone vinvis"
+
 #: simulation/templates/gaia/fauna_whale_humpback.xml:8
 msgid "Humpback Whale"
 msgstr "Bultrugwalvis"
 
+#: simulation/templates/gaia/fauna_whale_humpback.xml:9
+msgid "Megaptera novaeangliae"
+msgstr "Bultrug"
+
+#: simulation/templates/gaia/fauna_wildebeest.xml:8
+msgid "Blue Wildebeest"
+msgstr "Blauwe Gnoe"
+
 #: simulation/templates/gaia/fauna_wildebeest.xml:9
-msgid "Wildebeest"
-msgstr "Gnoe"
+msgid "Connochaetes taurinus"
+msgstr "Blauwe gnoe"
 
 #: simulation/templates/gaia/fauna_wolf.xml:4
 msgid "Wolf"
 msgstr "Wolf"
 
-#: simulation/templates/gaia/fauna_wolf_snow.xml:4
-msgid "Snow Wolf"
-msgstr "Sneeuwwolf"
+#: simulation/templates/gaia/fauna_wolfhound.xml:4
+msgid "Wolfhound"
+msgstr "Wolfshond"
+
+#: simulation/templates/gaia/fauna_zebra.xml:8
+msgid "Common Zebra"
+msgstr "Gewone Zebra"
 
 #: simulation/templates/gaia/fauna_zebra.xml:9
-msgid "Zebra"
-msgstr "Zebra"
+msgid "Equus quagga"
+msgstr "Steppezebra"
 
 #: simulation/templates/gaia/flora_bush_badlands.xml:4
 msgid "Hardy Bush"
 msgstr "Winterharde struik"
 
 #: simulation/templates/gaia/flora_bush_berry.xml:4
+#: simulation/templates/gaia/flora_bush_berry_02.xml:4
+#: simulation/templates/gaia/flora_bush_berry_03.xml:4
+#: simulation/templates/gaia/flora_bush_berry_autumn_01.xml:4
 msgid "Berries"
 msgstr "Bessen"
-
-#: simulation/templates/gaia/flora_bush_berry.xml:5
-msgid "Gather the fruit from these bushes to accumulate Food."
-msgstr "Pluk het fruit van deze struiken voor voedsel."
 
 #: simulation/templates/gaia/flora_bush_grapes.xml:4
 msgid "Grapes"
 msgstr "Druiven"
-
-#: simulation/templates/gaia/flora_bush_grapes.xml:5
-msgid "Gather grapes from these vines for Food."
-msgstr "Verzamel druiven van deze wijnranken voor voedsel."
-
-#: simulation/templates/gaia/flora_bush_temperate.xml:4
-msgid "Deciduous Bush"
-msgstr "Bladverliezende struik"
 
 #: simulation/templates/gaia/flora_tree_acacia.xml:4
 msgid "Acacia Tree"
@@ -397,13 +566,56 @@ msgstr "Aleppode"
 msgid "Apple Tree"
 msgstr "Appelboom"
 
+#: simulation/templates/gaia/flora_tree_bamboo.xml:4
+#: simulation/templates/gaia/flora_tree_bamboo_single.xml:4
+msgid "Bamboo"
+msgstr "Bamboe"
+
+#: simulation/templates/gaia/flora_tree_bamboo_dragon.xml:8
+msgid "Dragon Bamboo"
+msgstr "Drakenbamboe"
+
+#: simulation/templates/gaia/flora_tree_banana.xml:4
+msgid "Banana"
+msgstr "Banaan"
+
+#: simulation/templates/gaia/flora_tree_banyan.xml:8
+msgid "Banyan"
+msgstr "Bodhiboom"
+
 #: simulation/templates/gaia/flora_tree_baobab.xml:8
+#: simulation/templates/gaia/flora_tree_baobab_3_mature.xml:8
 msgid "Baobab"
 msgstr "Baobab"
+
+#: simulation/templates/gaia/flora_tree_baobab_1_sapling.xml:4
+msgid "Baobab Sapling"
+msgstr "Eenjarige baobab"
+
+#: simulation/templates/gaia/flora_tree_baobab_2_young.xml:4
+msgid "Young Baobab"
+msgstr "Baobabboompje"
+
+#: simulation/templates/gaia/flora_tree_baobab_4_dead.xml:8
+msgid "Dead Baobab"
+msgstr "Dode baobab"
 
 #: simulation/templates/gaia/flora_tree_carob.xml:4
 msgid "Carob Tree"
 msgstr "Carob"
+
+#: simulation/templates/gaia/flora_tree_cedar_atlas_1_sapling.xml:4
+msgid "Atlas Cedar Sapling"
+msgstr "Eenjarige atlasceder"
+
+#: simulation/templates/gaia/flora_tree_cedar_atlas_2_young.xml:4
+#: simulation/templates/gaia/flora_tree_cedar_atlas_3_mature.xml:4
+msgid "Atlas Cedar"
+msgstr "Atlasceder"
+
+#: simulation/templates/gaia/flora_tree_cedar_atlas_4_dead.xml:4
+msgid "Dead Atlas Cedar"
+msgstr "Dode atlasceder"
 
 #: simulation/templates/gaia/flora_tree_cretan_date_palm_patch.xml:8
 #: simulation/templates/gaia/flora_tree_cretan_date_palm_short.xml:4
@@ -412,6 +624,8 @@ msgid "Cretan Date Palm"
 msgstr "Dadelboom"
 
 #: simulation/templates/gaia/flora_tree_cypress.xml:4
+#: simulation/templates/gaia/flora_tree_cypress_wild.xml:4
+#: simulation/templates/gaia/flora_tree_cypress_windswept.xml:4
 msgid "Cypress Tree"
 msgstr "Cipres"
 
@@ -419,22 +633,56 @@ msgstr "Cipres"
 msgid "Date Palm"
 msgstr "Dadelboom"
 
+#: simulation/templates/gaia/flora_tree_date_palm_dead.xml:4
+msgid "Dead Palm"
+msgstr "Dode palm"
+
+#: simulation/templates/gaia/flora_tree_date_palm_fruit.xml:4
+msgid "Fruiting Date Palm"
+msgstr "Vruchtdragende dadelpalm"
+
 #: simulation/templates/gaia/flora_tree_dead.xml:4
-msgid "Dead Tree"
-msgstr "Dode boom"
+msgid "Dead Deciduous Tree"
+msgstr "Dode loofboom"
+
+#: simulation/templates/gaia/flora_tree_elm.xml:4
+#: simulation/templates/gaia/flora_tree_elm_dead.xml:4
+msgid "Elm Tree"
+msgstr "Iep"
 
 #: simulation/templates/gaia/flora_tree_euro_beech.xml:4
 #: simulation/templates/gaia/flora_tree_euro_beech_aut.xml:4
 msgid "European Beech Tree"
 msgstr "Europese strandboom"
 
+#: simulation/templates/gaia/flora_tree_euro_birch.xml:4
+msgid "Silver Birch"
+msgstr "Berk"
+
 #: simulation/templates/gaia/flora_tree_fig.xml:7
 msgid "Fig"
 msgstr "Vijg"
 
-#: simulation/templates/gaia/flora_tree_fig.xml:8
-msgid "Gather figs for Food."
-msgstr "Verzamel vijgen voor hun voedsel."
+#: simulation/templates/gaia/flora_tree_fir.xml:4
+#: simulation/templates/gaia/flora_tree_fir_winter.xml:4
+msgid "Fir Tree"
+msgstr "Spar"
+
+#: simulation/templates/gaia/flora_tree_fir_sapling.xml:4
+msgid "Fir Sapling"
+msgstr "Eenjarige spar"
+
+#: simulation/templates/gaia/flora_tree_juniper_prickly.xml:4
+msgid "Prickly Juniper"
+msgstr "Jeneverbes"
+
+#: simulation/templates/gaia/flora_tree_mangrove.xml:4
+msgid "Mangrove"
+msgstr "Mangrove"
+
+#: simulation/templates/gaia/flora_tree_maple.xml:4
+msgid "Maple"
+msgstr "Esdoorn"
 
 #: simulation/templates/gaia/flora_tree_medit_fan_palm.xml:4
 msgid "Mediterranean Fan Palm"
@@ -448,6 +696,15 @@ msgstr "Mediterraanse palm"
 msgid "Oak Tree"
 msgstr "Eik"
 
+#: simulation/templates/gaia/flora_tree_oak_holly.xml:4
+msgid "Holly Oak"
+msgstr "Steeneik"
+
+#: simulation/templates/gaia/flora_tree_oak_hungarian.xml:4
+#: simulation/templates/gaia/flora_tree_oak_hungarian_autumn.xml:4
+msgid "Hungarian Oak"
+msgstr "Hongaarse eik"
+
 #: simulation/templates/gaia/flora_tree_oak_large.xml:4
 msgid "Large Oak Tree"
 msgstr "Grote eik"
@@ -455,6 +712,18 @@ msgstr "Grote eik"
 #: simulation/templates/gaia/flora_tree_olive.xml:4
 msgid "Olive Tree"
 msgstr "Olijfboom"
+
+#: simulation/templates/gaia/flora_tree_palm_areca.xml:4
+msgid "Areca Palm"
+msgstr "Areca palm"
+
+#: simulation/templates/gaia/flora_tree_palm_doum.xml:4
+msgid "Doum Palm"
+msgstr "Egyptische palm"
+
+#: simulation/templates/gaia/flora_tree_palm_palmyra.xml:4
+msgid "Palmyra Palm"
+msgstr "Waaierpalm"
 
 #: simulation/templates/gaia/flora_tree_palm_tropic.xml:4
 msgid "Palm"
@@ -469,383 +738,297 @@ msgstr "Tropische palm"
 msgid "Pine Tree"
 msgstr "Dennenboom"
 
+#: simulation/templates/gaia/flora_tree_pine_black.xml:4
+#: simulation/templates/gaia/flora_tree_pine_black_dead.xml:4
+msgid "Black Pine"
+msgstr "Zwarte den"
+
+#: simulation/templates/gaia/flora_tree_pine_maritime.xml:4
+#: simulation/templates/gaia/flora_tree_pine_maritime_short.xml:4
+msgid "Maritime Pine"
+msgstr "Zeeden"
+
 #: simulation/templates/gaia/flora_tree_poplar.xml:4
 msgid "Poplar Tree"
 msgstr "Populier"
+
+#: simulation/templates/gaia/flora_tree_poplar_dead.xml:4
+msgid "Dead Poplar"
+msgstr "Dode populier"
 
 #: simulation/templates/gaia/flora_tree_poplar_lombardy.xml:4
 msgid "Black Poplar Tree"
 msgstr "Zwarte Populier"
 
+#: simulation/templates/gaia/flora_tree_poplar_lombardy_autumn.xml:4
+msgid "Poplar"
+msgstr "Populier"
+
+#: simulation/templates/gaia/flora_tree_poplar_lombardy_dead.xml:4
+msgid "Dead Black Poplar Tree"
+msgstr "Dode zwarte populier"
+
 #: simulation/templates/gaia/flora_tree_senegal_date_palm.xml:4
 msgid "Senegal Date Palm"
 msgstr "Senegalese dadelboom"
+
+#: simulation/templates/gaia/flora_tree_strangler.xml:8
+msgid "Strangler Fig"
+msgstr "Vijgeboom"
 
 #: simulation/templates/gaia/flora_tree_tamarix.xml:4
 msgid "Tamarix Tree"
 msgstr "Tamarix"
 
+#: simulation/templates/gaia/flora_tree_teak.xml:8
+msgid "Teak"
+msgstr "Teak"
+
+#: simulation/templates/gaia/flora_tree_temperate.xml:4
+#: simulation/templates/gaia/flora_tree_temperate_autumn.xml:4
+#: simulation/templates/gaia/flora_tree_temperate_winter.xml:4
+msgid "Deciduous Tree"
+msgstr "Loofboom"
+
 #: simulation/templates/gaia/flora_tree_toona.xml:4
 msgid "Toona Tree"
 msgstr "Toonaboom"
 
-#: simulation/templates/gaia/special_ruins.xml:10
-#: simulation/templates/gaia/special_ruins_column_doric.xml:10
+#: simulation/templates/gaia/flora_tree_tropic_rainforest.xml:4
+msgid "Rainforest Tree"
+msgstr "Regenwoudboom"
+
+#: simulation/templates/gaia/ruins/column_doric.xml:8
 msgid "Ancient Ruins"
 msgstr "Oude ruïnes"
 
-#: simulation/templates/gaia/special_ruins_standing_stone.xml:9
-#: simulation/templates/gaia/special_ruins_stone_statues_egyptian.xml:9
-#: simulation/templates/gaia/special_ruins_stone_statues_roman.xml:9
-msgid "Stone Ruins"
-msgstr "Stenen ruïnes"
-
-#: simulation/templates/gaia/special_ruins_standing_stone.xml:10
-#: simulation/templates/gaia/special_treasure_standing_stone.xml:10
-msgid "Celtic Standing Stone"
-msgstr "Keltische staande stenen"
-
-#: simulation/templates/gaia/special_ruins_stone_statues_egyptian.xml:10
-msgid "Ptolemaic Egyptian Statues"
-msgstr "Ptolemeïsche standbeelden"
-
-#: simulation/templates/gaia/special_ruins_stone_statues_roman.xml:10
-msgid "Roman Statues"
-msgstr "Romeinse standbeelden"
-
-#: simulation/templates/gaia/special_treasure_food_barrel.xml:10
-#: simulation/templates/gaia/special_treasure_food_bin.xml:10
-#: simulation/templates/gaia/special_treasure_food_crate.xml:10
-#: simulation/templates/gaia/special_treasure_food_jars.xml:10
-#: simulation/templates/gaia/special_treasure_food_persian_big.xml:9
-#: simulation/templates/gaia/special_treasure_food_persian_small.xml:9
-msgid "Food Treasure"
-msgstr "Voedselschat"
-
-#: simulation/templates/gaia/special_treasure_food_barrels_buried.xml:10
-msgid "Half-buried Barrels"
-msgstr "Half-begraven vaten"
-
-#: simulation/templates/gaia/special_treasure_food_persian_big.xml:10
-msgid "Persian Food Stores"
-msgstr "Perzische voedselwinkel"
-
-#: simulation/templates/gaia/special_treasure_food_persian_small.xml:10
-msgid "Persian Food Treasure"
-msgstr "Perzische voedselschat"
-
-#: simulation/templates/gaia/special_treasure_golden_fleece.xml:10
-msgid "Golden Fleece"
-msgstr "Gouden deken"
-
-#: simulation/templates/gaia/special_treasure_metal.xml:9
-#: simulation/templates/gaia/special_treasure_metal_persian_bigl.xml:9
-#: simulation/templates/gaia/special_treasure_metal_persian_small.xml:9
-msgid "Metal Treasure"
-msgstr "Metalen schat"
-
-#: simulation/templates/gaia/special_treasure_metal.xml:10
-msgid "Secret Box"
-msgstr "Geheime doos"
-
-#: simulation/templates/gaia/special_treasure_metal_persian_bigl.xml:10
-msgid "Persian Wares"
-msgstr "Perzische koopwaar"
-
-#: simulation/templates/gaia/special_treasure_metal_persian_small.xml:10
-msgid "Persian Rugs"
-msgstr "Perzische tapijten"
-
-#: simulation/templates/gaia/special_treasure_pegasus.xml:10
-msgid "Pegasus"
-msgstr "Pegasus"
-
-#: simulation/templates/gaia/special_treasure_standing_stone.xml:9
-#: simulation/templates/gaia/special_treasure_stone.xml:10
-msgid "Stone Treasure"
-msgstr "Stenen schat"
-
-#: simulation/templates/gaia/special_treasure_wood.xml:10
-msgid "Wood Treasure"
-msgstr "Houten schat"
-
-#: simulation/templates/other/bench.xml:20
-msgid "Bench"
-msgstr "Bank"
-
-#: simulation/templates/other/bench.xml:21
-msgid "Wooden Bench"
-msgstr "Houten bank"
-
-#: simulation/templates/other/bridge_hele.xml:16
-#: simulation/templates/other/bridge_hele.xml:17
-msgid "Bridge"
-msgstr "Brug"
-
-#: simulation/templates/other/bridge_wooden.xml:16
-#: simulation/templates/other/bridge_wooden.xml:17
-msgid "Wooden Bridge"
-msgstr "Houten brug"
-
-#: simulation/templates/other/celt_hut.xml:22
-msgid "Hut"
-msgstr "Hut"
-
-#: simulation/templates/other/celt_longhouse.xml:22
-msgid "Longhouse"
-msgstr "Langhuis"
-
-#: simulation/templates/other/column_doric.xml:20
-#: simulation/templates/other/column_doric_fallen.xml:20
-#: simulation/templates/other/column_doric_fallen_b.xml:20
-msgid "Column"
-msgstr "Zuil"
-
-#: simulation/templates/other/column_doric.xml:21
-msgid "Doric Column"
-msgstr "Dorische zuil"
-
-#: simulation/templates/other/column_doric_fallen.xml:21
-#: simulation/templates/other/column_doric_fallen_b.xml:21
-msgid "Fallen Doric Column"
-msgstr "Omgevallen Dorische zuil"
-
-#: simulation/templates/other/fence_long.xml:21
-#: simulation/templates/other/fence_short.xml:21
-msgid "Fence"
-msgstr "Hek"
-
-#: simulation/templates/other/fence_long.xml:22
-msgid "Long Wooden Fence"
-msgstr "Lang houten hek"
-
-#: simulation/templates/other/fence_short.xml:22
-msgid "Short Wooden Fence"
-msgstr "Kort houten hek"
-
-#: simulation/templates/other/fence_stone.xml:21
-#: simulation/templates/other/fence_stone.xml:22
-msgid "Stone Fence"
-msgstr "Stenen afsluiting"
-
-#: simulation/templates/other/generic_field.xml:9
-msgid "Wheat Field"
-msgstr "Graanveld"
-
-#: simulation/templates/other/hellenic_epic_temple.xml:29
-msgid "Epic Temple"
-msgstr "Epische tempel"
-
-#: simulation/templates/other/hellenic_epic_temple.xml:30
-msgid "Naos Parthenos"
-msgstr "Naos Parthenos"
-
-#: simulation/templates/other/hellenic_epic_temple.xml:31
-msgid "Garrison units to heal them at a quick rate."
-msgstr "Beman met eenheden om ze aan hoge snelheid te genezen."
-
-#: simulation/templates/other/hellenic_propylaea.xml:25
-msgid "Portico"
-msgstr "Portico"
-
-#: simulation/templates/other/hellenic_propylaea.xml:26
-msgid "Propylaea"
-msgstr "Propylaea"
-
-#: simulation/templates/other/hellenic_stoa.xml:25
-msgid "Stoa"
-msgstr "Stoa"
-
-#: simulation/templates/other/hellenic_stoa.xml:26
-msgid "Hellenic Stoa"
-msgstr "Hellenistische stoa"
-
-#: simulation/templates/other/obelisk.xml:20
-msgid "Obelisk"
-msgstr "Obelisk"
-
-#: simulation/templates/other/obelisk.xml:21
-msgid "Egyptian Obelisk"
-msgstr "Egyptische obelisk"
-
-#: simulation/templates/other/palisades_angle_spike.xml:15
-msgid "Palisade Angle Spike"
-msgstr "Palissade piek"
-
-#: simulation/templates/other/palisades_angle_spike.xml:16
-msgid "Big Spike"
-msgstr "Grote piek"
-
-#: simulation/templates/other/palisades_rocks_curve.xml:15
-msgid "Palisade Curve"
-msgstr "Gebogen palissade"
-
-#: simulation/templates/other/palisades_rocks_curve.xml:16
-msgid "Wooden Wall Corner"
-msgstr "Houten schuttingshoek"
-
-#: simulation/templates/other/palisades_rocks_end.xml:15
-msgid "Palisade End"
-msgstr "Palissade eindstuk"
-
-#: simulation/templates/other/palisades_rocks_end.xml:16
-msgid "Wooden Wall End"
-msgstr "Houten schuttingseind"
-
-#: simulation/templates/other/palisades_rocks_fort.xml:6
-msgid "Palisade Fort"
-msgstr "Palissade fort"
-
-#: simulation/templates/other/palisades_rocks_fort.xml:7
-msgid "Wooden Tower"
-msgstr "Houten toren"
-
-#: simulation/templates/other/palisades_rocks_gate.xml:18
-msgid "Palisade Gate"
-msgstr "Palissadenpoort"
-
-#: simulation/templates/other/palisades_rocks_gate.xml:19
-msgid "Wooden Gate"
-msgstr "Houten poort"
-
-#: simulation/templates/other/palisades_rocks_long.xml:27
-#: simulation/templates/other/palisades_rocks_medium.xml:27
-#: simulation/templates/other/palisades_rocks_short.xml:26
-#: simulation/templates/other/palisades_rocks_straight.xml:15
-#: simulation/templates/other/palisades_rocks_tower.xml:25
-#: simulation/templates/other/wallset_palisade.xml:6
-msgid "Palisade"
-msgstr "Palissade"
-
-#: simulation/templates/other/palisades_rocks_long.xml:28
-#: simulation/templates/other/palisades_rocks_medium.xml:28
-#: simulation/templates/other/palisades_rocks_short.xml:27
-#: simulation/templates/other/palisades_rocks_straight.xml:16
-#: simulation/templates/other/palisades_rocks_tower.xml:26
-#: simulation/templates/other/wallset_palisade.xml:5
-msgid "Wooden Wall"
-msgstr "Houten schutting"
-
-#: simulation/templates/other/palisades_rocks_outpost.xml:15
-msgid "Outpost"
-msgstr "Voorpost"
-
-#: simulation/templates/other/palisades_rocks_outpost.xml:16
-#: simulation/templates/other/palisades_rocks_watchtower.xml:16
-msgid "Wooden Watch Tower"
-msgstr "Houten uitkijktoren"
-
-#: simulation/templates/other/palisades_rocks_watchtower.xml:15
-msgid "Watchtower"
-msgstr "Uitkijktoren"
-
-#: simulation/templates/other/palisades_small_spikes.xml:15
-msgid "Spikes Small"
-msgstr "Kleine pieken"
-
-#: simulation/templates/other/palisades_small_spikes.xml:16
-msgid "Small Spikes"
-msgstr "Kleine pieken"
-
-#: simulation/templates/other/palisades_tall_spikes.xml:15
-msgid "Spikes Tall"
-msgstr "Lange pieken"
-
-#: simulation/templates/other/palisades_tall_spikes.xml:16
-msgid "Tall Spikes"
-msgstr "Lange pieken"
-
-#: simulation/templates/other/plane.xml:43
-msgid "P-51 Mustang"
-msgstr "P-51 Mustang"
-
-#: simulation/templates/other/plane.xml:44
-msgid "A World War 2 American fighter plane."
-msgstr "Een Amerikaans gevechtsvliegtuig uit WOII."
-
-#: simulation/templates/other/pyramid_great.xml:9
-#: simulation/templates/other/pyramid_minor.xml:9
-msgid "Pyramid"
-msgstr "Pyramide"
-
-#: simulation/templates/other/pyramid_great.xml:10
+#: simulation/templates/gaia/ruins/pyramid_great.xml:8
 msgid "Great Pyramid"
 msgstr "Grote pyramide"
 
-#: simulation/templates/other/pyramid_minor.xml:10
+#: simulation/templates/gaia/ruins/pyramid_minor.xml:8
 msgid "Minor Pyramid"
 msgstr "Kleine piramide"
 
-#: simulation/templates/other/sele_colonnade.xml:20
-msgid "Colonnade"
-msgstr "Colonnade"
+#: simulation/templates/gaia/ruins/standing_stone.xml:8
+#: simulation/templates/gaia/treasure/standing_stone.xml:8
+msgid "Celtic Standing Stone"
+msgstr "Keltische staande stenen"
 
-#: simulation/templates/other/sele_colonnade.xml:21
-msgid "Corinthian Colonnade"
-msgstr "Korinthische Colonnade"
+#: simulation/templates/gaia/ruins/stone_statues_egyptian.xml:8
+msgid "Ptolemaic Egyptian Statues"
+msgstr "Ptolemeïsche standbeelden"
 
-#: simulation/templates/other/special_treasure_shipwreck.xml:10
-#: simulation/templates/other/special_treasure_shipwreck_ram_bow.xml:10
-#: simulation/templates/other/special_treasure_shipwreck_sail_boat.xml:10
-#: simulation/templates/other/special_treasure_shipwreck_sail_boat_cut.xml:10
-msgid "Shipwreck"
-msgstr "Scheepswrak"
+#: simulation/templates/gaia/ruins/stone_statues_kushite.xml:8
+msgid "Kushite Statue"
+msgstr "Koesjitisch beeld"
 
-#: simulation/templates/other/special_treasure_shipwreck.xml:11
-msgid "A decaying military shipwreck. A good opportunity for any businessman."
-msgstr "Een scheepswrak dat aan het vergaan is. Een uitstekende opportuniteit voor iedere zakenman."
+#: simulation/templates/gaia/ruins/stone_statues_roman.xml:8
+msgid "Roman Statues"
+msgstr "Romeinse standbeelden"
 
-#: simulation/templates/other/special_treasure_shipwreck_debris.xml:10
-msgid "Shipwreck Cargo"
-msgstr "Lading van het scheepswrak"
-
-#: simulation/templates/other/special_treasure_shipwreck_ram_bow.xml:11
-msgid ""
-"A shipwreck with much loss of life. A good opportunity for any businessman."
-msgstr "Een scheepswrak waar veel levens verloren gegaan zijn. Een goede zaak voor iedere opportunist."
-
-#: simulation/templates/other/special_treasure_shipwreck_sail_boat.xml:11
-msgid ""
-"The wreck of a small cargo ship. A good opportunity for any businessman."
-msgstr "Het wrak van een transportschip. Een goede opportuniteit voor iedere zakenman."
-
-#: simulation/templates/other/special_treasure_shipwreck_sail_boat_cut.xml:11
-msgid "A cargo ship rammed in half. A good opportunity for any businessman."
-msgstr "Een koopmansschip in twee geramd. Een uitstekende opportuniteit voor iedere zakenman."
-
-#: simulation/templates/other/stall_big.xml:12
-msgid "Big stall"
-msgstr "Groot marktkraam"
-
-#: simulation/templates/other/stall_med.xml:12
-msgid "Medium stall"
-msgstr "Middelgroot marktkraam"
-
-#: simulation/templates/other/stall_small_a.xml:12
-#: simulation/templates/other/stall_small_b.xml:12
-msgid "Small stall"
-msgstr "Klein marktkraam"
-
-#: simulation/templates/other/table_rectangle.xml:20
-#: simulation/templates/other/table_square.xml:20
-msgid "Table"
-msgstr "Tafel"
-
-#: simulation/templates/other/table_rectangle.xml:21
-msgid "Rectangle Table"
-msgstr "Rechthoekige tafel"
-
-#: simulation/templates/other/table_square.xml:21
-msgid "Square Table"
-msgstr "Vierkante tafel"
-
-#: simulation/templates/other/unfinished_greek_temple.xml:10
+#: simulation/templates/gaia/ruins/unfinished_greek_temple.xml:8
 msgid "Unfinished Greek Temple"
 msgstr "Onvoltooide Griekse tempel"
 
-#: simulation/templates/other/unfinished_greek_temple.xml:11
-msgid "This temple is unfinished and has fallen to ruin."
-msgstr "Deze tempel is niet afgewerkt, en tot ruïnes hervallen."
+#: simulation/templates/gaia/treasure/food_barrel.xml:8
+#: simulation/templates/gaia/treasure/food_bin.xml:8
+#: simulation/templates/gaia/treasure/food_crate.xml:8
+#: simulation/templates/gaia/treasure/food_jars.xml:8
+msgid "Food Treasure"
+msgstr "Voedselschat"
+
+#: simulation/templates/gaia/treasure/food_barrels_buried.xml:8
+msgid "Half-buried Barrels"
+msgstr "Half-begraven vaten"
+
+#: simulation/templates/gaia/treasure/food_persian_big.xml:8
+msgid "Persian Food Stores"
+msgstr "Perzische voedselwinkel"
+
+#: simulation/templates/gaia/treasure/food_persian_small.xml:8
+msgid "Persian Food Treasure"
+msgstr "Perzische voedselschat"
+
+#: simulation/templates/gaia/treasure/golden_fleece.xml:8
+msgid "Golden Fleece"
+msgstr "Gouden deken"
+
+#: simulation/templates/gaia/treasure/metal.xml:8
+msgid "Secret Box"
+msgstr "Geheime doos"
+
+#: simulation/templates/gaia/treasure/metal_persian_big.xml:8
+msgid "Persian Wares"
+msgstr "Perzische koopwaar"
+
+#: simulation/templates/gaia/treasure/metal_persian_small.xml:8
+msgid "Persian Rugs"
+msgstr "Perzische tapijten"
+
+#: simulation/templates/gaia/treasure/pegasus.xml:8
+msgid "Pegasus"
+msgstr "Pegasus"
+
+#: simulation/templates/gaia/treasure/shipwreck.xml:8
+#: simulation/templates/gaia/treasure/shipwreck_ram_bow.xml:8
+#: simulation/templates/gaia/treasure/shipwreck_sail_boat.xml:8
+#: simulation/templates/gaia/treasure/shipwreck_sail_boat_cut.xml:8
+msgid "Shipwreck"
+msgstr "Scheepswrak"
+
+#: simulation/templates/gaia/treasure/shipwreck_debris.xml:8
+msgid "Shipwreck Cargo"
+msgstr "Lading van het scheepswrak"
+
+#: simulation/templates/gaia/treasure/stone.xml:8
+msgid "Stone Treasure"
+msgstr "Stenen schat"
+
+#: simulation/templates/gaia/treasure/wood.xml:8
+msgid "Wood Treasure"
+msgstr "Houten schat"
+
+#: simulation/templates/other/bench.xml:19
+msgid "Bench"
+msgstr "Bank"
+
+#: simulation/templates/other/bench.xml:20
+msgid "Wooden Bench"
+msgstr "Houten bank"
+
+#: simulation/templates/other/bridge_hele.xml:15
+#: simulation/templates/other/bridge_hele.xml:16
+msgid "Bridge"
+msgstr "Brug"
+
+#: simulation/templates/other/bridge_wooden.xml:15
+#: simulation/templates/other/bridge_wooden.xml:16
+msgid "Wooden Bridge"
+msgstr "Houten brug"
+
+#: simulation/templates/other/celt_hut.xml:21
+msgid "Hut"
+msgstr "Hut"
+
+#: simulation/templates/other/celt_longhouse.xml:21
+msgid "Longhouse"
+msgstr "Langhuis"
+
+#: simulation/templates/other/column_doric.xml:19
+#: simulation/templates/other/column_doric_fallen.xml:19
+#: simulation/templates/other/column_doric_fallen_b.xml:19
+msgid "Column"
+msgstr "Zuil"
+
+#: simulation/templates/other/column_doric.xml:20
+msgid "Doric Column"
+msgstr "Dorische zuil"
+
+#: simulation/templates/other/column_doric_fallen.xml:20
+#: simulation/templates/other/column_doric_fallen_b.xml:20
+msgid "Fallen Doric Column"
+msgstr "Omgevallen Dorische zuil"
+
+#: simulation/templates/other/desert_trading_post.xml:14
+msgid "Desert Trading Post"
+msgstr "Handelsplaats in woestijn"
+
+#: simulation/templates/other/desert_trading_post.xml:15
+msgid "Ardatašta"
+msgstr "Ardatašta"
+
+#: simulation/templates/other/fence_long.xml:20
+#: simulation/templates/other/fence_short.xml:20
+msgid "Fence"
+msgstr "Hek"
+
+#: simulation/templates/other/fence_long.xml:21
+msgid "Long Wooden Fence"
+msgstr "Lang houten hek"
+
+#: simulation/templates/other/fence_short.xml:21
+msgid "Short Wooden Fence"
+msgstr "Kort houten hek"
+
+#: simulation/templates/other/fence_stone.xml:20
+#: simulation/templates/other/fence_stone.xml:21
+msgid "Stone Fence"
+msgstr "Stenen afsluiting"
+
+#: simulation/templates/other/generic_field.xml:8
+msgid "Wheat Field"
+msgstr "Graanveld"
+
+#: simulation/templates/other/hellenic_epic_temple.xml:23
+msgid "Epic Temple"
+msgstr "Epische tempel"
+
+#: simulation/templates/other/hellenic_epic_temple.xml:24
+msgid "Naos Parthenos"
+msgstr "Naos Parthenos"
+
+#: simulation/templates/other/hellenic_epic_temple.xml:25
+msgid "Garrison units to heal them at a quick rate."
+msgstr "Beman met eenheden om ze aan hoge snelheid te genezen."
+
+#: simulation/templates/other/hellenic_propylaea.xml:24
+msgid "Portico"
+msgstr "Portico"
+
+#: simulation/templates/other/hellenic_propylaea.xml:25
+msgid "Propylaea"
+msgstr "Propylaea"
+
+#: simulation/templates/other/hellenic_stoa.xml:24
+msgid "Stoa"
+msgstr "Stoa"
+
+#: simulation/templates/other/hellenic_stoa.xml:25
+msgid "Hellenic Stoa"
+msgstr "Hellenistische stoa"
+
+#: simulation/templates/other/obelisk.xml:19
+msgid "Obelisk"
+msgstr "Obelisk"
+
+#: simulation/templates/other/obelisk.xml:20
+msgid "Egyptian Obelisk"
+msgstr "Egyptische obelisk"
+
+#: simulation/templates/other/sele_colonnade.xml:19
+msgid "Colonnade"
+msgstr "Colonnade"
+
+#: simulation/templates/other/sele_colonnade.xml:20
+msgid "Corinthian Colonnade"
+msgstr "Korinthische Colonnade"
+
+#: simulation/templates/other/stall_big.xml:11
+msgid "Big stall"
+msgstr "Groot marktkraam"
+
+#: simulation/templates/other/stall_med.xml:11
+msgid "Medium stall"
+msgstr "Middelgroot marktkraam"
+
+#: simulation/templates/other/stall_small_a.xml:11
+#: simulation/templates/other/stall_small_b.xml:11
+msgid "Small stall"
+msgstr "Klein marktkraam"
+
+#: simulation/templates/other/table_rectangle.xml:19
+#: simulation/templates/other/table_square.xml:19
+msgid "Table"
+msgstr "Tafel"
+
+#: simulation/templates/other/table_rectangle.xml:20
+msgid "Rectangle Table"
+msgstr "Rechthoekige tafel"
+
+#: simulation/templates/other/table_square.xml:20
+msgid "Square Table"
+msgstr "Vierkante tafel"
 
 #: simulation/templates/skirmish/structures/default_house_10.xml:5
 msgid ""
@@ -859,21 +1042,26 @@ msgid ""
 " other civs"
 msgstr "Wordt door een 5-bev huis vervangen voor beschavingen die dergelijke huizen hebben. Wordt verwijderd voor andere beschavingen."
 
-#: simulation/templates/special/player.xml:57
-msgid "Player"
-msgstr "Speler"
-
 #: simulation/templates/special/spy.xml:17
 msgid "Spy"
 msgstr "Spion"
+
+#: simulation/templates/special/formations/anti_cavalry.xml:6
+#: simulation/templates/special/formations/testudo.xml:6
+msgid "Melee Infantry only, requires at least 16."
+msgstr "Slechts Mêlee Infanteriesoldaten, ten minste 16 benodigd."
+
+#: simulation/templates/special/formations/anti_cavalry.xml:7
+msgid "Anti Cavalry"
+msgstr "Anti-Ruiters"
 
 #: simulation/templates/special/formations/battle_line.xml:5
 msgid "Battle Line"
 msgstr "Aanvalslijn"
 
 #: simulation/templates/special/formations/box.xml:6
-msgid "4 units required"
-msgstr "4 eenheden vereist"
+msgid "Requires at least 4 Soldiers or Siege engines."
+msgstr "Benodigd ten minste 4 Soldaten of Belegeringswapenen."
 
 #: simulation/templates/special/formations/box.xml:7
 msgid "Box"
@@ -881,15 +1069,15 @@ msgstr "Vierkant"
 
 #: simulation/templates/special/formations/column_closed.xml:5
 msgid "Forced March"
-msgstr "Geforceerde match"
+msgstr "Geforceerde mars"
 
 #: simulation/templates/special/formations/column_open.xml:5
 msgid "Column Open"
 msgstr "Open kolom"
 
 #: simulation/templates/special/formations/flank.xml:6
-msgid "8 units required"
-msgstr "8 eenheden vereist"
+msgid "Requires at least 8 Soldiers or Siege engines."
+msgstr "Benodigd ten minste 8 Soldaten of Belegeringswapenen."
 
 #: simulation/templates/special/formations/flank.xml:7
 msgid "Flank"
@@ -908,8 +1096,8 @@ msgid "None"
 msgstr "Geen"
 
 #: simulation/templates/special/formations/phalanx.xml:6
-msgid "10 hoplite infantry required"
-msgstr "16 hoplieten vereist."
+msgid "Infantry Hoplites only, requires at least 10."
+msgstr "Slechts Infanterie Hoplieten, ten minste 10 benodigd."
 
 #: simulation/templates/special/formations/phalanx.xml:7
 msgid "Phalanx"
@@ -920,33 +1108,65 @@ msgid "Scatter"
 msgstr "Verspreiden"
 
 #: simulation/templates/special/formations/skirmish.xml:5
-msgid "Only ranged units allowed"
-msgstr "Enkel afstandseenheden toegestaan."
+msgid "Ranged Soldiers only, requires at least 2."
+msgstr "Slechts Afstandseenheden, ten minste 2 benodigd."
 
 #: simulation/templates/special/formations/skirmish.xml:6
 msgid "Skirmish"
 msgstr "Schermutselen"
 
 #: simulation/templates/special/formations/syntagma.xml:6
-msgid "16 pike infantry units required"
-msgstr "16 piekeniers vereist"
+msgid "Infantry Pikemen only, requires at least 16."
+msgstr "Slechts Infanterie Piekeniers, ten minste 16 benodigd."
 
 #: simulation/templates/special/formations/syntagma.xml:8
 msgid "Syntagma"
 msgstr "Syntagma"
 
-#: simulation/templates/special/formations/testudo.xml:6
-msgid "9 melee infantry units required"
-msgstr "9 mêlee infanteriesoldaten vereist"
-
-#: simulation/templates/special/formations/testudo.xml:7
+#: simulation/templates/special/formations/testudo.xml:8
 msgid "Testudo"
 msgstr "Testudo"
 
 #: simulation/templates/special/formations/wedge.xml:6
-msgid "6 cavalry units required"
-msgstr "6 ruiters vereist"
+msgid "Cavalry only, requires at least 6."
+msgstr "Slechts Ruiters, ten minste 6 benodigd."
 
 #: simulation/templates/special/formations/wedge.xml:7
 msgid "Wedge"
 msgstr "Hoek"
+
+#: simulation/templates/special/player/player.xml:64
+msgid "Player"
+msgstr "Speler"
+
+#: simulation/data/template_helpers/damage_types/crush.jsonname
+msgctxt "damage type"
+msgid "Crush"
+msgstr "Verpletter"
+
+#: simulation/data/template_helpers/damage_types/crush.jsondescription
+msgctxt "damage type"
+msgid "Damage caused by sheer force, like with a club or by trampling."
+msgstr ""
+
+#: simulation/data/template_helpers/damage_types/hack.jsonname
+msgctxt "damage type"
+msgid "Hack"
+msgstr "Hak"
+
+#: simulation/data/template_helpers/damage_types/hack.jsondescription
+msgctxt "damage type"
+msgid ""
+"Damage caused by sharp objects cutting or chopping, like with a sword or an "
+"axe."
+msgstr ""
+
+#: simulation/data/template_helpers/damage_types/pierce.jsonname
+msgctxt "damage type"
+msgid "Pierce"
+msgstr "Doorboor"
+
+#: simulation/data/template_helpers/damage_types/pierce.jsondescription
+msgctxt "damage type"
+msgid "Damage caused by sharp pointy objects, like arrows or spears."
+msgstr ""

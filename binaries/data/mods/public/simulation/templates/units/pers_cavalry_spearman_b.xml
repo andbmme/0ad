@@ -2,9 +2,10 @@
 <Entity parent="template_unit_cavalry_melee_spearman">
   <Identity>
     <Civ>pers</Civ>
+    <Lang>persian</Lang>
     <SelectionGroupName>units/pers_cavalry_spearman_b</SelectionGroupName>
     <GenericName>Cappadocian Cavalry</GenericName>
-    <SpecificName>Katpaduka Asabara</SpecificName>
+    <SpecificName>Asabāra Katpatuka</SpecificName>
     <Icon>units/pers_cavalry_spearman.png</Icon>
     <RequiredTechnology>phase_town</RequiredTechnology>
   </Identity>
@@ -12,6 +13,6 @@
     <Entity>units/pers_cavalry_spearman_a</Entity>
   </Promotion>
   <VisualActor>
-    <Actor>units/persians/cavalry_spearman_b.xml</Actor>
+    <Actor>units/persians/cavalry_spearman_b_m.xml</Actor>
   </VisualActor>
 </Entity>

@@ -7,9 +7,11 @@
   </Armour>
   <Attack replace="">
     <Melee>
-      <Hack>20.0</Hack>
-      <Pierce>0</Pierce>
-      <Crush>50.0</Crush>
+      <Damage>
+        <Hack>20.0</Hack>
+        <Pierce>0</Pierce>
+        <Crush>50.0</Crush>
+      </Damage>
       <MaxRange>8.0</MaxRange>
       <PrepareTime>500</PrepareTime>
       <RepeatTime>1000</RepeatTime>
@@ -38,7 +40,7 @@
     <SoundGroups>
       <select>actor/fauna/animal/elephant_select.xml</select>
       <order_walk>actor/fauna/animal/elephant_order.xml</order_walk>
-      <order_attack>actor/fauna/animal/elephant_attack.xml</order_attack>
+      <order_attack>actor/fauna/animal/elephant_attack_order.xml</order_attack>
       <order_gather>actor/fauna/animal/elephant_order.xml</order_gather>
       <order_garrison>actor/fauna/animal/elephant_order.xml</order_garrison>
       <attack_melee>actor/fauna/animal/elephant_attack.xml</attack_melee>
@@ -51,9 +53,6 @@
   <UnitMotion>
     <PassabilityClass>large</PassabilityClass>
     <WalkSpeed op="mul">0.95</WalkSpeed>
-    <Run>
-      <Speed op="mul">0.95</Speed>
-    </Run>
   </UnitMotion>
   <Vision>
     <Range>80</Range>

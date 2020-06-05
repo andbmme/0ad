@@ -1,4 +1,4 @@
-/* Copyright (C) 2017 Wildfire Games.
+/* Copyright (C) 2019 Wildfire Games.
  * This file is part of 0 A.D.
  *
  * 0 A.D. is free software: you can redistribute it and/or modify
@@ -199,6 +199,11 @@ public:
 	virtual std::vector<entity_id_t> GetNonGaiaEntities() const = 0;
 
 	/**
+	 * Returns a list of all entities owned by a player or gaia.
+	 */
+	virtual std::vector<entity_id_t> GetGaiaAndNonGaiaEntities() const = 0;
+
+	/**
 	 * Toggle the rendering of debug info.
 	 */
 	virtual void SetDebugOverlay(bool enabled) = 0;
@@ -341,6 +346,12 @@ public:
 	virtual ELosVisibility GetLosVisibility(entity_id_t ent, player_id_t player) const = 0;
 
 	/**
+	 * Returns the visibility status of the given position, with respect to the given player.
+	 * This respects the GetLosRevealAll flag.
+	 */
+	virtual ELosVisibility GetLosVisibilityPosition(entity_pos_t x, entity_pos_t z, player_id_t player) const = 0;
+
+	/**
 	 * Request the update of the visibility cache of ent at next turn.
 	 * Typically used for fogging.
 	 */
@@ -352,6 +363,12 @@ public:
 	 * Returns "hidden", "fogged" or "visible".
 	 */
 	std::string GetLosVisibility_wrapper(entity_id_t ent, player_id_t player) const;
+
+	/**
+	 * GetLosVisibilityPosition wrapped for script calls.
+	 * Returns "hidden", "fogged" or "visible".
+	 */
+	std::string GetLosVisibilityPosition_wrapper(entity_pos_t x, entity_pos_t z, player_id_t player) const;
 
 	/**
 	 * Explore all tiles (but leave them in the FoW) for player p

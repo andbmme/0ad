@@ -86,15 +86,15 @@ m.Accessibility.prototype.init = function(rawState, terrainAnalyser)
 	{
 		if (this.map[i] !== 0)
 		{	// any non-painted, non-inacessible area.
-			if (this.landPassMap[i] === 0 && this.floodFill(i,this.regionID,false))
+			if (this.landPassMap[i] == 0 && this.floodFill(i, this.regionID, false))
 				this.regionType[this.regionID++] = "land";
-			if (this.navalPassMap[i] === 0 && this.floodFill(i,this.regionID,true))
+			if (this.navalPassMap[i] == 0 && this.floodFill(i, this.regionID, true))
 				this.regionType[this.regionID++] = "water";
 		}
-		else if (this.landPassMap[i] === 0)
+		else if (this.landPassMap[i] == 0)
 		{	// any non-painted, inacessible area.
-			this.floodFill(i,1,false);
-			this.floodFill(i,1,true);
+			this.floodFill(i, 1, false);
+			this.floodFill(i, 1, true);
 		}
 	}
 
@@ -136,8 +136,8 @@ m.Accessibility.prototype.init = function(rawState, terrainAnalyser)
 		}
 	}
 
-	//Engine.DumpImage("LandPassMap.png", this.landPassMap, this.width, this.height, 255);
-	//Engine.DumpImage("NavalPassMap.png", this.navalPassMap, this.width, this.height, 255);
+	// Engine.DumpImage("LandPassMap.png", this.landPassMap, this.width, this.height, 255);
+	// Engine.DumpImage("NavalPassMap.png", this.navalPassMap, this.width, this.height, 255);
 };
 
 m.Accessibility.prototype.getAccessValue = function(position, onWater)
@@ -149,7 +149,7 @@ m.Accessibility.prototype.getAccessValue = function(position, onWater)
 	if (ret === 1)
 	{
 		// quick spiral search.
-		let indx = [ [-1,-1],[-1,0],[-1,1],[0,1],[1,1],[1,0],[1,-1],[0,-1]];
+		let indx = [ [-1, -1], [-1, 0], [-1, 1], [0, 1], [1, 1], [1, 0], [1, -1], [0, -1]];
 		for (let i of indx)
 		{
 			let id0 = gamePos[0] + i[0];
@@ -251,7 +251,7 @@ m.Accessibility.prototype.floodFill = function(startIndex, value, onWater)
 		return false;
 	}
 
-	if (!onWater && this.landPassMap[startIndex] !== 0 || onWater && this.navalPassMap[startIndex] !== 0 )
+	if (!onWater && this.landPassMap[startIndex] != 0 || onWater && this.navalPassMap[startIndex] != 0)
 		return false;	// already painted.
 
 	let floodFor = "land";
@@ -383,9 +383,9 @@ m.Accessibility.prototype.floodFill = function(startIndex, value, onWater)
 /** creates a map of resource density */
 m.SharedScript.prototype.createResourceMaps = function()
 {
-	for (let resource of this.resourceInfo.codes)
+	for (let resource of Resources.GetCodes())
 	{
-		if (!(this.resourceInfo.aiInfluenceGroups[resource] in this.normalizationFactor))
+		if (!(Resources.GetResource(resource).aiAnalysisInfluenceGroup in this.normalizationFactor))
 			continue;
 		// if there is no resourceMap create one with an influence for everything with that resource
 		if (this.resourceMaps[resource])
@@ -405,7 +405,7 @@ m.SharedScript.prototype.createResourceMaps = function()
 		let cellSize = this.resourceMaps[resource].cellSize;
 		let x = Math.floor(ent.position()[0] / cellSize);
 		let z = Math.floor(ent.position()[1] / cellSize);
-		let grp = this.resourceInfo.aiInfluenceGroups[resource];
+		let grp = Resources.GetResource(resource).aiAnalysisInfluenceGroup;
 		let strength = Math.floor(ent.resourceSupplyMax() / this.normalizationFactor[grp]);
 		this.resourceMaps[resource].addInfluence(x, z, this.influenceRadius[grp] / cellSize, strength/2, "constant");
 		this.resourceMaps[resource].addInfluence(x, z, this.influenceRadius[grp] / cellSize, strength/2);
@@ -420,9 +420,9 @@ m.SharedScript.prototype.createResourceMaps = function()
  */
 m.SharedScript.prototype.updateResourceMaps = function(events)
 {
-	for (let resource of this.resourceInfo.codes)
+	for (let resource of Resources.GetCodes())
 	{
-		if (!(this.resourceInfo.aiInfluenceGroups[resource] in this.normalizationFactor))
+		if (!(Resources.GetResource(resource).aiAnalysisInfluenceGroup in this.normalizationFactor))
 			continue;
 		// if there is no resourceMap create one with an influence for everything with that resource
 		if (this.resourceMaps[resource])
@@ -447,7 +447,7 @@ m.SharedScript.prototype.updateResourceMaps = function(events)
 		let cellSize = this.resourceMaps[resource].cellSize;
 		let x = Math.floor(ent.position()[0] / cellSize);
 		let z = Math.floor(ent.position()[1] / cellSize);
-		let grp = this.resourceInfo.aiInfluenceGroups[resource];
+		let grp = Resources.GetResource(resource).aiAnalysisInfluenceGroup;
 		let strength = -Math.floor(ent.resourceSupplyMax() / this.normalizationFactor[grp]);
 		this.resourceMaps[resource].addInfluence(x, z, this.influenceRadius[grp] / cellSize, strength/2, "constant");
 		this.resourceMaps[resource].addInfluence(x, z, this.influenceRadius[grp] / cellSize, strength/2);
@@ -466,7 +466,7 @@ m.SharedScript.prototype.updateResourceMaps = function(events)
 		let cellSize = this.resourceMaps[resource].cellSize;
 		let x = Math.floor(ent.position()[0] / cellSize);
 		let z = Math.floor(ent.position()[1] / cellSize);
-		let grp = this.resourceInfo.aiInfluenceGroups[resource];
+		let grp = Resources.GetResource(resource).aiAnalysisInfluenceGroup;
 		let strength = Math.floor(ent.resourceSupplyMax() / this.normalizationFactor[grp]);
 		this.resourceMaps[resource].addInfluence(x, z, this.influenceRadius[grp] / cellSize, strength/2, "constant");
 		this.resourceMaps[resource].addInfluence(x, z, this.influenceRadius[grp] / cellSize, strength/2);

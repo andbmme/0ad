@@ -17,7 +17,6 @@
     <Max>100</Max>
   </Health>
   <Identity>
-    <Civ>gaia</Civ>
     <GenericName>Fence</GenericName>
     <SpecificName>Long Wooden Fence</SpecificName>
     <Icon>gaia/special_fence.png</Icon>
@@ -42,4 +41,8 @@
   <VisualActor>
     <Actor>temp/fence_wood_long_a.xml</Actor>
   </VisualActor>
+  <WallPiece>
+    <Length>12</Length>
+    <Orientation>0.5</Orientation>
+  </WallPiece>
 </Entity>

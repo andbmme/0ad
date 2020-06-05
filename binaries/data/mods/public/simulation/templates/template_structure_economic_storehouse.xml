@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Entity parent="template_structure_economic">
+  <AlertRaiser>
+    <List datatype="tokens">FemaleCitizen</List>
+    <RaiseAlertRange>60</RaiseAlertRange>
+    <EndOfAlertRange>100</EndOfAlertRange>
+    <SearchRange>100</SearchRange>
+  </AlertRaiser>
   <BuildRestrictions>
     <Category>Storehouse</Category>
   </BuildRestrictions>
@@ -23,10 +29,14 @@
   <Identity>
     <Classes datatype="tokens">DropsiteWood DropsiteMetal DropsiteStone</Classes>
     <GenericName>Storehouse</GenericName>
+    <SelectionGroupName>template_structure_economic_storehouse</SelectionGroupName>
     <Icon>structures/storehouse.png</Icon>
     <Tooltip>Dropsite for wood, stone, and metal resources. Research gathering improvements for these resources.</Tooltip>
     <VisibleClasses datatype="tokens">Village Storehouse</VisibleClasses>
   </Identity>
+  <Loot>
+    <wood>20</wood>
+  </Loot>
   <Obstruction>
     <Static width="13.0" depth="13.0"/>
   </Obstruction>
@@ -56,7 +66,8 @@
     <SoundGroups>
       <select>interface/select/building/sel_storehouse.xml</select>
       <constructed>interface/complete/building/complete_storehouse.xml</constructed>
-      <death>attack/destruction/building_collapse_large.xml</death>
+      <alert_raise>interface/alarm/alarm_alert_0.xml</alert_raise>
+      <alert_end>interface/alarm/alarm_alert_1.xml</alert_end>
     </SoundGroups>
   </Sound>
   <TerritoryInfluence>

@@ -31,11 +31,6 @@ function hasSameRestrictionCategory(templateName1, templateName2)
 	return false;
 }
 
-function getPlayerHighlightColor(player)
-{
-	return "color:" + rgbToGuiColor(g_Players[player].color) + " 160";
-}
-
 /**
  * Returns a "color:255 0 0 Alpha" string based on how many resources are needed.
  */
@@ -101,7 +96,7 @@ function formatLimitString(trainEntLimit, trainEntCount, trainEntLimitChangers)
 	});
 
 	if (trainEntCount >= trainEntLimit)
-		text = "[color=\"red\"]" + text + "[/color]";
+		text = coloredText(text, "red");
 
 	for (var c in trainEntLimitChangers)
 	{
@@ -149,7 +144,7 @@ function formatBatchTrainingString(buildingsCountToTrainFullBatch, fullBatchSize
 		fullBatchesString = fullBatchSize;
 
 	// We need to display the batch details part if there is either more than
-	// one building with full batch or one building with the full batch and
+	// one structure with full batch or one structure with the full batch and
 	// another with a partial batch
 	let batchString;
 	if (buildingsCountToTrainFullBatch > 1 ||
@@ -161,12 +156,16 @@ function formatBatchTrainingString(buildingsCountToTrainFullBatch, fullBatchSize
 	else
 		batchString = translate("%(action)s to train %(number)s.");
 
-	return "[font=\"sans-13\"]" + sprintf(batchString, {
-		"action": "[font=\"sans-bold-13\"]" + translate("Shift-click") + "[/font]",
-		"number": totalBatchTrainingCount,
-		"fullBatch": fullBatchesString,
-		"remainderBatch": remainderBatch
-	}) + "[/font]";
+	return "[font=\"sans-13\"]" +
+		setStringTags(
+			sprintf(batchString, {
+				"action": "[font=\"sans-bold-13\"]" + translate("Shift-click") + "[/font]",
+				"number": totalBatchTrainingCount,
+				"fullBatch": fullBatchesString,
+				"remainderBatch": remainderBatch
+			}),
+			g_HotkeyTags) +
+		"[/font]";
 }
 
 /**
@@ -184,20 +183,23 @@ function jumpCamera(index)
 		return;
 
 	let threshold = Engine.ConfigDB_GetValue("user", "gui.session.camerajump.threshold");
+	let cameraPivot = Engine.GetCameraPivot();
 	if (g_JumpCameraLast &&
-	    Math.abs(Engine.CameraGetX() - position.x) < threshold &&
-	    Math.abs(Engine.CameraGetZ() - position.z) < threshold)
+	    Math.abs(cameraPivot.x - position.x) < threshold &&
+	    Math.abs(cameraPivot.z - position.z) < threshold)
+	{
 		Engine.CameraMoveTo(g_JumpCameraLast.x, g_JumpCameraLast.z);
+	}
 	else
 	{
-		g_JumpCameraLast = { "x": Engine.CameraGetX(), "z": Engine.CameraGetZ() };
+		g_JumpCameraLast = cameraPivot;
 		Engine.CameraMoveTo(position.x, position.z);
 	}
 }
 
 function setJumpCamera(index)
 {
-	g_JumpCameraPositions[index] = { "x": Engine.CameraGetX(), "z": Engine.CameraGetZ() };
+	g_JumpCameraPositions[index] = Engine.GetCameraPivot();
 }
 
 /**
@@ -253,7 +255,7 @@ function performAllyCommand(entity, commandName)
 	if (!entity)
 		return;
 
-	let entState = GetExtendedEntityState(entity);
+	let entState = GetEntityState(entity);
 	let playerState = GetSimState().players[Engine.GetPlayerID()];
 	if (!playerState.isMutualAlly[entState.player] || g_IsObserver)
 		return;
@@ -366,7 +368,7 @@ function unloadTemplate(template, owner)
 		// Filter out all entities that aren't garrisonable.
 		"garrisonHolders": g_Selection.toList().filter(ent => {
 			let state = GetEntityState(ent);
-			return state && state.garrisonHolder;
+			return state && !!state.garrisonHolder;
 		})
 	});
 }
@@ -377,7 +379,7 @@ function unloadSelection()
 	let ents = [];
 	for (let ent in g_Selection.selected)
 	{
-		let state = GetExtendedEntityState(+ent);
+		let state = GetEntityState(+ent);
 		if (!state || !state.turretParent)
 			continue;
 		if (!parent)
@@ -400,7 +402,7 @@ function unloadAll()
 {
 	let garrisonHolders = g_Selection.toList().filter(e => {
 		let state = GetEntityState(e);
-		return state && state.garrisonHolder;
+		return state && !!state.garrisonHolder;
 	});
 
 	if (!garrisonHolders.length)
@@ -457,23 +459,10 @@ function removeGuard()
 function raiseAlert()
 {
 	Engine.PostNetworkCommand({
-		"type": "increase-alert-level",
+		"type": "alert-raise",
 		"entities": g_Selection.toList().filter(ent => {
 			let state = GetEntityState(ent);
-			return state && state.alertRaiser && !state.alertRaiser.hasRaisedAlert;
-		})
-	});
-}
-
-function increaseAlertLevel()
-{
-	raiseAlert();
-
-	Engine.PostNetworkCommand({
-		"type": "increase-alert-level",
-		"entities": g_Selection.toList().filter(ent => {
-			let state = GetEntityState(ent);
-			return state && state.alertRaiser && state.alertRaiser.canIncreaseLevel;
+			return state && !!state.alertRaiser;
 		})
 	});
 }
@@ -484,7 +473,7 @@ function endOfAlert()
 		"type": "alert-end",
 		"entities": g_Selection.toList().filter(ent => {
 			let state = GetEntityState(ent);
-			return state && state.alertRaiser && state.alertRaiser.hasRaisedAlert;
+			return state && !!state.alertRaiser;
 		})
 	});
 }
